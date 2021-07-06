@@ -7,7 +7,7 @@ public class AuctionProductRegistration {
 	
 	private int applyProductSalesDeliveryId;
 	private String productDesc;
-	private int minBid_Price;
+	private int minBidPrice;
 	private int quote;
 	private String registrationDeadline;
 	private String createDate;

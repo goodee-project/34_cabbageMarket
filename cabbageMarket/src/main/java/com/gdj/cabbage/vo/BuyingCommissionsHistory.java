@@ -6,8 +6,8 @@ import lombok.Data;
 public class BuyingCommissionsHistory {
 	
 	private int applyProductSalesDeliveryId;
-	private int commission_info_id;
-	private int commission_point;
-	private String create_date;
+	private int commissionInfoId;
+	private int commissionPoint;
+	private String createDate;
 
 }

@@ -6,10 +6,10 @@ import lombok.Data;
 public class BiddingProductDelivery {
 	
 	private int applyProductSalesDeliveryId;
-	private int shipping_address_id;
-	private int delivery_state;
-	private String waybill_number;
-	private String delivery_requests;
-	private String create_date;
+	private int shippingAddressId;
+	private int deliveryState;
+	private String waybillNumber;
+	private String deliverRequests;
+	private String createDate;
 
 }
