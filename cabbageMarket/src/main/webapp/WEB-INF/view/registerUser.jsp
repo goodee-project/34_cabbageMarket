@@ -18,7 +18,7 @@
 	
 	<!-- Style -->
 	<link rel="stylesheet" href="logintemplate/css/style.css">
-<title>login</title>
+<title>회원가입</title>
 </head>
 <body>
 <div class="content">
@@ -32,33 +32,25 @@
 					<div class="col-md-8">
 					  <div class="mb-4">
 					  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
-					  <p class="mb-4"><b>안전한 배송을 추구합니다. 믿고 쓰는 거래 플랫폼</b></p>
+					  <p class="mb-3"><b>회원가입</b></p>
 					</div>
-					<form action="${pageContext.request.contextPath}/login" method="post">
+					<form action="${pageContext.request.contextPath}/registerUser" method="post">
 						<div class="form-group first">
-							<input type="text" class="form-control" id="email" placeholder="email" name="email">						
-						</div>
+							<input type="text" class="form-control" id="username" placeholder="이름" name="username">						  
+						</div>	
+						<div class="form-group last mb-4">
+							<input type="text" class="form-control" id="email" placeholder="email" name="email">					
+						</div>						
 						<div class="form-group last mb-4">
 							<input type="password" class="form-control" id="password" placeholder="password" name="password">						  
-						</div>						
-						<div class="d-flex mb-5 align-items-center">
-							<label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-								<input type="checkbox" checked="checked"/>
-								<div class="control__indicator"></div>
-							</label>
-							<span class="ml-auto"><a href="#" class="forgot-pass" style="text-decoration: none">비밀번호 찾기</a></span>
-							<span class="ml-auto"><a href="${pageContext.request.contextPath}/registerUser" class="forgot-pass" style="text-decoration: none">회원가입</a></span> 
 						</div>
-						
-						<input type="submit" value="Log In" class="btn text-white btn-block btn-primary">
-						
-						<span class="d-block text-left my-4 text-muted"> or sign in with</span>
-						
-						<div class="social-login">
-							<a href="#" class="facebook">
-							  <span class="icon-facebook mr-3"></span> 
-							</a>
+						<div class="form-group last mb-4">
+							<input type="text" class="form-control" id="nickname" placeholder="닉네임" name="nickname">						  
 						</div>
+						<div class="form-group last mb-4">
+							<input type="text" class="form-control" id="mobile" placeholder="핸드폰 번호" name="mobile">						  
+						</div>														
+						<input type="submit" value="회원가입" class="btn text-white btn-block btn-primary">
 					</form>
 					</div>
 				</div>			  

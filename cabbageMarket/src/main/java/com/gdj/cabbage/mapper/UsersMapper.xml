@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.mapper.UsersMapper">
+	<select id="loginSession" resultType="java.util.Map" parameterType="com.gdj.cabbage.vo.Users">
+		SELECT
+			user_id userId,
+			email,
+			nickname
+		FROM
+			users
+		<where>
+			email=#{email} AND password=PASSWORD(#{password})
+		</where>			
+	</select>
+</mapper>
