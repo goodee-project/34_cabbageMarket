@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
 </head>
 
 <body>
@@ -54,23 +55,19 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="${pageContext.request.contextPath}/template/img/product/details/product-details-1.jpg" alt="">
+                                src="${pageContext.request.contextPath}/template/img/${imgPathList[0]}" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="${pageContext.request.contextPath}/template/img/product/details/product-details-2.jpg"
-                                src="${pageContext.request.contextPath}/template/img/product/details/thumb-1.jpg" alt="">
-                            <img data-imgbigurl="${pageContext.request.contextPath}/template/img/product/details/product-details-3.jpg"
-                                src="${pageContext.request.contextPath}/template/img/product/details/thumb-2.jpg" alt="">
-                            <img data-imgbigurl="${pageContext.request.contextPath}/template/img/product/details/product-details-5.jpg"
-                                src="${pageContext.request.contextPath}/template/img/product/details/thumb-3.jpg" alt="">
-                            <img data-imgbigurl="${pageContext.request.contextPath}/template/img/product/details/product-details-4.jpg"
-                                src="${pageContext.request.contextPath}/template/img/product/details/thumb-4.jpg" alt="">
+                        	<c:forEach var="img" items="${imgPathList}">
+                        		<img data-imgbigurl="${pageContext.request.contextPath}/template/img/${img}"
+                                src="${pageContext.request.contextPath}/template/img/${img}" alt="">
+                        	</c:forEach>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3>Vetgetable’s Package</h3>
+                        <h3>${productDetail.productName}</h3>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -79,23 +76,19 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price">$50.00</div>
-                        <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
-                            vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <div class="product__details__price">${productDetail.productPrice}</div>
+                        <p>${productDetail.productDesc}</p>
+                        <a href="#" class="primary-btn" style="margin-top: 3px;">판매자와 채팅</a>
+                        <div class="heart-btn">
+					      <div class="content">
+					        <span class="heart"></span>
+					        <span class="text">Like</span>
+					      </div>
+					    </div>
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                            <li><b>Weight</b> <span>0.5 kg</span></li>
+                            <li><b>판매자 닉네임</b> <span>In Stock</span></li>
+                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubId}</span></li>
+                            <li><b>직거래 지역</b> <span>${productDetail.location}</span></li>
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -328,7 +321,7 @@
                         <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
   Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-                        <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
+                        <div class="footer__copyright__payment"><img src="${pageContext.request.contextPath}/template/img/payment-item.png" alt=""></div>
                     </div>
                 </div>
             </div>
@@ -345,8 +338,15 @@
     <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-
-
+    <script>
+      $(document).ready(function(){
+        $('.content').click(function(){
+          $('.content').toggleClass("heart-active")
+          $('.text').toggleClass("heart-active")
+          $('.heart').toggleClass("heart-active")
+        });
+      });
+    </script>
 </body>
 
 </html>

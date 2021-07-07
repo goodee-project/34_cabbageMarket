@@ -19,4 +19,13 @@ public class DirectTradeService {
 		return directTradeProductRegistrationMapper.selectDirectTradeProductList(map);
 	}
 	
+	// 직거래 상품 상세정보
+	public Map<String, Object> getDirectTradeProductOne(int directTradeProductRegistrationId){
+		return directTradeProductRegistrationMapper.selectDirectTradeProductOneByKey(directTradeProductRegistrationId);
+	}
+	
+	// 직거래 상품 이미지
+	public List<String> getDirectTradeProductImg(int directTradeProductRegistrationId){
+		return directTradeProductRegistrationMapper.selectDirectTradeProductImgByKey(directTradeProductRegistrationId);
+	}
 }

@@ -27,7 +27,7 @@
 	  LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 
-	<select id="selectDirectTradeProductOneByKey">
+	<select id="selectDirectTradeProductOneByKey" parameterType="int" resultType="map">
 		SELECT direct_trade_product_registration_id directTradeProductRegistrationId,
 			   user_id userId,
 			   category_sub_id categorySubId,
@@ -38,10 +38,12 @@
 	           product_state productState,
 	           create_date createDate
 	      FROM direct_trade_product_registration
-	     WHERE direct_trade_product_registration_id = 1
+	     WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 	</select>
 	
-	<select id="selectDirectTradeProductImgByKey">
-	
+	<select id="selectDirectTradeProductImgByKey" parameterType="int" resultType="String">
+		SELECT img_path imgPath
+		  FROM direct_trade_product_img
+		 WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 	</select>
 </mapper>

@@ -9,4 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DirectTradeProductRegistrationMapper {
 	List<Map<String, Object>> selectDirectTradeProductList(Map<String, Object> map);
+	Map<String, Object> selectDirectTradeProductOneByKey(int directTradeProductRegistrationId);
+	List<String> selectDirectTradeProductImgByKey(int directTradeProductRegistrationId);
 }

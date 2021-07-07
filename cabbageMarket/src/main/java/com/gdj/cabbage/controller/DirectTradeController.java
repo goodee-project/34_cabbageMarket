@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.service.DirectTradeService;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@RequestMapping("/users")
 public class DirectTradeController {
 	
 	@Autowired DirectTradeService directTradeService;
@@ -53,6 +55,13 @@ public class DirectTradeController {
 			@RequestParam(value="directTradeProductRegistrationId") int directTradeProductRegistrationId) {
 		
 		log.debug("------------ [DirectTradeController] [directTradeOne] [param] -> directTradeProductRegistrationId : " + directTradeProductRegistrationId);
+		
+		// 상품 상세정보
+		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
+		List<String> imgPathList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
+		
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("imgPathList", imgPathList);
 		
 		return "directTrade/directTradeOne";
 	}
