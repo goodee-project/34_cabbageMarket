@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 작성자 : 백영재 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.service.mapper.ManagerMapper">
+
+<!-- 관리자 추가 -->
+	<insert id="insertManager"
+			parameterType="java.util.Map">
+	
+		INSERT INTO
+		
+			manager(
+				manager_id,
+				manager_password,
+				manager_name,
+				manager_nickname,
+				manager_address,
+				manager_phone_number,
+				manager_level,
+				create_date
+				
+			) VALUES (
+				#{managerId},
+				#{managerPassword},
+				#{managerName},
+				#{managerNickname},
+				#{managerAddress},
+				#{managerPhoneNumber},
+				#{managerLevel},
+				NOW()
+			
+			)
+	
+	</insert>
+
+</mapper>
