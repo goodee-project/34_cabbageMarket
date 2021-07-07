@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin")
 public class AdminIndexController {
 	
-	@GetMapping("/index")
+	@GetMapping("/managerIndex")
 	public String index() {
-		return "index";
+		return "managerIndex";
 	}
 }
