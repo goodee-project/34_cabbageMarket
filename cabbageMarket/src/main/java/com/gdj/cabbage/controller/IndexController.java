@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class HelloController {
+public class IndexController {
 	
-	@GetMapping("/hello")
+	@GetMapping("/index")
 	public String hello() {
-		return "hello";
+		return "index";
 	}
 }
