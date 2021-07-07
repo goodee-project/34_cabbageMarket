@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/manager")
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
@@ -51,9 +51,28 @@ public class ManagerController {
 		
 		Map<String, Object> map = new HashMap<>();
 		
+		log.debug("★★★★★★★ManagerController에서 addManager -> map : " + map);
+		map.put("managerId", managerId);
+		map.put("managerPassword", managerPassword);
+		map.put("managerName", managerName);
+		map.put("managerNickname", managerNickname);
+		map.put("managerAddress", managerAddress);
+		map.put("managerPhoneNumber", managerPhoneNumber);
+		map.put("managerLevel", managerLevel);
 		
+		int addManager = managerService.addManager(map);
+		log.debug("★★★★★★★ManagerController에서 addManager -> addManager : " + addManager);
 		
-		return "redirect:/admin/index";
+		model.addAttribute("map", map);
+		model.addAttribute("managerId", managerId);
+		model.addAttribute("managerPassword", managerPassword);
+		model.addAttribute("managerName", managerName);
+		model.addAttribute("managerNickname", managerNickname);
+		model.addAttribute("managerAddress", managerAddress);
+		model.addAttribute("managerPhoneNumber", managerPhoneNumber);
+		model.addAttribute("managerLevel", managerLevel);
+		
+		return "redirect:/manager/managerIndex";
 	}
 
 }
