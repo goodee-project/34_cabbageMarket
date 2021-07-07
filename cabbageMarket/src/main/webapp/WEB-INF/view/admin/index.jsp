@@ -1,4 +1,4 @@
-<!-- 작성자 : 김태훈 -->
+<!-- 작성자 : 백영재 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zxx">
