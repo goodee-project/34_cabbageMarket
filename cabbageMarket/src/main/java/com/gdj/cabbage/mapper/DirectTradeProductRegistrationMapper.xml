@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 작성자 : 김태훈 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.mapper.DirectTradeProductRegistrationMapper">
+	
+	
+	<select id="selectDirectTradeProductList" parameterType="map" resultType="map">
+		SELECT regi.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   regi.user_id userId,
+			   regi.category_sub_id categorySubId,
+			   regi.product_name productName,
+		       FORMAT(regi.product_price, N'#,0') productPrice, <!-- 숫자 3자리마다 ,찍기 -->
+		       regi.product_desc productDesc,
+		       regi.location,
+		       regi.product_state productState,
+		       regi.create_date createDate,
+		       img.img_path imgPath
+		  FROM direct_trade_product_registration regi, direct_trade_product_img img
+		 <where>
+		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id <!-- inner join 조건 -->
+			<if test="searchWord != null and searchKind == 'title'">
+				AND title LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+	  GROUP BY regi.direct_trade_product_registration_id
+	  ORDER BY regi.create_date, img.img_path
+	  LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+
+	<select id="selectDirectTradeProductOneByKey">
+		SELECT direct_trade_product_registration_id directTradeProductRegistrationId,
+			   user_id userId,
+			   category_sub_id categorySubId,
+		       product_name productName,
+	           FORMAT(product_price, N'#,0') productPrice,
+	           product_desc productDesc,
+	           location,
+	           product_state productState,
+	           create_date createDate
+	      FROM direct_trade_product_registration
+	     WHERE direct_trade_product_registration_id = 1
+	</select>
+	
+	<select id="selectDirectTradeProductImgByKey">
+	
+	</select>
+</mapper>
