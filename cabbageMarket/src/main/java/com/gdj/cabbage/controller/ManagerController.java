@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/manager")
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
@@ -72,7 +72,7 @@ public class ManagerController {
 		model.addAttribute("managerPhoneNumber", managerPhoneNumber);
 		model.addAttribute("managerLevel", managerLevel);
 		
-		return "redirect:/admin/managerIndex";
+		return "redirect:/manager/managerIndex";
 	}
 
 }

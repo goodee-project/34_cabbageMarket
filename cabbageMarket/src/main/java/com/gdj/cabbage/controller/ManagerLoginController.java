@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminLoginController {
+@RequestMapping("/manager")
+public class ManagerLoginController {
 	
 	@GetMapping("/managerLogin")
 	public String login() {
