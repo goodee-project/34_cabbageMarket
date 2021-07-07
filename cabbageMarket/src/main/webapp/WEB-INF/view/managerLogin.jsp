@@ -9,29 +9,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 	
-	<link rel="stylesheet" href="logintemplate/fonts/icomoon/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/logintemplate/fonts/icomoon/style.css">
 	
-	<link rel="stylesheet" href="logintemplate/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/logintemplate/css/owl.carousel.min.css">
 	
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="logintemplate/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/logintemplate/css/bootstrap.min.css">
 	
 	<!-- Style -->
-	<link rel="stylesheet" href="logintemplate/css/style.css">
-<title>login</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/logintemplate/css/style.css">
+<title>ManagerLogin</title>
 </head>
 <body>
+<h1>ManagerLogin</h1>
 <div class="content">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 order-md-2">
-			  <img src="logintemplate/images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
+			  <img src="${pageContext.request.contextPath}/logintemplate/images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
 			</div>
 			<div class="col-md-6 contents">
 				<div class="row justify-content-center">
 					<div class="col-md-8">
 					  <div class="mb-4">
-					  <h3 style="color: #00FF80"><strong>마켓</strong></h3>
+					  <h3 style="color: #00FF80"><strong>배추마켓</strong></h3>
 					  <p class="mb-4">안전한 배송을 추구합니다. 믿고 쓰는 거래 플랫폼</p>
 					</div>
 					<form action="#" method="post">
