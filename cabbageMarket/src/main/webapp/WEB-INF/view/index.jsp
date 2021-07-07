@@ -35,67 +35,29 @@
     </div>
 
     <!-- Humberger Begin -->
-    <jsp:include page="/WEB-INF/view/Humberger.jsp"/>
+    <jsp:include page="/WEB-INF/view/header.jsp"/>
+	<!-- Humberger End -->
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./shop-grid.html">직거래</a></li>
-                            <li><a href="#">경매</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">중고</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-                            <li>
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                            </li>
-                        </ul>
-                        <div class="header__cart__price">POINTS: <span>$150.00</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
-                    <div class="hero__categories">
+                    <div class="hero__categories header__menu">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
                             <span>카테고리</span>
                         </div>
                         <ul>
-                            <li><a href="#">가전</a></li>
+                            <li><a href="#">가전</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="./shop-details.html">계절가전</a></li>
+                                    <li><a href="./shoping-cart.html">주방가전</a></li>
+                                    <li><a href="./checkout.html">생활가전</a></li>
+                                    <li><a href="./blog-details.html">미용/욕실가전</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#">TV</a></li>
                             <li><a href="#">컴퓨터</a></li>
                             <li><a href="#">노트북</a></li>
@@ -359,53 +321,7 @@
 
 
     <!-- Footer Section Begin -->
-    <footer class="footer spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__about__logo">
-                            <a href="./index.html"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
-                        </div>
-                        <ul>
-                            <li>주소 : 08505 서울시 금천구 가산디지털2로 1109-1호 (가산동, 대륭테크노타운3차)</li>
-                            <li>전화 : 02. 2108. 5900</li>
-                            <li>Email: job@goodee.co.kr</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-                    <div class="footer__widget">
-                        <h6>Useful Links</h6>
-                        <ul>
-                            <li><a href="#">개인정보처리방침</a></li>
-                        </ul>
-                        <ul>
-                            <li><a href="#">Who We Are</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="footer__widget">
-                        <h6>Payment</h6>
-                        <div class="footer__copyright__payment"><img src="${pageContext.request.contextPath}/template/img/payment-item.png" alt=""></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer__copyright">
-						<div class="footer__copyright__text">
-						<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-	  					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-	  					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-	  					</p>
-	  					</div>           
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+	<jsp:include page="/WEB-INF/view/footer.jsp"/>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
