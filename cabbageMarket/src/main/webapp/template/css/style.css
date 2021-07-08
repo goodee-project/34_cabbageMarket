@@ -2132,6 +2132,15 @@ ol {
 	border-radius: 4px;
 }
 
+.checkout__input textarea {
+	width: 100%;
+	border: 1px solid #ebebeb;
+	padding-left: 20px;
+	font-size: 16px;
+	color: black;
+	border-radius: 4px;
+}
+
 .checkout__input input.checkout__input__add {
 	margin-bottom: 20px;
 }

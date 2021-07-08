@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.DirectTradeService;
@@ -76,7 +77,12 @@ public class DirectTradeController {
 	}
 	
 	@PostMapping("addDirectTrade")
-	public String addDirectTrade(DirectTradeProductRegistration directTradeProductRegistration) {
+	public String addDirectTrade(DirectTradeProductRegistration directTradeProductRegistration,
+				@RequestParam(value = "directTradeProductImgs", required = true)List<MultipartFile> directTradeProductImgs) {
+		
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [directTradeProductRegistration] -> directTradeProductRegistration : " + directTradeProductRegistration.toString());
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [multipartFile] -> multipartFile : " + directTradeProductImgs.size());
+		
 		return "redirect:/users/getDirectTradeList";
 	}
 }
