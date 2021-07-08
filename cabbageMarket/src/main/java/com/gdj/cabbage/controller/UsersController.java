@@ -21,12 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersController {
 	@Autowired UsersService usersService;
 	
-	@GetMapping("/login")
+	@GetMapping("/usersLogin")
 	public String login() {
-		return "login";
+		return "usersLogin";
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/usersLogin")
 	public String login(HttpSession session, Users users) {
 		log.debug(Debuging.DEBUG+" users "+users);
 		
@@ -36,7 +36,7 @@ public class UsersController {
 		if(usersSession != null) {
 			session.setAttribute("usersSession", usersSession);
 		}else {
-			return "login";
+			return "usersLogin";
 		}
 		
 		return "redirect:/index";
@@ -45,6 +45,32 @@ public class UsersController {
 	@GetMapping("/registerUser")
 	public String register() {
 		return "registerUser";
+	}
+		
+	@PostMapping("/registerUser")
+	public String register(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);
+		
+		int row = usersService.insertUsers(users);
+		log.debug(Debuging.DEBUG+" 회원가입 성공 여부 : "+row);
+		
+		if(row == 1) {
+			return "redirect:/registerUserEmailError";
+		}else if(row == 2) {
+			return "redirect:/registerUserNicknameError";
+		}
+		
+		return "redirect:/usersLogin";
+	}
+	
+	@GetMapping("/registerUserEmailError")
+	public String registerUserEmailError() {
+		return "registerUserEmailError";
+	}
+	
+	@GetMapping("/registerUserNicknameError")
+	public String registerUserNicknameError() {
+		return "registerUserNicknameError";
 	}
 	
 	

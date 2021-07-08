@@ -26,4 +26,25 @@ public class UsersService {
 		
 		return usersSession;
 	}
+	
+	public int insertUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);
+		
+		int selectEmail = usersMapper.selectEmail(users);
+		if(selectEmail != 0) {
+			log.debug(Debuging.DEBUG+" 이메일 중복 검사 : "+selectEmail);
+			return 1;
+		}
+		
+		int selectNickname = usersMapper.selectNickname(users);
+		if(selectNickname != 0) {
+			log.debug(Debuging.DEBUG+" 닉네임 중복 검사 : "+selectNickname);
+			return 2;
+		}
+		
+		int row = usersMapper.registerUser(users);
+		log.debug(Debuging.DEBUG+" 회원가입 성공 여부 : "+row);
+		
+		return 3;
+	}
 }
