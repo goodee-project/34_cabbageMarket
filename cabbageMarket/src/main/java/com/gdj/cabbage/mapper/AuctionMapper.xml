@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 작성자 : 강혜란 210708-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.mapper.AuctionMapper">
+	
+	<select id="selectAuctionList" parameterType="map" resultType="map">
+	SELECT
+		apply_product_sales_delivery_id applyProductSalesDeliveryId
+		,min_bid_price minBidPrice
+		,registration_deadline registrationDeadline
+		,quote quote
+		,create_date createDate
+	FROM 
+		auction_product_registration
+	</select>
+	
+	<select id="selectAuctionForCount" resultType="int">
+	SELECT
+		count(*)
+	FROM 
+		auction_product_registration
+	</select>
+</mapper>
