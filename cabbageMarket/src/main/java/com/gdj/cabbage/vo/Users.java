@@ -9,7 +9,7 @@ public class Users {
 	private String username;
 	private String password;
 	private String email;
-	private String nickName;
+	private String nickname;
 	private String mobile;
 	private String createDate;
 	private String modifyDate;

@@ -18,7 +18,7 @@
 	
 	<!-- Style -->
 	<link rel="stylesheet" href="logintemplate/css/style.css">
-<title>login</title>
+<title>로그인</title>
 </head>
 <body>
 <div class="content">
@@ -34,7 +34,7 @@
 					  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
 					  <p class="mb-4"><b>안전한 배송을 추구합니다. 믿고 쓰는 거래 플랫폼</b></p>
 					</div>
-					<form action="${pageContext.request.contextPath}/login" method="post">
+					<form action="${pageContext.request.contextPath}/usersLogin" method="post">
 						<div class="form-group first">
 							<input type="text" class="form-control" id="email" placeholder="email" name="email">						
 						</div>
