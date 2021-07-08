@@ -1,7 +1,10 @@
+// 작성자 : 백영재
 package com.gdj.cabbage.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ManagerService;
+import com.gdj.cabbage.vo.Manager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +26,29 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+
+	// 매니저 로그인 //
+	// GET
+	@GetMapping("/managerLogin")
+	public String login() {
+		return "managerLogin";
+	}
+	
+	// POST
+	@PostMapping("/managerLogin")
+	public String login(HttpSession session, Manager manager) {
+		log.debug(Debuging.DEBUG+" manager " + manager);
+		
+		Map<String, Object> managerSession = managerService.ManagerloginSession(manager);
+		log.debug(Debuging.DEBUG+" managerSession : " + managerSession);
+		
+		if(managerSession != null) {
+			session.setAttribute("managerSession", managerSession);
+			
+		}
+		
+		return "redirect:/manager/managerIndex";
+	}
 
 	// 관리자 추가 //
 	// 폼

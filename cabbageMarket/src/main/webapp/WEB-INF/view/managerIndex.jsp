@@ -23,9 +23,25 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+	$(document).ready(function() {
+		console.log('ready...')
+		$('#btn').click(function() {
+			console.log('click...')
+			$('#loginForm').submit();
+		});
+	});
+	
+</script>
+
 </head>
 
 <body>
+<c:if test="${loginStaff != null}">
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -775,6 +791,7 @@
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 
 
+</c:if>
 
 </body>
 
