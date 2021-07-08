@@ -108,6 +108,34 @@
             }
         });
         
+        console.log('카테고리 대분류');
+		$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/getCategoryMain',
+			success: function(jsonData) {
+				$(jsonData).each(function(index, item) {
+					var html = '';
+					html += '<li><input type="hidden" name="categoryMainId" value="'+item.categoryMainId+'">';
+					html += '<button class="categoryBtn categoryMainBtn" id="categoryMainBtn" type="button">';
+					html += item.categoryMainName+'</button></td>';
+					$('#categoryMain').append(html);
+				});
+			}
+		});
+		
+		$(".categoryMainBtn").click(function(){
+			console.log('카테고리 중분류');
+			$.ajax({
+				type:'get',
+				url:'${pageContext.request.contextPath}/getCategoryMiddle',
+				data:{categoryMainId : $('#categoryMainBtn').val()},
+				success: function(jsonData) {
+					//$('#city').empty();
+
+				}
+			});
+		});
+		
     });
   </script>
 </head>
@@ -186,53 +214,17 @@
 	                	<h4>카테고리<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input">
-	                   	<ul class="categoryUl">
-	                       	<li><button class="categoryBtn" type="button">여성의류</button></li>
-							<li><button class="categoryBtn" type="button">패션잡화</button></li>
-							<li><button class="categoryBtn" type="button">남성의류</button></li>
-							<li><button class="categoryBtn" type="button">디지털/가전</button></li>
-							<li><button class="categoryBtn" type="button">도서/티켓/취미/반려</button></li>
-							<li><button class="categoryBtn" type="button">스타굿즈</button></li>
-							<li><button class="categoryBtn" type="button">생활/문구/가구/식품</button></li>
-							<li><button class="categoryBtn" type="button">재능</button></li>
-							<li><button class="categoryBtn" type="button">기타</button></li>
-							<li><button class="categoryBtn" type="button">원룸/함께살아요</button></li>
-							<li><button class="categoryBtn" type="button">커뮤니티</button></li>
-							<li><button class="categoryBtn" type="button">번개나눔</button></li>
+	                	<!-- 대분류 카테고리 -->
+	                   	<ul class="categoryUl" id="categoryMain">
 	                    </ul>
-	                    
-	                    <ul class="categoryUl">
-	                       	<li><button class="categoryBtn" type="button">여성의류</button></li>
-							<li><button class="categoryBtn" type="button">패션잡화</button></li>
-							<li><button class="categoryBtn" type="button">남성의류</button></li>
-							<li><button class="categoryBtn" type="button">디지털/가전</button></li>
-							<li><button class="categoryBtn" type="button">도서/티켓/취미/반려</button></li>
-							<li><button class="categoryBtn" type="button">스타굿즈</button></li>
-							<li><button class="categoryBtn" type="button">생활/문구/가구/식품</button></li>
-							<li><button class="categoryBtn" type="button">재능</button></li>
-							<li><button class="categoryBtn" type="button">기타</button></li>
-							<li><button class="categoryBtn" type="button">원룸/함께살아요</button></li>
-							<li><button class="categoryBtn" type="button">커뮤니티</button></li>
-							<li><button class="categoryBtn" type="button">번개나눔</button></li>
+	                    <!-- 중분류 카테고리 -->
+	                    <ul class="categoryUl" id="categoryMiddle">
 	                    </ul>
-	                    
-	                    <ul class="categoryUl">
-	                       	<li><button class="categoryBtn" type="button">여성의류</button></li>
-							<li><button class="categoryBtn" type="button">패션잡화</button></li>
-							<li><button class="categoryBtn" type="button">남성의류</button></li>
-							<li><button class="categoryBtn" type="button">디지털/가전</button></li>
-							<li><button class="categoryBtn" type="button">도서/티켓/취미/반려</button></li>
-							<li><button class="categoryBtn" type="button">스타굿즈</button></li>
-							<li><button class="categoryBtn" type="button">생활/문구/가구/식품</button></li>
-							<li><button class="categoryBtn" type="button">재능</button></li>
-							<li><button class="categoryBtn" type="button">기타</button></li>
-							<li><button class="categoryBtn" type="button">원룸/함께살아요</button></li>
-							<li><button class="categoryBtn" type="button">커뮤니티</button></li>
-							<li><button class="categoryBtn" type="button">번개나눔</button></li>
+	                    <!-- 소분류 카테고리 -->
+	                    <ul class="categoryUl" id="categorySub">
 	                    </ul>
 	                    
 	                    <div class="col-lg-3">
-	                	
 		                </div>
 		                <div class="col-lg-9">
 		                	<span style="margin-top: 1.5rem; font-size: 16px; color: #7fad39;">선택한 카테고리:</span>
