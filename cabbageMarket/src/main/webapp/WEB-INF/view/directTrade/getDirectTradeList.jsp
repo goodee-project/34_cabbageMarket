@@ -389,10 +389,27 @@
                     
                     <!-- 페이징 -->
                     <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    	
+                    	<c:if test="${currentPage > 1}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}">
+				            	<i class="fa fa-long-arrow-left"></i>
+				            </a>
+				        </c:if>
+				        
+				        <c:forEach var="i" begin="1" end="10">
+							<c:if test="${(pageSet*10)+i < lastPage+1}">
+					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}">
+									${(pageSet*10)+i}
+								</a>
+							</c:if>
+						</c:forEach>
+		
+				        <c:if test="${currentPage < lastPage}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}">
+				            	<i class="fa fa-long-arrow-right"></i>
+				            </a>
+				        </c:if>
+
                     </div>
                     
                 </div>

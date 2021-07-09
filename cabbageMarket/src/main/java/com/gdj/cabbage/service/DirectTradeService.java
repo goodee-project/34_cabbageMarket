@@ -26,6 +26,11 @@ public class DirectTradeService {
 		return directTradeProductRegistrationMapper.selectDirectTradeProductList(map);
 	}
 	
+	// 직거래 상품 리스트
+	public int getDirectTradeProductTotal(Map<String, Object> map){
+		return directTradeProductRegistrationMapper.selectDirectTradeProductTotal(map);
+	}
+	
 	// 직거래 상품 상세정보
 	public Map<String, Object> getDirectTradeProductOne(int directTradeProductRegistrationId){
 		return directTradeProductRegistrationMapper.selectDirectTradeProductOneByKey(directTradeProductRegistrationId);
@@ -44,8 +49,8 @@ public class DirectTradeService {
 		
 		// 직거래 상품 이미지 등록
 		if(directTradeProductImgs != null) {
+			int i = 1; // 파일명을 위한 i
 			for(MultipartFile f : directTradeProductImgs) {
-				int i = 1; // 파일명을 위한 i
 				
 				DirectTradeProductImg directTradeProductImg = new DirectTradeProductImg();
 				directTradeProductImg.setDirectTradeProductRegistrationId(directTradeProductRegistration.getDirectTradeProductRegistrationId()); // auto increment로 입력된 값

@@ -43,12 +43,24 @@ public class DirectTradeController {
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("searchWord", searchWord);
 		
+		int pageSet = (currentPage-1)/10;
+		int directProductTotal = directTradeService.getDirectTradeProductTotal(paramMap);
+		int lastPage = (int)Math.ceil((double)directProductTotal / rowPerPage);
+		
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> lastPage : " + lastPage);
+		
 		// 직거래 상품 리스트
 		List<Map<String, Object>> DirectTradeProductRegistrationList = 
 				directTradeService.getDirectTradeProductList(paramMap);
 		
 		// 리스트 데이터
 		model.addAttribute("DirectTradeProductRegistrationList", DirectTradeProductRegistrationList);
+		
+		// 단일 변수 데이터
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("pageSet", pageSet);
+		model.addAttribute("lastPage", lastPage);
 		
 		return "directTrade/getDirectTradeList";
 	}

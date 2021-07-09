@@ -12,6 +12,8 @@ import com.gdj.cabbage.vo.DirectTradeProductRegistration;
 @Mapper
 public interface DirectTradeProductRegistrationMapper {
 	List<Map<String, Object>> selectDirectTradeProductList(Map<String, Object> map);
+	int selectDirectTradeProductTotal(Map<String, Object> map);
+	
 	Map<String, Object> selectDirectTradeProductOneByKey(int directTradeProductRegistrationId);
 	List<String> selectDirectTradeProductImgByKey(int directTradeProductRegistrationId);
 	

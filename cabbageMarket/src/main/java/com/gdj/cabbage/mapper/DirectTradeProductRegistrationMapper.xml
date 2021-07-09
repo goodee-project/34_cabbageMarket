@@ -23,9 +23,23 @@
 			</if>
 		</where>
 	  GROUP BY regi.direct_trade_product_registration_id
-	  ORDER BY regi.create_date, img.img_name
+	  ORDER BY regi.create_date DESC, img.img_name
 	  LIMIT #{beginRow}, #{rowPerPage}
 	</select>
+
+	<select id="selectDirectTradeProductTotal" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		  FROM direct_trade_product_registration
+		  <where>
+			<if test="searchWord != null and searchKind == 'title'">
+				title LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+	</select>
+
+
+
+
 
 	<select id="selectDirectTradeProductOneByKey" parameterType="int" resultType="map">
 		SELECT direct_trade_product_registration_id directTradeProductRegistrationId,
