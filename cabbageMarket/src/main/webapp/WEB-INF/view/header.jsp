@@ -6,7 +6,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
+            <a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <div class="header__cart__price">POINTS: <span>$150.00</span></div>
@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
+                        <a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">

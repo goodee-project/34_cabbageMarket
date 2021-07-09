@@ -5,13 +5,22 @@
 	
 	<select id="selectAuctionList" parameterType="map" resultType="map">
 	SELECT
-		apply_product_sales_delivery_id applyProductSalesDeliveryId
+		apr.apply_product_sales_delivery_id applyProductSalesDeliveryId
 		,min_bid_price minBidPrice
 		,registration_deadline registrationDeadline
 		,quote quote
-		,create_date createDate
+		,apr.create_date createDate
+		,product_name productName
+		,img_path imgPath
+		,category_sub_id categorySubName
+		,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 	FROM 
-		auction_product_registration
+		auction_product_registration apr
+			LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
+			LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+	GROUP BY apsdi.apply_product_sales_delivery_id
+	ORDER BY bap.create_date, apsd.create_date, apsdi.img_path
 	</select>
 	
 	<select id="selectAuctionForCount" resultType="int">
