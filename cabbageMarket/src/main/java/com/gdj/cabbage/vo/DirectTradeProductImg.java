@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class DirectTradeProductImg {
-	
 	private int directTradeProductRegistrationId;
-	private String imgPath;
-
+	private String imgName;
+	private String imgType;
+	private long imgSize;
 }

@@ -14,7 +14,7 @@
 		       regi.location,
 		       regi.product_state productState,
 		       regi.create_date createDate,
-		       img.img_path imgPath
+		       img.img_name imgName
 		  FROM direct_trade_product_registration regi, direct_trade_product_img img
 		 <where>
 		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id <!-- inner join 조건 -->
@@ -23,7 +23,7 @@
 			</if>
 		</where>
 	  GROUP BY regi.direct_trade_product_registration_id
-	  ORDER BY regi.create_date, img.img_path
+	  ORDER BY regi.create_date, img.img_name
 	  LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 
@@ -42,8 +42,51 @@
 	</select>
 	
 	<select id="selectDirectTradeProductImgByKey" parameterType="int" resultType="String">
-		SELECT img_path imgPath
+		SELECT img_name imgName
 		  FROM direct_trade_product_img
 		 WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 	</select>
+	
+	<insert id="insertDirectTradeProductRegistration" parameterType="com.gdj.cabbage.vo.DirectTradeProductRegistration">
+		<selectKey resultType="int" keyProperty="directTradeProductRegistrationId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO direct_trade_product_registration (
+					user_id,
+					category_sub_id,
+					product_name,
+					product_price,
+					product_desc,
+					location,
+					create_date)
+			 VALUES	(#{userId},
+					 #{categorySubId},
+					 #{productName},
+					 #{productPrice},
+					 #{productDesc},
+					 #{location},
+					 NOW())
+	</insert>
+	
+	<insert id="insertDirectTradeProductImg" parameterType="com.gdj.cabbage.vo.DirectTradeProductImg">
+		INSERT INTO direct_trade_product_img VALUES(#{directTradeProductRegistrationId}, #{imgName}, #{imgType}, #{imgSize})
+	</insert>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

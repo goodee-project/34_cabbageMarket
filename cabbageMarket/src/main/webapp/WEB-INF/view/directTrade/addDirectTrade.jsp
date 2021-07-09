@@ -92,10 +92,11 @@
     	
     	// 상품 가격 숫자입력 유효성 검사
     	var enCheck = RegExp( /[^0-9]$/);
+    	// 카테고리 유효성 검사
+    	var cateCheck = 0;
     	
     	$('#productPrice').keyup(function(){
     		if(enCheck.test($('#productPrice').val())){
-    			console.log("숫자 아님 "+$('#productPrice').val());
     			alert('숫자만 입력해 주세요');
     			$('#productPrice').val('');
     		}
@@ -105,8 +106,9 @@
         $('#summitBtn').click(function() {
             
         	console.log("summitBtn click!");
-
+			
         	var fileCheck = document.getElementById("imgFileUpload").value;
+
             if(!fileCheck){
                 alert("파일을 첨부해 주세요");
             }else if ($('#productName').val() == '') {
@@ -118,6 +120,9 @@
             } else if ($('#productDesc').val() == '') {
                 alert('상품 설명을 입력하세요');
                 $('#productDesc').focus();
+            } else if (cateCheck == 0) {
+                alert('카테고리를 선택해 주세요');
+                $('#categorySubId').focus();
             } else {
                 $('#addDirectTradeProductForm').submit();
             }
@@ -140,6 +145,7 @@
 		});
 
 		$(document).on('click', '.categoryMainBtn', function(){
+			cateCheck = 0;
 			console.log('카테고리 중분류');
 			var index = $('.categoryMainBtn').index(this);
 			
@@ -169,6 +175,7 @@
 		});
 		
 		$(document).on('click', '.categoryMiddleBtn', function(){
+			cateCheck = 0;
 			console.log('카테고리 소분류');
 			var index = $('.categoryMiddleBtn').index(this);
 			
@@ -187,7 +194,7 @@
 					
 					$(jsonData).each(function(index, item) {
 						var html = '';
-						html += '<li><input type="hidden" name="categorySubId" value="'+item.categorySubId+'">';
+						html += '<li><input type="hidden" id="categorySubId" name="categorySubId" value="'+item.categorySubId+'">';
 						html += '<button class="categoryBtn categorySubBtn" type="button">';
 						html += item.categorySubName+'</button></td>';
 						$('#categorySub').append(html);
@@ -197,9 +204,8 @@
 		});
 		
 		$(document).on('click', '.categorySubBtn', function(){
-
+			cateCheck = 1;
 			var index = $('.categorySubBtn').index(this);
-			
 			var categorySubText = $(".categorySubBtn").eq(index).text();
 			$('#selectCategorySub').empty();
 			$("#selectCategorySub").append(" >> "+categorySubText);
@@ -240,6 +246,7 @@
     <!-- Breadcrumb Section End -->
 		<div class="container">
 			<form id="addDirectTradeProductForm" action="${pageContext.request.contextPath}/users/addDirectTrade" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="userId" value="3"> <!-- userId = 3으로 입력 테스트 -->
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title product__discount__title" style="margin-top: 30px;">
