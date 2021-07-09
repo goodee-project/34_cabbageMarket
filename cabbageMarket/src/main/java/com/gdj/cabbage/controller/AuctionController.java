@@ -26,6 +26,7 @@ public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
 	
+	//경매 상품 리스트 출력
 	@GetMapping("/getAuctionList")
 	public String getAuctionList(Model model
 			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
@@ -35,13 +36,14 @@ public class AuctionController {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+rowPerPage+"<--rowPerPage");
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+searchWord+"<--searchWord");
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("currentPage", currentPage);
-		map.put("rowPerPage", rowPerPage);
-		map.put("searchWord", searchWord);
-		log.debug(Debuging.DEBUG+"1 service에 보낼 map 확인: "+map.toString());
+		//페이징에 관한 정보 담기
+		Map<String,Object> page = new HashMap<String,Object>();
+		page.put("currentPage", currentPage);
+		page.put("rowPerPage", rowPerPage);
+		page.put("searchWord", searchWord);
+		log.debug(Debuging.DEBUG+"1 service에 보낼 map 확인: "+page.toString());
 		
-		Map<String,Object> resultMap =  auctionService.getAuctionList(map); //경매상품과 검색어에따른 total, lastpage, auctionList가져오는 서비스
+		Map<String,Object> resultMap =  auctionService.getAuctionList(page); //경매상품과 검색어에따른 total, lastpage, auctionList가져오는 서비스
 		log.debug(Debuging.DEBUG+"5 service에서 받은 resultMap 확인 : "+resultMap.toString());
 		
 		List<CategoryMain> categoryMainList = categoryService.getCategoryMainList(); //카테고리를 불러오는 서비스
@@ -56,5 +58,21 @@ public class AuctionController {
 		model.addAttribute("lastPage",resultMap.get("lastPage"));
 		model.addAttribute("categoryMainList", resultMap.get("categoryMainList"));		
 		return "auction/getAuctionList";
+	}
+	
+	// 경매상품 상세보기
+	@GetMapping("getAuctionOne")
+	public String getDirectTradeOne(Model model,
+		@RequestParam(value="applyId") int applyId) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+			
+		// 상품 상세정보 + 이미지들 불러오기
+		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
+		List<String> imgPathList = auctionService.getAuctionImg(applyId);
+		
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("imgPathList", imgPathList);
+		
+		return "auction/getAuctionOne";
 	}
 }

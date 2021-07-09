@@ -190,7 +190,7 @@
                                 <div class="col-lg-4">
                                     <div class="product__discount__item">
                                         <div class="product__discount__item__pic set-bg"
-                                            data-setbg="${pageContext.request.contextPath}/template/img/${al.imgPath}">
+                                            data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
                                             <div class="product__discount__percent">${al.registrationDeadline}</div>
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -239,7 +239,7 @@
                     	<c:forEach var="al" items="${auctionList}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/${al.imgPath}">
+                                <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -248,7 +248,7 @@
                                 </div>
 								<div class="product__item__text">
                                    <span>${al.categorySubId}</span>
-                                   <h5><a href="#">${al.productName}</a></h5>
+                                   <h5><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${al.applyId}">${al.productName}</a></h5>
                                    <div class="product__item__price"> 현재 입찰가 : ${al.price} <button class="btn-light">호가 ${al.quote}</button></div>
                                 </div>
                             </div>

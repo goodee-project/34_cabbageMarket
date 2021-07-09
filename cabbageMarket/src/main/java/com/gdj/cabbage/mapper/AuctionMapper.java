@@ -13,4 +13,8 @@ public interface AuctionMapper {
 
 	int selectAuctionForCount();//검색어 없이 total 가져오는 mapper
 
+	Map<String, Object> selectAuctionOne(int applyId); //상세정보 가져오는 mapper
+
+	List<String> selectAuctionImgByKey(int applyId);
+
 }

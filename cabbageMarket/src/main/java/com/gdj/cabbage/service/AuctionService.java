@@ -23,7 +23,8 @@ public class AuctionService {
 	@Autowired AuctionMapper auctionMapper;
 	@Autowired CategoryMapper categoryMapper;
 
-	public Map<String, Object> getAuctionList(Map<String, Object> paramMap) {//경매상품과 검색어에따른 total, lastPage, auctionList가져오는 서비스
+	//경매상품과 검색어에따른 total, lastPage, auctionList가져오는 서비스 : getAuctionList
+	public Map<String, Object> getAuctionList(Map<String, Object> paramMap) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 paramMap확인"+paramMap.toString());
 		
 		int beginRow = (((int)paramMap.get("currentPage")-1)*(int)paramMap.get("rowPerPage"));
@@ -50,6 +51,20 @@ public class AuctionService {
 		resultMap.put("categoryMainList", categoryMainList);
 		
 		return resultMap;
+	}
+	// 상품 상세정보 가져오는 서비스 : getAuctionOne
+	public Map<String, Object> getAuctionOne(int applyId) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
+		Map<String,Object> auctionList = auctionMapper.selectAuctionOne(applyId); //상세정보 가져오는 mapper
+		return auctionList;
+	}
+	// 상품 이미지들 불러오는 서비스 : getAuctionOne
+	public List<String> getAuctionImg(int applyId) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
+		List<String> auctionList = auctionMapper.selectAuctionImgByKey(applyId); //이미지를 가져오는 mapper
+		return auctionList;
 	}
 
 }
