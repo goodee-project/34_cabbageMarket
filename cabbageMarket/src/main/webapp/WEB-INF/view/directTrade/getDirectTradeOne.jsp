@@ -64,12 +64,12 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="${pageContext.request.contextPath}/template/img/${imgPathList[0]}" alt="">
+                                src="${pageContext.request.contextPath}/template/img/directTradeImg/${imgNameList[0]}" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
-                        	<c:forEach var="img" items="${imgPathList}">
-                        		<img data-imgbigurl="${pageContext.request.contextPath}/template/img/${img}"
-                                src="${pageContext.request.contextPath}/template/img/${img}" alt="">
+                        	<c:forEach var="img" items="${imgNameList}">
+                        		<img data-imgbigurl="${pageContext.request.contextPath}/template/img/directTradeImg/${img}"
+                                src="${pageContext.request.contextPath}/template/img/directTradeImg/${img}" alt="">
                         	</c:forEach>
                         </div>
                     </div>

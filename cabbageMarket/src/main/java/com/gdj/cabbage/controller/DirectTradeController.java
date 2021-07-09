@@ -62,10 +62,10 @@ public class DirectTradeController {
 		
 		// 상품 상세정보
 		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
-		List<String> imgPathList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
+		List<String> imgNameList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
 		
 		model.addAttribute("productDetail", productDetail);
-		model.addAttribute("imgPathList", imgPathList);
+		model.addAttribute("imgNameList", imgNameList);
 		
 		return "directTrade/getDirectTradeOne";
 	}
@@ -82,6 +82,8 @@ public class DirectTradeController {
 		
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [directTradeProductRegistration] -> directTradeProductRegistration : " + directTradeProductRegistration.toString());
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [multipartFile] -> multipartFile : " + directTradeProductImgs.size());
+		
+		directTradeService.addDirectTradeProduct(directTradeProductRegistration, directTradeProductImgs);
 		
 		return "redirect:/users/getDirectTradeList";
 	}
