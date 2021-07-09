@@ -89,10 +89,23 @@
     </style>
 	<script> <!-- 유효성 검사 -->
     $(document).ready(function() {
+    	
+    	// 상품 가격 숫자입력 유효성 검사
+    	var enCheck = RegExp( /[^0-9]$/);
+    	
+    	$('#productPrice').keyup(function(){
+    		if(enCheck.test($('#productPrice').val())){
+    			console.log("숫자 아님 "+$('#productPrice').val());
+    			alert('숫자만 입력해 주세요');
+    			$('#productPrice').val('');
+    		}
+    	});
+    	
+    	// 폼 전송 유효성 검사
         $('#summitBtn').click(function() {
             
         	console.log("summitBtn click!");
-        	
+
         	var fileCheck = document.getElementById("imgFileUpload").value;
             if(!fileCheck){
                 alert("파일을 첨부해 주세요");
@@ -111,6 +124,7 @@
         });
         
         
+    	// 카테고리 비동기 통신
         console.log('카테고리 대분류');
 		$.ajax({
 			type:'get',
@@ -310,9 +324,9 @@
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>				
 				
-					<!-- 직거래 상품 지역 -->
+					<!-- 직거래 상품 지역 필수값 x-->
 					<div class="col-lg-3">
-	                	<h4>지역<span style="color: #7fad39;">*</span></h4>
+	                	<h4>지역</h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
 	                <div></div>
