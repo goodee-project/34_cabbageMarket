@@ -17,6 +17,9 @@
 	
 	<!-- 회원가입 쿼리 -->
 	<insert id="registerUser" parameterType="com.gdj.cabbage.vo.Users">
+		<selectKey keyProperty="userId" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT 
 			users(
 				username, 
@@ -51,6 +54,7 @@
 		</where>
 	</select>
 	
+	<!-- nickname 중복여부 -->
 	<select id="selectNickname" resultType="Integer" parameterType="com.gdj.cabbage.vo.Users">
 		SELECT
 			COUNT(*)
@@ -60,4 +64,36 @@
 			nickname=#{nickname}
 		</where>
 	</select>
+	
+	<!-- 네이버 아이디 존재 여부 -->
+	<select id="selectSnsId" resultType="Integer" parameterType="com.gdj.cabbage.vo.SNSInfo">
+		SELECT
+			COUNT(*)
+		FROM
+			sns_info
+		<where>
+			sns_id=#{id}
+		</where>
+	</select>
+	
+	<!--  네이버 정보 sns테이블에 등록 -->
+	<insert id="registerNaverUser" parameterType="com.gdj.cabbage.vo.Users">
+		INSERT 
+			sns_info(
+				user_id, 
+				sns_id, 
+				sns_type, 
+				sns_name, 
+				sns_profile, 
+				sns_connect_Date
+				) 
+		VALUES(
+			#{userId}, 
+			#{snsId},
+			#{snsType},
+			#{snsName},
+			#{snsProfile},
+			NOW()
+			) 
+	</insert> 
 </mapper>

@@ -55,9 +55,7 @@
 						<span class="d-block text-left my-4 text-muted"> or sign in with</span>
 						
 						<div class="social-login">
-							<a href="#" class="facebook">
-							  <span class="icon-facebook mr-3"></span> 
-							</a>
+							<a href="${apiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
 						</div>
 					</form>
 					</div>
