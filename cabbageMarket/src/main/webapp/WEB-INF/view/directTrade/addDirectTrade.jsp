@@ -246,7 +246,7 @@
     <!-- Breadcrumb Section End -->
 		<div class="container">
 			<form id="addDirectTradeProductForm" action="${pageContext.request.contextPath}/users/addDirectTrade" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="userId" value="3"> <!-- userId = 3으로 입력 테스트 -->
+				<input type="hidden" name="userId" value="8"> <!-- userId = 8으로 입력 테스트 -->
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title product__discount__title" style="margin-top: 30px;">
