@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,7 @@ public class UsersService {
 		return 3;
 	}
 	
-	public int naverUserLogin(String access_token) throws ParseException {
+	public Map<String,Object> naverUserLogin(String access_token) throws ParseException {
         String token = access_token; // 네이버 로그인 접근 토큰;
         String header = "Bearer " + token; // Bearer 다음에 공백 추가
 
@@ -74,8 +76,8 @@ public class UsersService {
         Map<String, Object> parsedJson = new JSONParser(responseBody).parseObject();
         log.debug(Debuging.DEBUG+"parsedJson : "+parsedJson);
        
-        String response = (String)parsedJson.get("response");
-        Map<String, Object> naverUserInfo = new JSONParser(response).parseObject();
+        Map<String, Object> naverUserInfo = (Map<String, Object>) parsedJson.get("response");
+        log.debug(Debuging.DEBUG+" naverUserInfo : "+naverUserInfo);
         
         String password = UUID.randomUUID().toString();
         Users users = new Users();
@@ -103,7 +105,11 @@ public class UsersService {
         	log.debug(Debuging.DEBUG+" naver user 회원 sns 등록 성공 여부"+insertNaverUserRow);    	
         }
         
-        return userId;
+        String snsId = (String)naverUserInfo.get("id");
+        Map<String, Object> usersSession = usersMapper.naverLoginSession(snsId);
+        
+        
+        return usersSession;
     }
 
 

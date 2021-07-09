@@ -36,6 +36,13 @@ public class UsersController {
 	private String your_callback_url = "http://localhost:80/cabbageMarket/callback";
 	@Autowired UsersService usersService;
 	
+	@GetMapping("/usersLogout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/index";
+	}
+	
 	@GetMapping("/usersLogin")
 	public String login(HttpSession session, Model model) throws UnsupportedEncodingException{
 	    String redirectURI = URLEncoder.encode(your_callback_url, "UTF-8");
@@ -72,8 +79,9 @@ public class UsersController {
 			log.debug(Debuging.DEBUG+" parseJson"+parsedJson);
 			
 			String access_token = (String)parsedJson.get("access_token");
-			int naverLoginRow = usersService.naverUserLogin(access_token);
-			log.debug(Debuging.DEBUG+"로그인 성공여부 : "+naverLoginRow);
+			Map<String, Object> usersSession = usersService.naverUserLogin(access_token);
+			log.debug(Debuging.DEBUG+"usersSession : "+usersSession);
+			session.setAttribute("usersSession", usersSession);
 	    } else {
 	      model.addAttribute("res", "Login failed!");
 	    }

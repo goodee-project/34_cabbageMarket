@@ -31,7 +31,9 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8">
 					  <div class="mb-4">
-					  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
+						<div class="humberger__menu__logo">
+							<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
+						</div>
 					  <p class="mb-4"><b>안전한 배송을 추구합니다. 믿고 쓰는 거래 플랫폼</b></p>
 					</div>
 					<form action="${pageContext.request.contextPath}/usersLogin" method="post">
