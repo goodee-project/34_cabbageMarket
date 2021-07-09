@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.CategoryMapper;
 import com.gdj.cabbage.vo.CategoryMain;
+import com.gdj.cabbage.vo.CategoryMiddle;
+import com.gdj.cabbage.vo.CategorySub;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,5 +29,15 @@ public class CategoryService {
 		log.debug(Debuging.DEBUG+"4 mapper에서 보낸 categoryMainList확인"+categoryMainList.toString());
 		
 		return categoryMainList;
+	}
+	
+	// 카테고리 중분류 리스트
+	public List<CategoryMiddle> getCategoryMiddleList(int categoryMainId){
+		return categoryMapper.selectCategoryMiddle(categoryMainId); 
+	}
+	
+	// 카테고리 소분류 리스트
+	public List<CategorySub> getCategorySubList(int categoryMiddleId){
+		return categoryMapper.selectCategorySub(categoryMiddleId); 
 	}
 }

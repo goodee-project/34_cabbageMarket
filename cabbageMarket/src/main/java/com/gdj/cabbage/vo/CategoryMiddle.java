@@ -7,6 +7,6 @@ public class CategoryMiddle {
 	
 	private int categoryMiddleId;
 	private int categoryMainId;
-	private String catagoryMiddleName;
+	private String categoryMiddleName;
 
 }
