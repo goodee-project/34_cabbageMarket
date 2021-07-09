@@ -10,4 +10,22 @@
 		FROM
 			category_main	
 	</select>
+	
+	<select id="selectCategoryMiddle" resultType="com.gdj.cabbage.vo.CategoryMiddle" parameterType="int">
+		SELECT
+			category_middle_id categoryMiddleId
+			,category_middle_name categoryMiddleName
+		FROM
+			category_middle
+			WHERE category_main_id = #{categoryMainId}
+	</select>
+	
+	<select id="selectCategorySub" resultType="com.gdj.cabbage.vo.CategorySub" parameterType="int">
+		SELECT
+			category_sub_id categorySubId
+			,category_sub_name categorySubName
+		FROM
+			category_sub
+			WHERE category_middle_id = #{categoryMiddleId}
+	</select>
 </mapper>
