@@ -18,6 +18,34 @@
 	
 	<!-- Style -->
 	<link rel="stylesheet" href="logintemplate/css/style.css">
+	<!-- jqery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			let numberCode =  /^[0-9]+(.[0-9]+)?$/;
+			let emailCode = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+			
+			$('#btn').click(function(){
+				if($('#username').val() == ''){
+					$('#username').attr('placeholder','이름을 작성해주세요');
+				}else if($('#email').val() == ''){
+					$('#email').attr('placeholder','이메일을 작성해주세요');
+				}else if(!emailCode.test($('#email').val())){
+					$('#email').attr('placeholder','이메일 형식에 맞게 작성해주세요');
+				}else if($('#password').val() == ''){
+					$('#password').attr('placeholder','PASSWORD를 작성해주세요');
+				}else if($('#nickname').val() == ''){
+					$('#nickname').attr('placeholder','닉네임을 작성해주세요');
+				}else if($('#mobile').val() == ''){
+					$('#mobile').attr('placeholder','핸드폰 번호를 작성해주세요');
+				}else if(!numberCode.test($('#mobile').val())){
+					$('#mobile').attr('placeholder','핸드폰 번호를 숫자로 작성해주세요');
+				}else{
+					$('#registerForm').submit();
+				}
+			});
+		});
+	</script>
 <title>회원가입</title>
 </head>
 <body>
@@ -34,7 +62,7 @@
 					  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
 					  <p class="mb-3"><b>회원가입</b></p>
 					</div>
-					<form action="${pageContext.request.contextPath}/registerUser" method="post">
+					<form action="${pageContext.request.contextPath}/registerUser" method="post" id="registerForm">
 						<div class="form-group first">
 							<input type="text" class="form-control" id="username" placeholder="이름" name="username">						  
 						</div>	
@@ -50,7 +78,7 @@
 						<div class="form-group last mb-4">
 							<input type="text" class="form-control" id="mobile" placeholder="핸드폰 번호" name="mobile">						  
 						</div>														
-						<input type="submit" value="회원가입" class="btn text-white btn-block btn-primary">
+						<button type="button" id="btn" class="btn text-white btn-block btn-primary">회원가입</button>
 					</form>
 					</div>
 				</div>			  

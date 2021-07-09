@@ -15,4 +15,5 @@ public interface UsersMapper {
 	int selectNickname(Users users);
 	int selectSnsId(String id);
 	int registerNaverUser(SNSInfo snsInfo);
+	Map<String, Object> naverLoginSession(String snsId);
 }

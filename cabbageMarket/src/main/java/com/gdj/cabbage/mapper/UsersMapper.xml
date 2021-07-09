@@ -11,7 +11,7 @@
 		FROM
 			users
 		<where>
-			email=#{email} AND password=PASSWORD(#{password})
+			email=#{email} AND password=PASSWORD(#{password}) AND user_state=1
 		</where>			
 	</select>
 	
@@ -96,4 +96,18 @@
 			NOW()
 			) 
 	</insert> 
+	
+	<!-- 네이버 유저 session -->
+	<select id="naverLoginSession" resultType="java.util.Map" parameterType="String">
+		SELECT
+			u.user_id userId,
+			u.email,
+			u.nickname
+		FROM
+			users u LEFT JOIN sns_info s ON u.user_id=s.user_id 
+		<where>
+			s.sns_id=#{snsId}
+		</where>
+			
+	</select>
 </mapper>
