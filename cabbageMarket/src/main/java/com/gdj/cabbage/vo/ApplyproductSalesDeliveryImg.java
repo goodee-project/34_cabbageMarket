@@ -6,6 +6,8 @@ import lombok.Data;
 public class ApplyproductSalesDeliveryImg {
 	
 	private int applyProductSalesDeliveryId;
-	private String imgPath;
+	private String imgName;
+	private String imgType;
+	private long imgSize;
 
 }
