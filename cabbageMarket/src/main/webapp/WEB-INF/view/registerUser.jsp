@@ -31,6 +31,7 @@
 				}else if($('#email').val() == ''){
 					$('#email').attr('placeholder','이메일을 작성해주세요');
 				}else if(!emailCode.test($('#email').val())){
+					$('#email').val('');
 					$('#email').attr('placeholder','이메일 형식에 맞게 작성해주세요');
 				}else if($('#password').val() == ''){
 					$('#password').attr('placeholder','PASSWORD를 작성해주세요');
@@ -39,6 +40,7 @@
 				}else if($('#mobile').val() == ''){
 					$('#mobile').attr('placeholder','핸드폰 번호를 작성해주세요');
 				}else if(!numberCode.test($('#mobile').val())){
+					$('#mobile').val('');
 					$('#mobile').attr('placeholder','핸드폰 번호를 숫자로 작성해주세요');
 				}else{
 					$('#registerForm').submit();
@@ -58,28 +60,30 @@
 			<div class="col-md-6 contents">
 				<div class="row justify-content-center">
 					<div class="col-md-8">
-					  <div class="mb-4">
-					  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
-					  <p class="mb-3"><b>회원가입</b></p>
-					</div>
-					<form action="${pageContext.request.contextPath}/registerUser" method="post" id="registerForm">
-						<div class="form-group first">
-							<input type="text" class="form-control" id="username" placeholder="이름" name="username">						  
-						</div>	
-						<div class="form-group last mb-4">
-							<input type="text" class="form-control" id="email" placeholder="email" name="email">					
-						</div>						
-						<div class="form-group last mb-4">
-							<input type="password" class="form-control" id="password" placeholder="password" name="password">						  
+						<div class="mb-4">
+						  	<div class="humberger__menu__logo">
+								<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
+							</div>
+						  	<h3><b>회원가입</b></h3>
 						</div>
-						<div class="form-group last mb-4">
-							<input type="text" class="form-control" id="nickname" placeholder="닉네임" name="nickname">						  
-						</div>
-						<div class="form-group last mb-4">
-							<input type="text" class="form-control" id="mobile" placeholder="핸드폰 번호" name="mobile">						  
-						</div>														
-						<button type="button" id="btn" class="btn text-white btn-block btn-primary">회원가입</button>
-					</form>
+						<form action="${pageContext.request.contextPath}/registerUser" method="post" id="registerForm">
+							<div class="form-group first">
+								<input type="text" class="form-control" id="username" placeholder="이름" name="username">						  
+							</div>	
+							<div class="form-group last mb-4">
+								<input type="text" class="form-control" id="email" placeholder="email" name="email">					
+							</div>						
+							<div class="form-group last mb-4">
+								<input type="password" class="form-control" id="password" placeholder="password" name="password">						  
+							</div>
+							<div class="form-group last mb-4">
+								<input type="text" class="form-control" id="nickname" placeholder="닉네임" name="nickname">						  
+							</div>
+							<div class="form-group last mb-4">
+								<input type="text" class="form-control" id="mobile" placeholder="핸드폰 번호" name="mobile">						  
+							</div>														
+							<button type="button" id="btn" class="btn text-white btn-block btn-primary">회원가입</button>
+						</form>
 					</div>
 				</div>			  
 			</div>		  

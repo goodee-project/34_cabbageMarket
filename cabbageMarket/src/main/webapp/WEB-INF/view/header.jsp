@@ -2,6 +2,7 @@
 <!-- 작성자 : 강혜란 210708-->
 <!-- 수정자 : 김태훈 210708 직거래 a태그 href 경로 수정 -->
 <!-- 수정자 : 이재범 210709 로그인 a태그 href 경로 수정, login시 session값 유지 -->
+<!-- 수정자 : 이재범 210710 닉네임 a태그 회원정보로 연결 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <!-- Humberger Begin -->
@@ -11,16 +12,27 @@
             <a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
         </div>
         <c:if test="${usersSession != null}">
-        	안녕하세요
+        	<div class="header__cart">
+          		<ul>
+                   <li>
+                   <div class="header__top__right__auth">
+                       <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
+                   </div>
+                   </li>
+               	</ul>           					
+				<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>
+			</div>
         </c:if>
-        <div class="humberger__menu__cart">
-            <div class="header__cart__price">POINTS: <span>$150.00</span></div>
-        </div>
-        <div class="humberger__menu__widget">
-            <div class="header__top__right__auth">
-                <a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-user"></i> Login</a>
-            </div>
-        </div>
+        <c:if test="${usersSession == null}">
+	        <div class="humberger__menu__cart">
+	            <div class="header__cart__price">POINTS: <span>$150.00</span></div>
+	        </div>       
+	        <div class="humberger__menu__widget">
+	            <div class="header__top__right__auth">
+	                <a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-user"></i> Login</a>
+	            </div>
+	        </div>
+        </c:if>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="${pageContext.request.contextPath}/index">Home</a></li>
@@ -71,11 +83,11 @@
                     		<ul>
 	                            <li>
 	                            <div class="header__top__right__auth">
-	                                <a href="#"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
+	                                <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
 	                            </div>
 	                            </li>
 	                        </ul>           					
-        					<a href="${pageContext.request.contextPath}/usersLogout">로그아웃</a>
+        					<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>
         				</div>
         			</c:if>
         			<c:if test="${usersSession == null}">

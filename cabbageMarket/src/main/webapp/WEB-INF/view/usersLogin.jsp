@@ -48,7 +48,7 @@
 								<input type="checkbox" checked="checked"/>
 								<div class="control__indicator"></div>
 							</label>
-							<span class="ml-auto"><a href="#" class="forgot-pass" style="text-decoration: none">비밀번호 찾기</a></span>
+							<span class="ml-auto"><a href="${pageContext.request.contextPath}/manager/managerLogin" class="forgot-pass" style="text-decoration: none">관리자 로그인</a></span>
 							<span class="ml-auto"><a href="${pageContext.request.contextPath}/registerUser" class="forgot-pass" style="text-decoration: none">회원가입</a></span> 
 						</div>
 						
@@ -57,7 +57,7 @@
 						<span class="d-block text-left my-4 text-muted"> or sign in with</span>
 						
 						<div class="social-login">
-							<a href="${apiURL}"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+							<a href="${apiURL}"><img height="50" width="350" src="${pageContext.request.contextPath}/logintemplate/images/loginbtn.png"/></a>
 						</div>
 					</form>
 					</div>

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersLoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		/* log.debug(Debuging.DEBUG+" filter 적용 전");
+		/*log.debug(Debuging.DEBUG+" filter 적용 전");
 		HttpSession session = null;
 		if(request instanceof HttpServletRequest) {
 			session = ((HttpServletRequest)request).getSession();
@@ -27,12 +27,12 @@ public class UsersLoginFilter implements Filter {
 		
 		if(session.getAttribute("usersSession") == null) {
 			if(response instanceof HttpServletResponse) {
-				((HttpServletResponse)response).sendRedirect("/cabbageMarket/login"); // home.jsp
+				((HttpServletResponse)response).sendRedirect("/cabbageMarket/usersLogin"); // home.jsp
 			}			
 			return;
 		}
-		*/
 		
+		*/
 		chain.doFilter(request, response);
 		
 		

@@ -36,7 +36,12 @@ public class UsersController {
 	private String your_callback_url = "http://localhost:80/cabbageMarket/callback";
 	@Autowired UsersService usersService;
 	
-	@GetMapping("/usersLogout")
+	@GetMapping("/users/userInfo")
+	public String userInfo() {
+		return "/userInfo/userInfo";
+	}
+	
+	@GetMapping("/users/usersLogout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		
