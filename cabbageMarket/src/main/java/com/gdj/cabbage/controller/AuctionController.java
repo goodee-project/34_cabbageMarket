@@ -1,4 +1,4 @@
-// <!-- 작성자 : 강혜란 210707-->
+// <!-- 작성자 : 강혜란 210712-->
 package com.gdj.cabbage.controller;
 
 import java.util.HashMap;
@@ -28,34 +28,26 @@ import lombok.extern.slf4j.Slf4j;
 public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
-	//경매 상품 등록
+	//경매 상품 등록 수정수정
 	@GetMapping("addAuction")
 	public String getApplyList(Model model
-			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
-			, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
-			, @RequestParam(value="searchWord", required=false) String searchWord
-			, @RequestParam(value="userId", defaultValue="1") int userId) {
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+currentPage+"<--currentPage");
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+rowPerPage+"<--rowPerPage");
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+searchWord+"<--searchWord");
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+userId+"userId");
+			, @RequestParam(value="applyId", defaultValue="1") int applyId) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
 		
-		//페이징에 관한 정보 담기
-		Map<String,Object> page = new HashMap<String,Object>();
-		page.put("currentPage", currentPage);
-		page.put("rowPerPage", rowPerPage);
-		page.put("searchWord", searchWord);
-		page.put("userId", userId);
-		log.debug(Debuging.DEBUG+"1 service에 보낼 map 확인: "+page.toString());
+		log.debug(Debuging.DEBUG+"1 service에 보낼 applyId 확인: "+applyId);
 		
-		Map<String,Object> resultMap =  auctionService.getApplyList(page); //경매상품과 검색어에따른 total, lastpage, applyList가져오는 서비스
+		// 그냥 경매 상품 상세정보 + 이미지들 불러오기
+		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
+		List<String> imgPathList = auctionService.getAuctionImg(applyId);
+		
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("imgPathList", imgPathList);		
+		
+		//이걸로 바꿔야합니다~
+		Map<String,Object> resultMap =  auctionService.getApplyOne(applyId); //경매상품과 검색어에따른 total, lastpage, applyList가져오는 서비스
 		log.debug(Debuging.DEBUG+"5 service에서 받은 resultMap 확인 : "+resultMap.toString());
 		
-		model.addAttribute("currentPage",currentPage);
-		model.addAttribute("searchWord",searchWord);
-		model.addAttribute("applyList", resultMap.get("applyList"));
-		model.addAttribute("total",resultMap.get("total"));
-		model.addAttribute("lastPage",resultMap.get("lastPage"));	
+		model.addAttribute("applyList", resultMap.get("applyOne"));
 		return "auction/addAuction";
 	}
 	

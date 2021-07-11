@@ -52,6 +52,12 @@
 		GROUP BY apr.apply_product_sales_delivery_id
 	</select>
 	
+	<select id="selectAuctionImgByKey" parameterType="int" resultType="String"> <!-- applyId로 이미지 가져오는 매퍼 -->
+		SELECT img_name imgName
+		  FROM apply_product_sales_delivery_img
+		 WHERE apply_product_sales_delivery_id = #{applyId}
+	</select>
+	
 	<select id="selectApplyForCount" parameterType="map" resultType="int"> <!-- 전체 apply 가져오는 매퍼 *검색어 페이징추가 해야함* -->
 		SELECT
 			count(*)

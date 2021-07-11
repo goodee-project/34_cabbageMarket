@@ -67,7 +67,7 @@ public class AuctionService {
 		return auctionList;
 	}
 	
-	// 상품 판매 배송 신청 리스트를 불러오는 서비스 : addActuion - get
+	// 상품 판매 배송 신청 리스트를 불러오는 서비스 : 갈곳잃음
 	public Map<String, Object> getApplyList(Map<String, Object> paramMap) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 paramMap확인"+paramMap.toString());
 		
@@ -92,6 +92,15 @@ public class AuctionService {
 		resultMap.put("applyList", applyList);
 		
 		return resultMap;
+	}
+
+	// 상품 판매 배송 신청 리스트에서 선택해서 넘어오는 서비스 : addAuction? 이걸로 addUsedProduct 랑 updateAuction/usedProdect도 될것같은데.. 
+	// 아 생각대로 할려면 ajax으로 해야하는데요? 우선 만들게...게요?
+	public Map<String, Object> getApplyOne(int applyId) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
+		Map<String,Object> auctionList = auctionMapper.selectAuctionOne(applyId); //상세정보 가져오는 mapper
+		return auctionList;
 	}
 
 }
