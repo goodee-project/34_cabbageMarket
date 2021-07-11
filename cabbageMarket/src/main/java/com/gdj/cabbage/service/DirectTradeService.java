@@ -26,6 +26,11 @@ public class DirectTradeService {
 		return directTradeProductRegistrationMapper.selectDirectTradeProductList(map);
 	}
 	
+	// 직거래 상품 6개 랜덤 추출
+	public List<Map<String, Object>> getDirectTradeProductRand6(){
+		return directTradeProductRegistrationMapper.selectDirectTradeProductRand6();
+	}
+	
 	// 직거래 상품 리스트
 	public int getDirectTradeProductTotal(Map<String, Object> map){
 		return directTradeProductRegistrationMapper.selectDirectTradeProductTotal(map);

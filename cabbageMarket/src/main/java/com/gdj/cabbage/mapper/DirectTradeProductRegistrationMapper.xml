@@ -3,7 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.DirectTradeProductRegistrationMapper">
 	
-	
 	<select id="selectDirectTradeProductList" parameterType="map" resultType="map">
 		SELECT regi.direct_trade_product_registration_id directTradeProductRegistrationId,
 			   regi.user_id userId,
@@ -14,10 +13,12 @@
 		       regi.location,
 		       regi.product_state productState,
 		       regi.create_date createDate,
-		       img.img_name imgName
-		  FROM direct_trade_product_registration regi, direct_trade_product_img img
+		       img.img_name imgName,
+		       cs.category_sub_name categorySubName
+		  FROM direct_trade_product_registration regi, direct_trade_product_img img, category_sub cs
 		 <where>
-		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id <!-- inner join 조건 -->
+		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id AND<!-- inner join 조건 -->
+		 	regi.category_sub_id = cs.category_sub_id
 			<if test="searchWord != null and searchKind == 'title'">
 				AND title LIKE CONCAT('%',#{searchWord},'%')
 			</if>
@@ -37,7 +38,26 @@
 		</where>
 	</select>
 
-
+	<select id="selectDirectTradeProductRand6" resultType="map">
+		SELECT regi.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   regi.user_id userId,
+			   regi.category_sub_id categorySubId,
+			   regi.product_name productName,
+		       FORMAT(regi.product_price, N'#,0') productPrice,
+		       regi.product_desc productDesc,
+		       regi.location,
+		       regi.product_state productState,
+		       regi.create_date createDate,
+		       img.img_name imgName,
+		       cs.category_sub_name categorySubName
+		  FROM direct_trade_product_img img, direct_trade_product_registration regi, category_sub cs
+		 WHERE
+		 		regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id AND
+		 		regi.category_sub_id = cs.category_sub_id
+	  GROUP BY regi.direct_trade_product_registration_id
+	  ORDER BY RAND() , img.img_name
+	  LIMIT 6
+	</select>
 
 
 

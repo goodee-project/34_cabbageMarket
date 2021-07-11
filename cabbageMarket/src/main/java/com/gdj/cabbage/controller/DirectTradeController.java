@@ -53,8 +53,13 @@ public class DirectTradeController {
 		List<Map<String, Object>> DirectTradeProductRegistrationList = 
 				directTradeService.getDirectTradeProductList(paramMap);
 		
+		// 직거래 상품 6개 랜덤 추출
+		List<Map<String, Object>> DirectTradeProductRegistrationRand6 = 
+				directTradeService.getDirectTradeProductRand6();
+		
 		// 리스트 데이터
 		model.addAttribute("DirectTradeProductRegistrationList", DirectTradeProductRegistrationList);
+		model.addAttribute("DirectTradeProductRegistrationRand6", DirectTradeProductRegistrationRand6);
 		
 		// 단일 변수 데이터
 		model.addAttribute("searchWord", searchWord);

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 작성자 : 김태훈 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.mapper.ChattingMapper">
+
+	<select id="selectChattingRoomOne" parameterType="map" resultType="map">
+		SELECT cr.chatting_room_id chattingRoomId,
+			   cr.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   cr.user_id userId,
+			   cr.chatting_room_state chattingRoomState,
+			   cr.create_date createDate,
+			   dtpr.user_id sellerId
+		  FROM chatting_room cr, direct_trade_product_registration dtpr
+		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
+		 	   cr.direct_trade_product_registration_id = #{directTradeProductRegistrationId} AND
+			   (cr.user_id = #{userId} OR dtpr.user_id = #{sellerId})
+	</select>
+	
+	<select id="selectSellerId" parameterType="int" resultType="int">
+		SELECT dtpr.user_id sellerId
+		  FROM chatting_room cr, direct_trade_product_registration dtpr
+		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
+		 		 cr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
+	</select>
+	
+	<insert id="insertChattingRoop" parameterType="map">
+		INSERT INTO chatting_room(direct_trade_product_registration_id,user_id,create_date) 
+		     VALUES(#{directTradeProductRegistrationId}, #{userId}, NOW())
+	</insert>
+	
+	<select id="selectChattingContentListById" parameterType="int" resultType="map">
+	    SELECT cc.chatting_room_id chattingRoomId,
+			   cc.user_id userId,
+			   cc.content,
+			   cc.create_date createDate,
+			   u.nickname
+	      FROM chatting_content cc, users u
+	     WHERE cc.user_id = u.user_id AND
+			   chatting_room_id = #{chattingRoomId}
+	  ORDER BY cc.create_date
+	</select>
+	
+	<insert id="insertChattingContent" parameterType="map">
+		INSERT INTO chatting_content(chatting_room_id,user_id,content,create_date)
+		VALUES (#{chattingRoomId},#{userId},#{content},NOW())
+	</insert>
+</mapper>
