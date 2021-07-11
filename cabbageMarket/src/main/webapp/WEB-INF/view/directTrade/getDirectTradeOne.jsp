@@ -87,7 +87,7 @@
                         </div>
                         <div class="product__details__price">${productDetail.productPrice}</div>
                         <p>${productDetail.productDesc}</p>
-                        <a href="#" class="primary-btn" style="margin-top: 3px;">판매자와 채팅</a>
+                        <input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="판매자와 채팅" onclick="showPopup();" />
                         <div class="heart-btn">
 					      <div class="content">
 					        <span class="heart"></span>
@@ -291,6 +291,12 @@
           $('.heart').toggleClass("heart-active")
         });
       });
+      
+      // 채팅방 팝업창
+      function showPopup() { 
+    	  window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId=${productDetail.directTradeProductRegistrationId}&userId=3", "a", "width=400, height=600, left=200, top=200"); 
+      }
+      
     </script>
 </body>
 
