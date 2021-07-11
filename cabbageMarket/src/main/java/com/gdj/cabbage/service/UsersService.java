@@ -32,6 +32,27 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
+	//회원 정보 수정 서비스
+	public int updateUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+ users);
+		
+		int row = usersMapper.updateUsers(users);
+		log.debug(Debuging.DEBUG+" 수정 성공 여부 : "+row);
+		
+		return row;
+	}
+	
+	// 회원 정보 출력 서비스
+	public Map<String, Object> selectUserInfo(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		Map<String, Object> userInfo = usersMapper.selectUserInfo(userId);
+		log.debug(Debuging.DEBUG+" userInfo : "+userInfo);
+		
+		return userInfo;
+	}
+	
+	// 로그인시 배추마켓 회원 정보를 가져오는 서비스
 	public Map<String, Object> loginSession(Users users){
 		log.debug(Debuging.DEBUG+" users "+users);
 		
@@ -41,6 +62,7 @@ public class UsersService {
 		return usersSession;
 	}
 	
+	// 회원가입 시 이메일, 닉네임 중복검사
 	public int insertUsers(Users users) {
 		log.debug(Debuging.DEBUG+" users : "+users);
 		
@@ -62,6 +84,7 @@ public class UsersService {
 		return 3;
 	}
 	
+	// naver sns login 서비스
 	public Map<String,Object> naverUserLogin(String access_token) throws ParseException {
         String token = access_token; // 네이버 로그인 접근 토큰;
         String header = "Bearer " + token; // Bearer 다음에 공백 추가
@@ -80,12 +103,20 @@ public class UsersService {
         log.debug(Debuging.DEBUG+" naverUserInfo : "+naverUserInfo);
         
         String password = UUID.randomUUID().toString();
+        
+        String mobile = (String)naverUserInfo.get("mobile");
+        String m1 = mobile.substring(0, mobile.indexOf("-"));
+        String m2 = mobile.substring(mobile.indexOf("-")+1, mobile.lastIndexOf("-"));
+        String m3 = mobile.substring(mobile.lastIndexOf("-")+1);
+        mobile = m1+m2+m3;
+        log.debug(Debuging.DEBUG+" mobile : "+mobile);
+        
         Users users = new Users();
         users.setUsername((String)naverUserInfo.get("name"));
         users.setEmail("N:"+(String)naverUserInfo.get("email"));
         users.setPassword(password);
         users.setNickname("N:"+(String)naverUserInfo.get("nickname"));
-        users.setMobile((String)naverUserInfo.get("mobile"));
+        users.setMobile(mobile);
         
         SNSInfo snsInfo = new SNSInfo();
         snsInfo.setSnsId((String)naverUserInfo.get("id"));

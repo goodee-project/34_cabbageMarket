@@ -21,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.UsersService;
@@ -36,8 +38,55 @@ public class UsersController {
 	private String your_callback_url = "http://localhost:80/cabbageMarket/callback";
 	@Autowired UsersService usersService;
 	
+	@GetMapping("/users/modifyUsers")
+	public String modifyUsers(Model model, @RequestParam(value = "userId", required = true) int userId) {
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		Map<String, Object> userInfo = usersService.selectUserInfo(userId);
+		log.debug(Debuging.DEBUG+" userInfo : "+userInfo);
+		
+		model.addAttribute("userId", userId);
+		model.addAttribute("username", userInfo.get("username"));
+		model.addAttribute("email", userInfo.get("email"));
+		model.addAttribute("nickname", userInfo.get("nickname"));
+		model.addAttribute("mobile", userInfo.get("mobile"));
+		model.addAttribute("createDate", userInfo.get("createDate"));
+		model.addAttribute("snsType", userInfo.get("snsType"));
+		
+		return "userInfo/modifyUsers";
+	}
+	
+	@PostMapping("/users/modifyUsers")
+	public String modifyUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);
+		
+		int row = usersService.updateUsers(users);
+		
+		if(row == 0) {
+			return "redirect:/users/modifyUsers";
+		}
+		
+		return "redirect:/users/userInfo";
+	}
+	
 	@GetMapping("/users/userInfo")
-	public String userInfo() {
+	public String userInfo(Model model, HttpSession session) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		log.debug(Debuging.DEBUG+" usersSession + "+usersSession);
+		
+		int userId = (int) usersSession.get("userId");
+		
+		Map<String, Object> userInfo = usersService.selectUserInfo(userId);
+		log.debug(Debuging.DEBUG+" userInfo : "+userInfo);
+		
+		model.addAttribute("userId", userId);
+		model.addAttribute("username", userInfo.get("username"));
+		model.addAttribute("email", userInfo.get("email"));
+		model.addAttribute("nickname", userInfo.get("nickname"));
+		model.addAttribute("mobile", userInfo.get("mobile"));
+		model.addAttribute("createDate", userInfo.get("createDate"));
+		model.addAttribute("snsType", userInfo.get("snsType"));
+		
 		return "/userInfo/userInfo";
 	}
 	

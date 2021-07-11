@@ -64,7 +64,7 @@
 			nickname=#{nickname}
 		</where>
 	</select>
-	
+		
 	<!-- 네이버 아이디 존재 여부 -->
 	<select id="selectSnsId" resultType="Integer" parameterType="com.gdj.cabbage.vo.SNSInfo">
 		SELECT
@@ -107,7 +107,36 @@
 			users u LEFT JOIN sns_info s ON u.user_id=s.user_id 
 		<where>
 			s.sns_id=#{snsId}
-		</where>
-			
+		</where>			
 	</select>
+	
+	<!-- 유저 정보 출력 -->
+	<select id="selectUserInfo" resultType="java.util.Map" parameterType="Integer">
+		SELECT 
+			u.username username, 
+			u.email email, 
+			u.nickname nickname, 
+			u.mobile mobile, 
+			u.create_date createDate, 
+			IFNULL(s.sns_type,'') snsType
+		FROM 
+			users u LEFT JOIN sns_info s ON u.user_id=s.user_id 
+		<where>
+			u.user_id=#{userId}
+		</where>
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateUsers" parameterType="com.gdj.cabbage.vo.Users">
+		UPDATE
+			users
+		SET
+			username=#{username},
+			password=PASSWORD(#{password}),
+			modify_date=NOW(),
+			mobile=#{mobile}
+		<where>
+			user_id=#{userId}
+		</where>
+	</update>
 </mapper>
