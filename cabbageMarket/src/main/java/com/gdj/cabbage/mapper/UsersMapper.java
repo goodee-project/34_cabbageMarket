@@ -18,4 +18,8 @@ public interface UsersMapper {
 	Map<String, Object> naverLoginSession(String snsId);
 	Map<String, Object> selectUserInfo(int userId);
 	int updateUsers(Users users);
+	int deleteUser(Users users);
+	int deleteSnsInfo(Users users);
+	int deleteSnsUser(Users users);
+	int selectSnsUserId(Users users);
 }

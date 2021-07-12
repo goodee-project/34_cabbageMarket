@@ -21,10 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
+import com.gdj.cabbage.mapper.UsersMapper;
 import com.gdj.cabbage.service.UsersService;
 import com.gdj.cabbage.vo.Users;
 
@@ -37,6 +37,45 @@ public class UsersController {
 	private String clientSecret = "6Uba5WIRio";
 	private String your_callback_url = "http://localhost:80/cabbageMarket/callback";
 	@Autowired UsersService usersService;
+	@Autowired UsersMapper usersMapper;
+	
+	@GetMapping("/users/userPointHistory")
+	public String userPointHistory() {
+		
+		return "userInfo/userPointHistory";
+	}
+	
+	@GetMapping("/users/removeUsers")
+	public String removeUser(Model model, @RequestParam(value="userId", required = true) int userId) {
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		Users users = new Users();
+		users.setUserId(userId);
+		
+		int row = usersMapper.selectSnsUserId(users);
+		if(row != 0) {
+			usersService.deleteSnsUsers(users);
+			
+			return "redirect:/users/usersLogout";
+		}
+		
+		model.addAttribute("userId", userId);
+		
+		return "userInfo/removeUser";
+	}
+	
+	@PostMapping("/users/removeUsers")
+	public String removeUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);		
+		
+		int row = usersService.deleteUsers(users);
+		
+		if(row == 0) {
+			return "redirect:/users/removeUsers";
+		}
+		
+		return "redirect:/users/usersLogout";
+	}
 	
 	@GetMapping("/users/modifyUsers")
 	public String modifyUsers(Model model, @RequestParam(value = "userId", required = true) int userId) {

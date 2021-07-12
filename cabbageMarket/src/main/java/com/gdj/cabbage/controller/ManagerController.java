@@ -27,7 +27,44 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 
-	// 매니저 로그인 //
+	// 관리자 목록
+	@GetMapping("/getManagerList")
+	public String getMangerList(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage) {
+		
+		log.debug(Debuging.DEBUG+" currentPage : " + currentPage);
+		log.debug(Debuging.DEBUG+" rowPerPage : " + rowPerPage);
+		
+		Map<String, Object> map = managerService.getManagerList(currentPage, rowPerPage);
+		
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("managerList", map.get("managerList"));
+		model.addAttribute("currentPage", currentPage);
+		
+		return "getManagerList";
+	}
+
+	// 관리자 수정 //
+	// GET
+	@GetMapping("/modifyManager")
+	public String modifyBoard(Model model, @RequestParam(value = "managerId", required = true) int managerId) {
+
+		
+
+		return "modifyBoard";
+	}
+
+	// POST
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(Map<String, Object> map) {
+		log.debug(Debuging.DEBUG+" map : " + map);
+		managerService.modifyManager(map);
+
+		return "redirect:/manager/managerIndex";
+	}
+
+	// 관리자 로그인 //
 	// GET
 	@GetMapping("/managerLogin")
 	public String login() {

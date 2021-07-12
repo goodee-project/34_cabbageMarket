@@ -11,22 +11,14 @@
         <div class="humberger__menu__logo">
             <a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
         </div>
-        <c:if test="${usersSession != null}">
-        	<div class="header__cart">
-          		<ul>
-                   <li>
-                   <div class="header__top__right__auth">
-                       <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
-                   </div>
-                   </li>
-               	</ul>           					
-				<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>
-			</div>
+        <c:if test="${usersSession != null}">       	
+	         <div class="header__top__right__auth">
+	             <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
+	         </div>                
+       		<div class="header__cart__price">POINTS: <span>${usersSession.get("point")}</span></div>     
+       		<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>           
         </c:if>
-        <c:if test="${usersSession == null}">
-	        <div class="humberger__menu__cart">
-	            <div class="header__cart__price">POINTS: <span>$150.00</span></div>
-	        </div>       
+        <c:if test="${usersSession == null}">      
 	        <div class="humberger__menu__widget">
 	            <div class="header__top__right__auth">
 	                <a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-user"></i> Login</a>
@@ -67,7 +59,7 @@
                         <a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="${pageContext.request.contextPath}/index">Home</a></li>
@@ -77,17 +69,23 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">                  
+                <div class="col-lg-4">                  
                     <c:if test="${usersSession != null}">
                     	<div class="header__cart">
                     		<ul>
 	                            <li>
-	                            <div class="header__top__right__auth">
-	                                <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
-	                            </div>
+		                            <div class="header__top__right__auth">
+		                                <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
+		                            </div>
 	                            </li>
-	                        </ul>           					
-        					<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>
+	                            <li>
+	                            	<div class="header__cart__price">POINTS: <span>${usersSession.get("point")}</span></div>
+	                            </li>
+	                            <li>
+	                            	<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>
+	                            </li>
+	                        </ul>	                                  					
+        					
         				</div>
         			</c:if>
         			<c:if test="${usersSession == null}">
@@ -98,8 +96,7 @@
 	                                <a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-user"></i> Login</a>
 	                            </div>
 	                            </li>
-	                        </ul>                       
-	                        <div class="header__cart__price">POINTS: <span>$150.00</span></div>
+	                        </ul>                       	                        
 	                    </div>
                    </c:if>
                 </div>
