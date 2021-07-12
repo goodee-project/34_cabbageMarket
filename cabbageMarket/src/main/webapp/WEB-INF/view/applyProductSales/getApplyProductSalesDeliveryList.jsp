@@ -1,4 +1,5 @@
 <!-- 작성자 : 김태훈 -->
+<!-- 수정 : 강혜란 210712 http://localhost/cabbageMarket/users/getApplyProductSalesDeliveryList?userId=3 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>배추마켓</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -42,7 +43,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Direct Trade Shop</h2>
+                        <h2>배송확인 리스트</h2>
                         <div class="breadcrumb__option">
                             <a href="${pageContext.request.contextPath}/index">Home</a>
                             <span>Cabbage Market</span>
@@ -160,6 +161,9 @@
                         </div>
                     </div>
                 </div>
+                
+                
+                
                 <div class="col-lg-9 col-md-7">
 
                     <div class="filter__item">
@@ -168,14 +172,16 @@
                                 <div class="filter__sort">
                                     <span>Sort By</span>
                                     <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
+                                        <option value="0">최근 등록순</option>
+                                        <option value="0">마감 임박순</option>
+                                        <option value="0">금액 고가순</option>
+                                        <option value="0">금액 저가순</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6>총<span>${total}</span>개 상품</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -186,27 +192,68 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                    	<c:forEach var="apsdl" items="${applyProductSalesDeliveryList}">
-	                    	<div class="col-lg-4 col-md-6 col-sm-6">
-	                            <div class="product__item">
-	                                <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/directTradeImg/${dtprl.imgName}">
-	                                    <ul class="product__item__pic__hover">
-	                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-	                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-	                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-	                                    </ul>
-	                                </div>
-	                                <div class="product__item__text">
-	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${apsdl.categorySubName}</span>
-	                                    <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${apsdl.directTradeProductRegistrationId}">${apsdl.productName}</a></h6>
-	                                    <h5>${apsdl.registrationState}</h5>
-	                                </div>
-	                            </div>
-	                        </div>
-                    	</c:forEach>
-                    </div>
+                     <!-- Shoping Cart Section Begin -->
+				    <section class="shoping-cart spad">
+				        <div class="container">
+				            <div class="row">
+				                <div class="col-lg-12">
+				                    <div class="shoping__cart__table">
+				                        <table>
+				                            <thead>
+				                                <tr>
+				                                    <th colspan="3" class="shoping__product">Products</th>
+				                                    <th>상태</th>
+				                                    <th>등록</th>
+				                                    <th>환송</th>
+				                                </tr>
+				                            </thead>
+				                            
+				                            <tbody>
+				                            	<c:forEach var="apsdl" items="${applyProductSalesDeliveryList}">
+				                                <tr>
+				                                    <td class="shoping__cart__item">
+				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${apsdl.imgName}" alt="">
+				                                    </td> <!-- colsapn 1 -->
+				                                    <td>
+				                                    	<h6><span>(${apsdl.categorySubName})</span></h6>
+				                                    </td> <!-- colsapn 2 -->
+				                                    <td>
+				                                    	<h5><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${apsdl.directTradeProductRegistrationId}">${apsdl.productName}</a></h5>
+				                                    </td> <!-- colsapn 3 -->
+				                                    <td>
+				                                        ${apsdl.registrationState}
+				                                    </td>
+				                                    <td>
+				                                    	<c:if test="${apsdl.registrationState = '등록가능'}">
+					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">경매등록</a>
+					                                        <br>
+					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">증고등록</a>
+				                                        </c:if>
+				                                    </td>
+				                                    <td>
+				                                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>환송신청</a>
+				                                    </td>
+				                                </tr>
+				                                </c:forEach>
+				                            </tbody>
+				                        </table>
+				                    </div>
+				                </div>
+				            </div>
+				            <div class="row">
+				                <div class="col-lg-12">
+				                    <div class="shoping__cart__btns">
+				                        <a href="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" class="primary-btn cart-btn">추가로 배송신청</a>
+				                    </div>
+				                </div>
+				                
+				               
+				            </div>
+				        </div>
+				    </section>
+				    <!-- Shoping Cart Section End -->
                     
+               
                     <!-- 페이징 -->
                     <div class="product__pagination">
                     	

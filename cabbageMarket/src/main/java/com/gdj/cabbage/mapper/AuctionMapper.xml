@@ -52,12 +52,6 @@
 		GROUP BY apr.apply_product_sales_delivery_id
 	</select>
 	
-	<select id="selectAuctionImgByKey" parameterType="int" resultType="String"> <!-- applyId로 이미지 가져오는 매퍼 -->
-		SELECT img_name imgName
-		  FROM apply_product_sales_delivery_img
-		 WHERE apply_product_sales_delivery_id = #{applyId}
-	</select>
-	
 	<select id="selectApplyForCount" parameterType="map" resultType="int"> <!-- 전체 apply 가져오는 매퍼 *검색어 페이징추가 해야함* -->
 		SELECT
 			count(*)
@@ -104,6 +98,21 @@
 			apsd.user_id = #{userId}
 		GROUP BY apsd.apply_product_sales_delivery_id
 		ORDER BY pcr.create_date, apsd.create_date, apsdi.img_name
+	</select>
+	
+	<select id="selectApplynOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
+		SELECT 
+			apsd.apply_product_sales_delivery_id applyId
+			,apsd.create_date dreateDate
+			,username userName
+			,category_sub_name categorySubName
+			,product_name productName
+			
+		FROM apply_product_sales_delivery apsd
+			LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
+			LEFT JOIN users ON apsd.user_id = users.user_id
+			LEFT JOIN category_sub sub ON apsd.category_sub_id = sub.category_sub_id
+		WHERE apsd.apply_product_sales_delivery_id = #{applyId}
 	</select>
 	
 </mapper>
