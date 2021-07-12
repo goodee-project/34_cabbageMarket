@@ -11,7 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>회원수정</title>
+	<title>회원탈퇴</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	
@@ -31,17 +31,10 @@
 			let row = 0;
 			
 			$('#btn').click(function(){
-				if($('#username').val() == ''){
-					$('#username').attr('placeholder','이름을 작성해주세요');				
-				}else if($('#password').val() == ''){
-					$('#password').attr('placeholder','PASSWORD를 작성해주세요');				
-				}else if($('#mobile').val() == ''){
-					$('#mobile').attr('placeholder','핸드폰 번호를 작성해주세요');
-				}else if(!numberCode.test($('#mobile').val())){
-					$('#mobile').val('');
-					$('#mobile').attr('placeholder','핸드폰 번호를 숫자로 작성해주세요');
+				if($('#password').val() == ''){
+					$('#password').attr('placeholder','비밀번호를 입력해주세요');							
 				}else{
-					$('#modifyUserForm').submit();
+					$('#removeUserForm').submit();
 				}
 			});
 		});
@@ -101,36 +94,14 @@
 				<div class="col-lg-9 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>회원 정보 수정</h2>
+							<h2>회원 탈퇴</h2>
 						</div>
 						<div>
-							<form action="${pageContext.request.contextPath}/users/modifyUsers" method="post" id="modifyUserForm">
+							<form action="${pageContext.request.contextPath}/users/removeUsers" method="post" id="removeUserForm">
 								<input type="hidden" name="userId" value="${userId}">
 								<div class="col-md-10">
 									<div class="card">
-										<div class="card-body">
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>이름</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="text" id="username" name="username" value="${username}" class="form-control">
-												</div>
-											</div>
-											<hr>											
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>Email</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="text" value="${email}" class="form-control" disabled="disabled">
-												</div>
-											</div>
-											<hr>
+										<div class="card-body">											
 											<div class="row">
 												<div class="col-sm-3">
 													<h6 class="mb-0">
@@ -141,43 +112,10 @@
 													<input type="password" id="password" name="password" class="form-control">
 												</div>
 											</div>
-											<hr>
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>Phone</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="text" id="mobile" name="mobile" value="${mobile}" class="form-control">
-												</div>
-											</div>
-											<hr>
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>가입날짜</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="text" value="${createDate}" class="form-control" disabled="disabled">
-												</div>
-											</div>
-											<hr>
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>SNS</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="text" value="${snsType}" class="form-control" disabled="disabled">
-												</div>
-											</div>
-											<hr>
+											<hr>											
 											<div class="row">
 												<div class="col-sm-12">
-													<button type="button" id="btn" class="btn btn-success">수정</button>
+													<button type="button" id="btn" class="btn btn-success">탈퇴</button>
 												</div>
 											</div>
 										</div>

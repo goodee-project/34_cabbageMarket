@@ -56,8 +56,8 @@
 						
 						<span class="d-block text-left my-4 text-muted"> or sign in with</span>
 						
-						<div class="social-login">
-							<a href="${apiURL}"><img height="50" width="350" src="${pageContext.request.contextPath}/logintemplate/images/loginbtn.png"/></a>
+						<div class="d-flex mb-5 align-items-center">
+							<a href="${apiURL}"><img height="50" width="100%" src="${pageContext.request.contextPath}/logintemplate/images/loginbtn.png"/></a>
 						</div>
 					</form>
 					</div>

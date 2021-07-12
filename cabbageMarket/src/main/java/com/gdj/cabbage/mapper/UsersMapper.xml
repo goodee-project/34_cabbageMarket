@@ -7,11 +7,12 @@
 		SELECT
 			user_id userId,
 			email,
-			nickname
+			nickname,
+			utp.point point
 		FROM
-			users
+			users u LEFT JOIN users_total_point utp ON u.user_id=utp.userId 
 		<where>
-			email=#{email} AND password=PASSWORD(#{password}) AND user_state=1
+			email=#{email} AND password=PASSWORD(#{password}) AND user_state=1 AND email != '탈퇴'
 		</where>			
 	</select>
 	
@@ -139,4 +140,61 @@
 			user_id=#{userId}
 		</where>
 	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="deleteUser" parameterType="com.gdj.cabbage.vo.Users">
+		UPDATE
+			users
+		SET
+			username='탈퇴',
+			email = '탈퇴',
+			password = '탈퇴',
+			nickname = '탈퇴',
+			mobile = '탈퇴',
+			modify_date = NOW(),
+			mobile = '탈퇴',
+			user_state = 0
+		<where>
+			user_id=#{userId} AND password=PASSWORD(#{password})
+		</where>
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="deleteSnsUser" parameterType="com.gdj.cabbage.vo.Users">
+		UPDATE
+			users
+		SET
+			username='탈퇴',
+			email = '탈퇴',
+			password = '탈퇴',
+			nickname = '탈퇴',
+			mobile = '탈퇴',
+			modify_date = NOW(),
+			mobile = '탈퇴',
+			user_state = 0
+		<where>
+			user_id=#{userId}
+		</where>
+	</update>
+	
+	<!-- 네이버 sns 회원 정보 탈퇴 -->
+	<delete id="deleteSnsInfo" parameterType="com.gdj.cabbage.vo.Users">
+		DELETE
+		FROM
+			sns_info
+		<where>
+			user_id=#{userId}
+		</where>
+	</delete>
+	
+	<!-- sns아이디 조회 -->
+	<select id="selectSnsUserId" resultType="Integer" parameterType="com.gdj.cabbage.vo.Users">
+		SELECT
+			COUNT(*)
+		FROM
+			sns_info
+		<where>
+			user_id=#{userId}
+		</where>
+	</select>
 </mapper>
