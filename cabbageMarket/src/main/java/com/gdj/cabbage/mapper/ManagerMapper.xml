@@ -3,6 +3,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 관리자 목록 출력 -->
+	<select id="selectManagerList"
+			resultType="com.gdj.cabbage.vo.Manager"
+			parameterType="com.gdj.cabbage.vo.Page">
+			
+		SELECT
+			manager_id managerId,
+			manager_name managerName,
+			manager_nickname managerNickname,
+			manager_address managerAddress,
+			manager_phone_number managerPhoneNumber,
+			manager_level managerLevel,
+			create_date createDate
+		FROM
+			manager
+		
+		ORDER BY
+			create_date DESC
+		LIMIT
+			#{beginRow}, #{rowPerPage}
+		
+	</select>
+
+<!-- 관리자 목록 페이징 토탈 -->
+	<select id="selectManagerTotal"
+			resultType = "int">
+	
+		SELECT
+			COUNT(*)
+		FROM
+			manager
+		
+	</select>
+
+<!-- 관리자 수정 -->
+
+	<update id="updateManager"
+			parameterType="java.util.Map">
+	
+		UPDATE
+			manager
+		SET
+			manager_nickname = #{managerNickname},
+			manager_address = #{managerAddress},
+			manager_phone_number = #{managerPhoneNumber},
+			manager_level = #{managerLevel}
+		WHERE
+			manager_id = #{managerId}
+		AND
+			manager_level = 9
+	
+	</update>
+
 <!-- 관리자 세션 -->
 	<select id="ManagerloginSession"
 			resultType="java.util.Map"
