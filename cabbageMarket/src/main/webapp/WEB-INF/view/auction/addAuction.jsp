@@ -65,15 +65,11 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">경매상품으로 수정</a>
+                                    aria-selected="true">경매상품으로 등록</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                    aria-selected="false">중고상품으로 수정</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">상품삭제</a>
+                                    aria-selected="false">판매하기로 돌아가기</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -89,32 +85,40 @@
 								                	<h2>기본정보<span style="color: #7fad39; font-size: 1rem; margin-left: 2rem;">*필수항목</span></h2>
 								                </div>
 							                </div>
-							
+											<!-- 1상품이미지 -->
 							                <div class="col-lg-3">
 							                	<h4>상품이미지</h4>
 							                </div>
 							                <div class="col-lg-9" style="display: inline;">
-							                	<label for="imgFileUpload">
-											        <img src="${pageContext.request.contextPath}/template/img/productImgUpload.png"/>
-											    </label>
-											    <input id="imgFileUpload" name="directTradeProductImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
-											    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
+											    <div class="row" style="display: inline;">
+											    	<c:forEach var="img" items="${imgPathList}">
+											    		<img width="230" height="230" 
+											    			style="margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);"
+											    			src="${pageContext.request.contextPath}/template/img/applyProductImg/${img}" alt="">
+											    	</c:forEach>
+											    </div> <!-- 업로드 된 이미지 미리보기 생성 -->
 							                </div>
 							                
 							                <div class="col-lg-3">
 							                </div>
 							                <div class="col-lg-9" style="margin-top: 1.5rem; color: rgb(74, 164, 255); line-height: 1.5; font-size: 14px;">
 							                	<ul style="list-style:none;">
-							                		<li>* 상품 이미지 수정이 가능합니다.</li>
-							                		<li>- 이미지는 상품등록 시 정사각형으로 짤려서 등록됩니다.</li>
-							                		<li>- 이미지를 클릭 할 경우 원본이미지를 확인할 수 있습니다.</li>
-							                		<li>- 이미지를 클릭 후 이동하여 등록순서를 변경할 수 있습니다.</li>
-							                		<li>- 큰 이미지일경우 이미지가 깨지는 경우가 발생할 수 있습니다.</li>
-							                		<li>최대 지원 사이즈인 640 X 640 으로 리사이즈 해서 올려주세요.(개당 이미지 최대 10M)</li>
+							                		<li>* 상품 이미지 수정이 불가합니다.</li>
 							                	</ul>
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
-							                
+							                <!-- 2카태고리 입력 -->
+							                <div class="col-lg-3">
+							                	<h4>카테고리</h4>
+							                </div>
+							                <div class="col-lg-9 checkout__input" style="color: rgb(74, 164, 255); line-height: 1.5; font-size: 14px;">
+							                	<input type="text" id="productName" name="productName" value="${productDetail.categorySubName}" readonly="readonly">
+							                	<ul style="list-style:none; margin-top: 1.5rem;">
+							                		<li>* 상품 카테고리는 수정이 불가합니다</li>
+							                	</ul>
+							                </div>
+							                <div class="col-lg-12" style="margin-bottom: 15px; color: rgb(255, 80, 88);"><hr style="border: solid 1px lightgrey;"></div>			
+											<!-- 3 제목 -->
 							                <div class="col-lg-3">
 							                	<h4>제목<span style="color: #7fad39;">*</span></h4>
 							                </div>
@@ -123,20 +127,10 @@
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 							                
-							                <div class="col-lg-3">
-							                	<h4>카테고리</h4>
-							                </div>
-							                <div class="col-lg-9 checkout__input" style="color: rgb(74, 164, 255); line-height: 1.5; font-size: 14px;">
-							                	<input type="text" id="productName" name="productName" placeholder="상품 제목을 입력해주세요.">
-							                	<ul style="list-style:none; margin-top: 1.5rem;">
-							                		<li>* 상품 카테고리는 수정이 불가합니다</li>
-							                	</ul>
-							                </div>
-							                <div class="col-lg-12" style="margin-bottom: 15px; color: rgb(255, 80, 88);"><hr style="border: solid 1px lightgrey;"></div>			
-											
-											<!-- 경매 상품 최소입찰가 -->
+											<!-- 4 최소입찰가 -->
 											<div class="col-lg-3">
 							                	<h4>최소 입찰가<span style="color: #7fad39;">*</span></h4>
+							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">정가의 80%이하 추천</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
 							                	<input type="text" id="productPrice" name="productPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
@@ -146,6 +140,7 @@
 							                <!-- 경매 상품 호가 -->
 											<div class="col-lg-3">
 							                	<h4>호가<span style="color: #7fad39;">*</span></h4>
+							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">입찰가의 10%이하 추천</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
 							                	<input type="text" id="productPrice" name="productPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
@@ -175,10 +170,14 @@
 								                                src="${pageContext.request.contextPath}/template/img/applyProductImg/${imgPathList[0]}" alt="">
 								                        </div>
 								                        <div class="product__details__pic__slider owl-carousel">
-								                        	<c:forEach var="img" items="${imgPathList}">
+								                        	<div class="ribbon">
+						                                        <div class="text">New</div>
+						                                    <c:forEach var="img" items="${imgPathList}" begin="1">
 								                        		<img data-imgbigurl="${pageContext.request.contextPath}/template/img/applyProductImg/${img}"
 								                                src="${pageContext.request.contextPath}/template/img/applyProductImg/${img}" alt="">
-								                        	</c:forEach>
+								                        	</c:forEach>    
+						                                    </div>
+								                        	
 								                        </div>
 								                    </div>
 								                </div>
@@ -193,7 +192,7 @@
 								                            <i class="fa fa-star-half-o"></i>
 								                            <span>(18 reviews)</span>
 								                        </div>
-								                        <div class="product__details__price">${productDetail.price}</div>
+								                        <div class="product__details__price">ㄱ {productDetail.price}</div>
 								                        <p>${productDetail.productDesc}</p>
 								                        <a href="#" class="primary-btn" style="margin-top: 3px;">호가 : ${productDetail.quote}</a>
 								                        <div class="heart-btn">
@@ -205,7 +204,7 @@
 								                        <ul>
 								                            <li><b>판매자</b> <span>${productDetail.userName}</span></li>
 								                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
-								                            <li><b>현재 입찰가</b> <span>${productDetail.price}</span></li>
+								                            <li><b>현재 입찰가</b> <span> null </span></li>
 								                            <li><b>Share on</b>
 								                                <div class="share">
 								                                    <a href="#"><i class="fa fa-facebook"></i></a>
@@ -293,6 +292,7 @@
     <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
+
     <script>
       $(document).ready(function(){
         $('.content').click(function(){

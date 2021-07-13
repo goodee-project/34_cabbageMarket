@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.Debuging;
+import com.gdj.cabbage.mapper.ApplyProductSalesMapper;
 import com.gdj.cabbage.mapper.AuctionMapper;
 import com.gdj.cabbage.mapper.CategoryMapper;
 import com.gdj.cabbage.vo.CategoryMain;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuctionService {
 	@Autowired AuctionMapper auctionMapper;
 	@Autowired CategoryMapper categoryMapper;
+	@Autowired ApplyProductSalesMapper applyProductSalesMapper;
 
 	//경매상품과 검색어에따른 total, lastPage, auctionList가져오는 서비스 : getAuctionList
 	public Map<String, Object> getAuctionList(Map<String, Object> paramMap) {
@@ -59,11 +61,11 @@ public class AuctionService {
 		Map<String,Object> auctionList = auctionMapper.selectAuctionOne(applyId); //상세정보 가져오는 mapper
 		return auctionList;
 	}
-	// 상품 이미지들 불러오는 서비스 : getAuctionOne
-	public List<String> getAuctionImg(int applyId) {
+	// 상품 이미지들 불러오는 서비스 : getAuctionOne addAuction
+	public List<String> getApplyImg(int applyId) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
-		List<String> auctionList = auctionMapper.selectAuctionImgByKey(applyId); //이미지를 가져오는 mapper
+		List<String> auctionList = applyProductSalesMapper.selectApplyImgByKey(applyId); //이미지를 가져오는 mapper
 		return auctionList;
 	}
 	
@@ -99,7 +101,7 @@ public class AuctionService {
 	public Map<String, Object> getApplyOne(int applyId) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
-		Map<String,Object> auctionList = auctionMapper.selectAuctionOne(applyId); //상세정보 가져오는 mapper
+		Map<String,Object> auctionList = auctionMapper.selectApplynOne(applyId); //상세정보 가져오는 mapper
 		return auctionList;
 	}
 

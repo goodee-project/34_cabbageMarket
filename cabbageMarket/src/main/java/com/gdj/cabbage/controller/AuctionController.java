@@ -37,17 +37,11 @@ public class AuctionController {
 		log.debug(Debuging.DEBUG+"1 service에 보낼 applyId 확인: "+applyId);
 		
 		// 그냥 경매 상품 상세정보 + 이미지들 불러오기
-		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
-		List<String> imgPathList = auctionService.getAuctionImg(applyId);
+		Map<String, Object> productDetail = auctionService.getApplyOne(applyId);
+		List<String> imgPathList = auctionService.getApplyImg(applyId);
 		
 		model.addAttribute("productDetail", productDetail);
-		model.addAttribute("imgPathList", imgPathList);		
-		
-		//이걸로 바꿔야합니다~
-		Map<String,Object> resultMap =  auctionService.getApplyOne(applyId); //경매상품과 검색어에따른 total, lastpage, applyList가져오는 서비스
-		log.debug(Debuging.DEBUG+"5 service에서 받은 resultMap 확인 : "+resultMap.toString());
-		
-		model.addAttribute("applyList", resultMap.get("applyOne"));
+		model.addAttribute("imgPathList", imgPathList);
 		return "auction/addAuction";
 	}
 	
@@ -105,7 +99,7 @@ public class AuctionController {
 			
 		// 상품 상세정보 + 이미지들 불러오기
 		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
-		List<String> imgPathList = auctionService.getAuctionImg(applyId);
+		List<String> imgPathList = auctionService.getApplyImg(applyId);
 		
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
