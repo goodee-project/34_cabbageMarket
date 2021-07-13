@@ -25,28 +25,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			let numberCode =  /^[0-9]+(.[0-9]+)?$/;
-			let row = 0;
-			
-			$('#btn').click(function(){
-				if($('#username').val() == ''){
-					$('#username').attr('placeholder','이름을 작성해주세요');				
-				}else if($('#password').val() == ''){
-					$('#password').attr('placeholder','PASSWORD를 작성해주세요');				
-				}else if($('#mobile').val() == ''){
-					$('#mobile').attr('placeholder','핸드폰 번호를 작성해주세요');
-				}else if(!numberCode.test($('#mobile').val())){
-					$('#mobile').val('');
-					$('#mobile').attr('placeholder','핸드폰 번호를 숫자로 작성해주세요');
-				}else{
-					$('#modifyUserForm').submit();
-				}
-			});
-		});
-	</script>
-	
 </head>
 
 <body>
@@ -104,10 +82,94 @@
 							<h2>포인트 사용 조회</h2>
 						</div>
 						<div>
+							<a href="${pageContext.request.contextPath}/users/pointRecharge">
+								<button class="btn btn-success">포인트 충전</button><br><br>
+							</a>
+						</div>
+						<div>
 							<div class="col-md-12">
 								<div class="card">
+									<nav class="navbar navbar-expand-sm bg-light navbar-light">
+										 <a class="navbar-brand" href="${pageContext.request.contextPath}/users/userPointHistory"><b>전체</b></a>
+										  <!-- Links -->
+										  <ul class="navbar-nav">
+											    <li class="nav-item">
+											      	<a class="nav-link" href="${pageContext.request.contextPath}/users/userPointHistory?content=${1}" style="color:black"><b>수입</b></a>
+											    </li>
+											    <li class="nav-item">
+											      	<a class="nav-link" href="${pageContext.request.contextPath}/users/userPointHistory?content=${2}" style="color:black"><b>지출</b></a>
+											    </li>
+										  </ul>
+										  <div>
+										  	&nbsp;&nbsp;<b>POINTS: ${usersSession.get("point")}</b>
+										  </div>
+									</nav>
 									<div class="card-body">
-										
+										<table class="table table-hover" style="text-align: center">
+											<thead>
+												<tr>
+													<th>
+														순번
+													</th>
+													<th>
+														내용
+													</th>
+													<th>
+														포인트
+													</th>
+													<th>
+														날짜
+													</th>
+												</tr>
+											</thead>
+											<c:set var="total" value = "0"/>
+											<c:forEach var="u" items="${userPointHistory}">
+												<c:if test="${u.content == '충전' || u.content == '유찰' || u.content == '판매'}">
+													<tr style="color : blue">
+														<td>
+															${total = total+1}
+														</td>
+														<td>
+															${u.content}
+														</td>
+														<td>
+															${u.point}
+														</td>
+														<td>
+															${u.usedDate}
+														</td>
+													</tr>
+												</c:if>
+												<c:if test="${u.content == '낙찰' || u.content == '입찰' || u.content == '구매'}">
+													<tr style="color : red">
+														<td>
+															${total = total+1}
+														</td>
+														<td>
+															${u.content}
+														</td>
+														<td>
+															${u.point}
+														</td>
+														<td>
+															${u.usedDate}
+														</td>
+													</tr>
+												</c:if>																																													
+											</c:forEach>
+										</table>
+									</div>
+									<div class="card-footer">
+										<c:if test="${lastPage != 1 && lastPage!=0}">
+											<a href="${pageContext.request.contextPath}/users/userPointHistory?currentPage=${currentPage-1}&content=${content}">
+												<button type="button" class="btn btn-outline-secondary">이전</button>
+											</a>
+										</c:if>
+										<c:if test="${currentPage < lastPage}">
+											<a href="${pageContext.request.contextPath}/users/userPointHistory?currentPage=${currentPage+1}&content=${content}">
+												<button type="button" class="btn btn-outline-secondary">다음</button>
+											</a>
+										</c:if>
 									</div>
 								</div>
 							</div>

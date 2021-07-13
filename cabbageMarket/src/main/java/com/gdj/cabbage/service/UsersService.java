@@ -8,10 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
@@ -31,6 +30,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
+	
+	// 유저 포인트 내역 조회
+	public Map<String, Object> userPointHistory(Map<String, Object> map){
+		log.debug(Debuging.DEBUG+" map : "+map);
+		
+		String content = (String)map.get("content");
+		int userId = (Integer)map.get("userId");
+		int currentPage = (Integer)map.get("currentPage");
+		int rowPerPage = (Integer)map.get("rowPerPage");
+		int beginRow = (currentPage-1)*rowPerPage;
+		
+		Map<String, Object> serviceMap = new HashMap<>();
+		serviceMap.put("content", content);
+		serviceMap.put("userId", userId);
+		serviceMap.put("beginRow", beginRow);
+		serviceMap.put("rowPerPage", rowPerPage);
+		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);
+		
+		int totalRow = usersMapper.userPointHistoryCount(serviceMap);
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		List<Map<String, Object>> userPointHistory = usersMapper.userPointHistoryList(serviceMap);
+		log.debug(Debuging.DEBUG+" userPointHistory : "+userPointHistory);
+		
+		
+		Map<String, Object> controllerMap = new HashMap<>();
+		controllerMap.put("userPointHistory", userPointHistory);
+		controllerMap.put("lastPage", lastPage);
+		log.debug(Debuging.DEBUG+" controllerMap : "+controllerMap);
+		
+		return controllerMap;
+		
+	}
 	
 	// sns 회원 탈퇴 서비스
 	public int deleteSnsUsers(Users users) {

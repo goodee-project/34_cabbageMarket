@@ -3,6 +3,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 전체 회원 목록 출력 및 회원 검색 -->
+	<select id="selectAllUsersByManager"
+			resultType="java.util.Map"
+			parameterType="com.gdj.cabbage.vo.Page">
+	
+		SELECT
+			u.username username, 
+			u.email email, 
+			u.nickname nickname, 
+			u.mobile mobile, 
+			u.create_date createDate, 
+			IFNULL(s.sns_type,'') snsType
+		FROM 
+			users u LEFT JOIN sns_info s ON u.user_id=s.user_id
+		<where>
+			<if test="searchWord != null">
+				username LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+		
+		ORDER BY
+			create_date DESC
+		LIMIT
+			#{beginRow}, #{rowPerPage}
+	
+	</select>
+	
+	<select id="selectAllUsersTotal"
+			resultType = "int">
+	
+		SELECT
+			COUNT(*)
+		FROM
+			users
+			
+		<where>
+			<if test="searchWord != null">
+				board_title LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		
+	</select>
+
 <!-- 관리자 목록 출력 -->
 	<select id="selectManagerList"
 			resultType="com.gdj.cabbage.vo.Manager"
@@ -40,7 +83,7 @@
 <!-- 관리자 수정 -->
 
 	<update id="updateManager"
-			parameterType="java.util.Map">
+			parameterType="com.gdj.cabbage.vo.Manager">
 	
 		UPDATE
 			manager

@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +40,37 @@ public class UsersController {
 	@Autowired UsersService usersService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/pointRecharge")
+	public String pointRecharge() {
+		
+		return "/userInfo/pointRecharge";
+	}
+	
 	@GetMapping("/users/userPointHistory")
-	public String userPointHistory() {
+	public String userPointHistory(Model model, HttpSession session,
+												@RequestParam(value="content", required = false) String content,
+												@RequestParam(value="currentPage", required = true, defaultValue = "1") int currentPage,
+												@RequestParam(value="rowPerPage", required = true, defaultValue = "10") int rowPerPage) {
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		log.debug(Debuging.DEBUG+"content : "+content);
+		log.debug(Debuging.DEBUG+" currentPage : "+currentPage);
+		log.debug(Debuging.DEBUG+" rowPerPage : "+rowPerPage);
+		
+		Map<String, Object> serviceMap = new HashMap<>();
+		serviceMap.put("userId", userId);
+		serviceMap.put("content", content);
+		serviceMap.put("currentPage", currentPage);
+		serviceMap.put("rowPerPage", rowPerPage);
+		
+		Map<String, Object> map = usersService.userPointHistory(serviceMap);
+		log.debug(Debuging.DEBUG+" map : "+map);
+		
+		model.addAttribute("userPointHistory", map.get("userPointHistory"));
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
 		
 		return "userInfo/userPointHistory";
 	}

@@ -3,6 +3,7 @@
 <!-- 수정자 : 김태훈 210708 직거래 a태그 href 경로 수정 -->
 <!-- 수정자 : 이재범 210709 로그인 a태그 href 경로 수정, login시 session값 유지 -->
 <!-- 수정자 : 이재범 210710 닉네임 a태그 회원정보로 연결 -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <!-- Humberger Begin -->
@@ -30,7 +31,7 @@
                 <li class="active"><a href="${pageContext.request.contextPath}/index">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/getDirectTradeList">직거래</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/getAuctionList">경매</a></li>
-                <li><a href="./blog.html">중고거래 </a></li>
+                <li><a href="${pageContext.request.contextPath}/users/getUsedProductList">중고거래</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -65,7 +66,7 @@
                             <li class="active"><a href="${pageContext.request.contextPath}/index">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/users/getDirectTradeList">직거래</a></li>
                             <li><a href="${pageContext.request.contextPath}/users/getAuctionList">경매</a></li>
-                            <li><a href="./blog.html">중고</a></li>
+                            <li><a href="${pageContext.request.contextPath}/users/getUsedProductList">중고거래</a></li>
                         </ul>
                     </nav>
                 </div>
