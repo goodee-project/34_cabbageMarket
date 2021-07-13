@@ -338,7 +338,7 @@
 	<script>
 		// 채팅방 팝업창
 	    function showPopup() { 
-	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList", "a", "width=400, height=600, left=200, top=200"); 
+	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${3}", "a", "width=400, height=600, left=200, top=200"); 
 	    }
 	</script>
 

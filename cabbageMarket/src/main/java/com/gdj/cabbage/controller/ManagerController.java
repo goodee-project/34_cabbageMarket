@@ -27,8 +27,30 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 
+	// 회원 목록 출력 기능
+	@GetMapping("/manager/getAllUsersByManager")
+	// model은 뷰로 넘겨주기 위한 상자, requestParam 뷰에서 받아 오는 parameter
+	public String getAllUsersByManager(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+			@RequestParam(value="searchWord", required=false) String searchWord){
+		
+		log.debug("★★★★★★★ currentPage" + currentPage);
+		log.debug("★★★★★★★ rowPerPage" + rowPerPage);
+		log.debug("★★★★★★★ searchWord" + searchWord);
+		
+		Map<String, Object> map = managerService.getAllUsersByManager(currentPage, rowPerPage, searchWord);
+		
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("allUsersList", map.get("allUsersList"));
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		
+		return "manager/getAllUsersByManager";
+	}
+
 	// 관리자 목록
-	@GetMapping("/getManagerList")
+	@GetMapping("/manager/getManagerList")
 	public String getMangerList(Model model,
 			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage) {
@@ -42,37 +64,54 @@ public class ManagerController {
 		model.addAttribute("managerList", map.get("managerList"));
 		model.addAttribute("currentPage", currentPage);
 		
-		return "getManagerList";
+		return "manager/getManagerList";
 	}
 
+	
 	// 관리자 수정 //
 	// GET
-	@GetMapping("/modifyManager")
-	public String modifyBoard(Model model, @RequestParam(value = "managerId", required = true) int managerId) {
-
+	@GetMapping("/manager/modifyManager")
+	public String modifyManager(Model model, @RequestParam(value = "manager", required = true) Manager manager) {
+		log.debug(Debuging.DEBUG+" manager : "+manager);
 		
-
-		return "modifyBoard";
-	}
-
-	// POST
-	@PostMapping("/modifyBoard")
-	public String modifyBoard(Map<String, Object> map) {
-		log.debug(Debuging.DEBUG+" map : " + map);
-		managerService.modifyManager(map);
-
-		return "redirect:/manager/managerIndex";
-	}
-
-	// 관리자 로그인 //
-	// GET
-	@GetMapping("/managerLogin")
-	public String login() {
-		return "managerLogin";
+		Map<String, Object> managerInfo = managerService.ManagerloginSession(manager);
+		log.debug(Debuging.DEBUG+" manager : "+ manager);
+		
+		model.addAttribute("managerId", manager);
+		model.addAttribute("username", managerInfo.get("username"));
+		model.addAttribute("email", managerInfo.get("email"));
+		model.addAttribute("nickname", managerInfo.get("nickname"));
+		model.addAttribute("mobile", managerInfo.get("mobile"));
+		model.addAttribute("createDate", managerInfo.get("createDate"));
+		model.addAttribute("snsType", managerInfo.get("snsType"));
+		
+		return "manager/modifyManager";
 	}
 	
 	// POST
-	@PostMapping("/managerLogin")
+	@PostMapping("/manager/modifyManager")
+	public String modifyManager(Manager manager) {
+		log.debug(Debuging.DEBUG+" manager : "+manager);
+		
+		int row = managerService.modifyManager(manager);
+		
+		if(row == 0) {
+			return "redirect:/manager/modifyManager";
+		}
+		
+		return "redirect:/manager/getManagerList";
+	}
+	
+	
+	// 관리자 로그인 //
+	// GET
+	@GetMapping("/manager/managerLogin")
+	public String login() {
+		return "manager/managerLogin";
+	}
+	
+	// POST
+	@PostMapping("/manager/managerLogin")
 	public String login(HttpSession session, Manager manager) {
 		log.debug(Debuging.DEBUG+" manager " + manager);
 		
@@ -87,16 +126,17 @@ public class ManagerController {
 		return "redirect:/manager/managerIndex";
 	}
 
+	
 	// 관리자 추가 //
 	// 폼
-	@GetMapping("/addManager")
+	@GetMapping("/manager/addManager")
 	public String addManager() {
 		
-		return "addManager";
+		return "manager/addManager";
 	}
 	
 	// 액션
-	@PostMapping("/addManager")
+	@PostMapping("/manager/addManager")
 	public String addManager(Model model,
 			@RequestParam(value = "managerId", required = false) String managerId,			
 			@RequestParam(value = "managerPassword", required = false) String managerPassword,			

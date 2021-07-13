@@ -26,7 +26,16 @@ public class ChattingController {
 	
 	// 채팅방 목록
 	@GetMapping("getChattingRoomList")
-	public String chattingRoomList() {
+	public String chattingRoomList(Model model,
+			@RequestParam(value="userId") int userId) {
+		
+		log.debug(Debuging.DEBUG + "[ChattingController] [chattingRoomList] [param] -> userId : " + userId);
+		
+		// 채팅방 채팅내용 가져오기
+		List<Map<String, Object>> chattingRoomList = chattingService.getChattingRoomList(userId);
+		
+		model.addAttribute("chattingRoomList", chattingRoomList);
+		model.addAttribute("userId", userId);
 		return "directTrade/getChattingRoomList";
 	}
 	
@@ -44,7 +53,7 @@ public class ChattingController {
 		map.put("userId", userId);
 		
 		// 판매자 ID 가져오기
-		int sellerId = chattingService.getSellerId(directTradeProductRegistrationId);
+		Integer sellerId = chattingService.getSellerId(directTradeProductRegistrationId);
 		map.put("sellerId", sellerId);
 		
 		// 채팅방 정보 가져오기

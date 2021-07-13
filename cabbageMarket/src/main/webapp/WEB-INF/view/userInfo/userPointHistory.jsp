@@ -25,28 +25,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			let numberCode =  /^[0-9]+(.[0-9]+)?$/;
-			let row = 0;
-			
-			$('#btn').click(function(){
-				if($('#username').val() == ''){
-					$('#username').attr('placeholder','이름을 작성해주세요');				
-				}else if($('#password').val() == ''){
-					$('#password').attr('placeholder','PASSWORD를 작성해주세요');				
-				}else if($('#mobile').val() == ''){
-					$('#mobile').attr('placeholder','핸드폰 번호를 작성해주세요');
-				}else if(!numberCode.test($('#mobile').val())){
-					$('#mobile').val('');
-					$('#mobile').attr('placeholder','핸드폰 번호를 숫자로 작성해주세요');
-				}else{
-					$('#modifyUserForm').submit();
-				}
-			});
-		});
-	</script>
-	
 </head>
 
 <body>
@@ -104,7 +82,9 @@
 							<h2>포인트 사용 조회</h2>
 						</div>
 						<div>
-							<button class="btn btn-success">포인트 충전</button><br><br>
+							<a href="${pageContext.request.contextPath}/users/pointRecharge">
+								<button class="btn btn-success">포인트 충전</button><br><br>
+							</a>
 						</div>
 						<div>
 							<div class="col-md-12">
@@ -180,7 +160,7 @@
 										</table>
 									</div>
 									<div class="card-footer">
-										<c:if test="${lastPage != 1}">
+										<c:if test="${lastPage != 1 && lastPage!=0}">
 											<a href="${pageContext.request.contextPath}/users/userPointHistory?currentPage=${currentPage-1}&content=${content}">
 												<button type="button" class="btn btn-outline-secondary">이전</button>
 											</a>

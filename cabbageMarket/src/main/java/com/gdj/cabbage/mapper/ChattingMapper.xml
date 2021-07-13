@@ -16,7 +16,7 @@
 			   (cr.user_id = #{userId} OR dtpr.user_id = #{sellerId})
 	</select>
 	
-	<select id="selectSellerId" parameterType="int" resultType="int">
+	<select id="selectSellerId" parameterType="int" resultType="Integer">
 		SELECT dtpr.user_id sellerId
 		  FROM chatting_room cr, direct_trade_product_registration dtpr
 		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
@@ -44,4 +44,26 @@
 		INSERT INTO chatting_content(chatting_room_id,user_id,content,create_date)
 		VALUES (#{chattingRoomId},#{userId},#{content},NOW())
 	</insert>
+	
+	<select id="selectChattingRoomListById" parameterType="int" resultType="map">
+		SELECT cc.content lastContent,
+			   cc.create_date createDate,
+			   cc.user_id lastChatterId,
+			   cr.chatting_room_id,
+			   buyerUser.username buyer,
+			   cr.user_id buyerId,
+			   cr.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   sellerUser.username seller,
+		       sellerUser.user_id sellerId
+		  FROM chatting_content cc, chatting_room cr, users buyerUser, direct_trade_product_registration dtpr, users sellerUser
+		 WHERE cc.chatting_room_id = cr.chatting_room_id AND
+			   cr.user_id = buyerUser.user_id AND
+		   	   cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
+			   dtpr.user_id = sellerUser.user_id AND
+			   (cr.user_id = #{userId} OR dtpr.user_id = #{userId}) AND
+			   cc.create_date IN(SELECT MAX(create_date)
+								   FROM chatting_content
+						       GROUP BY chatting_room_id)
+	  ORDER BY createDate DESC						       	   
+	</select>
 </mapper>
