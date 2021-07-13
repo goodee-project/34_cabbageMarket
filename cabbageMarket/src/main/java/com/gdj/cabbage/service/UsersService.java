@@ -32,6 +32,33 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
+	// sns 회원 탈퇴 서비스
+	public int deleteSnsUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);
+		
+		int snsRow = usersMapper.deleteSnsInfo(users);
+		log.debug(Debuging.DEBUG+" sns 정보 탈퇴 여부 : "+snsRow);
+		
+		int row = usersMapper.deleteSnsUser(users);
+		log.debug(Debuging.DEBUG+" 탈퇴 성공 여부 : "+row);
+		
+		return row;
+	}
+	
+	//회원 탈퇴 서비스
+	public int deleteUsers(Users users) {
+		log.debug(Debuging.DEBUG+" users : "+users);
+		
+		int row = usersMapper.deleteUser(users);
+		log.debug(Debuging.DEBUG+" 탈퇴 성공 여부 : "+row);
+		
+		if(row == 0) {
+			return 0;
+		}
+		
+		return row;
+	}
+	
 	//회원 정보 수정 서비스
 	public int updateUsers(Users users) {
 		log.debug(Debuging.DEBUG+" users : "+ users);

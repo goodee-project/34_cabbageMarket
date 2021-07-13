@@ -10,7 +10,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>배추마켓 직거래 상품 등록</title>
+    <title>배추마켓 상품 배송 신청</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -95,13 +95,6 @@
     	// 카테고리 유효성 검사
     	var cateCheck = 0;
     	
-    	$('#productPrice').keyup(function(){
-    		if(enCheck.test($('#productPrice').val())){
-    			alert('숫자만 입력해 주세요');
-    			$('#productPrice').val('');
-    		}
-    	});
-    	
     	// 폼 전송 유효성 검사
         $('#summitBtn').click(function() {
             
@@ -114,12 +107,9 @@
             }else if ($('#productName').val() == '') {
                 alert('제목을 입력해 주세요');
                 $('#productName').focus();
-            } else if ($('#productPrice').val() == '') {
-                alert('상품 가격을 입력해 주세요');
-                $('#productPrice').focus();
-            } else if ($('#productDesc').val() == '') {
+            } else if ($('#deliveryRequests').val() == '') {
                 alert('상품 설명을 입력하세요');
-                $('#productDesc').focus();
+                $('#deliveryRequests').focus();
             } else if (cateCheck == 0) {
                 alert('카테고리를 선택해 주세요');
                 $('#categorySubId').focus();
@@ -232,10 +222,9 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Product Registration</h2>
+                        <h2>Apply Product Sales</h2>
                         <div class="breadcrumb__option">
                             <a href="${pageContext.request.contextPath}/index">Home</a>
-                            <a href="${pageContext.request.contextPath}/users/getDirectTradeList">Direct Trade List</a>
                             <span>Cabbage Market</span>
                         </div>
                     </div>
@@ -313,27 +302,18 @@
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px; color: rgb(255, 80, 88);"><hr style="border: solid 1px lightgrey;"></div>			
 					
-					<!-- 직거래 상품 가격 -->
+					<!-- 판매 상품 등록 운송장 번호 -->
 					<div class="col-lg-3">
-	                	<h4>가격<span style="color: #7fad39;">*</span></h4>
+	                	<h4>운송장 번호<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                	<input type="text" id="productPrice" name="productPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
+	                	<input type="text" id="waybillNumber" name="waybillNumber" placeholder="운송장 번호를 입력해주세요." style="width: 90%">
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
-	                
-	                <!-- 직거래 상품 상세설명 -->
-	                <div class="col-lg-3">
-	                	<h4>상세설명<span style="color: #7fad39;">*</span></h4>
-	                </div>
-	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                	<textarea id="productDesc" name="productDesc" rows="10" cols="30" placeholder="상품 설명을 입력해주세요."></textarea>
-	                </div>
-	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>				
-				
-					<!-- 직거래 상품 지역 필수값 x-->
+					
+					<!-- 판매 상품 등록 반송 주소-->
 					<div class="col-lg-3">
-	                	<h4>지역</h4>
+	                	<h4>반송 주소<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
 	                <div></div>
@@ -342,11 +322,19 @@
 						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
+ 
+	                <!-- 판매 상품 등록 판송 요청사항 -->
+	                <div class="col-lg-3">
+	                	<h4>반송 시 요청사항</h4>
+	                </div>
+	                <div class="col-lg-9 checkout__input" style="display: inline;">
+	                	<textarea id="deliveryRequests" name="deliveryRequests" rows="10" cols="30" placeholder="반송 요청사항을 입력해주세요."></textarea>
+	                </div>
+	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 	                
 	                <div class="col-lg-12" style="text-align: right;">
-	                	<button id="summitBtn" class="summitBtn" type="button">등록하기</button>
+	                	<button id="summitBtn" class="summitBtn" type="button">신청하기</button>
 	                </div>
-	                
 				</div>
 			</form>
 		</div>

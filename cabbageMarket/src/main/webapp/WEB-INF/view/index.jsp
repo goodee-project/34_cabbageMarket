@@ -1,5 +1,6 @@
 <!-- 작성자 : 김태훈 -->
 <!-- 수정사 : 강혜란 210707 localhost/cabbageMarket/index-->
+<!-- 수정사 : 강혜란 210712 판매하기 버튼, 배추톡 버튼 링크 수정-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -82,13 +83,13 @@
                         </div>
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
-                                <a href="#"><i class="fa fa-heart"></i> <span>판매하기</span></a>
+                                <a href="${pageContext.request.contextPath}/users/sellIndex"><i class="fa fa-heart"></i> <span>판매하기</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
                                <a href="#"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
-					            <a href="#"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+					            <a type="button" onclick="showPopup();"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
                             </div>
                         </div>
                     </div>
@@ -334,7 +335,12 @@
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 
-
+	<script>
+		// 채팅방 팝업창
+	    function showPopup() { 
+	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList", "a", "width=400, height=600, left=200, top=200"); 
+	    }
+	</script>
 
 </body>
 
