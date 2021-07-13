@@ -213,105 +213,68 @@ a:hover, a:active, a:focus {
 <div class="container bootstrap snippets bootdey">
     <div class="row">
 		<div class="col-md-4 bg-white ">
-            <div class=" row border-bottom padding-sm" style="height: 40px;">
-            	Member
-            </div>
             
             <!-- =============================================================== -->
             <!-- member list -->
             <ul class="friend-list">
-                <li class="active bounceInDown">
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>John Doe</strong>
-                		</div>
-                		<div class="last-message text-muted">Hello, Are you there?</div>
-                		<small class="time text-muted">Just now</small>
-                		<small class="chat-alert label label-danger">1</small>
-                	</a>
-                </li>
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Jane Doe</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">5 mins ago</small>
-                	<small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
-                	</a>
-                </li> 
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_3.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Kate</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">Yesterday</small>
-                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                	</a>
-                </li>  
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Kate</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">Yesterday</small>
-                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                	</a>
-                </li>     
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Kate</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">Yesterday</small>
-                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                	</a>
-                </li>        
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_6.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Kate</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">Yesterday</small>
-                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                	</a>
-                </li>          
-                <li>
-                	<a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_5.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Kate</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">Yesterday</small>
-                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                	</a>
-                </li>
-                <li>
-                    <a href="#" class="clearfix">
-                		<img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                		<div class="friend-name">	
-                			<strong>Jane Doe</strong>
-                		</div>
-                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                		<small class="time text-muted">5 mins ago</small>
-                	<small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
-                	</a>
-                </li>                 
+            
+	            <c:forEach var="crl" items="${chattingRoomList}">
+	            	<c:if test="${crl.sellerId == userId}">
+		                <li class="active bounceInDown">
+		                	<a class="clearfix" type="button" onclick="showPopup();" target="_blank">
+		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+		                		<div class="friend-name">	
+		                			<strong>${crl.buyer}</strong>
+		                		</div>
+		                		<c:if test="${crl.lastChatterId == userId}">
+			                		<div class="last-message text-muted">
+			                			${crl.lastContent}
+			                		</div>
+		                		</c:if>
+		                		<c:if test="${crl.lastChatterId != userId}">
+			                		<div class="last-message text-muted">${crl.lastContent}</div>
+		                		</c:if>
+		                		<small class="time text-muted">${crl.createDate}</small>
+		                		<small class="chat-alert label label-danger">1</small>
+		                	</a>
+		                </li>
+		                <br>
+	                </c:if>
+	                
+	                <c:if test="${crl.buyerId == userId}">
+		                <li class="active bounceInDown">
+		                	<a class="clearfix" type="button" onclick="showPopup();" target="_blank">
+		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+		                		<div class="friend-name">	
+		                			<strong>${crl.seller}</strong>
+		                		</div>
+		                		<c:if test="${crl.lastChatterId == userId}">
+			                		<div class="last-message text-muted">
+			                			${crl.lastContent}
+			                		</div>
+		                		</c:if>
+		                		<c:if test="${crl.lastChatterId != userId}">
+			                		<div class="last-message text-muted">${crl.lastContent}</div>
+		                		</c:if>
+		                		<small class="time text-muted">${crl.createDate}</small>
+		                		<small class="chat-alert label label-danger">1</small>
+		                	</a>
+		                </li>
+		                <br>
+	                </c:if>
+	                
+	            </c:forEach>  
+    
             </ul>
 		</div>
                
 	</div>
 </div>
 </body>
+<script>
+//채팅방 팝업창
+function showPopup() { 
+	  window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId=45&userId=3", "b", "width=400, height=600, left=600, top=200"); 
+}
+</script>
 </html>

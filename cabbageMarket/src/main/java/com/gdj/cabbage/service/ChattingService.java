@@ -35,12 +35,17 @@ public class ChattingService {
 		return ChattingRoomInfo;
 	}
 	// 채팅방 채팅내용 리스트 가져오기
-	public int getSellerId(int directTradeProductRegistrationId){
+	public Integer getSellerId(int directTradeProductRegistrationId){
 		return chattingMapper.selectSellerId(directTradeProductRegistrationId);
 	}
 	
 	// 채팅방 채팅내용 리스트 가져오기
 	public List<Map<String, Object>> getChattingContentList(int chattingRoomId){
 		return chattingMapper.selectChattingContentListById(chattingRoomId);
+	}
+	
+	// 채팅방 목록 가져오기
+	public List<Map<String, Object>> getChattingRoomList(int userId){
+		return chattingMapper.selectChattingRoomListById(userId);
 	}
 }
