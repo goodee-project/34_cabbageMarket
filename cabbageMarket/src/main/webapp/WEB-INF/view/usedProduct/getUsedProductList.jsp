@@ -13,9 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 <!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
 <!-- Css Styles -->
 <link rel="stylesheet"
@@ -62,7 +60,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Direct Trade Shop</h2>
+                        <h2>중고 판매</h2>
                         <div class="breadcrumb__option">
                             <a href="${pageContext.request.contextPath}/index">Home</a>
                             <span>Cabbage Market</span>
@@ -113,42 +111,6 @@
                             </div>
                         </div>
                         
-                        <div class="sidebar__item">
-                            <div class="latest-product__text">
-                                <h4>Latest Products</h4>
-                                <div class="latest-product__slider owl-carousel">
-                                
-                                    <div class="latest-prdouct__slider__item">
-                                        <c:forEach var="i" begin="0" end="2">
-	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${DirectTradeProductRegistrationList[i].directTradeProductRegistrationId}">
-	                                            <div class="latest-product__item__pic">
-	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
-	                                            </div>
-	                                            <div class="latest-product__item__text">
-	                                                <h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
-	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
-	                                            </div>
-	                                        </a>
-										</c:forEach>
-                                    </div>
-                                    
-                                    <div class="latest-prdouct__slider__item">
-                                        <c:forEach var="i" begin="3" end="5">
-	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${DirectTradeProductRegistrationList[i].directTradeProductRegistrationId}">
-	                                            <div class="latest-product__item__pic">
-	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
-	                                            </div>
-	                                            <div class="latest-product__item__text">
-	                                                <h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
-	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
-	                                            </div>
-	                                        </a>
-										</c:forEach>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
@@ -158,16 +120,18 @@
                                 <div class="filter__sort">
                                     <span>Sort By</span>
                                     <select>
-                                        <option value="0">Default</option>
+                                        <option value="0"></option>
                                         <option value="0">Default</option>
                                     </select>
                                 </div>
                             </div>
+                            
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6>Products <span>${TOTAL}</span></h6>
                                 </div>
                             </div>
+                            
                             <div class="col-lg-4 col-md-3">
                                 <div class="filter__option">
                                     <span class="icon_grid-2x2"></span>
@@ -189,7 +153,7 @@
 	                                </div>
 	                                <div class="product__item__text">
 	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${upl.categorySubName}</span>
-	                                    <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${upl.directTradeProductRegistrationId}">${upl.productName}</a></h6>
+	                                    <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyId}">${upl.productName}</a></h6>
 	                                    <h5>${upl.productPrice}</h5>
 	                                </div>
 	                            </div>
