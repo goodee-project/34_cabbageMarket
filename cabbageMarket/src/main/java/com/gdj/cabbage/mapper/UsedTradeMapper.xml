@@ -55,5 +55,12 @@
 	WHERE upr.apply_product_sales_delivery_id = #{applyId}
 </select>
 
+<!-- 중고상품 상세 이미지  -->
+<select id="selectUsedProductImg" parameterType="Integer" resultType="String">
+	SELECT img_name imgName
+	FROM apply_product_sales_delivery_img
+	WHERE apply_product_sales_delivery_id = #{apply_product_sales_delivery_id}
+	
+</select>
 
 </mapper>

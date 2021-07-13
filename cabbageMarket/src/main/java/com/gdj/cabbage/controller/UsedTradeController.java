@@ -27,6 +27,7 @@ public class UsedTradeController {
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 												  @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage,
 												  @RequestParam(value="searchWord", required = false) String searchWord ) {
+		//디버깅
 		log.debug("★★★★★★★★getUsedProductList() currentPage:" +currentPage);
 		log.debug("★★★★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
 		log.debug("★★★★★★★★getUsedProductList() searchWord:" +searchWord);
@@ -50,6 +51,7 @@ public class UsedTradeController {
 		model.addAttribute("lastPage",lastPage);
 		model.addAttribute("usedProductList",usedProductList);
 		
+		//getUsedProductList 페이지로 반환
 		return "usedProduct/getUsedProductList";
 	}
 
@@ -57,13 +59,22 @@ public class UsedTradeController {
 	//중고상품 상세
 	@GetMapping("getUsedProductOne")
 	public String getUsedProductOne(Model model, @RequestParam(value="applyId")int applyId) {
-		log.debug("★★★★★★★controller getUsedProductOne() applyId:" + applyId);
+		log.debug("★★★★★★★controller getUsedProductOne() applyId:" + applyId); //디버깅
 		
-		Map<String,Object> UsedProductDetail = usedTradeService.getUsedProductOne(applyId);
-		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + UsedProductDetail);
+		//중고상품 상세 details 가져오기
+		Map<String,Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
+		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
 		
-		model.addAttribute("UsedProductDetail", UsedProductDetail);
+		//중고상품 이미지 img 가져오기
+		List<String> imgNameList = usedTradeService.getUsedProductImg(applyId);
+		log.debug("★★★★★★★controller getUsedProductOne() usedProductImg:" + imgNameList); //디버깅
 		
+		//model에 값 넣어주기
+		model.addAttribute("usedProductDetail", usedProductDetail);
+		model.addAttribute("imgNameList", imgNameList);
+		
+		//getUsedProductOne 페이지로 반환
 		return "usedProduct/getUsedProductOne";
 	}
+	
 }
