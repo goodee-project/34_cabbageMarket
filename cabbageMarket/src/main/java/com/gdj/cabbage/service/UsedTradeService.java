@@ -32,5 +32,9 @@ public class UsedTradeService {
 		return usedTradeMapper.selectUsedProductTotal(map);
 	}
 
-
+	//중고상품 details
+	public Map<String,Object> getUsedProductOne(int applyId){
+		log.debug("★★★★★★★★service getUsedProductOne() applyId:" + applyId);
+		return usedTradeMapper.selectUsedProductOne(applyId);
+	}
 }
