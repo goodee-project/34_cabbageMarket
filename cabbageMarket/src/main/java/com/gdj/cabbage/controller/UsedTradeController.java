@@ -26,23 +26,15 @@ public class UsedTradeController {
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 												  @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage,
-												  @RequestParam(value="searchWord", required = false) String searchWord,
-												  @RequestParam(value="categoryName", required = false) String categoryName ) {
+												  @RequestParam(value="searchWord", required = false) String searchWord ) {
 		log.debug("★★★★★★★★getUsedProductList() currentPage:" +currentPage);
 		log.debug("★★★★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
 		log.debug("★★★★★★★★getUsedProductList() searchWord:" +searchWord);
-		log.debug("★★★★★★★★getUsedProductList() categoryName:" +categoryName);
-		
-		if (categoryName != null && categoryName.equals("")) { //카테고리별 조회
-			categoryName = null;
-		}
-		log.debug("★★★★★★★★categoryName : " + categoryName);
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage-1)*rowPerPage);
 		map.put("rowPerPage", rowPerPage);
 		map.put("searchWord", searchWord);
-		map.put("categoryName", categoryName);
 		
 		//페이징
 		int usedProductTotal = usedTradeService.getUsedProductTotal(map);
@@ -55,7 +47,6 @@ public class UsedTradeController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("rowPerPage",rowPerPage);
 		model.addAttribute("searchWord",searchWord);
-		model.addAttribute("categoryName",categoryName);
 		model.addAttribute("lastPage",lastPage);
 		model.addAttribute("usedProductList",usedProductList);
 		
@@ -63,10 +54,15 @@ public class UsedTradeController {
 	}
 
 	
-	
 	//중고상품 상세
 	@GetMapping("getUsedProductOne")
-	public String getUsedProductOne() {
+	public String getUsedProductOne(Model model, @RequestParam(value="applyId")int applyId) {
+		log.debug("★★★★★★★controller getUsedProductOne() applyId:" + applyId);
+		
+		Map<String,Object> UsedProductDetail = usedTradeService.getUsedProductOne(applyId);
+		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + UsedProductDetail);
+		
+		model.addAttribute("UsedProductDetail", UsedProductDetail);
 		
 		return "usedProduct/getUsedProductOne";
 	}
