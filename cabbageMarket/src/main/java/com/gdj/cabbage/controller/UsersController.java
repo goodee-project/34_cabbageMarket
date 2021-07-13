@@ -40,6 +40,12 @@ public class UsersController {
 	@Autowired UsersService usersService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/pointRecharge")
+	public String pointRecharge() {
+		
+		return "/userInfo/pointRecharge";
+	}
+	
 	@GetMapping("/users/userPointHistory")
 	public String userPointHistory(Model model, HttpSession session,
 												@RequestParam(value="content", required = false) String content,

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdj.cabbage.vo.PointsRechargeHistory;
 import com.gdj.cabbage.vo.SNSInfo;
 import com.gdj.cabbage.vo.Users;
 
@@ -25,4 +26,6 @@ public interface UsersMapper {
 	int selectSnsUserId(Users users);
 	List<Map<String, Object>> userPointHistoryList(Map<String, Object> map);
 	int userPointHistoryCount(Map<String, Object> map);
+	int pointRecharge(PointsRechargeHistory prh);
+	Map<String,Object> sessionUpdate(int userId);
 } 

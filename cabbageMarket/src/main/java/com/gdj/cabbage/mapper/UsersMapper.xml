@@ -103,9 +103,10 @@
 		SELECT
 			u.user_id userId,
 			u.email,
-			u.nickname
+			u.nickname,
+			utp.point point
 		FROM
-			users u LEFT JOIN sns_info s ON u.user_id=s.user_id 
+			users u LEFT JOIN sns_info s ON u.user_id=s.user_id JOIN users_total_point utp ON u.user_id=utp.userId
 		<where>
 			s.sns_id=#{snsId}
 		</where>			
@@ -280,5 +281,34 @@
 			usedDate desc
 		LIMIT
 			#{beginRow},#{rowPerPage}
+	</select>
+	
+	<!-- 포인트 충전 -->
+	<insert id="pointRecharge" parameterType="com.gdj.cabbage.vo.PointsRechargeHistory">
+		INSERT 
+			points_recharge_history(
+				user_id, 
+				points, 
+				used_point_date
+				) 
+		VALUES(
+			#{userId}, 
+			#{points},
+			NOW()
+			)
+	</insert>
+	
+	<!-- 세션 갱신 쿼리 -->
+	<select id="sessionUpdate" parameterType="Integer" resultType="java.util.Map">
+		SELECT
+			user_id userId,
+			email,
+			nickname,
+			utp.point point
+		FROM
+			users u LEFT JOIN users_total_point utp ON u.user_id=utp.userId 
+		<where>
+			u.user_id=#{userId}
+		</where>			
 	</select>
 </mapper>
