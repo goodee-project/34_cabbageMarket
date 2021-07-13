@@ -47,7 +47,7 @@
 	
 	<select id="selectChattingRoomListById" parameterType="int" resultType="map">
 		SELECT cc.content lastContent,
-			   cc.create_date createDate,
+			   LEFT(cc.create_date,16) createDate,
 			   cc.user_id lastChatterId,
 			   cr.chatting_room_id,
 			   buyerUser.username buyer,

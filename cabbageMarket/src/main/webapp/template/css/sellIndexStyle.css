@@ -49,14 +49,14 @@
 }
 
 .container2 .card .box .content h3 {
-	font-size: 1.5em;
+	font-size: 1.3em;
 	color: black;
 	z-index: 1;
 	transition: 0.5s;
 }
 
 .container2 .card .box .content p {
-	font-size: 1em;
+	font-size: 0.9em;
 	font-weight: 500;
 	color: black;
 	z-index: 1;

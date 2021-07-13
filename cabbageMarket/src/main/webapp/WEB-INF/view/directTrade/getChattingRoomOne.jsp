@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>배추 채팅방</title>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -249,7 +249,7 @@ a:hover, a:active, a:focus {
 		                    	</span>
 		                    	<div class="chat-body clearfix">
 		                    		<div class="header">
-		                    			<strong class="primary-font">>${ccl.nickname}</strong>
+		                    			<strong class="primary-font">${ccl.nickname}</strong>
 		                    			<small class="pull-right text-muted"><i class="fa fa-clock-o"></i>${ccl.createDate}</small>
 		                    		</div>
 		                    		<p>${ccl.content}</p>
