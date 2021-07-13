@@ -10,5 +10,8 @@ public interface UsedTradeMapper {
 	List<Map<String, Object>> selectUsedProductList(Map<String, Object> map); //중고상품 목록
 	int selectUsedProductTotal(Map<String, Object> map); //중고상품 Total
 	
-	Map<String, Object> selectUsedProductOne(int applyId); //중고상품 Details
+	Map<String, Object> selectUsedProductOne(int applyId); //중고상품 상세 Details
+	List<String> selectUsedProductImg(int applyProductSalesDeliveryId); //증고상품 상세 img
+	
+	
 }

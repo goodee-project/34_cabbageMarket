@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>중고 판매</h2>
+                        <h2>중고 상품</h2>
                         <div class="breadcrumb__option">
                             <a href="${pageContext.request.contextPath}/index">Home</a>
                             <span>Cabbage Market</span>
