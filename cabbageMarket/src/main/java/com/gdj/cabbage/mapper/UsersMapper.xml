@@ -197,4 +197,88 @@
 			user_id=#{userId}
 		</where>
 	</select>
+	
+	<!-- 유저 포인트 사용 내역 조회 -->
+	<select id="userPointHistoryList" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT 
+			a.content content, 
+			a.point point, 
+			a.usedDate usedDate 
+		FROM		
+			(SELECT 
+				'충전' content, points point, used_point_date usedDate FROM points_recharge_history WHERE user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'입찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='지출'
+			UNION ALL
+			SELECT 
+				'유찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='수입'
+			UNION ALL
+			SELECT 
+				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id JOIN apply_product_sales_delivery apsd ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'판매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN apply_product_sales_delivery apsd ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'구매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN buying_used_product bup ON bpuh.apply_product_sales_delivery_id=bup.apply_product_sales_delivery_id WHERE bup.user_id=#{userId}) a
+		<where>
+			<if test="content == null">
+				content='충전' OR content='유찰' OR content='판매' OR content='입찰' OR content='낙찰' OR content='구매'
+			</if>
+		
+			<if test="content == 1">
+				content='충전' OR content='유찰' OR content='판매'
+			</if>
+			
+			<if test="content == 2">
+				content='입찰' OR content='낙찰' OR content='구매'
+			</if>
+		</where>
+		ORDER BY 
+			usedDate desc
+		LIMIT
+			#{beginRow},#{rowPerPage}
+	</select>
+	
+	<!-- 유저 포인트 사용 내역 조회 -->
+	<select id="userPointHistoryCount" resultType="Integer" parameterType="java.util.Map">
+		SELECT 
+			COUNT(*)
+		FROM		
+			(SELECT 
+				'충전' content, points point, used_point_date usedDate FROM points_recharge_history WHERE user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'입찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='지출'
+			UNION ALL
+			SELECT 
+				'유찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='수입'
+			UNION ALL
+			SELECT 
+				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id JOIN apply_product_sales_delivery apsd ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'판매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN apply_product_sales_delivery apsd ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} 
+			UNION ALL
+			SELECT 
+				'구매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN buying_used_product bup ON bpuh.apply_product_sales_delivery_id=bup.apply_product_sales_delivery_id WHERE bup.user_id=#{userId}) a
+		<where>
+			<if test="content == null">
+				content='충전' OR content='유찰' OR content='판매' OR content='입찰' OR content='낙찰' OR content='구매'
+			</if>
+			
+			<if test="content == 1">
+				content='충전' OR content='유찰' OR content='판매'
+			</if>
+			
+			<if test="content == 2">
+				content='입찰' OR content='낙찰' OR content='구매'
+			</if>
+		</where>
+		ORDER BY 
+			usedDate desc
+		LIMIT
+			#{beginRow},#{rowPerPage}
+	</select>
 </mapper>
