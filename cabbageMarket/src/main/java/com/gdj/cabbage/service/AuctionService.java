@@ -13,6 +13,7 @@ import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ApplyProductSalesMapper;
 import com.gdj.cabbage.mapper.AuctionMapper;
 import com.gdj.cabbage.mapper.CategoryMapper;
+import com.gdj.cabbage.vo.AuctionProductRegistration;
 import com.gdj.cabbage.vo.CategoryMain;
 
 import lombok.extern.slf4j.Slf4j;
@@ -103,6 +104,19 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
 		Map<String,Object> auctionList = auctionMapper.selectApplynOne(applyId); //상세정보 가져오는 mapper
 		return auctionList;
+	}
+	
+	// 옥션 등록 service
+	public int addAuctionProduct(AuctionProductRegistration auctionProductRegistration) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 auctionProductRegistration확인"+auctionProductRegistration.toString());
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 auctionProductRegistration 학인 : "+ auctionProductRegistration);
+		int cnt = auctionMapper.insertAuction(auctionProductRegistration);
+		log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt 확인: "+ cnt);
+		
+		if(cnt >0) {
+			auctionMapper.updateConfirmationState(auctionProductRegistration.getApplyProductSalesDeliveryId()); 
+		}
+		return cnt;
 	}
 
 }

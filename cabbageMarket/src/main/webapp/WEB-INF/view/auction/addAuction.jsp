@@ -25,6 +25,93 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+	<!-- date -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap-material-datetimepicker.css" />
+		<link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	
+		<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+        <!-- ㅇdate -->
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		  <link rel="stylesheet" href="/resources/demos/style.css">
+		  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		  <script>
+		  $( function() {
+		    $( "#datepicker" ).datepicker();
+		  } );
+		  </script>
+        
+		<!--  <script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>-->
+		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/template/js/bootstrap-material-datetimepicker.js"></script>
+  <script>
+  $( function() {
+	  //https://jqueryui.com/datepicker/
+    $( "#registrationDeadline" ).datepicker({ format : 'YYYY-MM-DD'});
+    //$('#min-date').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm', minDate : new Date() });
+  } );
+  </script>
+		<script type="text/javascript">
+		$(document).ready(function()
+		{
+			//date https://t00rk.github.io/bootstrap-material-datetimepicker/
+			//$('#min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() });
+
+			//$.material.init()
+			
+			// 폼 전송 유효성 검사
+	        $('#summitBtn').click(function() {
+	            
+	        	console.log("summitBtn click!");
+	        	
+	            if($('#minBidPrice').val() == '') {
+	                alert('최소 입찰가를 입력해 주세요');
+	                $('#minBidPrice').focus();
+	            } else if ($('#quote').val() == '') {
+	                alert('호가를 입력하세요');
+	                $('#quote').focus();
+	            } else if ($('#productDesc').val() == '') {
+	                alert('상품설명을 입력하세요');
+	                $('#productDesc').focus();
+	            } else if ($('#registrationDeadline').val() == '') {
+	                alert('마감기한을 입력하세요');
+	                $('#registrationDeadline').focus();
+	            } else {
+	                $('#addAuctionProdeuctForm').submit();
+	            }
+	        });
+		});
+		</script>
+	<!--//ajax 미리보기 시도중 -->
+    <script>
+    function inputData(){
+        var auction = $('#form').serialize();
+        $.ajax({
+            url: "/previewAuction",
+            data: auction,
+            type:"POST",
+            cache: false
+        }).done(function (fragment) {
+             $("#list").replaceWith(fragment);
+        });
+        
+    }//출처: https://joyhong.tistory.com/104 [옳은 길로..]
+    </script>
 </head>
 
 <body>
@@ -64,11 +151,10 @@
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">경매상품으로 등록</a>
+                                경매상품으로 등록
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                <a class="nav-link" href="${pageContext.request.contextPath}/users/sellIndex"
                                     aria-selected="false">판매하기로 돌아가기</a>
                             </li>
                         </ul>
@@ -77,12 +163,13 @@
                                 <div class="product__details__tab__desc">
                                     
                                 	<div class="container">
-									<form id="addDirectTradeProductForm" action="${pageContext.request.contextPath}/users/addDirectTrade" method="post" enctype="multipart/form-data">
+									<form id="addAuctionProdeuctForm" action="${pageContext.request.contextPath}/users/addAuction" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="userId" value="8"> <!-- userId = 8으로 입력 테스트 -->
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="section-title product__discount__title" style="margin-top: 30px;">
 								                	<h2>기본정보<span style="color: #7fad39; font-size: 1rem; margin-left: 2rem;">*필수항목</span></h2>
+								                	<input type="hidden" name="applyProductSalesDeliveryId" value="${applyId }" readonly="readonly">
 								                </div>
 							                </div>
 											<!-- 1상품이미지 -->
@@ -112,7 +199,7 @@
 							                	<h4>카테고리</h4>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="color: rgb(74, 164, 255); line-height: 1.5; font-size: 14px;">
-							                	<input type="text" id="productName" name="productName" value="${productDetail.categorySubName}" readonly="readonly">
+							                	<input type="text" value="${productDetail.categorySubName}" readonly="readonly">
 							                	<ul style="list-style:none; margin-top: 1.5rem;">
 							                		<li>* 상품 카테고리는 수정이 불가합니다</li>
 							                	</ul>
@@ -120,30 +207,33 @@
 							                <div class="col-lg-12" style="margin-bottom: 15px; color: rgb(255, 80, 88);"><hr style="border: solid 1px lightgrey;"></div>			
 											<!-- 3 제목 -->
 							                <div class="col-lg-3">
-							                	<h4>제목<span style="color: #7fad39;">*</span></h4>
+							                	<h4>제목</h4>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="productName" name="productName" placeholder="상품 제목을 입력해주세요.">
+							                	<input type="text" value="${productDetail.productName}">
+							                	<ul style="list-style:none; margin-top: 1.5rem;">
+							                		<li>*상품명은 수정이 불가합니다</li>
+							                	</ul>
 							                </div>
-							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
+							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px grey;"></div>
 							                
-											<!-- 4 최소입찰가 -->
+											<!-- 4 최소 입찰가 -->
 											<div class="col-lg-3">
 							                	<h4>최소 입찰가<span style="color: #7fad39;">*</span></h4>
-							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">정가의 80%이하 추천</span>
+							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">추천: 정가의 80%이하</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="productPrice" name="productPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
+							                	<input type="text" id="minBidPrice" name="minBidPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 							                
 							                <!-- 경매 상품 호가 -->
 											<div class="col-lg-3">
 							                	<h4>호가<span style="color: #7fad39;">*</span></h4>
-							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">입찰가의 10%이하 추천</span>
+							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">추천: 최소 입찰가의 10%</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="productPrice" name="productPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
+							                	<input type="text" id="quote" name="quote" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 							                
@@ -154,13 +244,26 @@
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
 							                	<textarea id="productDesc" name="productDesc" rows="10" cols="30" placeholder="상품 설명을 입력해주세요."></textarea>
 							                </div>
-							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>				
+							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
+							                <!-- 경매 상품 마감일 -->
+											<div class="col-lg-3">
+							                	<h4>마감일<span style="color: #7fad39;">*</span></h4>
+							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">최대 한달</span>
+							                </div>
+							                <div class="col-lg-9 checkout__input form-control-wrapper" style="display: inline;">
+							                	<!-- https://jqueryui.com/datepicker/-->
+							                	<input type="text" id="datepicker">
+							                	<input type="text" id="date" name="registrationDeadline" placeholder="날짜를 선택해주세요" value="2021-07-30 00:00:00" style="width: 100%">
+							                
+							                
+							                </div>
+							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px grey;"></div>				
 										
 											<!-- 경매 상품 미리보기-->
 											<div class="col-lg-3">
 							                	<div class="section-title product__discount__title" style="margin-top: 30px;">
 								                	<h2>미리보기</h2>
-								                </div>>
+								                </div>
 							                </div>
 							                <div class="row">
 			                                    <div class="col-lg-6 col-md-6">
@@ -190,11 +293,11 @@
 								                            <i class="fa fa-star"></i>
 								                            <i class="fa fa-star"></i>
 								                            <i class="fa fa-star-half-o"></i>
-								                            <span>(18 reviews)</span>
+								                            <span>(reviews)</span>
 								                        </div>
-								                        <div class="product__details__price">ㄱ {productDetail.price}</div>
-								                        <p>${productDetail.productDesc}</p>
-								                        <a href="#" class="primary-btn" style="margin-top: 3px;">호가 : ${productDetail.quote}</a>
+								                        <div class="product__details__price">ㄱ{productDetail.price}</div>
+								                        <p>ㄱ{productDetail.productDesc}</p>
+								                        <a href="#" class="primary-btn" style="margin-top: 3px;">호가 : ㄱ{productDetail.quote}</a>
 								                        <div class="heart-btn">
 													      <div class="content">
 													        <span class="heart"></span>
@@ -234,7 +337,7 @@
                                     
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="tab-pane" id="list tabs-2" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>상품 스펙</h6>
                                     <p>

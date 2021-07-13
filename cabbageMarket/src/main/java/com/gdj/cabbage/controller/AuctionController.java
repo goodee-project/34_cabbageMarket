@@ -11,14 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.AuctionService;
 import com.gdj.cabbage.service.CategoryService;
+import com.gdj.cabbage.vo.AuctionProductRegistration;
 import com.gdj.cabbage.vo.CategoryMain;
-import com.gdj.cabbage.vo.DirectTradeProductRegistration;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
-	//경매 상품 등록 수정수정
+	//addAuction ajax
+    @RequestMapping(value = "/previewAuction", method = RequestMethod.POST)
+    public String test7_1(Model model, AuctionProductRegistration auction) {
+        
+    	model.addAttribute("Map", auction);
+        return "auction/addAuction :: #list";
+    }//출처: https://joyhong.tistory.com/104 [옳은 길로..]
+	
+	
+	//경매 상품 등록
 	@GetMapping("addAuction")
 	public String getApplyList(Model model
 			, @RequestParam(value="applyId", defaultValue="1") int applyId) {
@@ -40,19 +50,20 @@ public class AuctionController {
 		Map<String, Object> productDetail = auctionService.getApplyOne(applyId);
 		List<String> imgPathList = auctionService.getApplyImg(applyId);
 		
+		
+		model.addAttribute("applyId", applyId);
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
 		return "auction/addAuction";
 	}
 	
 	@PostMapping("addAuction")
-	public String addDirectTrade(DirectTradeProductRegistration directTradeProductRegistration,
-				@RequestParam(value = "directTradeProductImgs", required = true)List<MultipartFile> directTradeProductImgs) {
+	public String addDirectTrade(AuctionProductRegistration auctionProductRegistration) {
 		
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [directTradeProductRegistration] -> directTradeProductRegistration : " + directTradeProductRegistration.toString());
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [multipartFile] -> multipartFile : " + directTradeProductImgs.size());
-		
-		//directTradeService.addDirectTradeProduct(directTradeProductRegistration, directTradeProductImgs);
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+auctionProductRegistration+"<--auctionProductRegistration");
+
+		int insertCount = auctionService.addAuctionProduct(auctionProductRegistration);
+		log.debug(Debuging.DEBUG+"5 service에서 받은 insertCount 확인 : "+insertCount);
 		
 		return "redirect:/users/getAuctionList";
 	}

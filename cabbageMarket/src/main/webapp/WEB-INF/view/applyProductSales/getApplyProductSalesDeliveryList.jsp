@@ -181,7 +181,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6>총<span>${total}</span>개 상품</h6>
+                                    <h6>총<span>${lastPage}</span>개 상품</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -201,9 +201,9 @@
 				                        <table>
 				                            <thead>
 				                                <tr>
+				                                	<th>#</th>
 				                                    <th colspan="3" class="shoping__product">Products</th>
-				                                    <th>상태</th>
-				                                    <th>등록</th>
+				                                    <th colspan="2">등록</th>
 				                                    <th>환송</th>
 				                                </tr>
 				                            </thead>
@@ -211,6 +211,9 @@
 				                            <tbody>
 				                            	<c:forEach var="apsdl" items="${applyProductSalesDeliveryList}">
 				                                <tr>
+				                                	<td>
+				                                		${apsdl.applyProductSalesDeliveryId}#
+				                                	</td>
 				                                    <td class="shoping__cart__item">
 				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${apsdl.imgName}" alt="">
 				                                    </td> <!-- colsapn 1 -->
@@ -221,17 +224,21 @@
 				                                    	<h5><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${apsdl.directTradeProductRegistrationId}">${apsdl.productName}</a></h5>
 				                                    </td> <!-- colsapn 3 -->
 				                                    <td>
-				                                        ${apsdl.registrationState}
-				                                    </td>
-				                                    <td>
-				                                    	<c:if test="${apsdl.registrationState = '등록가능'}">
-					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">경매등록</a>
-					                                        <br>
-					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">증고등록</a>
+				                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
+					                                        <a href="${pageContext.request.contextPath}/users/addAuction?applyId=${apsdl.applyProductSalesDeliveryId}" class="primary-btn cart-btn cart-btn-right">경매등록</a>
+				                                        </c:if>
+				                                        <c:if test="${apsdl.registrationState != '9등록가능'}">
+					                                        <span>심사중</span>
 				                                        </c:if>
 				                                    </td>
 				                                    <td>
-				                                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>환송신청</a>
+				                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
+					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">증고등록</a>
+				                                        </c:if>
+				                                    </td>
+				                                    <td class="shoping__cart__item__close">
+				                                        <span class="icon_loading"></span>
+				                                        <span class="icon_close"></span>
 				                                    </td>
 				                                </tr>
 				                                </c:forEach>
@@ -243,7 +250,7 @@
 				            <div class="row">
 				                <div class="col-lg-12">
 				                    <div class="shoping__cart__btns">
-				                        <a href="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" class="primary-btn cart-btn">추가로 배송신청</a>
+				                        <a href="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" class="primary-btn cart-btn">추가로 안전거래 신청</a>
 				                    </div>
 				                </div>
 				                

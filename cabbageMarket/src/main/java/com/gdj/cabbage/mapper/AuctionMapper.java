@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdj.cabbage.vo.AuctionProductRegistration;
+
 @Mapper
 public interface AuctionMapper {
 
@@ -20,5 +22,9 @@ public interface AuctionMapper {
 	int selectApplyForCount(Map<String, Object> paramMap); //검색어 없이 total가져오는 mapper
 	
 	Map<String, Object> selectApplynOne(int applyId); //상세정보 가져오는 mapper
+
+	int insertAuction(AuctionProductRegistration auctionProductRegistration); //옥션 등록하는 mapper
+
+	void updateConfirmationState(int applyId); //옥션 등록시, confirmation state변경
 
 }

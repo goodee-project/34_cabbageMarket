@@ -115,4 +115,29 @@
 		WHERE apsd.apply_product_sales_delivery_id = #{applyId}
 	</select>
 	
+	<insert id="insertAuction" parameterType="com.gdj.cabbage.vo.AuctionProductRegistration">
+	INSERT INTO auction_product_registration (
+		apply_product_sales_delivery_id
+		,product_desc
+		,min_bid_price
+		,quote
+		,registration_deadline
+		,create_date
+		)
+		VALUES(
+		#{applyProductSalesDeliveryId}
+		,#{productDesc}
+		,#{minBidPrice}
+		,#{quote}
+		,#{registrationDeadline}
+		,NOW()
+		)
+	</insert>
+	
+	<update id="updateConfirmationState" parameterType="int">
+	UPDATE product_confirmation_registration
+	SET registration_state = 2
+	WHERE apply_product_sales_delivery_id = ${applyId};
+	</update>
+	
 </mapper>
