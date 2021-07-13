@@ -5,27 +5,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>배추톡 목록</title>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <style type="text/css">
 body {
-  padding-top: 0;
+  padding: 0;
   font-size: 12px;
   color: #777;
   background: #f9f9f9;
   font-family: 'Open Sans',sans-serif;
-  margin-top:20px;
 }
 
 .bg-white {
+  padding: 0;
   background-color: #fff;
 }
 
 .friend-list {
   list-style: none;
-margin-left: -40px;
+  padding: 0;
 }
 
 .friend-list li {
@@ -56,7 +57,13 @@ margin-left: -40px;
 
 .friend-list li a .friend-name, 
 .friend-list li a .friend-name:hover {
-  color: #777;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    line-height: 1.4;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(33, 33, 33);
 }
 
 .friend-list li a .last-message {
@@ -77,7 +84,7 @@ small, .small {
   font-size: 85%;
 }
 
-.friend-list li a .chat-alert {
+.friend-list li a {
   position: absolute;
   right: 8px;
   top: 27px;
@@ -85,127 +92,88 @@ small, .small {
   padding: 3px 5px;
 }
 
-.chat-message {
-  padding: 60px 20px 115px;
-}
-
-.chat {
-    list-style: none;
-    margin: 0;
-}
-
-.chat-message{
-    background: #f9f9f9;  
-}
-
-.chat li img {
+.img-circle{
   width: 45px;
   height: 45px;
-  border-radius: 50em;
-  -moz-border-radius: 50em;
-  -webkit-border-radius: 50em;
-}
-
-img {
-  max-width: 100%;
-}
-
-.chat-body {
-  padding-bottom: 20px;
-}
-
-.chat li.left .chat-body {
-  margin-left: 70px;
-  background-color: #fff;
-}
-
-.chat li .chat-body {
-  position: relative;
-  font-size: 11px;
-  padding: 10px;
-  border: 1px solid #f1f5fc;
-  box-shadow: 0 1px 1px rgba(0,0,0,.05);
-  -moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-
-.chat li .chat-body .header {
-  padding-bottom: 5px;
-  border-bottom: 1px solid #f1f5fc;
-}
-
-.chat li .chat-body p {
-  margin: 0;
-}
-
-.chat li.left .chat-body:before {
-  position: absolute;
-  top: 10px;
-  left: -8px;
-  display: inline-block;
-  background: #fff;
-  width: 16px;
-  height: 16px;
-  border-top: 1px solid #f1f5fc;
-  border-left: 1px solid #f1f5fc;
-  content: '';
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-}
-
-.chat li.right .chat-body:before {
-  position: absolute;
-  top: 10px;
-  right: -8px;
-  display: inline-block;
-  background: #fff;
-  width: 16px;
-  height: 16px;
-  border-top: 1px solid #f1f5fc;
-  border-right: 1px solid #f1f5fc;
-  content: '';
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-}
-
-.chat li {
-  margin: 15px 0;
-}
-
-.chat li.right .chat-body {
-  margin-right: 70px;
-  background-color: #fff;
-}
-
-.chat-box {
-/*
-  position: fixed;
-  bottom: 0;
-  left: 444px;
-  right: 0;
-*/
-  padding: 15px;
-  border-top: 1px solid #eee;
-  transition: all .5s ease;
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  -ms-transition: all .5s ease;
-  -o-transition: all .5s ease;
-}
-
-.primary-font {
-  color: #3c8dbc;
 }
 
 a:hover, a:active, a:focus {
   text-decoration: none;
   outline: 0;
+}
+.banner{
+	position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+    background: rgb(255, 255, 255);
+    z-index: 10;
+    padding: 0px 1rem;
+    border-bottom: 2px solid #7fad39;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+.chattingRoom{
+	border-style: none;
+	width: 100%;
+	display: flex;
+    background: rgb(255, 255, 255);
+    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 80px;
+    justify-content: space-between;
+}
+.chattingRoom-info{
+	width:195px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    font: inherit;
+    vertical-align: baseline;
+}
+.opponent-name{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    line-height: 1.4;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(33, 33, 33);
+}
+.last-content{
+    max-width: 9.75rem;
+    line-height: 1.4;
+    text-align:left;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 4px;
+    color: rgb(102, 102, 102);
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+    max-height: 2.8em;
+    overflow: hidden;
+}
+.create-date{
+	padding-top: 16px;
+	padding-right: 16px;
+    height: 100%;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.4;
+    color: rgb(153, 153, 153);
 }
 </style>
 </head>
@@ -213,7 +181,7 @@ a:hover, a:active, a:focus {
 <div class="container bootstrap snippets bootdey">
     <div class="row">
 		<div class="col-md-4 bg-white ">
-            
+            <div class="banner"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""><div>배추톡</div><div style="width: 119px; height: 50px"></div></div>
             <!-- =============================================================== -->
             <!-- member list -->
             <ul class="friend-list">
@@ -221,44 +189,48 @@ a:hover, a:active, a:focus {
 	            <c:forEach var="crl" items="${chattingRoomList}">
 	            	<c:if test="${crl.sellerId == userId}">
 		                <li class="active bounceInDown">
-		                	<a class="clearfix" type="button" onclick="showPopup();" target="_blank">
+		                	<button class="chattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
 		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-		                		<div class="friend-name">	
-		                			<strong>${crl.buyer}</strong>
+		                		<div class="chattingRoom-info">	
+		                			<div class="opponent-name">${crl.buyer}</div>
+			                		<c:if test="${crl.lastChatterId == userId}">
+				                		<div class="last-content"><img src="${pageContext.request.contextPath}/template/img/content_me.png" alt="">${crl.lastContent}</div>
+			                		</c:if>
+
+			                		<c:if test="${crl.lastChatterId != userId}">
+				                		<div class="last-content">${crl.lastContent}</div>
+			                		</c:if>
+			                	</div>
+			                	
+		                		<div class="create-date">
+		                			<small>${crl.createDate}</small><br>
+		                			<small>1</small>
 		                		</div>
-		                		<c:if test="${crl.lastChatterId == userId}">
-			                		<div class="last-message text-muted">
-			                			${crl.lastContent}
-			                		</div>
-		                		</c:if>
-		                		<c:if test="${crl.lastChatterId != userId}">
-			                		<div class="last-message text-muted">${crl.lastContent}</div>
-		                		</c:if>
-		                		<small class="time text-muted">${crl.createDate}</small>
-		                		<small class="chat-alert label label-danger">1</small>
-		                	</a>
+		                	</button>
 		                </li>
 		                <br>
 	                </c:if>
 	                
 	                <c:if test="${crl.buyerId == userId}">
 		                <li class="active bounceInDown">
-		                	<a class="clearfix" type="button" onclick="showPopup();" target="_blank">
+		                	<button class="chattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
 		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-		                		<div class="friend-name">	
-		                			<strong>${crl.seller}</strong>
+		                		<div class="chattingRoom-info">	
+		                			<div class="opponent-name">${crl.seller}</div>
+			                		<c:if test="${crl.lastChatterId == userId}">
+				                		<div class="last-content"><img src="${pageContext.request.contextPath}/template/img/content_me.png" alt="">${crl.lastContent}</div>
+			                		</c:if>
+
+			                		<c:if test="${crl.lastChatterId != userId}">
+				                		<div class="last-content">${crl.lastContent}</div>
+			                		</c:if>
+			                	</div>
+			                	
+		                		<div class="create-date">
+		                			<small>${crl.createDate}</small><br>
+		                			<small>1</small>
 		                		</div>
-		                		<c:if test="${crl.lastChatterId == userId}">
-			                		<div class="last-message text-muted">
-			                			${crl.lastContent}
-			                		</div>
-		                		</c:if>
-		                		<c:if test="${crl.lastChatterId != userId}">
-			                		<div class="last-message text-muted">${crl.lastContent}</div>
-		                		</c:if>
-		                		<small class="time text-muted">${crl.createDate}</small>
-		                		<small class="chat-alert label label-danger">1</small>
-		                	</a>
+		                	</button>
 		                </li>
 		                <br>
 	                </c:if>
@@ -273,8 +245,14 @@ a:hover, a:active, a:focus {
 </body>
 <script>
 //채팅방 팝업창
-function showPopup() { 
-	  window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId=45&userId=3", "b", "width=400, height=600, left=600, top=200"); 
-}
+$(document).ready(function() {
+	$(document).on('click', '.chattingRoom', function(){
+		var index = $('.chattingRoom').index(this);
+		var dtprId = $('.chattingRoom').eq(index).val();
+		console.log(dtprId);
+		
+		window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId="+dtprId+"&userId=3", "chattingRoom", "width=400, height=600, left=620, top=200"); 
+	});
+});
 </script>
 </html>
