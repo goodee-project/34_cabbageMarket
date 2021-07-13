@@ -38,7 +38,7 @@
                 <li class="active"><a href="${pageContext.request.contextPath}/index">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/getDirectTradeList">직거래</a></li>
                 <li><a href="${pageContext.request.contextPath}/users/getAuctionList">경매</a></li>
-                <li><a href="./blog.html">중고거래 </a></li>
+                <li><a href="${pageContext.request.contextPath}/users/getUsedProductList">중고거래</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
