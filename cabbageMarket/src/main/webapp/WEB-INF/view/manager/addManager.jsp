@@ -35,7 +35,7 @@ $(document).ready(function(){
 	<div class="container">
 		<h1>addManager</h1>
 		<form id="addForm" method="post"
-			action="${pageContext.request.contextPath}/admin/addManager">
+			action="${pageContext.request.contextPath}/manager/addManager">
 			<table class="table table-striped">
 				
 				<tr>
