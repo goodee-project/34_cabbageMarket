@@ -46,7 +46,7 @@
 		u.nickname nickname,
 		upr.product_desc productDesc,
 		FORMAT(upr.product_price, N'#,0') productPrice,
-		upr.registration_deadline deadLine
+		LEFT(upr.registration_deadline,16) deadLine
 	
 	FROM used_product_registration upr
 	LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id

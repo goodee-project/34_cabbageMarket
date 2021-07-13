@@ -86,25 +86,25 @@
 							<span>(18 reviews)</span>
 						</div>
 						<div class="product__details__price">${usedProductDetail.productPrice} 원</div>
-						<p>${usedProductDetail.productDesc}</p>
-						<a class="primary-btn" style="margin-top: 3px; color:#ffffff;">중고 상품</a>
+						<a href="${pageContext.request.contextPath}/users/"><input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="Buy Now" /></a>
 						<div class="heart-btn">
 							<div class="content">
-								<span class="heart"></span> 
+								<span class="heart"></span>
 								<span class="text">Like</span>
 							</div>
-						</div>
+					    </div>
 						<ul>
 							<li><b>판매자</b> <span>${usedProductDetail.nickname}</span></li>
 							<li><b>판매 가격</b> <span>${usedProductDetail.productPrice}원</span></li>
-							<li><b>마감 날짜</b> <span>${usedProductDetail.deadLine}</span></li>
+							<li><b>마감 기한</b> <span style="color:#CD0000;"> ${usedProductDetail.deadLine}</span></li>
 							<li><b>Share on</b>
 								<div class="share">
-									<a href="#"><i class="fa fa-facebook"></i></a><i
-										class="fa fa-twitter"></i></a> <a href="#"><i
-										class="fa fa-instagram"></i></a> <a href="#"><i
-										class="fa fa-pinterest"></i></a>
-								</div></li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="#"><i class="fa fa-twitter"></i></a> 
+									<a href="#"><i class="fa fa-instagram"></i></a> 
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -115,34 +115,24 @@
 								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">Information</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
 							</li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui.</p>
-								</div>
-							</div>
-							<div class="tab-pane" id="tabs-2" role="tabpanel">
-								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus.</p>
+									<h6>Description</h6>
+									<p>${usedProductDetail.productDesc}</p>
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
+									<h6>Reviews</h6>
+									<p> 
+										Vestibulum ac diam sit amet quam vehicula elementum sed
 										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus.</p>
+										Proin eget tortor risus.
+									</p>
 								</div>
 							</div>
 						</div>
@@ -166,6 +156,16 @@
 	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
+	<script>
+      $(document).ready(function(){
+        $('.content').click(function(){
+          $('.content').toggleClass("heart-active")
+          $('.text').toggleClass("heart-active")
+          $('.heart').toggleClass("heart-active")
+        });
+      });
+      
+     </script>
 </body>
 
 </html>
