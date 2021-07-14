@@ -221,14 +221,14 @@
 				                                    	<h6><span>(${apsdl.categorySubName})</span></h6>
 				                                    </td> <!-- colsapn 2 -->
 				                                    <td>
-				                                    	<h5><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${apsdl.directTradeProductRegistrationId}">${apsdl.productName}</a></h5>
+				                                    	<h5>${apsdl.productName}</h5>
 				                                    </td> <!-- colsapn 3 -->
 				                                    <td>
 				                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
 					                                        <a href="${pageContext.request.contextPath}/users/addAuction?applyId=${apsdl.applyProductSalesDeliveryId}" class="primary-btn cart-btn cart-btn-right">경매등록</a>
 				                                        </c:if>
 				                                        <c:if test="${apsdl.registrationState != '9등록가능'}">
-					                                        <span>심사중</span>
+					                                        <span>심사중<span class="icon_loading"></span></span>
 				                                        </c:if>
 				                                    </td>
 				                                    <td>
@@ -237,8 +237,7 @@
 				                                        </c:if>
 				                                    </td>
 				                                    <td class="shoping__cart__item__close">
-				                                        <span class="icon_loading"></span>
-				                                        <span class="icon_close"></span>
+				                                        <span class="icon_refresh"></span>
 				                                    </td>
 				                                </tr>
 				                                </c:forEach>

@@ -47,7 +47,7 @@ public class SellIndexController {
 		
 		applyProductSalesService.addApplyProductSalesDelivery(applyProductSalesDelivery, applyProductSalesDeliveryImgs);
 		
-		return "redirect:/users/getDirectTradeList";
+		return "redirect:/users/getApplyProductSalesDeliveryList?userId="+applyProductSalesDelivery.getUserId();
 	}
 	
 	// 상품 판매 배송 신청 등록
