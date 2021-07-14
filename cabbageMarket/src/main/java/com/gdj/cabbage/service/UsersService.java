@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.UsersMapper;
 import com.gdj.cabbage.vo.SNSInfo;
+import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.Users;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
+	
+	// 배송지 출력 서비스
+	public List<ShippingAddress> getAddressByUserId(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		List<ShippingAddress> getAddressByUserId = usersMapper.getAddressByUserId(userId);
+		log.debug(Debuging.DEBUG+" getAddressByUserId : "+getAddressByUserId);
+		
+		return getAddressByUserId;
+	}
+	
+	// 배송지 추가 서비스
+	public int addAddress(ShippingAddress shippingAddress) {
+		log.debug(Debuging.DEBUG+" shippingAddress : "+shippingAddress);
+		
+		int row = usersMapper.addAddress(shippingAddress);
+		log.debug(Debuging.DEBUG+" 주소 추가 성공 여부 : "+row);
+		
+		return row;
+		
+	}
 	
 	// 유저 포인트 내역 조회
 	public Map<String, Object> userPointHistory(Map<String, Object> map){

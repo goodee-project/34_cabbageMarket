@@ -79,7 +79,7 @@
 	
 	<!--  네이버 정보 sns테이블에 등록 -->
 	<insert id="registerNaverUser" parameterType="com.gdj.cabbage.vo.Users">
-		INSERT 
+		INSERT INTO
 			sns_info(
 				user_id, 
 				sns_id, 
@@ -285,7 +285,7 @@
 	
 	<!-- 포인트 충전 -->
 	<insert id="pointRecharge" parameterType="com.gdj.cabbage.vo.PointsRechargeHistory">
-		INSERT 
+		INSERT INTO
 			points_recharge_history(
 				user_id, 
 				points, 
@@ -310,5 +310,37 @@
 		<where>
 			u.user_id=#{userId}
 		</where>			
+	</select>
+	
+	<!-- 배송지 추가 쿼리 -->
+	<insert id="addAddress" parameterType="com.gdj.cabbage.vo.ShippingAddress">
+		INSERT INTO
+			shipping_address(
+				user_id,
+				recipient_name,
+				address,
+				recipient_phone_number
+			)
+		VALUES(
+			#{userId},
+			#{recipientName},
+			#{address},
+			#{recipientPhoneNumber}
+		)
+			
+	</insert>
+	
+	<select id="getAddressByUserId" parameterType="Integer" resultType="com.gdj.cabbage.vo.ShippingAddress">
+		SELECT
+			shipping_address_id shippingAddressId,
+			user_id userId,
+			recipient_name recipientName,
+			address,
+			recipient_phone_number recipientPhoneNumber
+		FROM
+			shipping_address
+		<where>
+			user_id=#{userId}
+		</where>
 	</select>
 </mapper>

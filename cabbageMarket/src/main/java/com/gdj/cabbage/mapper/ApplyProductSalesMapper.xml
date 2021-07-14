@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 작성자 : 김태훈 -->
 <!-- 수정자 : 강혜란 210713 -->
+<!-- 수정자 : 이재범 210714 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ApplyProductSalesMapper">
 
 	<select id="selectApplyProductSalesDeliveryList" parameterType="int" resultType="map">
-		SELECT apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
-				IF(ISNULL(pcr.registration_state) , 'null심사중', '9등록가능') AS registrationState,
-				img_name imgName,
-			   apsd.user_id userId,
-			   apsd.product_name productName,
-			   apsd.return_address returnAddress,
-			   apsd.waybill_number waybillNumber,
-			   
-			   cs.category_sub_name categorySubName
-		  FROM apply_product_sales_delivery apsd
-		  					LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
-		  					LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
-							LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
-		 WHERE apsd.user_id = 3 AND ((pcr.registration_state = 9) OR (ISNULL(pcr.registration_state)))
-		 GROUP BY apsdi.apply_product_sales_delivery_id
+		SELECT 
+			apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
+			IF(ISNULL(pcr.registration_state) , 'null심사중', '9등록가능') AS registrationState,
+			img_name imgName,
+			apsd.product_name productName,
+			cs.category_sub_name categorySubName
+		FROM 
+			apply_product_sales_delivery apsd
+		  	LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
+		  	LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
+			LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
+		WHERE 
+			apsd.user_id = #{userId} AND ((pcr.registration_state = 9) OR (ISNULL(pcr.registration_state)))
+		GROUP BY 
+			apsdi.apply_product_sales_delivery_id
 	</select>
 
 	<select id="selectApplyImgByKey" parameterType="int" resultType="String"> <!-- applyId로 이미지 가져오는 매퍼 -->
-		SELECT img_name imgName
-		  FROM apply_product_sales_delivery_img
-		 WHERE apply_product_sales_delivery_id = #{applyId}
+		SELECT 
+			img_name imgName
+		FROM 
+			apply_product_sales_delivery_img
+		<where>
+		 	apply_product_sales_delivery_id = #{applyId}
+		 </where>
 	</select>
 	
 </mapper>

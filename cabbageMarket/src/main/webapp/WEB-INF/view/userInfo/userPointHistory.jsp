@@ -68,10 +68,10 @@
 								<li><a
 									href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="#">등록상품</a></li>
-								<li><a href="#">포인트 사용 조회</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
 								<li><a href="#">구매 내역</a></li>
-								<li><a href="#">내 상품 관리</a></li>
-								<li><a href="#">배송지 관리</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>
 						</div>
 					</div>
@@ -122,12 +122,12 @@
 													</th>
 												</tr>
 											</thead>
-											<c:set var="total" value = "0"/>
+											<c:set var="index" value = "0"/>
 											<c:forEach var="u" items="${userPointHistory}">
 												<c:if test="${u.content == '충전' || u.content == '유찰' || u.content == '판매'}">
 													<tr style="color : blue">
 														<td>
-															${total = total+1}
+															${index = index+1}
 														</td>
 														<td>
 															${u.content}
