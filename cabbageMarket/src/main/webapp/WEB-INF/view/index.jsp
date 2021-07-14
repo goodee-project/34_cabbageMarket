@@ -1,7 +1,9 @@
 <!-- 작성자 : 김태훈 -->
-<!-- 수정사 : 강혜란 210707 localhost/cabbageMarket/index-->
-<!-- 수정사 : 강혜란 210712 판매하기 버튼, 배추톡 버튼 링크 수정-->
+<!-- 수정자 : 강혜란 210707 localhost/cabbageMarket/index-->
+<!-- 수정자 : 강혜란 210712 판매하기 버튼, 배추톡 버튼 링크 수정-->
+<!-- 수정자 : 김태훈 210714 배추톡 세션체크 추가-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -89,7 +91,12 @@
                                <a href="#"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
-					            <a type="button" onclick="showPopup();"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            	<c:if test="${usersSession != null}">
+                            		<a type="button" onclick="showPopup();"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            	</c:if>
+                            	<c:if test="${usersSession == null}">
+                            		<a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            	</c:if>
                             </div>
                         </div>
                     </div>
@@ -338,7 +345,7 @@
 	<script>
 		// 채팅방 팝업창
 	    function showPopup() { 
-	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${3}", "chattingList", "width=400, height=600, left=200, top=200"); 
+	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${usersSession.userId}", "chattingList", "width=400, height=600, left=200, top=200"); 
 	    }
 	</script>
 

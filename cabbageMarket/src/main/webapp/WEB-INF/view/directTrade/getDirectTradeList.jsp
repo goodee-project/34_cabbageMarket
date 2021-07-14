@@ -170,7 +170,12 @@
 	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
 	                                            </div>
 	                                            <div class="latest-product__item__text">
-	                                                <h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
+	                                            	<c:if test="${DirectTradeProductRegistrationList[i].productName.length() > 9}">
+	                                                	<h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
+	                                                </c:if>
+	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
+	                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
+	                                                </c:if>
 	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
 	                                            </div>
 	                                        </a>
@@ -184,7 +189,12 @@
 	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
 	                                            </div>
 	                                            <div class="latest-product__item__text">
-	                                                <h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
+	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() > 9}">
+	                                                	<h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
+	                                                </c:if>
+	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
+	                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
+	                                                </c:if>
 	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
 	                                            </div>
 	                                        </a>

@@ -114,7 +114,7 @@
                 alert('카테고리를 선택해 주세요');
                 $('#categorySubId').focus();
             } else {
-                $('#addDirectTradeProductForm').submit();
+                $('#addApplyProductSalesDeliveryForm').submit();
             }
         });
         
@@ -234,8 +234,8 @@
     </section>
     <!-- Breadcrumb Section End -->
 		<div class="container">
-			<form id="addDirectTradeProductForm" action="${pageContext.request.contextPath}/users/addDirectTrade" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="userId" value="8"> <!-- userId = 8으로 입력 테스트 -->
+			<form id="addApplyProductSalesDeliveryForm" action="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="userId" value="${usersSession.userId}">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title product__discount__title" style="margin-top: 30px;">
@@ -250,7 +250,7 @@
 	                	<label for="imgFileUpload">
 					        <img src="${pageContext.request.contextPath}/template/img/productImgUpload.png"/>
 					    </label>
-					    <input id="imgFileUpload" name="directTradeProductImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
+					    <input id="imgFileUpload" name="applyProductSalesDeliveryImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
 					    <div id="image_container" style="display: inline;"></div> <!-- 업로드 된 이미지 미리보기 생성 -->
 	                </div>
 	                
@@ -317,7 +317,7 @@
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
 	                <div></div>
-	                	<input type="text" id="sample5_address" name="location" placeholder="주소" readonly="readonly" style="display:inline-block; width: 75%">
+	                	<input type="text" id="sample5_address" name="returnAddress" placeholder="주소" readonly="readonly" style="display:inline-block; width: 75%">
 						<input class="adrsSearchBtn" type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="display:inline-block; width: 20%"><br>
 						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 	                </div>

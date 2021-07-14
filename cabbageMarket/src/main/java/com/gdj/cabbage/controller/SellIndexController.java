@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ApplyProductSalesService;
+import com.gdj.cabbage.vo.ApplyProductSalesDelivery;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,11 +30,27 @@ public class SellIndexController {
 		return "sellIndex";
 	}
 	
+	// 상품 판매 배송 신청 등록
 	@GetMapping("addApplyProductSalesDelivery")
 	public String addApplyProductSalesDelivery() {
+		
 		return "applyProductSales/addApplyProductSalesDelivery";
 	}
 	
+	@PostMapping("addApplyProductSalesDelivery")
+	public String addApplyProductSalesDelivery(ApplyProductSalesDelivery applyProductSalesDelivery,
+			@RequestParam(value = "applyProductSalesDeliveryImgs", required = true)List<MultipartFile> applyProductSalesDeliveryImgs) {
+	
+		log.debug(Debuging.DEBUG + "--------------------------------[SellIndexController] [addApplyProductSalesDelivery] [applyProductSalesDelivery] -> applyProductSalesDelivery : " + applyProductSalesDelivery.getReturnAddress());
+		log.debug(Debuging.DEBUG + "--------------------------------[SellIndexController] [addApplyProductSalesDelivery] [applyProductSalesDelivery] -> applyProductSalesDelivery : " + applyProductSalesDelivery.toString());
+		log.debug(Debuging.DEBUG + "--------------------------------[SellIndexController] [addApplyProductSalesDelivery] [multipartFile] -> multipartFile : " + applyProductSalesDeliveryImgs.size());
+		
+		applyProductSalesService.addApplyProductSalesDelivery(applyProductSalesDelivery, applyProductSalesDeliveryImgs);
+		
+		return "redirect:/users/getDirectTradeList";
+	}
+	
+	// 상품 판매 배송 신청 등록
 	@GetMapping("getApplyProductSalesDeliveryList")
 	public String getApplyProductSalesDeliveryList(Model model,
 			@RequestParam(value="userId") int userId,
