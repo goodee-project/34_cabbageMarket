@@ -27,7 +27,7 @@ public class ManagerLoginFilter implements Filter {
 		
 		if(session.getAttribute("managerSession") == null) {
 			if(response instanceof HttpServletResponse) {
-				((HttpServletResponse)response).sendRedirect("/cabbageMarket/manager/login"); // home.jsp
+				((HttpServletResponse)response).sendRedirect("/cabbageMarket/manager/managerLogin"); // home.jsp
 			}			
 			return;
 		}

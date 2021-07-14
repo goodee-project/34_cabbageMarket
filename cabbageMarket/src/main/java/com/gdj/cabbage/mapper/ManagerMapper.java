@@ -12,6 +12,8 @@ import com.gdj.cabbage.vo.Page;
 @Mapper
 public interface ManagerMapper {
 	
+	// 매니저 상세보기
+	Map<String, Object> selectManagerInfo(String managerName);
 	// 유저목록보기 토탈
 	int selectAllUsersTotal(String searchWord);
 	// 유저목록보기 기능

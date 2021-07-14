@@ -51,7 +51,7 @@
 					  <p class="mb-4">안전한 배송을 추구합니다. 믿고 쓰는 거래 플랫폼</p>
 					</div>
 					
-					<form id="managerLoginForm" action="${pageContext.request.contextPath}/manager/managerLogin" method="post">
+					<form id="managerLoginForm" action="${pageContext.request.contextPath}/managerLogin" method="post">
 						<div class="form-group first">
 							<input type="text" class="form-control" id="email" placeholder="email">						
 						</div>

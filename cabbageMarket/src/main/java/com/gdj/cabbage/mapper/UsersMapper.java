@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gdj.cabbage.vo.PointsRechargeHistory;
 import com.gdj.cabbage.vo.SNSInfo;
+import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.Users;
 
 @Mapper
@@ -28,4 +29,6 @@ public interface UsersMapper {
 	int userPointHistoryCount(Map<String, Object> map);
 	int pointRecharge(PointsRechargeHistory prh);
 	Map<String,Object> sessionUpdate(int userId);
+	int addAddress(ShippingAddress shippingAddress);
+	List<ShippingAddress> getAddressByUserId(int userId);
 } 

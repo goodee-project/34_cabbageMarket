@@ -68,8 +68,7 @@
 					<div class="breadcrumb__text">
 						<h2>회원정보</h2>
 						<div class="breadcrumb__option">
-							<a href="${pageContext.request.contextPath}/index">Home</a> <span>Cabbage
-								Market</span>
+							<a href="${pageContext.request.contextPath}/index">Home</a> <span>Cabbage Market</span>
 						</div>
 					</div>
 				</div>
@@ -87,13 +86,12 @@
 						<div class="sidebar__item">
 							<h4>Department</h4>
 							<ul>
-								<li><a
-									href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="#">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
 								<li><a href="#">구매 내역</a></li>
-								<li><a href="#">내 상품 관리</a></li>
-								<li><a href="#">배송지 관리</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>
 						</div>
 					</div>
@@ -205,9 +203,7 @@
 	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-
-
-
+	
 </body>
 
 </html>

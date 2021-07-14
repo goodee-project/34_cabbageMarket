@@ -251,7 +251,7 @@ $(document).ready(function() {
 		var dtprId = $('.chattingRoom').eq(index).val();
 		console.log(dtprId);
 		
-		window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId="+dtprId+"&userId=3", "chattingRoom", "width=400, height=600, left=620, top=200"); 
+		window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId="+dtprId+"&userId=${usersSession.userId}", "chattingRoom", "width=400, height=600, left=620, top=200"); 
 	});
 });
 </script>

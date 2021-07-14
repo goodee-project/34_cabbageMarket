@@ -3,6 +3,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 관리자 상세보기 -->
+
+	<select id="selectManagerInfo"
+			resultType="java.util.Map"
+			parameterType="Integer">
+	
+		SELECT
+			manager_id managerId,
+			manager_name managerName,
+			manager_nickname managerNickname,
+			manager_address managerAddress,
+			manager_phone_number managerPhoneNumber,
+			manager_level managerLevel,
+			create_date createDate
+		FROM
+			manager
+		<where>
+			manager_name=#{managerName}
+		</where>
+	
+	</select>
+
 <!-- 전체 회원 목록 출력 및 회원 검색 -->
 	<select id="selectAllUsersByManager"
 			resultType="java.util.Map"
@@ -94,11 +116,9 @@
 			manager_level = #{managerLevel}
 		WHERE
 			manager_id = #{managerId}
-		AND
-			manager_level = 9
-	
+			
 	</update>
-
+	
 <!-- 관리자 세션 -->
 	<select id="ManagerloginSession"
 			resultType="java.util.Map"

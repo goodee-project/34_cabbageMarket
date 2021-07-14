@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.UsersMapper;
+import com.gdj.cabbage.service.ApplyProductSalesService;
 import com.gdj.cabbage.service.UsersService;
+import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.Users;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +41,45 @@ public class UsersController {
 	private String clientSecret = "6Uba5WIRio";
 	private String your_callback_url = "http://localhost:80/cabbageMarket/callback";
 	@Autowired UsersService usersService;
+	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
+	
+	@GetMapping("/users/myProductManagement")
+	public String myProductManagement(Model model, HttpSession session) {		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		List<Map<String,Object>> applyProductSalesDeliveryList = applyProductSalesService.getApplyProductSalesDeliveryList(userId);
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryList "+applyProductSalesDeliveryList);
+		
+		model.addAttribute("applyProductSalesDeliveryList", applyProductSalesDeliveryList);
+		
+		return "/userInfo/myProductManagement";
+	}
+	
+	@GetMapping("/users/shippingAddress")
+	public String shippingAddress(Model model, HttpSession session) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		List<ShippingAddress> getAddressByUserId = usersService.getAddressByUserId(userId);
+		
+		model.addAttribute("getAddressByUserId", getAddressByUserId);
+		
+		return "/userInfo/shippingAddress";
+	}
+	
+	@PostMapping("/users/shippingAddress")
+	public String shippingAddress(ShippingAddress shippingAddress, String location, String location2) {
+		log.debug(Debuging.DEBUG+" shippingAddress");
+		
+		shippingAddress.setAddress(location+" "+location2);
+		
+		int row = usersService.addAddress(shippingAddress);
+		log.debug(Debuging.DEBUG+" 컨트롤러 주소 추가 여부 : "+row);
+		
+		return "redirect:/users/shippingAddress";
+	}
 	
 	@GetMapping("/users/pointRecharge")
 	public String pointRecharge() {
