@@ -294,7 +294,7 @@
       
       // 채팅방 팝업창
       function showPopup() { 
-    	  window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId=${productDetail.directTradeProductRegistrationId}&userId=8", "a", "width=400, height=600, left=200, top=200"); 
+    	  window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId=${productDetail.directTradeProductRegistrationId}&userId=${usersSession.userId}", "a", "width=400, height=600, left=200, top=200"); 
       }
       
     </script>

@@ -28,4 +28,28 @@
 		 WHERE apply_product_sales_delivery_id = #{applyId}
 	</select>
 	
+	<insert id="insertApplyProductSalesDelivery" parameterType="com.gdj.cabbage.vo.ApplyProductSalesDelivery">
+		<selectKey resultType="int" keyProperty="applyProductSalesDeliveryId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO apply_product_sales_delivery (
+					user_id,
+					category_sub_id,
+					product_name,
+					return_address,
+					waybill_number,
+					delivery_requests,
+					create_date)
+		    VALUES (#{userId},
+					#{categorySubId},
+				    #{productName},
+				    #{returnAddress},
+				    #{waybillNumber},
+				    #{deliveryRequests},
+					NOW())
+	</insert>
+	
+	<insert id="insertApplyproductSalesDeliveryImg" parameterType="com.gdj.cabbage.vo.ApplyproductSalesDeliveryImg">
+		INSERT INTO apply_product_sales_delivery_img VALUES(#{applyProductSalesDeliveryId}, #{imgName}, #{imgType}, #{imgSize})
+	</insert>
 </mapper>
