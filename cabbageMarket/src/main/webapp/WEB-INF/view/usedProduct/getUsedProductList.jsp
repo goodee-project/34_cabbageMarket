@@ -41,7 +41,7 @@
 	href="${pageContext.request.contextPath}/template/css/style.css"
 	type="text/css">
 
-<title>UsedProductList</title>
+<title>배추마켓 중고상품 목록</title>
 
 </head>
 <body>
@@ -79,34 +79,62 @@
                 <div class="col-lg-3 col-md-5">
                     <div class="sidebar">
                         <div class="sidebar__item">
-                            <h4>Department</h4>
+                            <h4>CATEGORY</h4>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
+                                <li><a href="#">가전</a></li>
+                                <li><a href="#">TV</a></li>
+                                <li><a href="#">컴퓨터</a></li>
+                                <li><a href="#">노트북</a></li>
+                                <li><a href="#">태블릿</a></li>
+                                <li><a href="#">모바일</a></li>
+                                <li><a href="#">디지털 카메라</a></li>
+                                <li><a href="#">음향기기</a></li>
                             </ul>
                         </div>
+                        
                         <div class="sidebar__item">
-                            <h4>Price</h4>
-                            <div class="price-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="10" data-max="540">
-                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                </div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                
+                                    <div class="latest-prdouct__slider__item">
+                                        <c:forEach var="i" begin="0" end="2">
+	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductList[i].applyId}">
+	                                            <div class="latest-product__item__pic">
+	                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${usedProductList[i].imgName}" alt="" style="width: 110px; height: 110px;">
+	                                            </div>
+	                                            <div class="latest-product__item__text">
+	                                            	<c:if test="${usedProductList[i].productName.length() > 9}">
+	                                            		<h6>${usedProductList[i].productName.substring(0,8)}..</h6>
+	                                            	</c:if>
+	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
+	                                            		<h6>${usedProductList[i].productName}</h6>
+	                                            	</c:if>
+	                                                <span>${usedProductList[i].productPrice}</span>
+	                                            </div>
+	                                        </a>
+										</c:forEach>
                                     </div>
+                                    
+                                    <div class="latest-prdouct__slider__item">
+                                        <c:forEach var="i" begin="3" end="5">
+	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductList[i].applyId}">
+	                                            <div class="latest-product__item__pic">
+	                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${usedProductList[i].imgName}" alt="" style="width: 110px; height: 110px;">
+	                                            </div>
+	                                            <div class="latest-product__item__text">
+	                                                <c:if test="${usedProductList[i].productName.length() > 9}">
+	                                            		<h6>${usedProductList[i].productName.substring(0,8)}..</h6>
+	                                            	</c:if>
+	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
+	                                            		<h6>${usedProductList[i].productName}</h6>
+	                                            	</c:if>
+	                                                <span>${usedProductList[i].productPrice}</span>
+	                                            </div>
+	                                        </a>
+										</c:forEach>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -132,12 +160,6 @@
                                 </div>
                             </div>
                             
-                            <div class="col-lg-4 col-md-3">
-                                <div class="filter__option">
-                                    <span class="icon_grid-2x2"></span>
-                                    <span class="icon_ul"></span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">

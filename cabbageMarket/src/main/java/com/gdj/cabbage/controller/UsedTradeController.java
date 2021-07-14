@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -75,6 +76,25 @@ public class UsedTradeController {
 		
 		//getUsedProductOne 페이지로 반환
 		return "usedProduct/getUsedProductOne";
+	}
+	
+	
+	//중고상품 등록
+	@GetMapping("addUsedProduct") //주소창에 요청
+	public String addUsedProduct(Model model, @RequestParam (value="applyId", required = true) int applyId) {
+		model.addAttribute("applyId", applyId);
+		return "usedProduct/addUsedProduct";
+	}
+	
+	@PostMapping("addUsedProduct") //form 요청(처리)
+	public String addUsedProduct(@RequestParam (value="applyId", required = true) int applyId) {
+		log.debug("controller addUsedProduct()applyId :"+applyId);//디버깅
+		
+		//서비스호출
+		usedTradeService.addUsedProduct(applyId);
+		
+		//getUsedProductList로 재요청 
+		return "redirect:/users/getUsedProductList";
 	}
 	
 }

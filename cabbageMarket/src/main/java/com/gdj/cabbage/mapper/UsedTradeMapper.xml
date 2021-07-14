@@ -60,7 +60,23 @@
 	SELECT img_name imgName
 	FROM apply_product_sales_delivery_img
 	WHERE apply_product_sales_delivery_id = #{apply_product_sales_delivery_id}
-	
 </select>
+
+<!-- 중고상품 등록 -->
+<insert id="insertUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
+	insert into used_product_registration(
+		apply_product_sales_delivery_id,
+		product_desc,
+		product_price,
+		registration_deadline,
+		create_date
+	)VALUES(
+		#{applyId},
+		#{productDesc},
+		#{productPrice},
+		#{registrationDeadline},
+		NOW()
+	)
+</insert>
 
 </mapper>

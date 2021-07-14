@@ -29,7 +29,7 @@ public class UsedTradeService {
 	public int getUsedProductTotal(Map<String, Object> map) {
 		return usedTradeMapper.selectUsedProductTotal(map);
 	}
-
+	
 	//중고상품 상세 details
 	public Map<String,Object> getUsedProductOne(int applyId){
 		log.debug("★★★★★★★★service getUsedProductOne() applyId:" + applyId);
@@ -39,5 +39,11 @@ public class UsedTradeService {
 	//중고상품 상세 img
 	public List<String> getUsedProductImg(int applyProductSalesDeliveryId){
 		return usedTradeMapper.selectUsedProductImg(applyProductSalesDeliveryId);
+	}
+	
+	//중고상품 등록
+	public void addUsedProduct(int applyId) {
+		usedTradeMapper.insertUsedProduct(applyId);
+		log.debug("★★★★★★★★service addUsedProduct() applyId:"+applyId);
 	}
 }
