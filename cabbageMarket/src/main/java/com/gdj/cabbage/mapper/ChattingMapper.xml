@@ -50,10 +50,10 @@
 			   LEFT(cc.create_date,16) createDate,
 			   cc.user_id lastChatterId,
 			   cr.chatting_room_id,
-			   buyerUser.username buyer,
+			   buyerUser.nickname buyer,
 			   cr.user_id buyerId,
 			   cr.direct_trade_product_registration_id directTradeProductRegistrationId,
-			   sellerUser.username seller,
+			   sellerUser.nickname seller,
 		       sellerUser.user_id sellerId
 		  FROM chatting_content cc, chatting_room cr, users buyerUser, direct_trade_product_registration dtpr, users sellerUser
 		 WHERE cc.chatting_room_id = cr.chatting_room_id AND
