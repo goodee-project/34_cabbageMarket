@@ -11,10 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
+import com.gdj.cabbage.mapper.ManagerMapper;
 import com.gdj.cabbage.service.ManagerService;
 import com.gdj.cabbage.vo.Manager;
 
@@ -22,10 +22,21 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/manager")
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+
+	// 관리자 상세보기
+	@GetMapping("/manager/getManagerInfo")
+	public String getManagerInfo(Model model, @RequestParam(value="managerName", required=true) String managerName) {
+		
+		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerName);
+		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo);
+		
+		model.addAttribute("managerMap", managerInfo.get("managerMap"));
+		
+		return "/manager/getManagerInfo";
+	}
 
 	// 회원 목록 출력 기능
 	@GetMapping("/manager/getAllUsersByManager")
@@ -68,16 +79,16 @@ public class ManagerController {
 	}
 
 	
-	// 관리자 수정 //
-	// GET
+	// 관리자 수정 // 이 부분인데 .. 여기서 리퀘스트 파람으로 원래 managerId를 받아오는걸로 되어있었는데 
+	// GET // 수정페이지만 보내주는것
 	@GetMapping("/manager/modifyManager")
-	public String modifyManager(Model model, @RequestParam(value = "manager", required = true) Manager manager) {
-		log.debug(Debuging.DEBUG+" manager : "+manager);
+	public String modifyManager(Model model, @RequestParam(value = "managerId", required = true) String managerId) {
+		log.debug(Debuging.DEBUG+" managerId : "+managerId);
+		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerId);
 		
-		Map<String, Object> managerInfo = managerService.ManagerloginSession(manager);
-		log.debug(Debuging.DEBUG+" manager : "+ manager);
+		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo);
 		
-		model.addAttribute("managerId", manager);
+		model.addAttribute("managerId", managerId);
 		model.addAttribute("username", managerInfo.get("username"));
 		model.addAttribute("email", managerInfo.get("email"));
 		model.addAttribute("nickname", managerInfo.get("nickname"));
@@ -87,8 +98,7 @@ public class ManagerController {
 		
 		return "manager/modifyManager";
 	}
-	
-	// POST
+	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
 	@PostMapping("/manager/modifyManager")
 	public String modifyManager(Manager manager) {
 		log.debug(Debuging.DEBUG+" manager : "+manager);
@@ -105,14 +115,15 @@ public class ManagerController {
 	
 	// 관리자 로그인 //
 	// GET
-	@GetMapping("/manager/managerLogin")
+	@GetMapping("/managerLogin")
 	public String login() {
-		return "manager/managerLogin";
+		return "/managerLogin";
 	}
 	
 	// POST
-	@PostMapping("/manager/managerLogin")
+	@PostMapping("/managerLogin")
 	public String login(HttpSession session, Manager manager) {
+		log.debug(Debuging.DEBUG+"=================================== manager " + manager);
 		log.debug(Debuging.DEBUG+" manager " + manager);
 		
 		Map<String, Object> managerSession = managerService.ManagerloginSession(manager);
@@ -123,7 +134,12 @@ public class ManagerController {
 			
 		}
 		
-		return "redirect:/manager/managerIndex";
+		return "redirect:/managerIndex";
+	}
+	
+	@GetMapping("/managerIndex")
+	public String managerIndex() {
+		return "/manager/managerIndex";
 	}
 
 	

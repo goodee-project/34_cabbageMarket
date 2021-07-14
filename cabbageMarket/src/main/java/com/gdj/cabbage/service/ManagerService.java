@@ -23,6 +23,16 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 관리자 상세보기
+	public Map<String, Object> selectManagerInfo(String managerName){
+		log.debug(Debuging.DEBUG+" managerName : " + managerName);
+		
+		Map<String, Object> managerMap = managerMapper.selectManagerInfo(managerName);
+		log.debug(Debuging.DEBUG+" managerMap : " + managerMap);
+		
+		return managerMap;
+	}
+
 	// 회원 목록 출력 서비스
 	public Map<String, Object> getAllUsersByManager(int currentPage, int rowPerPage, String searchWord){ // <-- controller에서 받아오는 parameter
 		log.debug("managerService의 getAllUsersByManager 실행...");
