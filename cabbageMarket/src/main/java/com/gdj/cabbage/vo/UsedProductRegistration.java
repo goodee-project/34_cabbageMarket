@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UsedProductRegistration {
 	
-	private int applyProductSaleDeliveryid;
+	private int applyProductSalesDeliveryid;
 	private String productDesc;
 	private int productPrice;
 	private int registrationState;

@@ -233,7 +233,7 @@
 				                                    </td>
 				                                    <td>
 				                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
-					                                        <a href="#" class="primary-btn cart-btn cart-btn-right">증고등록</a>
+					                                        <a href="${pageContext.request.contextPath}/users/addUsedProduct?applyId=${apsdl.applyProductSalesDeliveryId}" class="primary-btn cart-btn cart-btn-right">증고등록</a>
 				                                        </c:if>
 				                                    </td>
 				                                    <td class="shoping__cart__item__close">

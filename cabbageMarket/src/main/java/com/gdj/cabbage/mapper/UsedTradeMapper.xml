@@ -71,7 +71,7 @@
 		registration_deadline,
 		create_date
 	)VALUES(
-		#{applyId},
+		#{applyProductSalesDeliveryid},
 		#{productDesc},
 		#{productPrice},
 		#{registrationDeadline},

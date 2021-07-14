@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.service.UsedTradeService;
+import com.gdj.cabbage.vo.UsedProductRegistration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,11 +88,11 @@ public class UsedTradeController {
 	}
 	
 	@PostMapping("addUsedProduct") //form 요청(처리)
-	public String addUsedProduct(@RequestParam (value="applyId", required = true) int applyId) {
-		log.debug("controller addUsedProduct()applyId :"+applyId);//디버깅
+	public String addUsedProduct(UsedProductRegistration usedProductRegistration) {
+		log.debug("controller addUsedProduct() usedProductRegistration :"+usedProductRegistration);//디버깅
 		
 		//서비스호출
-		usedTradeService.addUsedProduct(applyId);
+		usedTradeService.addUsedProduct(usedProductRegistration);
 		
 		//getUsedProductList로 재요청 
 		return "redirect:/users/getUsedProductList";

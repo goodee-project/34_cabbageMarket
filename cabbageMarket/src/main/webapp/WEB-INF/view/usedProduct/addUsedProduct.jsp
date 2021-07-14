@@ -100,9 +100,9 @@
             } else if ($('#productPrice').val() == '') {
            	   	alert('상품 가격을 입력하세요');
                 $('#productPrice').focus();
-            } else if ($('#deadLine').val() == '') {
+            } else if ($('#registrationDeadline').val() == '') {
                 alert('마감 기한을 입력하세요');
-                $('#deadLine').focus();
+                $('#registrationDeadline').focus();
             } else {
                 $('#addUsedProductForm').submit();
             }
@@ -137,13 +137,13 @@
                     </div>
                 </div>
             </div>
-        </div>ly
+        </div>
     </section>
     <!-- Breadcrumb Section End -->
 		<div class="container">
 			<form id="addUsedProductForm" action="${pageContext.request.contextPath}/users/addUsedProduct" method="post">
 				<input type="hidden" name="userId" value="8">
-				<input type="hidden" name="applyId" value="${applyId}">
+				<input type="hidden" name="applyProductSalesDeliveryid" value="${applyId}">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title product__discount__title" style="margin-top: 30px;">
@@ -164,7 +164,7 @@
 	                	<h4>판매 가격<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                	<input type="text" id="productName" name="productName" placeholder="가격을 입력하세요.">
+	                	<input type="text" id="productPrice" name="productPrice" placeholder="가격을 입력하세요.">
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 	                <!-- 마감기한 입력 -->
@@ -172,7 +172,7 @@
 	                	<h4>마감 기한<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                	<input type="text" id="productName" name="productName" placeholder="2021-01-01">
+	                	<input type="text" id="registrationDeadline" name="registrationDeadline" placeholder="2021-01-01">
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 	                <!-- 등록 버튼 -->
