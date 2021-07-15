@@ -330,6 +330,7 @@
 			
 	</insert>
 	
+	<!-- 배송지 출력 쿼리 -->
 	<select id="getAddressByUserId" parameterType="Integer" resultType="com.gdj.cabbage.vo.ShippingAddress">
 		SELECT
 			shipping_address_id shippingAddressId,
@@ -337,6 +338,17 @@
 			recipient_name recipientName,
 			address,
 			recipient_phone_number recipientPhoneNumber
+		FROM
+			shipping_address
+		<where>
+			user_id=#{userId}
+		</where>
+	</select>
+	
+	<!-- 배송지 개수 쿼리 -->
+	<select id="getAddressCount" parameterType="Integer" resultType="Integer">
+		SELECT
+			COUNT(*)
 		FROM
 			shipping_address
 		<where>

@@ -13,24 +13,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-	$(document).ready(function() {
-		console.log("document ready!");
-		$('#addButton').click(function() {
-			console.log("btn click!");
-			if ($('#username').val().length < 3) {
-				alert('username는 3자이상 이어야 합니다');
-				$('#username').focus();
-			} else if ($('#commentContent').val().length < 5) {
-				alert('commentContent는 5자이상 이어야 합니다');
-				$('#commentContent').focus();
-			} else {
-				$('#addCommentForm').submit();
-			}
 
-		});
-	});
-</script>
 </head>
 <body>
 <div class="container">
@@ -40,34 +23,37 @@
 			<tbody>
 				<tr>
 					<td>managerId :</td>
-					<td>${managerMap.managerId}</td>
+					<td>${managerInfo.managerId}</td>
 				</tr>
 				<tr>
 					<td>managerName :</td>
-					<td>${managerMap.managerName}</td>
+					<td>${managerInfo.managerName}</td>
 				</tr>
 				<tr>
 					<td>managerNickname :</td>
-					<td>${managerMap.managerNickname}</td>
+					<td>${managerInfo.managerNickname}</td>
 				</tr>
 				<tr>
 					<td>managerAddress :</td>
-					<td>${managerMap.managerAddress}</td>
+					<td>${managerInfo.managerAddress}</td>
 				</tr>
 				<tr>
 					<td>managerPhoneNumber :</td>
-					<td>${managerMap.managerPhoneNumber}</td>
+					<td>${managerInfo.managerPhoneNumber}</td>
 				</tr>
 				<tr>
 					<td>managerLevel :</td>
-					<td>${managerMap.managerLevel}</td>
+					<td>${managerInfo.managerLevel}</td>
 				</tr>
 				<tr>
 					<td>createDate :</td>
-					<td>${managerMap.createDate}</td>
+					<td>${managerInfo.createDate}</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/manager/modifyManager?managerId=${managerInfo.managerId}">수정</a>
+    
 
 	</div>
 </body>

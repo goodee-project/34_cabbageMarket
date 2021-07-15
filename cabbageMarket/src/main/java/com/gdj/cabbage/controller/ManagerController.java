@@ -33,7 +33,7 @@ public class ManagerController {
 		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerName);
 		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo);
 		
-		model.addAttribute("managerMap", managerInfo.get("managerMap"));
+		model.addAttribute("managerInfo", managerInfo);
 		
 		return "/manager/getManagerInfo";
 	}
@@ -84,17 +84,11 @@ public class ManagerController {
 	@GetMapping("/manager/modifyManager")
 	public String modifyManager(Model model, @RequestParam(value = "managerId", required = true) String managerId) {
 		log.debug(Debuging.DEBUG+" managerId : "+managerId);
-		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerId);
+		Map<String, Object> managerOne = managerService.selectManagerInfo(managerId);
 		
-		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo);
+		log.debug(Debuging.DEBUG+" managerOne : " + managerOne);
 		
-		model.addAttribute("managerId", managerId);
-		model.addAttribute("username", managerInfo.get("username"));
-		model.addAttribute("email", managerInfo.get("email"));
-		model.addAttribute("nickname", managerInfo.get("nickname"));
-		model.addAttribute("mobile", managerInfo.get("mobile"));
-		model.addAttribute("createDate", managerInfo.get("createDate"));
-		model.addAttribute("snsType", managerInfo.get("snsType"));
+		model.addAttribute("managerOne", managerOne);
 		
 		return "manager/modifyManager";
 	}
@@ -103,13 +97,9 @@ public class ManagerController {
 	public String modifyManager(Manager manager) {
 		log.debug(Debuging.DEBUG+" manager : "+manager);
 		
-		int row = managerService.modifyManager(manager);
+		managerService.modifyManager(manager);
 		
-		if(row == 0) {
-			return "redirect:/manager/modifyManager";
-		}
-		
-		return "redirect:/manager/getManagerList";
+		return "redirect:/manager/getManagerInfo";
 	}
 	
 	

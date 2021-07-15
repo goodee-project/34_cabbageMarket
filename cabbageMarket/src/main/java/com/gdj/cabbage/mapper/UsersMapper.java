@@ -31,4 +31,5 @@ public interface UsersMapper {
 	Map<String,Object> sessionUpdate(int userId);
 	int addAddress(ShippingAddress shippingAddress);
 	List<ShippingAddress> getAddressByUserId(int userId);
+	int getAddressCount(int userId);
 } 
