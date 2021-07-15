@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.mapper.ChattingMapper;
+import com.gdj.cabbage.vo.ChattingContent;
 
 @Service
 @Transactional
@@ -28,7 +29,7 @@ public class ChattingService {
 		
 		// 2. 채팅방 정보가 없으면 채팅방 생성
 		if(ChattingRoomInfo == null) {
-			chattingMapper.insertChattingRoop(map);
+			chattingMapper.insertChattingRoom(map);
 			ChattingRoomInfo = chattingMapper.selectChattingRoomOne(map); // 생성된 채팅방 정보 가져오기
 		}
 		
@@ -47,5 +48,15 @@ public class ChattingService {
 	// 채팅방 목록 가져오기
 	public List<Map<String, Object>> getChattingRoomList(int userId){
 		return chattingMapper.selectChattingRoomListById(userId);
+	}
+	
+	// 채팅 입력
+	public void addChattingContent(ChattingContent chattingContent) {
+		chattingMapper.insertChattingContent(chattingContent);
+	}
+	
+	// 방금 입력한 채팅 닉네임, 시간 가져오기
+	public Map<String, Object> getNickNameAndCreateDate(int chattingContentId) {
+		return chattingMapper.selectNickNameAndCreateDateBykey(chattingContentId);
 	}
 }

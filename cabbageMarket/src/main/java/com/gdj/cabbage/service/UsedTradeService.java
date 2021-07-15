@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.mapper.CategoryMapper;
 import com.gdj.cabbage.mapper.UsedTradeMapper;
+import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.UsedProductRegistration;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,8 @@ public class UsedTradeService {
 	}
 	
 	//중고상품 등록
-	public void addUsedProduct(UsedProductRegistration usedProductRegistration) {
-		usedTradeMapper.insertUsedProduct(usedProductRegistration);
-		log.debug("★★★★★★★★service addUsedProduct() applyId:"+usedProductRegistration);
+	public void addUsedProduct(UsedProductRegistration usedProductRegistration, ProductConfirmationRegistration productConfirmationRegistration) {
+		usedTradeMapper.insertUsedProduct(usedProductRegistration); //중고상품 등록
+		usedTradeMapper.updateProductRegistrationState(productConfirmationRegistration); //상태값 변경(미등록->중고상품)
 	}
 }

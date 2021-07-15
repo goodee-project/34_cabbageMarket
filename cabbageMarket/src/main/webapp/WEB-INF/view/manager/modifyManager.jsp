@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>BoardOne</title>
+<title>modifyManager</title>
 <!-- bootstrap을 사용하기 위한 CDN주소 -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -29,25 +29,25 @@
 <body>
 <div class="container">
 
-    <h1>BoardOne</h1>
-    <form action="${pageContext.request.contextPath}/manager/modifyManager" id="modifyManager" method="post">
+    <h1>modifyManager</h1>
+    <form action="${pageContext.request.contextPath}/manager/modifyManager" id="modifyForm" method="post">
 	    <table class="table">
 	         <tbody>
 	            <tr>
 	                <td>managerNickname :</td>
-	                <td><input type="text" id="managerNickname" name="managerNickname" value="${modifyManager.managerNickname}"></td>
+	                <td><input type="text" id="managerNickname" name="managerNickname" value="${managerOne.managerNickname}"></td>
 	            </tr>
 	            <tr>
 	                <td>managerAddress :</td>
 	                <td>
-	                	<input type="text" id="managerAddress" name="managerAddress" value="${modifyManager.managerAddress}">
+	                	<input type="text" id="managerAddress" name="managerAddress" value="${managerOne.managerAddress}">
 	                </td>
 	            </tr>
 
 	            <tr>
 	                <td>managerPhoneNumber :</td>
 	                <td>
-	                	<input type="password" id="managerPhoneNumber" name="managerPhoneNumber">
+	                	<input type="text" id="managerPhoneNumber" name="managerPhoneNumber" value="${managerOne.managerPhoneNumber}">
 	                </td>
 	            </tr>
 	            <tr>
