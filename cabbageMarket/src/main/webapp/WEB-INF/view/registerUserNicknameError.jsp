@@ -31,7 +31,9 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8">
 					  	<div class="mb-4">
-						  <h3 style="color: #01DFA5"><strong>배추마켓</strong></h3>
+						  <div class="humberger__menu__logo">
+							<a href="${pageContext.request.contextPath}/index"><img src="${pageContext.request.contextPath}/template/img/logo_CM.png" alt=""></a>
+						  </div>
 						  <p class="mb-3"><b>닉네임 중복</b></p>
 						</div>
 						<a href="${pageContext.request.contextPath}/registerUser" style="text-decoration: none">
