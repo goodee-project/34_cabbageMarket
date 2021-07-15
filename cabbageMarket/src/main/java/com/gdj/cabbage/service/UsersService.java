@@ -32,6 +32,26 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
+	// 유저 경매등록 리스트 출력 서비스
+	public List<Map<String, Object>> getAuctionProductList(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		List<Map<String, Object>> getAuctionProductList = usersMapper.getAuctionProductListByUserId(userId);
+		log.debug(Debuging.DEBUG+" getAuctionProductList : "+getAuctionProductList);
+		
+		return getAuctionProductList;
+	}
+	
+	// 유저 중고등록 리스트 출력 서비스
+	public List<Map<String, Object>> getUserProductList(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		List<Map<String, Object>> getUserProductList = usersMapper.getUsedProductListByUserId(userId);
+		log.debug(Debuging.DEBUG+" getUserProductList : "+getUserProductList);
+		
+		return getUserProductList;
+	}
+	
 	// 배송지 출력 서비스
 	public List<ShippingAddress> getAddressByUserId(int userId){
 		log.debug(Debuging.DEBUG+" userId : "+userId);

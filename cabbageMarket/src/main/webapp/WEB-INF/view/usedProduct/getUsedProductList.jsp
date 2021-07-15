@@ -81,15 +81,7 @@
                         <div class="sidebar__item">
                             <h4>CATEGORY</h4>
                             <ul>
-                                <li><a href="#">가전</a></li>
-                                <li><a href="#">TV</a></li>
-                                <li><a href="#">컴퓨터</a></li>
-                                <li><a href="#">노트북</a></li>
-                                <li><a href="#">태블릿</a></li>
-                                <li><a href="#">모바일</a></li>
-                                <li><a href="#">디지털 카메라</a></li>
-                                <li><a href="#">음향기기</a></li>
-                            </ul>
+                            </ul>	   
                         </div>
                         
                         <div class="sidebar__item">
@@ -146,17 +138,17 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
-                                    <span>Sort By</span>
                                     <select>
-                                        <option value="0"></option>
-                                        <option value="0">Default</option>
+                                  	    <option value="0">최신상품순</option>
+                                        <option value="0">낮은가격순</option>
+                                        <option value="0">높은가격순</option>
                                     </select>
                                 </div>
                             </div>
                             
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6>Products <span>${TOTAL}</span></h6>
+                                    <h6>Products <span>${usedProductTotal}</span></h6>
                                 </div>
                             </div>
                             

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +45,24 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/registedProduct")
+	public String registedProduct(Model model, HttpSession session) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		List<Map<String, Object>> getUsedProductList = usersService.getUserProductList(userId);
+		log.debug(Debuging.DEBUG+" getUsedProductList : "+getUsedProductList);
+		
+		List<Map<String, Object>> getActionProductList = usersService.getAuctionProductList(userId);
+		log.debug(Debuging.DEBUG+" getActionProductList : "+getActionProductList);
+		
+		model.addAttribute("getUsedProductList", getUsedProductList);
+		model.addAttribute("getActionProductList", getActionProductList);
+		
+		return "/userInfo/registedProduct";
+		
+	}
+	
 	@GetMapping("/users/myProductManagement")
 	public String myProductManagement(Model model, HttpSession session) {		
 		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
@@ -53,6 +72,7 @@ public class UsersController {
 		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryList "+applyProductSalesDeliveryList);
 		
 		model.addAttribute("applyProductSalesDeliveryList", applyProductSalesDeliveryList);
+		
 		
 		return "/userInfo/myProductManagement";
 	}
