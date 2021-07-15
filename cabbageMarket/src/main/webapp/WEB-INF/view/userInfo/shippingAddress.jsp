@@ -24,6 +24,13 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+	<style>
+		.card{
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 		$(document).ready(function(){
@@ -105,43 +112,46 @@
 						<div>
 							<div class="col-md-10">									
 								<div class="card">
-									<div class="card-header">
-										<b>배송지 추가 (최대 5개 등록 가능)</b>
-									</div>
-									<form action="${pageContext.request.contextPath}/users/shippingAddress" method="post" id="addAddressForm">
-										<div class="body">
-											<input type="hidden" name="userId" value='${usersSession.get("userId")}'>											
-											<input type="text" id="recipientName" name="recipientName" placeholder="수령인 성함" style="display:inline-block; width: 85%" class="form-control">
-											<input type="text" id="recipientPhoneNumber" name="recipientPhoneNumber" placeholder="수령인 핸드폰 번호" style="display:inline-block; width: 85%" class="form-control">
-											<input type="text" id="sample5_address" name="location" placeholder="도로명 주소" readonly="readonly" style="display:inline-block; width: 85%" class="form-control">
-											<input class="btn btn-outline-success" type="button" onclick="sample5_execDaumPostcode()" value="검색" style="display:inline-block; width: 10%">
-											<input type="text" id="location2" name="location2" placeholder="상세 주소" style="display:inline-block; width: 85%" class="form-control">																					
-										</div>
-										<div class="card-footer">
-											<button type="button" id="btn" class="btn btn-outline-success">추가</button>
-										</div>
+									<form action="${pageContext.request.contextPath}/users/shippingAddress" method="post" id="addAddressForm">										
+										<h4><b>배송지 추가 (최대 5개 등록 가능)</b></h4>
+										<br>
+										<input type="hidden" name="userId" value='${usersSession.get("userId")}'>											
+										<input type="text" id="recipientName" name="recipientName" placeholder="수령인 성함" style="display:inline-block; width: 85%" class="form-control">
+										<input type="text" id="recipientPhoneNumber" name="recipientPhoneNumber" placeholder="수령인 핸드폰 번호" style="display:inline-block; width: 85%" class="form-control">
+										<input type="text" id="sample5_address" name="location" placeholder="도로명 주소" readonly="readonly" style="display:inline-block; width: 85%" class="form-control">
+										<input class="btn btn-outline-success" type="button" onclick="sample5_execDaumPostcode()" value="검색" style="display:inline-block; width: 10%">
+										<input type="text" id="location2" name="location2" placeholder="상세 주소" style="display:inline-block; width: 85%" class="form-control">
+										<div>	
+											<br>	
+											<button type="button" id="btn" class="btn btn-outline-success">추가</button>	
+										</div>																										
 									</form>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<hr>
+							<br>
+							<hr>
+							<div>
+								<h3><b>배송지</b></h3>
+							</div>
+							<br>		
+							<div class="col-md-10">
 								<c:forEach var="a" items="${getAddressByUserId}">
-									<div class="card">
-										<div>
-											${a.recipientName}
-										</div>
-										<div>
-											${a.address}
-										</div>
-										<div>
-											${a.recipientPhoneNumber}
-										</div>
-									</div>
-									<br>
-									<br>
-								</c:forEach>
-							</div>	
-
+						          <div class="card">
+						            <div class="card-block">
+						              <h4 class="card-title"><b>${a.recipientName}</b></h4>
+						              <h6 class="card-subtitle text-muted">${a.recipientPhoneNumber}</h6>
+						              <p class="card-text p-y-1">${a.address}</p>
+						              <div class="row">
+						              	<div class="col-10"></div>
+						              	<div class="col-2">
+						              		<a href="#" class="card-link">삭제</a>
+						              	</div>
+						              </div>						              
+						            </div>
+						          </div>
+						          <br>
+						         </c:forEach>
+					        </div>
 						</div>
 					</div>
 				</div>

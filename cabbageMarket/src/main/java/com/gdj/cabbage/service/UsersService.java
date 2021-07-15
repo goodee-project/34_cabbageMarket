@@ -46,6 +46,13 @@ public class UsersService {
 	public int addAddress(ShippingAddress shippingAddress) {
 		log.debug(Debuging.DEBUG+" shippingAddress : "+shippingAddress);
 		
+		int userId = shippingAddress.getUserId();
+		
+		int count = usersMapper.getAddressCount(userId);
+		if(count >=5) {
+			return 0;
+		}
+		
 		int row = usersMapper.addAddress(shippingAddress);
 		log.debug(Debuging.DEBUG+" 주소 추가 성공 여부 : "+row);
 		
