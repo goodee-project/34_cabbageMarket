@@ -23,7 +23,10 @@
 		 		 cr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 	</select>
 	
-	<insert id="insertChattingRoop" parameterType="map">
+	<insert id="insertChattingRoom" parameterType="map">
+		<selectKey resultType="int" keyProperty="chattingRoomId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO chatting_room(direct_trade_product_registration_id,user_id,create_date) 
 		     VALUES(#{directTradeProductRegistrationId}, #{userId}, NOW())
 	</insert>

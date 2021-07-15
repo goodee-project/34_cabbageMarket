@@ -29,7 +29,7 @@ public class ChattingService {
 		
 		// 2. 채팅방 정보가 없으면 채팅방 생성
 		if(ChattingRoomInfo == null) {
-			chattingMapper.insertChattingRoop(map);
+			chattingMapper.insertChattingRoom(map);
 			ChattingRoomInfo = chattingMapper.selectChattingRoomOne(map); // 생성된 채팅방 정보 가져오기
 		}
 		

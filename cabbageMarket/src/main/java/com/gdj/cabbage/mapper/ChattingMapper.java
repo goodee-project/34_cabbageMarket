@@ -11,7 +11,7 @@ import com.gdj.cabbage.vo.ChattingContent;
 @Mapper
 public interface ChattingMapper {
 	Map<String, Object> selectChattingRoomOne(Map<String, Object> map); // 채팅방 정보 가져오기
-	void insertChattingRoop(Map<String, Object> map); // 채팅방 생성
+	void insertChattingRoom(Map<String, Object> map); // 채팅방 생성
 	Integer selectSellerId(int directTradeProductRegistrationId); // 직거래 상품 등록 (판매자) Id 가져오기
 	
 	List<Map<String, Object>> selectChattingContentListById(int chattingRoomId); // 채팅방에 있는 채팅 내용 리스트

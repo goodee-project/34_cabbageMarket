@@ -104,9 +104,9 @@ $(document).ready(function() {
         <!-- selected chat -->
     	<div class="col-md-8 bg-white ">
             <div class="chat-message">
+            	<input type="hidden" id="chattingRoomId" value="${ChattingRoomInfo.chattingRoomId}">
                 <ul class="chat" id="chattingContent">
                 	<c:forEach var="ccl" items="${chattingContentList}">
-                		<input type="hidden" id="chattingRoomId" value="${ccl.chattingRoomId}">
                 		<!-- 상대방 채팅 왼쪽 -->
                 		<c:if test="${ccl.userId != userId}">
 		                    <li class="left clearfix">
