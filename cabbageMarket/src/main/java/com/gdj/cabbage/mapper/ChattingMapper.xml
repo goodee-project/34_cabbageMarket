@@ -8,7 +8,7 @@
 			   cr.direct_trade_product_registration_id directTradeProductRegistrationId,
 			   cr.user_id userId,
 			   cr.chatting_room_state chattingRoomState,
-			   cr.create_date createDate,
+			   LEFT(cr.create_date,16) createDate,
 			   dtpr.user_id sellerId
 		  FROM chatting_room cr, direct_trade_product_registration dtpr
 		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
@@ -32,7 +32,7 @@
 	    SELECT cc.chatting_room_id chattingRoomId,
 			   cc.user_id userId,
 			   cc.content,
-			   cc.create_date createDate,
+			   LEFT(cc.create_date,16) createDate,
 			   u.nickname
 	      FROM chatting_content cc, users u
 	     WHERE cc.user_id = u.user_id AND
@@ -40,10 +40,20 @@
 	  ORDER BY cc.create_date
 	</select>
 	
-	<insert id="insertChattingContent" parameterType="map">
+	<insert id="insertChattingContent" parameterType="com.gdj.cabbage.vo.ChattingContent">
+		<selectKey resultType="int" keyProperty="chattingContentId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO chatting_content(chatting_room_id,user_id,content,create_date)
 		VALUES (#{chattingRoomId},#{userId},#{content},NOW())
 	</insert>
+	
+	<select id="selectNickNameAndCreateDateBykey" parameterType="int" resultType="map">
+		SELECT u.nickname, LEFT(cc.create_date,16) createDate
+		  FROM chatting_content cc, users u
+	     WHERE cc.user_id = u.user_id AND
+			   cc.chatting_content_id = #{chattingContentId}
+	</select>
 	
 	<select id="selectChattingRoomListById" parameterType="int" resultType="map">
 		SELECT cc.content lastContent,
