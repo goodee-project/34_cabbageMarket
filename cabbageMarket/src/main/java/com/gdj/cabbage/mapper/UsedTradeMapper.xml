@@ -4,79 +4,87 @@
 <mapper namespace="com.gdj.cabbage.mapper.UsedTradeMapper">
 
 <!-- 중고상품 목록  -->
-<select id="selectUsedProductList" parameterType="java.util.Map" resultType="java.util.Map">
-	SELECT 
-		pr.apply_product_sales_delivery_id applyId,
-		img.img_name imgName,
-		pd.product_name productName,
-		FORMAT(pr.product_price, N'#,0') productPrice,
-		cate.category_sub_name categorySubName
-	FROM 
-		used_product_registration pr
-	LEFT JOIN apply_product_sales_delivery pd ON pr.apply_product_sales_delivery_id = pd.apply_product_sales_delivery_id
-	LEFT JOIN apply_product_sales_delivery_img img ON pd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
-	LEFT JOIN category_sub cate ON pd.category_sub_id = cate.category_sub_id
-	<where>
-		<if test="searchWord != null">
-			AND pd.productName LIKE CONCAT ('%',#{searchWord},'%')
-		</if>
-	</where>
-	GROUP BY productName 
-	ORDER BY pr.create_date DESC
-	LIMIT #{beginRow}, #{rowPerPage}
-</select>
+	<select id="selectUsedProductList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			pr.apply_product_sales_delivery_id applyId,
+			img.img_name imgName,
+			pd.product_name productName,
+			FORMAT(pr.product_price, N'#,0') productPrice,
+			cate.category_sub_name categorySubName
+		FROM 
+			used_product_registration pr
+		LEFT JOIN apply_product_sales_delivery pd ON pr.apply_product_sales_delivery_id = pd.apply_product_sales_delivery_id
+		LEFT JOIN apply_product_sales_delivery_img img ON pd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+		LEFT JOIN category_sub cate ON pd.category_sub_id = cate.category_sub_id
+		<where>
+			<if test="searchWord != null">
+				AND pd.productName LIKE CONCAT ('%',#{searchWord},'%')
+			</if>
+		</where>
+		GROUP BY productName 
+		ORDER BY pr.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
 
 <!-- 중고상품 total -->
-<select id="selectUsedProductTotal" parameterType="java.util.Map" resultType="Integer" >
-	SELECT count(*)
-	FROM 
-		used_product_registration
-	<where>
-		<if test="searchWord != null">
-			product_name LIKE CONCAT ('%',#{searchWord},'%')
-		</if>
-	</where>
-</select>
+	<select id="selectUsedProductTotal" parameterType="java.util.Map" resultType="Integer" >
+		SELECT count(*)
+		FROM 
+			used_product_registration
+		<where>
+			<if test="searchWord != null">
+				product_name LIKE CONCAT ('%',#{searchWord},'%')
+			</if>
+		</where>
+	</select>
 
 <!-- 중고상품 상세  -->
-<select id="selectUsedProductOne" parameterType="Integer" resultType="java.util.Map">
-	SELECT 
-		upr.apply_product_sales_delivery_id applyId,
-		apsd.product_name productName,
-		u.nickname nickname,
-		upr.product_desc productDesc,
-		FORMAT(upr.product_price, N'#,0') productPrice,
-		LEFT(upr.registration_deadline,16) deadLine
-	
-	FROM used_product_registration upr
-	LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
-	LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
-	LEFT JOIN users u ON apsd.user_id = u.user_id
-	WHERE upr.apply_product_sales_delivery_id = #{applyId}
-</select>
+	<select id="selectUsedProductOne" parameterType="Integer" resultType="java.util.Map">
+		SELECT 
+			upr.apply_product_sales_delivery_id applyId,
+			apsd.product_name productName,
+			u.nickname nickname,
+			upr.product_desc productDesc,
+			FORMAT(upr.product_price, N'#,0') productPrice,
+			LEFT(upr.registration_deadline,16) deadLine
+		
+		FROM used_product_registration upr
+		LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
+		LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+		LEFT JOIN users u ON apsd.user_id = u.user_id
+		WHERE upr.apply_product_sales_delivery_id = #{applyId}
+	</select>
 
 <!-- 중고상품 상세 이미지  -->
-<select id="selectUsedProductImg" parameterType="Integer" resultType="String">
-	SELECT img_name imgName
-	FROM apply_product_sales_delivery_img
-	WHERE apply_product_sales_delivery_id = #{apply_product_sales_delivery_id}
-</select>
+	<select id="selectUsedProductImg" parameterType="Integer" resultType="String">
+		SELECT img_name imgName
+		FROM apply_product_sales_delivery_img
+		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+	</select>
 
 <!-- 중고상품 등록 -->
-<insert id="insertUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
-	insert into used_product_registration(
-		apply_product_sales_delivery_id,
-		product_desc,
-		product_price,
-		registration_deadline,
-		create_date
-	)VALUES(
-		#{applyProductSalesDeliveryid},
-		#{productDesc},
-		#{productPrice},
-		#{registrationDeadline},
-		NOW()
-	)
-</insert>
+	<insert id="insertUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
+		insert into used_product_registration(
+			apply_product_sales_delivery_id,
+			product_desc,
+			product_price,
+			registration_deadline,
+			create_date
+		)VALUES(
+			#{applyProductSalesDeliveryId},
+			#{productDesc},
+			#{productPrice},
+			#{registrationDeadline},
+			NOW()
+		)
+	</insert>
+	
+	<!-- 심사중인 상품이 중고상품으로 등록되면 배송확인목록에서 사라지도록... (registration_state값이 9[미등록] -> 1[중고]로 변경) -->
+	<update id="updateProductRegistrationState" parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
+		UPDATE product_confirmation_registration
+		SET registration_state = 1
+		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+	</update>
+
 
 </mapper>
