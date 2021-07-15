@@ -101,6 +101,17 @@ $(document).ready(function() {
 <body>
 <div class="container bootstrap snippets bootdey">
     <div class="row">
+    
+    	<div class="banner">
+    		<img class="product__details__pic__item--large" style="width: 50px; height: 50px; margin-right: 10px;"
+            	src="${pageContext.request.contextPath}/template/img/directTradeImg/imgId_1_userId_3_1.jpg" alt="">
+    		<div style="padding-right: 10px;">
+    			<div class="bannerPrice">170,000<small>원</small></div>
+    			<div class="bannerName"><span style="color: rgb(153, 219, 139);font-weight: bold;">안전</span>아이폰 프로</div>
+    		</div>
+    		<button class="bannerButton" type="button">상태변경</button>
+    	</div>
+    	
         <!-- selected chat -->
     	<div class="col-md-8 bg-white ">
             <div class="chat-message">

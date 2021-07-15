@@ -2,10 +2,9 @@
 body {
   padding-top: 0;
   font-size: 12px;
-  color: #777;
+  color: black;
   background: #f9f9f9;
   font-family: 'Open Sans',sans-serif;
-  margin-top:20px;
 }
 
 p {
@@ -14,6 +13,7 @@ p {
 
 .bg-white {
   background-color: #fff;
+  padding: 0;
 }
 
 .friend-list {
@@ -201,4 +201,48 @@ img {
 a:hover, a:active, a:focus {
   text-decoration: none;
   outline: 0;
+}
+
+.banner{
+  display: flex;
+  text-align: center;
+  background-color: white;
+  width: 100%;
+  height: 3.5rem;
+  padding: 10px;
+  position: sticky;
+  top: 0; 
+  border-bottom: 2px solid #7fad39;
+  align-items: center;
+  z-index: 1;
+}
+
+.bannerPrice{
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.bannerName{
+    display: block;
+    font-size: 14px;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+}
+
+.bannerButton{
+	width: 80px;
+	height: 2rem;
+    border-radius: 4px;
+    background: rgb(234, 233, 241);
+    font-size: 14px;
+    font-weight: 600;
+    align-items: center;
+    padding: 0px 12px;
+    border-style: none;
 }
