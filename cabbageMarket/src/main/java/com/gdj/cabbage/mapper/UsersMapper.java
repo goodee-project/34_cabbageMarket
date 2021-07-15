@@ -32,4 +32,6 @@ public interface UsersMapper {
 	int addAddress(ShippingAddress shippingAddress);
 	List<ShippingAddress> getAddressByUserId(int userId);
 	int getAddressCount(int userId);
+	List<Map<String, Object>> getUsedProductListByUserId(int userId);
+	List<Map<String, Object>> getAuctionProductListByUserId(int userId);
 } 

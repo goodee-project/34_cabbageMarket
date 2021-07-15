@@ -25,21 +25,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			let numberCode =  /^[0-9]+(.[0-9]+)?$/;
-			let row = 0;
-			
-			$('#btn').click(function(){
-				if($('#password').val() == ''){
-					$('#password').attr('placeholder','비밀번호를 입력해주세요');							
-				}else{
-					$('#removeUserForm').submit();
-				}
-			});
-		});
-	</script>
-	
 </head>
 
 <body>
@@ -74,13 +59,13 @@
 	<section class="product spad">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-5">
+				<div class="col-lg-2 col-md-5">
 					<div class="sidebar">
 						<div class="sidebar__item">
 							<h4>Department</h4>
 							<ul>
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
-								<li><a href="#">등록상품</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
 								<li><a href="#">구매 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
@@ -89,13 +74,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-9 col-md-7">
+				<div class="col-lg-10 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
 							<h2>내 상품 관리</h2>
 						</div>
 						<div>
 							<div class="col-md-12">
+								<a href="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" class="primary-btn cart-btn">안전거래 신청</a>
 								<div class="card">
 									<div class="card-body">
 										<table class="table table-hover" style="text-align: center">
@@ -123,7 +109,7 @@
 				                            </thead>
 					                            
 				                            <tbody>
-				                            	<c:set var="total" value = "0"/>
+				                            	<c:set var="index" value = "0"/>
 				                            	<c:forEach var="apsdl" items="${applyProductSalesDeliveryList}">
 					                                <tr>
 					                                	<td>
@@ -157,7 +143,6 @@
 			                        </div>
 			                 	</div>
 							</div>
-						</div>
 					</div>
 				</div>
 			</div>
