@@ -27,6 +27,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+
+<!-- datepicker -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style type="text/css">
 .imgBtn {
@@ -98,6 +104,21 @@
 	white-space: nowrap;
 }
 </style>
+
+<!-- datePicker -->
+<script>
+	$(function() {
+    //input을 datepicker로 선언
+		$("#registrationDeadline").datepicker({
+			 dateFormat: 'yy-mm-dd' //달력 날짜 형태
+			,minDate: "+0d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+			,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
+		});
+	//초기값을 오늘 날짜로 설정
+	$('#registrationDeadline').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+  });
+</script>
+
 <script>
 <!-- 유효성 검사 -->
 	$(document).ready(function() {
@@ -112,9 +133,9 @@
 			} else if ($('#productPrice').val() == '') {
 				alert('상품 가격을 입력하세요');
 				$('#productPrice').focus();
-			} else if ($('#registrationDeadline').val() == '') {
+			} else if ($('#datepicker').val() == '') {
 				alert('마감 기한을 입력하세요');
-				$('#registrationDeadline').focus();
+				$('#datepicker').focus();
 			} else {
 				$('#addUsedProductForm').submit();
 			}
@@ -177,8 +198,7 @@
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<textarea id="productDesc" name="productDesc" rows="10" cols="30"
-						placeholder="상품 설명을 입력하세요."></textarea>
+					<textarea id="productDesc" name="productDesc" rows="10" cols="20" placeholder="상품 설명을 입력하세요."></textarea>
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
@@ -190,8 +210,7 @@
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<input type="text" id="productPrice" name="productPrice"
-						placeholder="가격을 입력하세요.">
+					<input type="text" id="productPrice" name="productPrice" placeholder="가격을 입력하세요.">
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
@@ -199,12 +218,14 @@
 				<!-- 마감기한 입력 -->
 				<div class="col-lg-3">
 					<h4>
-						마감 기한<span style="color: #7fad39;">*</span>
+						마감 일자<span style="color: #7fad39;">*</span> 
 					</h4>
+					<h6>
+						<span style="color: #EB0000;">최대 3개월</span>
+					</h6>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<input type="text" id="registrationDeadline"
-						name="registrationDeadline" placeholder="2021-01-01">
+					<input type="text" id="registrationDeadline">
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
@@ -213,7 +234,6 @@
 				<div class="col-lg-12" style="text-align: right;">
 					<button id="summitBtn" class="summitBtn" type="button">등록</button>
 				</div>
-
 			</div>
 		</form>
 	</div>
