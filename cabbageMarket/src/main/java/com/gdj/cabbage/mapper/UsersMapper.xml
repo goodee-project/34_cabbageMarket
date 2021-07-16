@@ -359,7 +359,7 @@
 	<!-- 유저 중고등록리스트 쿼리 -->
 	<select id="getUsedProductListByUserId" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
-			apsd.apply_product_sales_delivery_id applyProductSalesDeliverId,
+			apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
 			apsdi.img_name img,
 			cs.category_sub_name category,
 			apsd.product_name productName,
@@ -447,7 +447,7 @@
 		FROM
 			bidding_auction_product
 		<where>
-			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+			apply_product_sales_delivery_id=#{applyProductSalesDeliveryId}
 		</where>
 	</select>
 	
@@ -457,7 +457,7 @@
 		FROM
 			auction_product_registration
 		<where>
-			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+			apply_product_sales_delivery_id=#{applyProductSalesDeliveryId}
 		</where>
 	</delete>
 	

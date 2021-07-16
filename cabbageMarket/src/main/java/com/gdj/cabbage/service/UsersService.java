@@ -43,7 +43,7 @@ public class UsersService {
 	
 	// 경매 등록 취소 서비스
 	public int deleteActionProduct(int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : "+applyProductSalesDeliveryId);
 		int findRow = usersMapper.biddingCount(applyProductSalesDeliveryId);
 		if(findRow>0) {
 			return 0;
@@ -55,10 +55,10 @@ public class UsersService {
 	}
 	
 	// 중고 등록 취소 서비스
-	public int deleteUsedProduct(int applyProductSalesDeliverId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
-		int deleteRow = usersMapper.deleteUsedProduct(applyProductSalesDeliverId);
-		int updateRow = usersMapper.updateRegistrationState(applyProductSalesDeliverId);
+	public int deleteUsedProduct(int applyProductSalesDeliveryId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : "+applyProductSalesDeliveryId);
+		int deleteRow = usersMapper.deleteUsedProduct(applyProductSalesDeliveryId);
+		int updateRow = usersMapper.updateRegistrationState(applyProductSalesDeliveryId);
 		
 		return deleteRow+updateRow;
 	}

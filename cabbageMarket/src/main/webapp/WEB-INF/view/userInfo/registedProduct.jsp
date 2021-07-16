@@ -199,12 +199,7 @@
 					                                    	<h6>${gupl.category}</h6>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliverId}"><h5 style="color: #3CC2FF">${gupl.productName}</h5></a>
-					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}" style="text-decoration: none">
-					                                    			${gupl.productName}
-					                                    		</a>
-					                                    	</h5>
+					                                    	<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}"><h5 style="color: #3CC2FF">${gupl.productName}</h5></a>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gupl.price}</h5>
@@ -213,6 +208,12 @@
 					                                    	<h5>${gupl.deadline}</h5>
 					                                    </td>
 					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}">
+					                                    		<button class="btn btn-success">수정</button>
+					                                    	</a>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliveryId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>

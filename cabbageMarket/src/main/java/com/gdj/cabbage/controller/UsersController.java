@@ -67,7 +67,7 @@ public class UsersController {
 	
 	@GetMapping("/users/removeUsedProduct")
 	public String removeUsedProduct(int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : "+applyProductSalesDeliveryId);
 		
 		int row = usersService.deleteUsedProduct(applyProductSalesDeliveryId);
 		log.debug(Debuging.DEBUG+" 중고등록 상품 삭제 성공 여부 : "+row);
