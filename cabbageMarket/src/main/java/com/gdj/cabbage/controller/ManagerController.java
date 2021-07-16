@@ -58,9 +58,9 @@ public class ManagerController {
 
 	// 배송 신청된 상품 목록 출력
 	@GetMapping("/manager/getDeliveryProductList")
-	public String getDeliveryProductList(Model model, @RequestParam(value="userId", required=true) String userId) {		
+	public String getDeliveryProductList(Model model) {		
 		
-		List<Map<String,Object>> getDeliveryProductList = managerService.getDeliveryProductList(userId);
+		List<Map<String,Object>> getDeliveryProductList = managerService.getDeliveryProductList();
 		log.debug(Debuging.DEBUG+" getDeliveryProductList "+getDeliveryProductList);
 		
 		model.addAttribute("getDeliveryProductList", getDeliveryProductList);

@@ -209,20 +209,27 @@
 				                            </thead>
 				                            
 				                            <tbody>
-				                            	<c:forEach var="apsdl" items="${getDeliveryProductList}">
+				                            	<c:forEach var="gdpl" items="${getDeliveryProductList}">
 				                                <tr>
 				                                	<td>
-				                                		${apsdl.applyProductSalesDeliveryId}#
+				                                		${gdpl.userId}#
 				                                	</td>
-				                                    <td class="shoping__cart__item">
-				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${apsdl.imgName}" alt="">
-				                                    </td> <!-- colsapn 1 -->
-				                                    <td>
-				                                    	<h6><span>(${apsdl.categorySubName})</span></h6>
-				                                    </td> <!-- colsapn 2 -->
-				                                    <td>
-				                                    	<h5>${apsdl.productName}</h5>
-				                                    </td> <!-- colsapn 3 -->
+				                                	<td>
+				                                		${gdpl.csi}#
+				                                	</td>
+				                                	<td>
+				                                		${gdpl.productName}#
+				                                	</td>
+				                                	<td>
+				                                		${gdpl.address}#
+				                                	</td>
+				                                	<td>
+				                                		${gdpl.waybillNo}#
+				                                	</td>
+				                                	<td>
+				                                		${gdpl.delReq}#
+				                                	</td>
+				                                    
 				                                    <td class="shoping__cart__item__close">
 				                                        <span class="icon_refresh"></span>
 				                                    </td>
