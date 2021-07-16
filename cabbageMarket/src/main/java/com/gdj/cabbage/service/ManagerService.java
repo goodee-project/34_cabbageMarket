@@ -24,8 +24,9 @@ public class ManagerService {
 @Autowired ManagerMapper managerMapper;
 
 	// 배송 신청된 상품 목록 출력
-	public List<Map<String,Object>> getDeliveryProductList(String userId){
-		return managerMapper.selectDeliveryProductList(userId);
+	public List<Map<String,Object>> getDeliveryProductList(){
+		
+		return managerMapper.selectDeliveryProductList();
 	}
 
 	// 관리자 상세보기

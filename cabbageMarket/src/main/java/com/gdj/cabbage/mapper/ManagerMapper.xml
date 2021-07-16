@@ -6,11 +6,15 @@
 <!-- 배송 신청된 상품 목록 출력 -->
 
 	<select id="selectDeliveryProductList"
-			parameterType="int"
 			resultType="map">
 
 		SELECT
-			*
+			user_id userId,
+			category_sub_id csi,
+			product_name productName,
+			return_address address,
+			waybill_number waybillNo,
+			delivery_requests delReq
 		FROM
 			apply_product_sales_delivery
 			

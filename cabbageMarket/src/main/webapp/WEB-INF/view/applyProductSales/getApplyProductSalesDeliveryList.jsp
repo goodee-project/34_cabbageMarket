@@ -237,7 +237,7 @@
 				                                        </c:if>
 				                                    </td>
 				                                    <td class="shoping__cart__item__close">
-				                                        <span class="icon_refresh"></span>
+				                                        <a href="${pageContext.request.contextPath}/users/addApplyProductSalesDeliveryReturn?applyId=${apsdl.applyProductSalesDeliveryId}"><span class="icon_refresh"></span></a>
 				                                    </td>
 				                                </tr>
 				                                </c:forEach>

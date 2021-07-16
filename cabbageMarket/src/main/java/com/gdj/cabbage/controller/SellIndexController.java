@@ -74,4 +74,24 @@ public class SellIndexController {
 				
 		return "applyProductSales/getApplyProductSalesDeliveryList";
 	}
+	
+	// 상품 판매 배송 신청 후 환송 신청
+	//경매 상품 등록
+		@GetMapping("addApplyProductSalesDeliveryReturn")
+		public String addApplyProductSalesDeliveryReturn(Model model
+				, @RequestParam(value="applyId", defaultValue="1") int applyId) {
+			log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
+			
+			log.debug(Debuging.DEBUG+"1 service에 보낼 applyId 확인: "+applyId);
+			
+			// 그냥 경매 상품 상세정보 + 이미지들 불러오기
+			Map<String, Object> productDetail = applyProductSalesService.getApplyOne(applyId);
+			List<String> imgPathList = applyProductSalesService.getApplyImg(applyId);
+			
+			
+			model.addAttribute("applyId", applyId);
+			model.addAttribute("productDetail", productDetail);
+			model.addAttribute("imgPathList", imgPathList);
+			return "applyProductSales/addApplyProductSalesDeliveryReturn";
+		}	
 }

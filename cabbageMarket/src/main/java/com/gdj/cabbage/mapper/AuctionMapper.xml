@@ -13,6 +13,7 @@
 			,img_name imgName
 			,category_sub_id categorySubName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT(apr.min_bid_price, N'#,0') , FORMAT(bap.bid_price, N'#,0')) price
+			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price+quote), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
 		FROM 
 			auction_product_registration apr
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
