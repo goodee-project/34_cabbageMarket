@@ -32,15 +32,24 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
+	// 직거래 등록 취소 서비스]
+	public int deleteDirectProduct(int regiserId) {
+		log.debug(Debuging.DEBUG+" regierId : "+regiserId);
+		
+		int row = usersMapper.deleteDirectProduct(regiserId);
+		
+		return row;
+	}
+	
 	// 경매 등록 취소 서비스
-	public int deleteActionProduct(int applyProductSalesDeliverId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
-		int findRow = usersMapper.biddingCount(applyProductSalesDeliverId);
+	public int deleteActionProduct(int applyProductSalesDeliveryId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);
+		int findRow = usersMapper.biddingCount(applyProductSalesDeliveryId);
 		if(findRow>0) {
 			return 0;
 		}
-		int deleteRow = usersMapper.deleteActionProduct(applyProductSalesDeliverId);
-		int updateRow = usersMapper.updateRegistrationState(applyProductSalesDeliverId);
+		int deleteRow = usersMapper.deleteActionProduct(applyProductSalesDeliveryId);
+		int updateRow = usersMapper.updateRegistrationState(applyProductSalesDeliveryId);
 		
 		return deleteRow+updateRow;
 	}
@@ -52,6 +61,16 @@ public class UsersService {
 		int updateRow = usersMapper.updateRegistrationState(applyProductSalesDeliverId);
 		
 		return deleteRow+updateRow;
+	}
+	
+	// 유저 직거래등록 리스트 출력 서비스
+	public List<Map<String, Object>> getDirectProductList(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		List<Map<String, Object>> getDirectProductList = usersMapper.getDirectProductListByUserId(userId);
+		log.debug(Debuging.DEBUG+" getDirectProductList : "+getDirectProductList);
+		
+		return getDirectProductList;
 	}
 	
 	// 유저 경매등록 리스트 출력 서비스

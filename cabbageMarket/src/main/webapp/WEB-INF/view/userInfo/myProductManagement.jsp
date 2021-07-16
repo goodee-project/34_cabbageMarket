@@ -127,7 +127,7 @@
 					                                    <td>
 					                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
 						                                        <a href="${pageContext.request.contextPath}/users/addAuction?applyId=${apsdl.applyProductSalesDeliveryId}" class="btn btn-outline-success">경매등록</a>
-						                                        <a href="#" class="btn btn-outline-success">중고등록</a>
+						                                        <a href="${pageContext.request.contextPath}/users/addUsedProduct?applyId=${apsdl.applyProductSalesDeliveryId}" class="btn btn-outline-success">중고등록</a>
 					                                        </c:if>
 					                                        <c:if test="${apsdl.registrationState != '9등록가능'}">
 						                                        심사중&nbsp;<div class="spinner-border text-muted"></div>

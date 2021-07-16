@@ -380,7 +380,7 @@
 	<!-- 유저 경매등록리스트 쿼리 -->
 	<select id="getAuctionProductListByUserId" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
-			apsd.apply_product_sales_delivery_id applyProductSalesDeliverId,
+			apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
 			apsdi.img_name img,
 			cs.category_sub_name category,
 			apsd.product_name productName,
@@ -399,13 +399,33 @@
 			apsd.apply_product_sales_delivery_id
 	</select>
 	
+	<!-- 유저 직거래등록리스트 쿼리 -->
+	<select id="getDirectProductListByUserId" parameterType="Integer" resultType="java.util.Map">
+		SELECT
+			dtpr.direct_trade_product_registration_id registerId,
+			dtpi.img_name img,
+			cs.category_sub_name category,
+			dtpr.product_name productName,
+			dtpr.product_price price,
+			dtpr.location location,
+			dtpr.create_date createDate
+		FROM
+		direct_trade_product_registration dtpr LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id
+		JOIN category_sub cs ON dtpr.category_sub_id=cs.category_sub_id
+		<where>
+			dtpr.user_id=#{userId} AND (dtpr.product_state=1 OR dtpr.product_state=2)
+		</where>
+		GROUP BY
+			dtpr.direct_trade_product_registration_id
+	</select>
+	
 	<!-- 중고 상품 등록 삭제 -->
 	<delete id="deleteUsedProduct" parameterType="Integer">
 		DELETE
 		FROM
 			used_product_registration
 		<where>
-			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+			apply_product_sales_delivery_id=#{applyProductSalesDeliveryId}
 		</where>
 	</delete>
 	
@@ -416,7 +436,7 @@
 		SET
 			registration_state=9
 		<where>
-			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+			apply_product_sales_delivery_id=#{applyProductSalesDeliveryId}
 		</where>
 	</update>
 	
@@ -440,4 +460,15 @@
 			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
 		</where>
 	</delete>
+	
+	<!-- 직거래 상품 등록 삭제 -->
+	<update id="deleteDirectProduct" parameterType="Integer">
+		UPDATE
+			direct_trade_product_registration
+		SET
+			product_state=0
+		<where>
+			direct_trade_product_registration_id=#{registerId}
+		</where>
+	</update>
 </mapper>
