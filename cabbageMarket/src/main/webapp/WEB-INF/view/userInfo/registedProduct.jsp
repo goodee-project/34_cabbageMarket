@@ -138,12 +138,12 @@
 					                                    	<h5>${gupl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliverId}">
 					                                    		<button class="btn btn-success">수정</button>
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliveryId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliverId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>
