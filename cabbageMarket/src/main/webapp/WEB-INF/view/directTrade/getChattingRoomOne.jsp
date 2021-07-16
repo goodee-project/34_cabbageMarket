@@ -52,7 +52,7 @@ $(document).ready(function() {
         stompClient.send("/app/sendMessage/"+chattingRoomId, {}, 
         		JSON.stringify({
         			'chattingRoomId': chattingRoomId,
-        			'userId': '${userId}',  // 로그인한 회원의 userId (채팅을 친사람)
+        			'userId': '${usersSession.userId}',  // 로그인한 회원의 userId (채팅을 친사람)
         			'content': $("#chatContent").val()
         		}));
     }
@@ -64,7 +64,7 @@ $(document).ready(function() {
     	console.log('content: ' + content);
     	    	
     	var html = '';
-    	var recvUserId = '${userId}'
+    	var recvUserId = '${usersSession.userId}'
     	console.log("recvUserId : " + recvUserId);
     	
     	if(userId != recvUserId){
@@ -126,7 +126,7 @@ $(document).ready(function() {
                 <ul class="chat" id="chattingContent">
                 	<c:forEach var="ccl" items="${chattingContentList}">
                 		<!-- 상대방 채팅 왼쪽 -->
-                		<c:if test="${ccl.userId != userId}">
+                		<c:if test="${ccl.userId != usersSession.userId}">
 		                    <li class="left clearfix">
 		                    	<span class="chat-img pull-left">
 		                    		<img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">
@@ -142,7 +142,7 @@ $(document).ready(function() {
 	                    </c:if>
 
 	                    <!-- 내가 작성한 채팅 오른쪽 -->
-	                    <c:if test="${ccl.userId == userId}">
+	                    <c:if test="${ccl.userId == usersSession.userId}">
 		                    <li class="right clearfix">
 		                    	<span class="chat-img pull-right">
 		                    		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
