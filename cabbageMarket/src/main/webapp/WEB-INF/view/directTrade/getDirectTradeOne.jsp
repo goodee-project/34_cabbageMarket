@@ -87,7 +87,12 @@
                         </div>
                         <div class="product__details__price">${productDetail.productPrice}</div>
                         <p>${productDetail.productDesc}</p>
-                        <input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="판매자와 채팅" onclick="showPopup();" />
+                        	<c:if test="${productDetail.userId == usersSession.userId}">
+                        		<input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="회원님 상품"/>
+                        	</c:if>
+                        	<c:if test="${productDetail.userId != usersSession.userId}">
+                        		<input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="판매자와 채팅" onclick="showPopup();" />
+                        	</c:if>
                         <div class="heart-btn">
 					      <div class="content">
 					        <span class="heart"></span>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ChattingService;
+import com.gdj.cabbage.service.DirectTradeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChattingController {
 	
 	@Autowired ChattingService chattingService;
+	@Autowired DirectTradeService directTradeService;
 	
 	// 채팅방 목록
 	@GetMapping("users/getChattingRoomList")
@@ -37,7 +39,8 @@ public class ChattingController {
 		return "directTrade/getChattingRoomList";
 	}
 	
-	// 채팅방 가져오기
+	// 채팅방 생성 및 채팅방 가져오기
+	// 채팅방 정보 가져올때 채팅방이 생성되어있는지 체크
 	@GetMapping("users/getChattingRoomOne")
 	public String chattingRoom(Model model,
 			@RequestParam(value="directTradeProductRegistrationId") int directTradeProductRegistrationId,
@@ -57,13 +60,18 @@ public class ChattingController {
 		// 채팅방 정보 가져오기
 		Map<String, Object> ChattingRoomInfo = chattingService.getChattingRoomOne(map);
 		
-		// 채팅방 채팅내용 가져오기
+		// 채팅 내용 정보 가져오기
 		List<Map<String, Object>> chattingContentList = chattingService.getChattingContentList((int)ChattingRoomInfo.get("chattingRoomId"));
+
+		// 상품 정보 가져오기
+		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
 		
 		model.addAttribute("userId", userId);
+		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("ChattingRoomInfo", ChattingRoomInfo);
 		model.addAttribute("chattingContentList", chattingContentList);
 		
 		return "directTrade/getChattingRoomOne";
 	}
+	
 }

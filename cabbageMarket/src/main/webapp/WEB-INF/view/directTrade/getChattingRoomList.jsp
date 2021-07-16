@@ -20,11 +20,14 @@
             <!-- =============================================================== -->
             <!-- member list -->
             <ul class="friend-list">
-            
+            	<c:set var="index" value="0"></c:set>
 	            <c:forEach var="crl" items="${chattingRoomList}">
 	            	<c:if test="${crl.sellerId == userId}">
 		                <li class="active bounceInDown">
-		                	<button class="chattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
+		                	<div>내가 올린 상품</div>
+		                	<input type="hidden" id="buyerId${index}" value="${crl.buyerId}">
+		                	<c:set var="index" value="${index + 1}"/>
+		                	<button class="sellerChattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
 		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
 		                		<div class="chattingRoom-info">	
 		                			<div class="opponent-name">${crl.buyer}</div>
@@ -48,7 +51,8 @@
 	                
 	                <c:if test="${crl.buyerId == userId}">
 		                <li class="active bounceInDown">
-		                	<button class="chattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
+		                	<div>내가 사려는 상품</div>
+		                	<button class="buyerChattingRoom" type="button" value="${crl.directTradeProductRegistrationId}">
 		                		<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
 		                		<div class="chattingRoom-info">	
 		                			<div class="opponent-name">${crl.seller}</div>
@@ -81,9 +85,20 @@
 <script>
 //채팅방 팝업창
 $(document).ready(function() {
-	$(document).on('click', '.chattingRoom', function(){
-		var index = $('.chattingRoom').index(this);
-		var dtprId = $('.chattingRoom').eq(index).val();
+	$(document).on('click', '.sellerChattingRoom', function(){
+		var index = $('.sellerChattingRoom').index(this);
+		var dtprId = $('.sellerChattingRoom').eq(index).val();
+		
+		var buyerId = $('#buyerId'+index).val();
+		console.log(index);
+		console.log(buyerId);
+		console.log(dtprId);
+		window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId="+dtprId+"&userId="+buyerId, "chattingRoom", "width=400, height=600, left=620, top=200"); 
+	});
+	
+	$(document).on('click', '.buyerChattingRoom', function(){
+		var index = $('.buyerChattingRoom').index(this);
+		var dtprId = $('.buyerChattingRoom').eq(index).val();
 		console.log(dtprId);
 		
 		window.open("${pageContext.request.contextPath}/users/getChattingRoomOne?directTradeProductRegistrationId="+dtprId+"&userId=${usersSession.userId}", "chattingRoom", "width=400, height=600, left=620, top=200"); 

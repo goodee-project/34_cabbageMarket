@@ -13,11 +13,11 @@
 		  FROM chatting_room cr, direct_trade_product_registration dtpr
 		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
 		 	   cr.direct_trade_product_registration_id = #{directTradeProductRegistrationId} AND
-			   (cr.user_id = #{userId} OR dtpr.user_id = #{sellerId})
+			   (cr.user_id = #{userId})
 	</select>
 	
 	<select id="selectSellerId" parameterType="int" resultType="Integer">
-		SELECT dtpr.user_id sellerId
+		SELECT DISTINCT dtpr.user_id sellerId
 		  FROM chatting_room cr, direct_trade_product_registration dtpr
 		 WHERE cr.direct_trade_product_registration_id = dtpr.direct_trade_product_registration_id AND
 		 		 cr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
@@ -62,7 +62,7 @@
 		SELECT cc.content lastContent,
 			   LEFT(cc.create_date,16) createDate,
 			   cc.user_id lastChatterId,
-			   cr.chatting_room_id,
+			   cr.chatting_room_id chattingRoomId,
 			   buyerUser.nickname buyer,
 			   cr.user_id buyerId,
 			   cr.direct_trade_product_registration_id directTradeProductRegistrationId,

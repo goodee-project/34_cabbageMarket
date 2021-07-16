@@ -62,17 +62,20 @@
 
 
 	<select id="selectDirectTradeProductOneByKey" parameterType="int" resultType="map">
-		SELECT direct_trade_product_registration_id directTradeProductRegistrationId,
-			   user_id userId,
-			   category_sub_id categorySubId,
-		       product_name productName,
-	           FORMAT(product_price, N'#,0') productPrice,
-	           product_desc productDesc,
-	           location,
-	           product_state productState,
-	           create_date createDate
-	      FROM direct_trade_product_registration
-	     WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
+		SELECT dtpr.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   dtpr.user_id userId,
+			   dtpr.category_sub_id categorySubId,
+		       dtpr.product_name productName,
+	           FORMAT(dtpr.product_price, N'#,0') productPrice,
+	           dtpr.product_desc productDesc,
+	           dtpr.location,
+	           dtpr.product_state productState,
+	           dtpr.create_date createDate,
+	           dtpi.img_name imgName
+	      FROM direct_trade_product_registration dtpr, direct_trade_product_img dtpi
+	     WHERE dtpr.direct_trade_product_registration_id = dtpi.direct_trade_product_registration_id AND
+		  	   dtpr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
+		 LIMIT 1
 	</select>
 	
 	<select id="selectDirectTradeProductImgByKey" parameterType="int" resultType="String">
