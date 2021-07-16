@@ -34,4 +34,8 @@ public interface UsersMapper {
 	int getAddressCount(int userId);
 	List<Map<String, Object>> getUsedProductListByUserId(int userId);
 	List<Map<String, Object>> getAuctionProductListByUserId(int userId);
+	int deleteUsedProduct(int applyProductSalesDeliverId);
+	int updateRegistrationState(int applyProductSalesDeliverId);
+	int biddingCount(int applyProductSalesDeliverId);
+	int deleteActionProduct(int applyProductSalesDeliverId);
 } 

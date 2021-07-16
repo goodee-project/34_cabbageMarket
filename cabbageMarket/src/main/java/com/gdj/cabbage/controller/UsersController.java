@@ -45,6 +45,26 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/removeActionProduct")
+	public String removeActionProduct(int applyProductSalesDeliverId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
+		
+		int row = usersService.deleteActionProduct(applyProductSalesDeliverId);
+		log.debug(Debuging.DEBUG+" 경매등록 상품 삭제 성공 여부 : "+row);
+		
+		return "redirect:/users/registedProduct";
+	}
+	
+	@GetMapping("/users/removeUsedProduct")
+	public String removeUsedProduct(int applyProductSalesDeliverId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
+		
+		int row = usersService.deleteUsedProduct(applyProductSalesDeliverId);
+		log.debug(Debuging.DEBUG+" 중고등록 상품 삭제 성공 여부 : "+row);
+		
+		return "redirect:/users/registedProduct";
+	}
+	
 	@GetMapping("/users/registedProduct")
 	public String registedProduct(Model model, HttpSession session) {
 		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");

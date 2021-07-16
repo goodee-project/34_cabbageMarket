@@ -134,7 +134,9 @@
 					                                    	<h5>${gupl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<button class="btn btn-success">취소</button>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliverId=${gupl.applyProductSalesDeliverId}">
+					                                    		<button class="btn btn-success">취소</button>
+					                                    	</a>
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -147,6 +149,7 @@
 							<hr>
 							<div class="col-md-12">
 								<h4><b>경매상품 등록 내역</b></h4>
+								<h6 style="color:red">※ 입찰이 하나 이상 존재하는 경우 취소가 불가능 합니다.</h6>
 								<br>
 								<div class="card">
 									<table class="table table-hover" style="text-align: center">
@@ -199,7 +202,9 @@
 					                                    	<h5>${gapl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<button class="btn btn-success">취소</button>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeActionProduct?applyProductSalesDeliverId=${gapl.applyProductSalesDeliverId}">
+					                                    		<button class="btn btn-success">취소</button>
+					                                    	</a>
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
