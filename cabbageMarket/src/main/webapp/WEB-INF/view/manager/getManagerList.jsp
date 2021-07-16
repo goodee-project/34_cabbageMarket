@@ -37,7 +37,7 @@
             <c:forEach var="b" items="${managerList}">
                 <tr>
                 	<td>${b.managerId}</td>
-                	<td><a href="${pageContext.request.contextPath}/manager/getManagerInfo?managerName=${b.managerName}">${b.managerName}</a></td>
+                	<td><a href="${pageContext.request.contextPath}/manager/getManagerInfo?managerId=${b.managerId}">${b.managerName}</a></td>
                 	<td>${b.managerNickname}</td>
                 	<td>${b.managerAddress}</td>
                 	<td>${b.managerPhoneNumber}</td>

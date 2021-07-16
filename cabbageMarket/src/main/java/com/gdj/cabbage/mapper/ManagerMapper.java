@@ -12,8 +12,10 @@ import com.gdj.cabbage.vo.Page;
 @Mapper
 public interface ManagerMapper {
 	
+	// 배송 신청된 상품 목록 출력
+	List<Map<String,Object>> selectDeliveryProductList(String userId);
 	// 매니저 상세보기
-	Map<String, Object> selectManagerInfo(String managerName);
+	Map<String, Object> selectManagerInfo(String managerId);
 	// 유저목록보기 토탈
 	int selectAllUsersTotal(String searchWord);
 	// 유저목록보기 기능

@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>modifyManager</title>
-<!-- bootstrapÏùÑ ÏÇ¨Ïö©ÌïòÍ∏∞ ÏúÑÌïú CDNÏ£ºÏÜå -->
+<!-- bootstrap¿ª ªÁøÎ«œ±‚ ¿ß«— CDN¡÷º“ -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
@@ -15,40 +13,46 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-   $(document).ready(function(){
-      console.log("document ready!");
-      $('#btn').click(function(){
-         console.log("btn click!");
-         
-         // Ìèº Ïú†Ìö®ÏÑ± Í≤ÄÏÇ¨
-         $('#modifyForm').submit();
-      });
-   });
+	$(document).ready(function(){
+		console.log("document ready!");
+		$('#btn').click(function(){
+			console.log("btn click!");
+			
+			// ∆˚ ¿Ø»øº∫ ∞ÀªÁ
+			$('#modifyForm').submit();
+		});
+	});
 </script>
 </head>
 <body>
 <div class="container">
-
     <h1>modifyManager</h1>
-    <form action="${pageContext.request.contextPath}/manager/modifyManager" id="modifyForm" method="post">
-	    <table class="table">
-	         <tbody>
-	            <tr>
+    
+    <form id="modifyForm" action="${pageContext.request.contextPath}/manager/modifyManager" method="post">
+	     <table class="table">
+         <tbody>
+				<tr>
+					<td>managerId :</td>
+					<td>
+						<input type="hidden" id="managerId" name="managerId" value="${modifyManagerOne.managerId}">
+						${modifyManagerOne.managerId}
+					</td>
+				</tr>
+				<tr>
+					<td>managerName :</td>
+					<td>${modifyManagerOne.managerName}</td>
+				</tr>
+				<tr>
 	                <td>managerNickname :</td>
-	                <td><input type="text" id="managerNickname" name="managerNickname" value="${managerOne.managerNickname}"></td>
+	                <td><input type="text" id="managerNickname" name="managerNickname" value="${modifyManagerOne.managerNickname}"></td>
 	            </tr>
 	            <tr>
 	                <td>managerAddress :</td>
-	                <td>
-	                	<input type="text" id="managerAddress" name="managerAddress" value="${managerOne.managerAddress}">
-	                </td>
+	                <td><input type="text" id="managerAddress" name="managerAddress" value="${modifyManagerOne.managerAddress}"></td>
 	            </tr>
-
 	            <tr>
 	                <td>managerPhoneNumber :</td>
-	                <td>
-	                	<input type="text" id="managerPhoneNumber" name="managerPhoneNumber" value="${managerOne.managerPhoneNumber}">
-	                </td>
+	                <td><input type="text" id="managerPhoneNumber" name="managerPhoneNumber" value="${modifyManagerOne.managerPhoneNumber}"></td>
 	            </tr>
 	            <tr>
 	                <td>managerLevel :</td>
@@ -64,12 +68,15 @@
 							<option value="8">8</option>
 							<option value="9">9</option>
 						</select>
-	                </td>
 	            </tr>
-	        </tbody>
+				<tr>
+					<td>createDate :</td>
+					<td>${modifyManagerOne.createDate}</td>
+				</tr>
+			</tbody>
 	    </table>
-	    <button id="btn" type="button">ÏàòÏ†ï</button>
-    </form>
-    </div>
+	    <button id="btn" type="button">ºˆ¡§</button>
+   	</form>
+</div>
 </body>
 </html> 
