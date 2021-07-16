@@ -18,4 +18,7 @@ public interface UsedTradeMapper {
 	
 	void insertUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 등록
 	void updateProductRegistrationState(ProductConfirmationRegistration productConfirmationRegistration); //상태값 변경(미등록->중고상품)
+
+	void updateUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 수정(상품설명, 상품가격)
+	
 }

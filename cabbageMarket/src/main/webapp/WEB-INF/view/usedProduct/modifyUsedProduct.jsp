@@ -1,6 +1,5 @@
 <!-- 작성자 : 김희진 -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -11,7 +10,7 @@
 <meta name="keywords" content="Ogani, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>배추마켓 중고상품 등록</title>
+<title>배추마켓 중고상품 수정</title>
 
 <!-- Google Font -->
 <link
@@ -105,20 +104,6 @@
 }
 </style>
 
-<!-- datePicker -->
-<script>
-	$(function() {
-    //input을 datepicker로 선언
-		$("#registrationDeadline").datepicker({
-			 dateFormat: 'yy-mm-dd' //달력 날짜 형태
-			,minDate: "+0d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-			,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
-		});
-	//초기값을 오늘 날짜로 설정
-	$('#registrationDeadline').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
-  });
-</script>
-
 <script>
 <!-- 유효성 검사 -->
 	$(document).ready(function() {
@@ -143,11 +128,8 @@
 			} else if ($('#productPrice').val() == '') {
 				alert('상품 가격을 입력하세요');
 				$('#productPrice').focus();
-			} else if ($('#datepicker').val() == '') {
-				alert('마감 일자를 입력하세요');
-				$('#datepicker').focus();
 			} else {
-				$('#addUsedProductForm').submit();
+				$('#modifyUsedProductForm').submit();
 			}
 		});
 
@@ -185,11 +167,9 @@
 	</section>
 	<!-- Breadcrumb Section End -->
 	<div class="container">
-		<form id="addUsedProductForm"
-			action="${pageContext.request.contextPath}/users/addUsedProduct"
-			method="post">
-			<input type="hidden" name="userId" value="8"> <input
-				type="hidden" name="applyProductSalesDeliveryId" value="${applyId}">
+		<form id="modifyUsedProductForm" action="${pageContext.request.contextPath}/users/modifyUsedProduct" method="post">
+			<input type="hidden" name="userId" value="8"> 
+			<input type="hidden" name="applyProductSalesDeliveryId" value="${usedProductDetail.applyId}">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="section-title product__discount__title"
@@ -208,7 +188,7 @@
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<textarea id="productDesc" name="productDesc" rows="10" cols="20" placeholder="상품 설명을 입력하세요."></textarea>
+					<textarea id="productDesc" name="productDesc" rows="10" cols="20">${usedProductDetail.productDesc}</textarea>
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
@@ -220,29 +200,14 @@
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<input type="text" id="productPrice" name="productPrice" placeholder="가격을 입력하세요.">
-				</div>
-				<div class="col-lg-12" style="margin-bottom: 15px;">
-					<hr style="border: solid 1px lightgrey;">
-				</div>
-				<!-- 마감기한 입력 -->
-				<div class="col-lg-3">
-					<h4>
-						마감 일자<span style="color: #7fad39;">*</span> 
-					</h4>
-					<h6>
-						<span style="color: #EB0000;">최대 3개월</span>
-					</h6>
-				</div>
-				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<input type="text" id="registrationDeadline" name="registrationDeadline">
+					<input type="text" id="productPrice" name="productPrice" value="${usedProductDetail.productPrice}">
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
 				<!-- 등록 버튼 -->
 				<div class="col-lg-12" style="text-align: right;">
-					<button id="summitBtn" class="summitBtn" type="button">등록</button>
+					<button id="summitBtn" class="summitBtn" type="button">수정</button>
 				</div>
 			</div>
 		</form>

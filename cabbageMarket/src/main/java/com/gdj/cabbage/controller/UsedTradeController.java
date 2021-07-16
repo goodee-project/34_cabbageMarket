@@ -96,9 +96,28 @@ public class UsedTradeController {
 		//서비스호출
 		usedTradeService.addUsedProduct(usedProductRegistration, productConfirmationRegistration);
 		
-		
 		//getUsedProductList로 재요청 
 		return "redirect:/users/getUsedProductList";
 	}
 	
+	//중고상품 수정
+	@GetMapping("modifyUsedProduct")
+	public String modifyUsedProduct(Model model, @RequestParam (value="applyId", required = true) int applyId) {
+		log.debug("★★★★★★★modifyUsedProduct() applyId :"+applyId);
+		
+		//중고상품 상세 details 가져오기
+		Map<String,Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
+		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
+		
+		model.addAttribute("usedProductDetail", usedProductDetail);
+		
+		return "usedProduct/modifyUsedProduct";
+	}
+	
+	@PostMapping("modifyUsedProduct")
+	public String modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
+		log.debug("★★★★★★★modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		usedTradeService.modifyUsedProduct(usedProductRegistration);
+		return "redirect:/users/getUsedProductOne?applyId="+usedProductRegistration.getApplyProductSalesDeliveryId();
+	}
 }

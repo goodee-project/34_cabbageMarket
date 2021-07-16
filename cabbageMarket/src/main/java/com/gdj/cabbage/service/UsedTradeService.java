@@ -48,4 +48,10 @@ public class UsedTradeService {
 		usedTradeMapper.insertUsedProduct(usedProductRegistration); //중고상품 등록
 		usedTradeMapper.updateProductRegistrationState(productConfirmationRegistration); //상태값 변경(미등록->중고상품)
 	}
+	
+	//중고상품 수정
+	public void modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
+		usedTradeMapper.updateUsedProduct(usedProductRegistration);
+	}
+	
 }

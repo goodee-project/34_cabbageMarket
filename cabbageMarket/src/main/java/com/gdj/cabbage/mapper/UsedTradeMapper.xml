@@ -86,5 +86,14 @@
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
 
-
+<!-- 중고상품 수정(상품을 올린 회원만 수정 가능) -->
+	<update id="updateUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
+		UPDATE 
+			used_product_registration 
+		SET  
+			product_desc = #{productDesc},
+			product_price = #{productPrice}
+		WHERE  
+			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+	</update>
 </mapper>

@@ -1,4 +1,5 @@
 <!-- 작성자 : 이재범 -->
+<!-- 수정 : 김희진 0716 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -105,6 +106,9 @@
 				                                    <th>
 				                                    	마감날짜
 				                                    </th>
+				                                     <th>
+				                                    	수정
+				                                    </th>
 				                                    <th>
 				                                    	취소
 				                                    </th>
@@ -125,7 +129,7 @@
 					                                    	<h6>${gupl.category}</h6>
 					                                    </td>
 					                                    <td>
-					                                    	<h5>${gupl.productName}</h5>
+					                                    	<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliverId}"><h5 style="color: #3CC2FF">${gupl.productName}</h5></a>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gupl.price}</h5>
@@ -134,7 +138,12 @@
 					                                    	<h5>${gupl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliverId=${gupl.applyProductSalesDeliverId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}">
+					                                    		<button class="btn btn-success">수정</button>
+					                                    	</a>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliveryId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>
