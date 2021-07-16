@@ -88,7 +88,7 @@
                                 <a href="${pageContext.request.contextPath}/users/sellIndex"><i class="fa fa-heart"></i> <span>판매하기</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
-                               <a href="#"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
+                               <a href="${pageContext.request.contextPath}/users/registedProduct"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
                             	<c:if test="${usersSession != null}">

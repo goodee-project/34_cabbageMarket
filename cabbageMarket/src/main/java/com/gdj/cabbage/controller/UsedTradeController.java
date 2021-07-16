@@ -51,6 +51,7 @@ public class UsedTradeController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("rowPerPage",rowPerPage);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("usedProductTotal",usedProductTotal);
 		model.addAttribute("lastPage",lastPage);
 		model.addAttribute("usedProductList",usedProductList);
 		
