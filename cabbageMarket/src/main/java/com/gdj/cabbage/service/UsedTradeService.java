@@ -23,7 +23,7 @@ public class UsedTradeService {
 
 	// 중고상품 목록
 	public List<Map<String, Object>> getUsedProductList(Map<String, Object> map) {
-		log.debug("map " + map);
+		log.debug("☆☆☆☆☆☆☆☆service getUsedProductList() map " + map);
 		return usedTradeMapper.selectUsedProductList(map);
 	}
 
@@ -51,7 +51,7 @@ public class UsedTradeService {
 	
 	//중고상품 수정
 	public void modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
-		usedTradeMapper.updateUsedProduct(usedProductRegistration);
+		usedTradeMapper.updateUsedProduct(usedProductRegistration);//중고상품(설명, 가격) 수정
 	}
 	
 }
