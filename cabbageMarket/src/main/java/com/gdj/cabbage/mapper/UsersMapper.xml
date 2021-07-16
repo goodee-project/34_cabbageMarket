@@ -359,6 +359,7 @@
 	<!-- 유저 중고등록리스트 쿼리 -->
 	<select id="getUsedProductListByUserId" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
+			apsd.apply_product_sales_delivery_id applyProductSalesDeliverId,
 			apsdi.img_name img,
 			cs.category_sub_name category,
 			apsd.product_name productName,
@@ -370,7 +371,7 @@
 			JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
 		<where>
-			apsd.user_id=#{userId} AND TIMEDIFF(upr.registration_deadline, NOW())>0
+			apsd.user_id=#{userId} AND DATEDIFF(upr.registration_deadline, NOW())>0
 		</where>
 		GROUP BY
 			apsd.apply_product_sales_delivery_id
@@ -379,6 +380,7 @@
 	<!-- 유저 경매등록리스트 쿼리 -->
 	<select id="getAuctionProductListByUserId" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
+			apsd.apply_product_sales_delivery_id applyProductSalesDeliverId,
 			apsdi.img_name img,
 			cs.category_sub_name category,
 			apsd.product_name productName,
@@ -396,4 +398,46 @@
 		GROUP BY 
 			apsd.apply_product_sales_delivery_id
 	</select>
+	
+	<!-- 중고 상품 등록 삭제 -->
+	<delete id="deleteUsedProduct" parameterType="Integer">
+		DELETE
+		FROM
+			used_product_registration
+		<where>
+			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+		</where>
+	</delete>
+	
+	<!-- 매니저 등록 상품 상태값 변환 -->
+	<update id="updateRegistrationState" parameterType="Integer">
+		UPDATE
+			product_confirmation_registration
+		SET
+			registration_state=9
+		<where>
+			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+		</where>
+	</update>
+	
+	<!-- 입찰 기록 조회 -->
+	<select id="biddingCount" parameterType="Integer" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			bidding_auction_product
+		<where>
+			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+		</where>
+	</select>
+	
+	<!-- 경매 상품 등록 삭제 -->
+	<delete id="deleteActionProduct" parameterType="Integer">
+		DELETE
+		FROM
+			auction_product_registration
+		<where>
+			apply_product_sales_delivery_id=#{applyProductSalesDeliverId}
+		</where>
+	</delete>
 </mapper>

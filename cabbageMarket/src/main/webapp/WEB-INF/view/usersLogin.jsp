@@ -48,7 +48,7 @@
 								<input type="checkbox" checked="checked"/>
 								<div class="control__indicator"></div>
 							</label>
-							<span class="ml-auto"><a href="${pageContext.request.contextPath}/manager/managerLogin" class="forgot-pass" style="text-decoration: none">관리자 로그인</a></span>
+							<span class="ml-auto"><a href="${pageContext.request.contextPath}/managerLogin" class="forgot-pass" style="text-decoration: none">관리자 로그인</a></span>
 							<span class="ml-auto"><a href="${pageContext.request.contextPath}/registerUser" class="forgot-pass" style="text-decoration: none">회원가입</a></span> 
 						</div>
 						
