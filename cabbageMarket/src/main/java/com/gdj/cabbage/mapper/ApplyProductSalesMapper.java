@@ -17,4 +17,6 @@ public interface ApplyProductSalesMapper {
 	
 	void insertApplyProductSalesDelivery(ApplyProductSalesDelivery applyProductSalesDelivery); // 상품 판매 배송 신청
 	void insertApplyproductSalesDeliveryImg(ApplyproductSalesDeliveryImg applyproductSalesDeliveryImg); // 상품 판매 배송 신청 이미지
+
+	Map<String, Object> selectApplyOne(int applyId); //상세 정보를 가져오는 mapper
 }

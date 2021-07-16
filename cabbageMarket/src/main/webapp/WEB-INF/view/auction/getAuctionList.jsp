@@ -35,16 +35,16 @@
     	$(document).on('click', '#callQuote', function(){
     		console.log('호가 클릭');
     		console.log(${usersSession.get("point")});
-    		if(${usersSession.get("point")} != 0){ //포인츠가 0이면 //계산이 양수면 포인트 부족.
+    		if(${usersSession.get("point")} == 0){ //포인츠가 0이면 //계산이 양수면 포인트 부족.
     			if(confirm('포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까? \n\n 확인:이동가능. 취소:계산이 안됨. alList에서 어떻게 특정 할까요')){
     				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
     			} else {
-    				var i = $('#newPrice').val() - ${usersSession.get("point")}
+    				var i = $("#newPrice").val()
     				alert("입찰불가 : "+ $(i) +"포인트 부족") // 계산
     			}
     			
     		} else { //포인츠가 0이 아니면 //계산이 음수면 입찰가능
-    			if(confirm($('#price').val() +'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
+    			if(confirm($('#newPrice').val() +'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
     				$('#addNewBidForm').submit(); //form만들기
     				alert("입찰성공");
     				location.href= "${pageContext.request.contextPath}/users/userInfo"; //구매내역 만들기
@@ -279,7 +279,7 @@
                                    <span>${al.categorySubId}</span>
                                    <h5><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${al.applyId}">${al.productName}</a></h5>
                                    <div class="product__item__text"> 현재 입찰가 : ${al.price} + <button id="callQuote" name="callQuote"  class="btn btn-success">호가 ${al.quote}</button></div>
-                                	<input type="hidden" id="newPrice" name="newPrice" value="${al.price}+${al.quote}">
+                                	<input type="text" id="newPrice" name="newPrice" value="${al.newPrice}">
                                 </div>
                             </div>
                         </div>
