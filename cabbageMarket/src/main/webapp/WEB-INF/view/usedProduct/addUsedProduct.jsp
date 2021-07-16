@@ -225,7 +225,7 @@
 					</h6>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
-					<input type="text" id="registrationDeadline">
+					<input type="text" id="registrationDeadline" name="registrationDeadline">
 				</div>
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
