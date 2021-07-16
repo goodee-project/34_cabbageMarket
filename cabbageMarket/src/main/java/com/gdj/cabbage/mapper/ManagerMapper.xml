@@ -3,6 +3,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 배송 신청된 상품 목록 출력 -->
+
+	<select id="selectDeliveryProductList"
+			parameterType="int"
+			resultType="map">
+
+		SELECT
+			*
+		FROM
+			apply_product_sales_delivery
+			
+		WHERE
+			apply_product_sales_delivery_id
+			
+		NOT IN
+			(SELECT
+				apply_product_sales_delivery_id
+			FROM
+				product_confirmation_registration
+			
+			)
+			
+	</select>
+
 <!-- 관리자 상세보기 -->
 
 	<select id="selectManagerInfo"
@@ -20,7 +44,7 @@
 		FROM
 			manager
 		<where>
-			manager_name=#{managerName}
+			manager_id=#{managerId}
 		</where>
 	
 	</select>
@@ -116,7 +140,6 @@
 			manager_level = #{managerLevel}
 		WHERE
 			manager_id = #{managerId}
-			
 	</update>
 	
 <!-- 관리자 세션 -->

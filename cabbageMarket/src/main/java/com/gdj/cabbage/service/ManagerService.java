@@ -23,12 +23,17 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 배송 신청된 상품 목록 출력
+	public List<Map<String,Object>> getDeliveryProductList(String userId){
+		return managerMapper.selectDeliveryProductList(userId);
+	}
+
 	// 관리자 상세보기
-	public Map<String, Object> selectManagerInfo(String managerName){
-		log.debug(Debuging.DEBUG+" managerName : " + managerName);
+	public Map<String, Object> selectManagerInfo(String managerId){
+		log.debug(Debuging.DEBUG+" managerId : " + managerId);
 		
-		Map<String, Object> managerMap = managerMapper.selectManagerInfo(managerName);
-		log.debug(Debuging.DEBUG+" managerMap : " + managerMap);
+		Map<String, Object> managerMap = managerMapper.selectManagerInfo(managerId);
+		log.debug(Debuging.DEBUG+" managerMap : " + managerMap.toString());
 		
 		return managerMap;
 	}
@@ -95,7 +100,7 @@ public class ManagerService {
 
 	// 관리자 수정
 	public int modifyManager(Manager manager) {
-		log.debug(Debuging.DEBUG + "manager : " + manager);
+		log.debug(Debuging.DEBUG + "manager : " + manager.toString());
 		
 		int row = managerMapper.updateManager(manager);
 		log.debug(Debuging.DEBUG+" 매니저 수정 성공 여부 : "+row);
@@ -105,10 +110,10 @@ public class ManagerService {
 
 	// 관리자 세션
 	public Map<String, Object> ManagerloginSession(Manager manager){
-		log.debug(Debuging.DEBUG+" manager "+ manager);
+		log.debug(Debuging.DEBUG+" manager "+ manager.toString());
 		
 		Map<String, Object> managerSession = managerMapper.ManagerloginSession(manager);
-		log.debug(Debuging.DEBUG+" managerSession" + managerSession);
+		log.debug(Debuging.DEBUG+" managerSession" + managerSession.toString()); // 나중에확인해보기 디버그
 		
 		return managerSession;
 	}

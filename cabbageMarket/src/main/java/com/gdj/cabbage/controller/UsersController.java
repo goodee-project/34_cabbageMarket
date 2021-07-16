@@ -45,21 +45,31 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
-	@GetMapping("/users/removeActionProduct")
-	public String removeActionProduct(int applyProductSalesDeliverId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
+	@GetMapping("/users/removeDirectProduct")
+	public String removeDirectProduct(int registerId) {
+		log.debug(Debuging.DEBUG+" registerId : "+registerId);
 		
-		int row = usersService.deleteActionProduct(applyProductSalesDeliverId);
+		int row = usersService.deleteDirectProduct(registerId);
+		log.debug(Debuging.DEBUG+" 직거래 상품 삭제 성공 여부 : "+row);
+		
+		return "redirect:/users/registedProduct";
+	}
+	
+	@GetMapping("/users/removeActionProduct")
+	public String removeActionProduct(int applyProductSalesDeliveryId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);
+		
+		int row = usersService.deleteActionProduct(applyProductSalesDeliveryId);
 		log.debug(Debuging.DEBUG+" 경매등록 상품 삭제 성공 여부 : "+row);
 		
 		return "redirect:/users/registedProduct";
 	}
 	
 	@GetMapping("/users/removeUsedProduct")
-	public String removeUsedProduct(int applyProductSalesDeliverId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliverId);
+	public String removeUsedProduct(int applyProductSalesDeliveryId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);
 		
-		int row = usersService.deleteUsedProduct(applyProductSalesDeliverId);
+		int row = usersService.deleteUsedProduct(applyProductSalesDeliveryId);
 		log.debug(Debuging.DEBUG+" 중고등록 상품 삭제 성공 여부 : "+row);
 		
 		return "redirect:/users/registedProduct";
@@ -76,8 +86,12 @@ public class UsersController {
 		List<Map<String, Object>> getActionProductList = usersService.getAuctionProductList(userId);
 		log.debug(Debuging.DEBUG+" getActionProductList : "+getActionProductList);
 		
+		List<Map<String, Object>> getDirectProductList = usersService.getDirectProductList(userId);
+		log.debug(Debuging.DEBUG+" getDirectProductList : "+getDirectProductList);
+		
 		model.addAttribute("getUsedProductList", getUsedProductList);
 		model.addAttribute("getActionProductList", getActionProductList);
+		model.addAttribute("getDirectProductList", getDirectProductList);
 		
 		return "/userInfo/registedProduct";
 		

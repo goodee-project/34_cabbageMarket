@@ -82,6 +82,76 @@
 						</div>
 						<div>
 							<div class="col-md-12">
+								<h4><b>직거래상품 등록 내역</b></h4>
+								<br>
+								<div class="card">
+									<table class="table table-hover" style="text-align: center">
+				                            <thead>
+				                                <tr>
+				                                	<th>
+				                                		순번
+				                                	</th>
+				                                	<th>
+				                                		이미지
+				                                	</th>
+				                                    <th>
+				                                    	카테고리
+				                                    </th>
+				                                    <th>
+				                                    	제품명
+				                                    </th>
+				                                    <th>
+				                                    	가격
+				                                    </th>
+				                                    <th>
+				                                    	장소
+				                                    </th>
+				                                    <th>
+				                                    	취소
+				                                    </th>
+				                                </tr>
+				                            </thead>
+					                            
+				                            <tbody>
+				                            	<c:set var="index" value = "0"/>
+				                            	<c:forEach var="gdpl" items="${getDirectProductList}">
+					                                <tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${gdpl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td>
+					                                    	<h6>${gdpl.category}</h6>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
+					                                    			${gdpl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${gdpl.price}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${gdpl.location}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeDirectProduct?registerId=${gdpl.registerId}">
+					                                    		<button class="btn btn-success">취소</button>
+					                                    	</a>
+					                                    </td>
+					                                </tr>
+				                                </c:forEach>
+				                            </tbody>
+				                        </table>
+								</div>
+							</div>
+							<br>
+							<hr>
+							<div class="col-md-12">
 								<h4><b>중고상품 등록 내역</b></h4>
 								<br>
 								<div class="card">
@@ -130,6 +200,11 @@
 					                                    </td>
 					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliverId}"><h5 style="color: #3CC2FF">${gupl.productName}</h5></a>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}" style="text-decoration: none">
+					                                    			${gupl.productName}
+					                                    		</a>
+					                                    	</h5>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gupl.price}</h5>
@@ -138,12 +213,6 @@
 					                                    	<h5>${gupl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliverId}">
-					                                    		<button class="btn btn-success">수정</button>
-					                                    	</a>
-					                                    </td>
-					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliverId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>
@@ -202,7 +271,11 @@
 					                                    	<h6>${gapl.category}</h6>
 					                                    </td>
 					                                    <td>
-					                                    	<h5>${gapl.productName}</h5>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${gapl.applyProductSalesDeliveryId}" style="text-decoration: none">
+					                                    			${gapl.productName}
+					                                    		</a>
+					                                    	</h5>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gapl.maxPrice}</h5>
@@ -211,7 +284,7 @@
 					                                    	<h5>${gapl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeActionProduct?applyProductSalesDeliverId=${gapl.applyProductSalesDeliverId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/removeActionProduct?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>

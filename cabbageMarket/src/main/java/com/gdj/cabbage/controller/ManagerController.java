@@ -2,6 +2,7 @@
 package com.gdj.cabbage.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
-import com.gdj.cabbage.mapper.ManagerMapper;
 import com.gdj.cabbage.service.ManagerService;
 import com.gdj.cabbage.vo.Manager;
 
@@ -25,13 +25,55 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+	
+	//관리자 수정 //
+	// GET // 수정페이지만 보내주는것
+	@GetMapping("/manager/modifyManager")
+	public String modifyManager(Model model,
+			@RequestParam(value = "managerId", required = true) String managerId) {
+		log.debug(Debuging.DEBUG+" managerId : " + managerId);
+		
+		Map<String, Object> modifyManagerOne = managerService.selectManagerInfo(managerId);
+		
+		log.debug(Debuging.DEBUG+" modifyManagerOne : " + modifyManagerOne.toString());
+		
+		model.addAttribute("modifyManagerOne", modifyManagerOne);
+		
+		return "manager/modifyManager";
+		
+	}
+
+	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
+	@PostMapping("/manager/modifyManager")
+	public String modifyManager(Manager manager) {
+		
+		// update
+		int row = managerService.modifyManager(manager);
+
+		// 디버깅
+		log.debug("modify 실행 여부 : " + row);
+		
+		return "redirect:/manager/getManagerInfo?managerId=" + manager.getManagerId();
+	}
+
+	// 배송 신청된 상품 목록 출력
+	@GetMapping("/manager/getDeliveryProductList")
+	public String getDeliveryProductList(Model model, @RequestParam(value="userId", required=true) String userId) {		
+		
+		List<Map<String,Object>> getDeliveryProductList = managerService.getDeliveryProductList(userId);
+		log.debug(Debuging.DEBUG+" getDeliveryProductList "+getDeliveryProductList);
+		
+		model.addAttribute("getDeliveryProductList", getDeliveryProductList);
+		
+		return "/manager/getDeliveryProductList";
+	}
 
 	// 관리자 상세보기
 	@GetMapping("/manager/getManagerInfo")
-	public String getManagerInfo(Model model, @RequestParam(value="managerName", required=true) String managerName) {
+	public String getManagerInfo(Model model, @RequestParam(value="managerId", required=true) String managerId) {
 		
-		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerName);
-		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo);
+		Map<String, Object> managerInfo = managerService.selectManagerInfo(managerId);
+		log.debug(Debuging.DEBUG+" managerInfo : " + managerInfo.toString());
 		
 		model.addAttribute("managerInfo", managerInfo);
 		
@@ -76,30 +118,6 @@ public class ManagerController {
 		model.addAttribute("currentPage", currentPage);
 		
 		return "manager/getManagerList";
-	}
-
-	
-	// 관리자 수정 // 이 부분인데 .. 여기서 리퀘스트 파람으로 원래 managerId를 받아오는걸로 되어있었는데 
-	// GET // 수정페이지만 보내주는것
-	@GetMapping("/manager/modifyManager")
-	public String modifyManager(Model model, @RequestParam(value = "managerId", required = true) String managerId) {
-		log.debug(Debuging.DEBUG+" managerId : "+managerId);
-		Map<String, Object> managerOne = managerService.selectManagerInfo(managerId);
-		
-		log.debug(Debuging.DEBUG+" managerOne : " + managerOne);
-		
-		model.addAttribute("managerOne", managerOne);
-		
-		return "manager/modifyManager";
-	}
-	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
-	@PostMapping("/manager/modifyManager")
-	public String modifyManager(Manager manager) {
-		log.debug(Debuging.DEBUG+" manager : "+manager);
-		
-		managerService.modifyManager(manager);
-		
-		return "redirect:/manager/getManagerInfo";
 	}
 	
 	
