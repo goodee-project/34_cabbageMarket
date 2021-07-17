@@ -195,7 +195,7 @@
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
-								<li><a href="#">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/buyingOrBidding">구매 및 입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>

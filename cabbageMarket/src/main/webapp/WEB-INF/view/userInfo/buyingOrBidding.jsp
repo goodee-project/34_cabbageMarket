@@ -11,7 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>회원탈퇴</title>
+	<title>구매 및 입찰 내역</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	
@@ -25,21 +25,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			let numberCode =  /^[0-9]+(.[0-9]+)?$/;
-			let row = 0;
-			
-			$('#btn').click(function(){
-				if($('#password').val() == ''){
-					$('#password').attr('placeholder','비밀번호를 입력해주세요');							
-				}else{
-					$('#removeUserForm').submit();
-				}
-			});
-		});
-	</script>
-	
 </head>
 
 <body>
@@ -74,7 +59,7 @@
 	<section class="product spad">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-5">
+				<div class="col-lg-2 col-md-5">
 					<div class="sidebar">
 						<div class="sidebar__item">
 							<h4>Department</h4>
@@ -89,39 +74,76 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-9 col-md-7">
+				<div class="col-lg-10 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>회원 탈퇴</h2>
+							<h2>구매 및 입찰 내역</h2>
 						</div>
-						<div>
-							<form action="${pageContext.request.contextPath}/users/removeUsers" method="post" id="removeUserForm">
-								<input type="hidden" name="userId" value="${userId}">
-								<div class="col-md-10">
-									<div class="card">
-										<div class="card-body">											
-											<div class="row">
-												<div class="col-sm-3">
-													<h6 class="mb-0">
-														<b>Password</b>
-													</h6>
-												</div>
-												<div class="col-sm-9 text-secondary">
-													<input type="password" id="password" name="password" class="form-control">
-												</div>
-											</div>
-											<hr>											
-											<div class="row">
-												<div class="col-sm-12">
-													<button type="button" id="btn" class="btn btn-success">탈퇴</button>
-												</div>
-											</div>
-										</div>
-									</div>
+						<div class="col-md-12">
+								<h4><b>중고상품 구매 내역</b></h4>
+								<br>
+								<div class="card">
+									<table class="table table-hover" style="text-align: center">
+				                            <thead>
+				                                <tr>
+				                                	<th>
+				                                		순번
+				                                	</th>
+				                                	<th>
+				                                		이미지
+				                                	</th>
+				                                    <th>
+				                                    	카테고리
+				                                    </th>
+				                                    <th>
+				                                    	제품명
+				                                    </th>
+				                                    <th>
+				                                    	구매 가격
+				                                    </th>
+				                                    <th>
+				                                    	구매 날짜
+				                                    </th>
+				                                </tr>
+				                            </thead>
+					                            
+				                            <tbody>
+				                            	<c:set var="index" value = "0"/>
+				                            	<c:forEach var="bupl" items="${byingUsedProductList}">
+					                                <tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${bupl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td>
+					                                    	<h6>${bupl.category}</h6>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
+					                                    			${bupl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bupl.price}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bupl.buyingDate}</h5>
+					                                    </td>
+					                                </tr>
+				                                </c:forEach>
+				                            </tbody>
+				                        </table>
 								</div>
-							</form>
-						</div>
-					</div>
+								<div class="card-footer">
+									
+								</div>
+							</div>
+							<br>
+							<hr>
 				</div>
 			</div>
 		</div>
