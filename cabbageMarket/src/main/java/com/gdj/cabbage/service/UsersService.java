@@ -32,6 +32,16 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
+	// 유저 중고 상품 구매 내역 리스트
+	public List<Map<String, Object>> buyingUsedProductByUserId(int userId){
+		log.debug(Debuging.DEBUG+" userId : "+userId);
+		
+		List<Map<String, Object>> buyingUsedProductByUserId = usersMapper.getBuyingUsedProductByUserId(userId);
+		log.debug(Debuging.DEBUG+" buyingUsedProductByUserId : "+buyingUsedProductByUserId);
+		
+		return buyingUsedProductByUserId;
+	}
+	
 	// 직거래 등록 취소 서비스]
 	public int deleteDirectProduct(int regiserId) {
 		log.debug(Debuging.DEBUG+" regierId : "+regiserId);
@@ -151,6 +161,7 @@ public class UsersService {
 		Map<String, Object> controllerMap = new HashMap<>();
 		controllerMap.put("userPointHistory", userPointHistory);
 		controllerMap.put("lastPage", lastPage);
+		controllerMap.put("beginRow", beginRow);
 		log.debug(Debuging.DEBUG+" controllerMap : "+controllerMap);
 		
 		return controllerMap;

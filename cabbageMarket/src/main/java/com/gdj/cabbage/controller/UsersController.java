@@ -45,6 +45,19 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/buyingOrBidding")
+	public String purchaseOrBidding(Model model, HttpSession session) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		List<Map<String, Object>> buyingUsedProductList = usersService.buyingUsedProductByUserId(userId);
+		log.debug(Debuging.DEBUG+" buyingUsedProductList : "+buyingUsedProductList);
+		
+		model.addAttribute("byingUsedProductList", buyingUsedProductList);
+		
+		return "/userInfo/buyingOrBidding";
+	}
+	
 	@GetMapping("/users/removeDirectProduct")
 	public String removeDirectProduct(int registerId) {
 		log.debug(Debuging.DEBUG+" registerId : "+registerId);
@@ -145,7 +158,7 @@ public class UsersController {
 	public String userPointHistory(Model model, HttpSession session,
 												@RequestParam(value="content", required = false) String content,
 												@RequestParam(value="currentPage", required = true, defaultValue = "1") int currentPage,
-												@RequestParam(value="rowPerPage", required = true, defaultValue = "10") int rowPerPage) {
+												@RequestParam(value="rowPerPage", required = true, defaultValue = "5") int rowPerPage) {
 		
 		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
 		int userId = (Integer)usersSession.get("userId");
@@ -165,6 +178,7 @@ public class UsersController {
 		
 		model.addAttribute("userPointHistory", map.get("userPointHistory"));
 		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("beginRow", map.get("beginRow"));
 		model.addAttribute("currentPage", currentPage);
 		
 		return "userInfo/userPointHistory";

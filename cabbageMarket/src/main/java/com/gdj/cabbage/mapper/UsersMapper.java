@@ -40,4 +40,5 @@ public interface UsersMapper {
 	int deleteActionProduct(int applyProductSalesDeliveryId);
 	int deleteDirectProduct(int registerId);
 	List<Map<String, Object>> getDirectProductListByUserId(int userId);
+	List<Map<String, Object>> getBuyingUsedProductByUserId(int userId);
 } 
