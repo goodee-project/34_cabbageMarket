@@ -33,13 +33,34 @@ public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	
 	// 유저 중고 상품 구매 내역 리스트
-	public List<Map<String, Object>> buyingUsedProductByUserId(int userId){
+	public Map<String, Object> buyingUsedProductByUserId(int userId, int currentPage, int rowPerPage){
 		log.debug(Debuging.DEBUG+" userId : "+userId);
 		
-		List<Map<String, Object>> buyingUsedProductByUserId = usersMapper.getBuyingUsedProductByUserId(userId);
-		log.debug(Debuging.DEBUG+" buyingUsedProductByUserId : "+buyingUsedProductByUserId);
+		int beginRow = (currentPage-1)*rowPerPage;
 		
-		return buyingUsedProductByUserId;
+		Map<String, Object> serviceMap = new HashMap<>();
+		serviceMap.put("userId", userId);
+		serviceMap.put("beginRow", beginRow);
+		serviceMap.put("rowPerPage", rowPerPage);
+		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);
+		
+		
+		List<Map<String, Object>> buyingUsedProductByUserId = usersMapper.getBuyingUsedProductByUserId(serviceMap);
+		
+		int totalRow = buyingUsedProductByUserId.size();
+		int lastPage = totalRow/rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		Map<String, Object> controllerMap = new HashMap<>();
+		controllerMap.put("buyingUsedProductByUserId", buyingUsedProductByUserId);
+		controllerMap.put("lastPage", lastPage);
+		controllerMap.put("beginRow", beginRow);
+		log.debug(Debuging.DEBUG+" controllerMap : "+controllerMap);
+		
+		return controllerMap;
+	
 	}
 	
 	// 직거래 등록 취소 서비스]
