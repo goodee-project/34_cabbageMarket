@@ -1,47 +1,72 @@
 <!-- 작성자: 김희진 -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset="UTF-8">
+	<meta name="description" content="Ogani Template">
+	<meta name="keywords" content="Ogani, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>cabbageMarket UsedProduct</title>
+	
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-<!-- Css Styles -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/bootstrap.min.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/font-awesome.min.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/elegant-icons.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/nice-select.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/slicknav.min.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/template/css/style.css"
-	type="text/css">
-
-<title>배추마켓 중고상품 목록</title>
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+	
+	<style>
+	.form-control:focus {
+	  box-shadow: none;
+	}
+	
+	.form-control-underlined {
+	  border-width: 0;
+	  border-bottom-width: 1px;
+	  border-radius: 0;
+	  padding-left: 0;
+	}
+	
+	.form-control::placeholder {
+	  font-size: 0.9rem;
+	  color: #aaa;
+	  font-style: italic;
+	}
+	</style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+	   
+		$.ajax({
+		   type:'get',
+		   url:'${pageContext.request.contextPath}/getCategoryMain',
+		   
+		   success: function(jsonData) {
+		      $(jsonData).each(function(index, item) {
+		     	 console.log(item.categoryMainName);
+		         $('#categoryMain').append(
+		            '<li value="'+item.categoryMainId+'"><a href="./shop-details.html">'+item.categoryMainName+'</a></li>'
+		         );
+		      });
+		   }
+		});
+		
+		$('#btn').click(function(){
+			console.log('btn click!!')
+			$('#searchForm').submit();
+		})
+	});
+	</script>
 
 </head>
 <body>
@@ -80,10 +105,10 @@
                     <div class="sidebar">
                         <div class="sidebar__item">
                             <h4>CATEGORY</h4>
-                            <ul>
-                            </ul>	   
+                            <ul class="categoryMain" id="categoryMain" name="categoryMain"></ul>	   
                         </div>
                         
+                        <br><br><br>
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
@@ -136,10 +161,11 @@
                 <div class="col-lg-9 col-md-7">
                     <div class="filter__item">
                         <div class="row">
-                            <div class="col-lg-4 col-md-5">
+                        
+                            <div class="col-lg-4 col-md-4">
                                 <div class="filter__sort">
                                     <select>
-                                  	    <option value="0">최신상품순</option>
+                                    	<option value="0">최근등록순</option>
                                         <option value="0">낮은가격순</option>
                                         <option value="0">높은가격순</option>
                                     </select>
@@ -148,12 +174,23 @@
                             
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6>Products <span>${usedProductTotal}</span></h6>
+                                    <h6>Total Products<span>&nbsp;${usedProductTotal}</span></h6>
                                 </div>
                             </div>
                             
+                            <!-- search 검색 -->
+                            <form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" class="col-lg-4 col-md-4">
+	                             <div class="input-group mb-4 border rounded-pill p-1">
+		            				<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="search">
+						           	<div class="input-group-append border-0">
+						            	<button id="btn" type="button" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
+						            </div>
+						         </div>
+				        	</form>
+				        	
                         </div>
                     </div>
+                    <br>
                     <div class="row">
                     	<c:forEach var="upl" items="${usedProductList}">
 	                    	<div class="col-lg-4 col-md-6 col-sm-6">
@@ -177,19 +214,23 @@
                     
                     <!-- 페이징 -->
                     <div class="product__pagination">
-                    	
                     	<c:if test="${currentPage > 1}">
 				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}">
 				            	<i class="fa fa-long-arrow-left"></i>
 				            </a>
 				        </c:if>
-
+ 						<c:forEach var="i" begin="1" end="10">
+							<c:if test="${(pageSet*10)+i < lastPage+1}">
+					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${(pageSet*10)+i}">
+									${(pageSet*10)+i}
+								</a>
+							</c:if>
+						</c:forEach>
 				        <c:if test="${currentPage < lastPage}">
 				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage+1}&searchWord=${searchWord}">
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
-
                     </div>
                     
                 </div>
@@ -201,18 +242,15 @@
     <!-- Footer Section Begin -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
     <!-- Footer Section End -->
-
-    <!-- Js Plugins -->
-    <script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-
-
-
+    
+	<!-- Js Plugins -->
+	<script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 </body>
 </html>

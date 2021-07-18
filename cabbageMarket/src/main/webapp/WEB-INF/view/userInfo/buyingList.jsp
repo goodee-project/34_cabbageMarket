@@ -11,7 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>구매 및 입찰 내역</title>
+	<title>구매 내역</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	
@@ -67,7 +67,8 @@
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
-								<li><a href="${pageContext.request.contextPath}/users/buyingOrBidding">구매 및 입찰 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/buyingList">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/biddingList">입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>
@@ -77,73 +78,69 @@
 				<div class="col-lg-10 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>구매 및 입찰 내역</h2>
+							<h2>구매 내역</h2>
 						</div>
 						<div class="col-md-12">
-								<h4><b>중고상품 구매 내역</b></h4>
-								<br>
-								<div class="card">
-									<table class="table table-hover" style="text-align: center">
-				                            <thead>
+							<div class="card">
+								<table class="table table-hover" style="text-align: center">
+			                            <thead>
+			                                <tr>
+			                                	<th>
+			                                		순번
+			                                	</th>
+			                                	<th>
+			                                		이미지
+			                                	</th>
+			                                    <th>
+			                                    	카테고리
+			                                    </th>
+			                                    <th>
+			                                    	제품명
+			                                    </th>
+			                                    <th>
+			                                    	구매 가격
+			                                    </th>
+			                                    <th>
+			                                    	구매 날짜
+			                                    </th>
+			                                </tr>
+			                            </thead>
+				                            
+			                            <tbody>
+			                            	<c:set var="index" value = "0"/>
+			                            	<c:forEach var="bupl" items="${byingUsedProductList}">
 				                                <tr>
-				                                	<th>
-				                                		순번
-				                                	</th>
-				                                	<th>
-				                                		이미지
-				                                	</th>
-				                                    <th>
-				                                    	카테고리
-				                                    </th>
-				                                    <th>
-				                                    	제품명
-				                                    </th>
-				                                    <th>
-				                                    	구매 가격
-				                                    </th>
-				                                    <th>
-				                                    	구매 날짜
-				                                    </th>
+				                                	<td>
+				                                		${index = index+1}
+				                                	</td>
+				                                    <td>
+				                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${bupl.img}" width="70px" height="50px">
+				                                    </td>
+				                                    <td>
+				                                    	<h6>${bupl.category}</h6>
+				                                    </td>
+				                                    <td>
+				                                    	<h5>
+				                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
+				                                    			${bupl.productName}
+				                                    		</a>
+				                                    	</h5>
+				                                    </td>
+				                                    <td>
+				                                    	<h5>${bupl.price}</h5>
+				                                    </td>
+				                                    <td>
+				                                    	<h5>${bupl.buyingDate}</h5>
+				                                    </td>
 				                                </tr>
-				                            </thead>
-					                            
-				                            <tbody>
-				                            	<c:set var="index" value = "0"/>
-				                            	<c:forEach var="bupl" items="${byingUsedProductList}">
-					                                <tr>
-					                                	<td>
-					                                		${index = index+1}
-					                                	</td>
-					                                    <td>
-					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${bupl.img}" width="70px" height="50px">
-					                                    </td>
-					                                    <td>
-					                                    	<h6>${bupl.category}</h6>
-					                                    </td>
-					                                    <td>
-					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
-					                                    			${bupl.productName}
-					                                    		</a>
-					                                    	</h5>
-					                                    </td>
-					                                    <td>
-					                                    	<h5>${bupl.price}</h5>
-					                                    </td>
-					                                    <td>
-					                                    	<h5>${bupl.buyingDate}</h5>
-					                                    </td>
-					                                </tr>
-				                                </c:forEach>
-				                            </tbody>
-				                        </table>
-								</div>
-								<div class="card-footer">
-									
-								</div>
+			                                </c:forEach>
+			                            </tbody>
+			                        </table>
 							</div>
-							<br>
-							<hr>
+							<div class="card-footer">
+								
+							</div>
+						</div>
 				</div>
 			</div>
 		</div>

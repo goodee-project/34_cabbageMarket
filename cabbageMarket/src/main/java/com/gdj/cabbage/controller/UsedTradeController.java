@@ -28,13 +28,18 @@ public class UsedTradeController {
 	//중고상품 목록
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
-												  @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage,
-												  @RequestParam(value="searchWord", required = false) String searchWord ) {
+												  @RequestParam(value="rowPerPage", defaultValue = "9") int rowPerPage,
+												  @RequestParam(value="searchWord", required = false) String searchWord) {
 		//디버깅
 		log.debug("★★★★★★★★getUsedProductList() currentPage:" +currentPage);
 		log.debug("★★★★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
 		log.debug("★★★★★★★★getUsedProductList() searchWord:" +searchWord);
-
+		
+		//검색 searchWord 
+		if (searchWord != null && searchWord.equals("")) { 
+			searchWord = null;
+		}
+		
 		//HashMap 생성 - > map에 값 넣어주기
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage-1)*rowPerPage);
@@ -44,6 +49,7 @@ public class UsedTradeController {
 		//페이징
 		int usedProductTotal = usedTradeService.getUsedProductTotal(map); //중고상품 Total
 		int lastPage = (int) Math.ceil((double)usedProductTotal/rowPerPage); //마지막 페이지
+		int pageSet = (currentPage-1)/10;
 		
 		//중고상품 목록 가져오기
 		List<Map<String,Object>> usedProductList = usedTradeService.getUsedProductList(map);
@@ -54,6 +60,7 @@ public class UsedTradeController {
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("usedProductTotal",usedProductTotal);
 		model.addAttribute("lastPage",lastPage);
+		model.addAttribute("pageSet",pageSet);
 		model.addAttribute("usedProductList",usedProductList);
 		
 		//getUsedProductList 페이지로 반환
