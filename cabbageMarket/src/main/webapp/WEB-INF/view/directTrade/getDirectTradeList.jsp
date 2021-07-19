@@ -6,11 +6,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
+    <meta name="description" content="Direct Trade Shop">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
+    <title>Direct Trade Shop</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -24,6 +25,43 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){ // 움직이는 스크롤
+			var currentPosition = parseInt($(".scroll").css("top"));
+			
+			$(window).scroll(function() { 
+				var position = $(window).scrollTop();
+				if(position < 300)
+					position = 300;
+				
+				if(position > 1900)
+					position = 1900;
+				
+				$(".scroll").stop().animate({"top":position+currentPosition-300+"px"},800); 
+			}); 
+			
+			$('#sortValue').change(function(){
+				console.log($('#sortValue').val());
+				$('#sortValueForm').submit();
+			});
+		});
+		
+		$.ajax({
+			   type:'get',
+			   url:'${pageContext.request.contextPath}/getCategoryMain',
+			   
+			   success: function(jsonData) {
+			      $(jsonData).each(function(index, item) {
+			     	 console.log(item.categoryMainName);
+			         $('#categoryMain').append(
+			            '<li><a href="${pageContext.request.contextPath}/users/getDirectTradeList?categoryMainId='+item.categoryMainId+'">'+item.categoryMainName+'</a></li>'
+			         );
+			      });
+			   }
+			});
+		
+	</script>
 </head>
 
 <body>
@@ -35,6 +73,27 @@
     <!-- Humberger Begin -->
     <jsp:include page="/WEB-INF/view/header.jsp"/>
 	<!-- Humberger End -->
+
+	<!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get">
+                                <input type="text" placeholder="What do yo u need?" name="searchWord">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="${pageContext.request.contextPath}/template/img/breadcrumb.jpg">
@@ -58,106 +117,14 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-5">
+                <div class="col-lg-3 col-md-5 scroll" style="height: 0px;">
                     <div class="sidebar">
                         <div class="sidebar__item">
-                            <h4>Department</h4>
-                            <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
+                            <h4>CATEGORY</h4>
+                            <ul id="categoryMain">
                             </ul>
                         </div>
-                        <div class="sidebar__item">
-                            <h4>Price</h4>
-                            <div class="price-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="10" data-max="540">
-                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                </div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar__item sidebar__item__color--option">
-                            <h4>Colors</h4>
-                            <div class="sidebar__item__color sidebar__item__color--white">
-                                <label for="white">
-                                    White
-                                    <input type="radio" id="white">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--gray">
-                                <label for="gray">
-                                    Gray
-                                    <input type="radio" id="gray">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--red">
-                                <label for="red">
-                                    Red
-                                    <input type="radio" id="red">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--black">
-                                <label for="black">
-                                    Black
-                                    <input type="radio" id="black">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--blue">
-                                <label for="blue">
-                                    Blue
-                                    <input type="radio" id="blue">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--green">
-                                <label for="green">
-                                    Green
-                                    <input type="radio" id="green">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div>
+
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
@@ -165,6 +132,7 @@
                                 
                                     <div class="latest-prdouct__slider__item">
                                         <c:forEach var="i" begin="0" end="2">
+                                        	<c:if test="${DirectTradeProductRegistrationList.size() > i}">
 	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${DirectTradeProductRegistrationList[i].directTradeProductRegistrationId}">
 	                                            <div class="latest-product__item__pic">
 	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
@@ -179,27 +147,32 @@
 	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
 	                                            </div>
 	                                        </a>
+	                                        </c:if>
 										</c:forEach>
                                     </div>
                                     
-                                    <div class="latest-prdouct__slider__item">
-                                        <c:forEach var="i" begin="3" end="5">
-	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${DirectTradeProductRegistrationList[i].directTradeProductRegistrationId}">
-	                                            <div class="latest-product__item__pic">
-	                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
-	                                            </div>
-	                                            <div class="latest-product__item__text">
-	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() > 9}">
-	                                                	<h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
-	                                                </c:if>
-	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
-	                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
-	                                                </c:if>
-	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
-	                                            </div>
-	                                        </a>
-										</c:forEach>
-                                    </div>
+                                    <c:if test="${DirectTradeProductRegistrationList.size() > 2}">
+	                                    <div class="latest-prdouct__slider__item">
+	                                        <c:forEach var="i" begin="3" end="5">
+	                                        	<c:if test="${DirectTradeProductRegistrationList.size() > i}">
+		                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${DirectTradeProductRegistrationList[i].directTradeProductRegistrationId}">
+		                                            <div class="latest-product__item__pic">
+		                                                <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${DirectTradeProductRegistrationList[i].imgName}" alt="" style="width: 110px; height: 110px;">
+		                                            </div>
+		                                            <div class="latest-product__item__text">
+		                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() > 9}">
+		                                                	<h6>${DirectTradeProductRegistrationList[i].productName.substring(0,8)}..</h6>
+		                                                </c:if>
+		                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
+		                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
+		                                                </c:if>
+		                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
+		                                            </div>
+		                                        </a>
+		                                        </c:if>
+											</c:forEach>
+	                                    </div>
+                                    </c:if>
                                     
                                 </div>
                             </div>
@@ -240,15 +213,36 @@
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
                                     <span>Sort By</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
-                                    </select>
+                                    <form id="sortValueForm" action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get" style="display:inline;">
+	                                    <input type="hidden" name="categoryMainId" value="${categoryMainId}">
+	                                    <select id="sortValue" name="sortValue">
+	                                    	<c:if test="${sortValue eq 0}">
+	                                    		<option value="0" selected="selected">최근 등록순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 0}">
+	                                    		<option value="0">최근 등록순</option>
+	                                    	</c:if>
+	                                    	
+	                                    	<c:if test="${sortValue eq 1}">
+	                                    		<option value="1" selected="selected">높은 가격순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 1}">
+	                                    		<option value="1">높은 가격순</option>
+	                                    	</c:if>
+	                                    	
+	                                    	<c:if test="${sortValue eq 2}">
+	                                    		<option value="2" selected="selected">낮은 가격순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 2}">
+	                                    		<option value="2">낮은 가격순</option>
+	                                    	</c:if>
+	                                    </select>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6><span>${directProductTotal}</span> Products found</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -284,21 +278,21 @@
                     <div class="product__pagination">
                     	
                     	<c:if test="${currentPage > 1}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
 				            	<i class="fa fa-long-arrow-left"></i>
 				            </a>
 				        </c:if>
 				        
 				        <c:forEach var="i" begin="1" end="10">
 							<c:if test="${(pageSet*10)+i < lastPage+1}">
-					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}">
+					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
 									${(pageSet*10)+i}
 								</a>
 							</c:if>
 						</c:forEach>
 		
 				        <c:if test="${currentPage < lastPage}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
@@ -324,9 +318,6 @@
     <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-
-
-
 </body>
 
 </html>

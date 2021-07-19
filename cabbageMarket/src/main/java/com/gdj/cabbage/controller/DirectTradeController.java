@@ -32,16 +32,30 @@ public class DirectTradeController {
 	public String getDirectTradeList(Model model,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 			@RequestParam(value= "rowPerPage", defaultValue = "12") int rowPerPage,
-			@RequestParam(value="searchWord", required = false)String searchWord) {
+			@RequestParam(value="searchWord", required = false)String searchWord,
+			@RequestParam(value="categoryMainId", required = false)String categoryMainId,
+			@RequestParam(value="sortValue", required = false)Integer sortValue) {
+		
+		if(searchWord != null && searchWord.equals("")) {
+			searchWord = null;
+		}
+		
+		if(categoryMainId != null && categoryMainId.equals("")) {
+			categoryMainId = null;
+		}
 		
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> currentPage : " + currentPage);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> rowPerPage : " + rowPerPage);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> searchWord : " + searchWord);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> categoryMainId : " + categoryMainId);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> sortValue : " + sortValue);
 		
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", (currentPage-1)*rowPerPage);
 		paramMap.put("rowPerPage", rowPerPage);
 		paramMap.put("searchWord", searchWord);
+		paramMap.put("categoryMainId", categoryMainId);
+		paramMap.put("sortValue", sortValue);
 		
 		int pageSet = (currentPage-1)/10;
 		int directProductTotal = directTradeService.getDirectTradeProductTotal(paramMap);
@@ -64,8 +78,11 @@ public class DirectTradeController {
 		// 단일 변수 데이터
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("categoryMainId", categoryMainId);
+		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("pageSet", pageSet);
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("directProductTotal", directProductTotal);
 		
 		return "directTrade/getDirectTradeList";
 	}

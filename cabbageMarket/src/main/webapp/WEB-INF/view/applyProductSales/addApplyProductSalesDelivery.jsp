@@ -10,6 +10,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
     <title>배추마켓 상품 배송 신청</title>
 
     <!-- Google Font -->
@@ -19,7 +20,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
@@ -60,11 +60,12 @@
 			border: 1px solid rgb(220,219,224);
 		}
 		.adrsSearchBtn{
-			height: 46px;
+			height: 42px;
 		    width: 6.5rem;
 		    text-align: center;
 		    border: 1px solid rgb(195, 194, 204);
 		    margin-right: 1rem;
+		    margin-left: 1rem;
 		    border-radius: 2px;
 			white-space: nowrap;
 			background-color: white;
@@ -85,6 +86,36 @@
 		    border: none;
 		    outline: none;
 		    white-space: nowrap;
+		}
+		
+		#returnAddress{
+			-webkit-tap-highlight-color: transparent;
+		    background-color: #fff;
+		    border-radius: 5px;
+		    border: solid 1px #e8e8e8;
+		    box-sizing: border-box;
+		    clear: both;
+		    cursor: pointer;
+		    display: block;
+		    float: left;
+		    font-family: inherit;
+		    font-size: 14px;
+		    font-weight: normal;
+		    height: 42px;
+		    line-height: 40px;
+		    outline: none;
+		    padding-left: 18px;
+		    padding-right: 30px;
+		    position: relative;
+		    text-align: left !important;
+		    -webkit-transition: all 0.2s ease-in-out;
+		    transition: all 0.2s ease-in-out;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    white-space: nowrap;
+		    width: auto;
 		}
     </style>
 	<script> <!-- 유효성 검사 -->
@@ -202,6 +233,19 @@
 			
 		});
 		
+		// 배송지 목록 비동기로 가져오기
+		console.log('shipping Address 목록');
+		$.ajax({
+			type:'get',
+			url:'http://localhost/cabbageMarket/getShippingAddress',
+			success: function(jsonData) {
+				$(jsonData).each(function(index, item) {
+					var html = '<option value="'+item.address+'">'+item.address+'</option>';
+					$('#returnAddress').append(html);
+				});
+			}
+		});
+		
     });
   </script>
 </head>
@@ -316,10 +360,9 @@
 	                	<h4>반송 주소<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                <div></div>
-	                	<input type="text" id="sample5_address" name="returnAddress" placeholder="주소" readonly="readonly" style="display:inline-block; width: 75%">
-						<input class="adrsSearchBtn" type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" style="display:inline-block; width: 20%"><br>
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+						<select id="returnAddress" name="returnAddress">
+						</select>
+						<a href="${pageContext.request.contextPath}/users/shippingAddress" target="_blank"><button type="button" class="adrsSearchBtn">주소 추가</button></a>
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
  
@@ -355,7 +398,6 @@
     <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
@@ -382,56 +424,6 @@
     		} 
     	} 
     </script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6bc720d1861247189aab881a2c94847&libraries=services"></script>
-	<!-- 주소 정보 가져오기 (카카오API) -->
-	<script>
-	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-	        mapOption = {
-	            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-	            level: 5 // 지도의 확대 레벨
-	        };
-	
-	    //지도를 미리 생성
-	    var map = new daum.maps.Map(mapContainer, mapOption);
-	    //주소-좌표 변환 객체를 생성
-	    var geocoder = new daum.maps.services.Geocoder();
-	    //마커를 미리 생성
-	    var marker = new daum.maps.Marker({
-	        position: new daum.maps.LatLng(37.537187, 127.005476),
-	        map: map
-	    });
-	
-	
-	    function sample5_execDaumPostcode() {
-	        new daum.Postcode({
-	            oncomplete: function(data) {
-	                var addr = data.address; // 최종 주소 변수
-	
-	                // 주소 정보를 해당 필드에 넣는다.
-	                document.getElementById("sample5_address").value = addr;
-	                // 주소로 상세 정보를 검색
-	                geocoder.addressSearch(data.address, function(results, status) {
-	                    // 정상적으로 검색이 완료됐으면
-	                    if (status === daum.maps.services.Status.OK) {
-	
-	                        var result = results[0]; //첫번째 결과의 값을 활용
-	
-	                        // 해당 주소에 대한 좌표를 받아서
-	                        var coords = new daum.maps.LatLng(result.y, result.x);
-	                        // 지도를 보여준다.
-	                        mapContainer.style.display = "block";
-	                        map.relayout();
-	                        // 지도 중심을 변경한다.
-	                        map.setCenter(coords);
-	                        // 마커를 결과값으로 받은 위치로 옮긴다.
-	                        marker.setPosition(coords)
-	                    }
-	                });
-	            }
-	        }).open();
-	    }
-	</script>
 </body>
 
 </html>
