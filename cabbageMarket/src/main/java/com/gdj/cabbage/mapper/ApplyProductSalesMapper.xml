@@ -62,13 +62,14 @@
 	<select id="selectApplyOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
 		SELECT 
 			apsd.apply_product_sales_delivery_id applyId
+			,apsd.user_id userId
 			,main.category_main_name categoryMain
-			,username userName
-			,middle.category_middle_name categoryMiddelName
-			,category_sub_name categorySubName
+			,middle.category_middle_name categoryMiddle
+			,category_sub_name categorySub
 			,product_name productName
 			,IF(ISNULL(pcr.registration_state) , 'null심사중', '9등록가능') AS registrationState
 			,apsd.create_date createDate
+			,return_address address
 		FROM apply_product_sales_delivery apsd
 				LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
 				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
@@ -78,4 +79,24 @@
 		WHERE apsd.apply_product_sales_delivery_id = #{applyId} AND ((pcr.registration_state = 9) OR (ISNULL(pcr.registration_state)))
 		GROUP BY apsd.apply_product_sales_delivery_id
 	</select>
+	
+	<update id="updateApplyOne" parameterType="map">
+		UPDATE apply_product_sales_delivery
+		SET return_address =#{address}
+			, delivery_requests = #{request}
+		WHERE apply_product_sales_delivery_id = #{applyId};
+	</update>
+	
+	<insert id="insertPCROne" parameterType="map">
+		INSERT INTO product_confirmation_registration (
+			apply_product_sales_delivery_id
+			,registration_state
+			,create_date
+			)
+		VALUES(
+			#{applyId}
+			,8
+			,now()
+		)
+	</insert>
 </mapper>

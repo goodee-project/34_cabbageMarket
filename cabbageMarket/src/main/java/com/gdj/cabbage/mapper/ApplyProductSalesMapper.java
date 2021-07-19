@@ -19,4 +19,8 @@ public interface ApplyProductSalesMapper {
 	void insertApplyproductSalesDeliveryImg(ApplyproductSalesDeliveryImg applyproductSalesDeliveryImg); // 상품 판매 배송 신청 이미지
 
 	Map<String, Object> selectApplyOne(int applyId); //상세 정보를 가져오는 mapper
+
+	int updateApplyOne(Map<String, Object> map); //환송정보를 입력하는 mapper
+
+	int insertPCROne(Object object); //pcr에 인설트하는 mapper
 }
