@@ -63,7 +63,7 @@
 					<div class="sidebar">
 						<div class="sidebar__item">
 							<h4>Department</h4>
-							<ul>
+							<ul style="font-weight: bolder;">
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
@@ -120,7 +120,7 @@
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${apsdl.imgName}" width="70px" height="50px">
 					                                    </td>
 					                                    <td>
-					                                    	<h6>${apsdl.categorySubName}</h6>
+					                                    	<h5>${apsdl.categorySubName}</h5>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${apsdl.productName}</h5>
@@ -135,7 +135,7 @@
 					                                        </c:if>
 					                                    </td>
 					                                    <td>
-					                                    	<button class="btn btn-light">반송</button>
+					                                    	<span class="icon_refresh"></span>
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>

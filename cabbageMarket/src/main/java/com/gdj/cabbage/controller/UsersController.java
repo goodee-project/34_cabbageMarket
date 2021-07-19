@@ -94,10 +94,10 @@ public class UsersController {
 	
 	// 중고 상품 삭제 컨트롤러
 	@GetMapping("/users/removeUsedProduct")
-	public String removeUsedProduct(int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : "+applyProductSalesDeliveryId);//디버깅 코드
+	public String removeUsedProduct(int applyId) {
+		log.debug(Debuging.DEBUG+" applyId : "+applyId);//디버깅 코드
 		
-		int row = usersService.deleteUsedProduct(applyProductSalesDeliveryId);// 삭제가 성공하면 1 실패는 0
+		int row = usersService.deleteUsedProduct(applyId);// 삭제가 성공하면 1 실패는 0
 		log.debug(Debuging.DEBUG+" 중고등록 상품 삭제 성공 여부 : "+row);//디버깅 코드
 		
 		return "redirect:/users/registedProduct";// 컨트롤러 수행후 등록상품으로 이동
