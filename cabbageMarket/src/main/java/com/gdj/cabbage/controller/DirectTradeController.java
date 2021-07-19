@@ -121,4 +121,21 @@ public class DirectTradeController {
 		
 		return "redirect:/users/getDirectTradeList";
 	}
+	
+	// 직거래 상품 수정
+	@GetMapping("modifyDirectTrade")
+	public String modifyDirectTrade(Model model,
+			@RequestParam(value="directTradeProductRegistrationId") int directTradeProductRegistrationId) {
+		
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [directTradeOne] [param] -> directTradeProductRegistrationId : " + directTradeProductRegistrationId);
+		
+		// 상품 상세정보
+		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
+		List<String> imgNameList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
+		
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("imgNameList", imgNameList);
+		
+		return "directTrade/modifyDirectTrade";
+	}
 }

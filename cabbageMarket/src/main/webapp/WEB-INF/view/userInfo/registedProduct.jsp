@@ -131,7 +131,7 @@
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
+					                                    		<a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${gdpl.registerId}" style="text-decoration: none">
 					                                    			${gdpl.productName}
 					                                    		</a>
 					                                    	</h5>
@@ -143,7 +143,7 @@
 					                                    	<h5>${gdpl.location}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/?registerId=${gdpl.registerId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyDirectTrade?directTradeProductRegistrationId=${gdpl.registerId}">
 					                                    		<button class="btn btn-success">수정</button>
 					                                    	</a>
 					                                    </td>
