@@ -494,18 +494,21 @@
 	
 	<!-- 유저 중고 구매 행 수 -->
 	<select id="getBuyingUsedProductCount" parameterType="Integer" resultType="Integer">
-		SELECT
-			COUNT(*)
-		FROM
-			buying_product_delivery bpd LEFT JOIN apply_product_sales_delivery apsd ON bpd.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
-			JOIN apply_product_sales_delivery_img apsdi ON bpd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
-			JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
-			JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id=upr.apply_product_sales_delivery_id
-			JOIN shipping_address sa ON bpd.shipping_address_id=sa.shipping_address_id
-		<where>
-			sa.user_id=#{userId}
-		</where>
-		GROUP BY
-			bpd.apply_product_sales_delivery_id
+		SELECT 
+			COUNT(a.applyId)
+		FROM		
+			(SELECT
+				bpd.apply_product_sales_delivery_id applyId
+			FROM
+				buying_product_delivery bpd LEFT JOIN apply_product_sales_delivery apsd ON bpd.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+				JOIN apply_product_sales_delivery_img apsdi ON bpd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+				JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
+				JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id=upr.apply_product_sales_delivery_id
+				JOIN shipping_address sa ON bpd.shipping_address_id=sa.shipping_address_id
+			<where>
+				sa.user_id=#{userId}
+			</where>
+			GROUP BY
+				bpd.apply_product_sales_delivery_id) a
 	</select>
 </mapper>

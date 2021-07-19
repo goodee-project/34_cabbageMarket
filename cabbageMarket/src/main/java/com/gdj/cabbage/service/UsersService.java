@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.Debuging;
+import com.gdj.cabbage.mapper.ApplyProductSalesMapper;
 import com.gdj.cabbage.mapper.UsersMapper;
 import com.gdj.cabbage.vo.SNSInfo;
 import com.gdj.cabbage.vo.ShippingAddress;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UsersService {
 	@Autowired UsersMapper usersMapper;
+	@Autowired ApplyProductSalesMapper applyProductSalesMapper;
 	
 	// 유저 중고 상품 구매 내역 리스트
 	public Map<String, Object> buyingUsedProductByUserId(int userId, int currentPage, int rowPerPage){
@@ -232,6 +234,16 @@ public class UsersService {
 		
 		Map<String, Object> userInfo = usersMapper.selectUserInfo(userId);
 		log.debug(Debuging.DEBUG+" userInfo : "+userInfo);// 디버깅 코드
+		
+		int registedProductCnt = usersMapper.getDirectProductListByUserId(userId).size()+usersMapper.getUsedProductListByUserId(userId).size()+usersMapper.getAuctionProductListByUserId(userId).size(); // 유저 상품 등록 수
+		int myProductCnt = applyProductSalesMapper.selectApplyProductSalesDeliveryList(userId).size();
+		int addressCnt = usersMapper.getAddressCount(userId);
+		int buyingCnt = usersMapper.getBuyingUsedProductCount(userId);
+		
+		userInfo.put("registedProductCnt", registedProductCnt);
+		userInfo.put("myProductCnt", myProductCnt);
+		userInfo.put("addressCnt", addressCnt);
+		userInfo.put("buyingCnt", buyingCnt);
 		
 		return userInfo;
 	}
