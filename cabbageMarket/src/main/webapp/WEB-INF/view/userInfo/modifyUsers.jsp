@@ -44,6 +44,13 @@
 					$('#modifyUserForm').submit();
 				}
 			});
+			
+			$('#removeUserBtn').click(function(){
+				val=confirm('탈퇴 하시겠습니까?');
+				if(val){
+					location='${pageContext.request.contextPath}/users/removeUsers?userId='+${userId};
+				}
+			});
 		});
 	</script>
 	
@@ -85,7 +92,7 @@
 					<div class="sidebar">
 						<div class="sidebar__item">
 							<h4>Department</h4>
-							<ul>
+							<ul style="font-weight: bolder;">
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
@@ -177,6 +184,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<button type="button" id="btn" class="btn btn-success">수정</button>
+													<button type="button" id="removeUserBtn" class="btn btn-success">탈퇴</button>
 												</div>
 											</div>
 										</div>

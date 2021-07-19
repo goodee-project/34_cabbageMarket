@@ -64,7 +64,7 @@
 					<div class="sidebar">
 						<div class="sidebar__item">
 							<h4>Department</h4>
-							<ul>
+							<ul style="font-weight: bolder;">
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
@@ -108,6 +108,9 @@
 				                                    	장소
 				                                    </th>
 				                                    <th>
+				                                    	수정
+				                                    </th>
+				                                    <th>
 				                                    	취소
 				                                    </th>
 				                                </tr>
@@ -140,9 +143,14 @@
 					                                    	<h5>${gdpl.location}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeDirectProduct?registerId=${gdpl.registerId}">
-					                                    		<button class="btn btn-success">취소</button>
+					                                    	<a href="${pageContext.request.contextPath}/users/?registerId=${gdpl.registerId}">
+					                                    		<button class="btn btn-success">수정</button>
 					                                    	</a>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeDirectProduct?registerId=${gdpl.registerId}" onclick="return delDirect();">
+					                                    		취소
+					                                    	</a>			                                    	
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -200,7 +208,7 @@
 					                                    	<h6>${gupl.category}</h6>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}"><h5 style="color: #3CC2FF">${gupl.productName}</h5></a>
+					                                    	<h5 style="color: #3CC2FF"><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}">${gupl.productName}</a></h5>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gupl.price}</h5>
@@ -214,9 +222,9 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyProductSalesDeliveryId=${gupl.applyProductSalesDeliveryId}">
-					                                    		<button class="btn btn-success">취소</button>
-					                                    	</a>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}" class="btn btn-success"  onclick="return delUsed();">
+					                                    		취소
+					                                    	</a>					                                    	
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -254,6 +262,9 @@
 				                                    	마감날짜
 				                                    </th>
 				                                    <th>
+				                                    	수정
+				                                    </th>
+				                                    <th>
 				                                    	취소
 				                                    </th>
 				                                </tr>
@@ -261,7 +272,7 @@
 					                            
 				                            <tbody>
 				                            	<c:set var="total1" value = "0"/>
-				                            	<c:forEach var="gapl" items="${getActionProductList}">
+				                            	<c:forEach var="gapl" items="${getAuctionProductList}">
 					                                <tr>
 					                                	<td>
 					                                		${total1 = total1+1}
@@ -286,8 +297,13 @@
 					                                    	<h5>${gapl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeActionProduct?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
-					                                    		<button class="btn btn-success">취소</button>
+					                                    	<a href="${pageContext.request.contextPath}/users/?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
+					                                    		<button class="btn btn-success">수정</button>
+					                                    	</a>
+					                                    </td>
+					                                    <td>
+					                                   		<a href="${pageContext.request.contextPath}/users/removeAuctionProduct?applyId=${gupl.applyProductSalesDeliveryId}" class="btn btn-success"  onclick="return delAuction();">
+					                                    		취소
 					                                    	</a>
 					                                    </td>
 					                                </tr>
@@ -316,6 +332,17 @@
 	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
+	<script type="text/javascript">
+		function delUsed(){
+		       return confirm("삭제하시겠습니까?");
+		}
+		function delDirect(){
+		       return confirm("삭제하시겠습니까?");
+		}
+		function delAuction(){
+		       return confirm("삭제하시겠습니까?");
+		}
+	</script>
 
 
 

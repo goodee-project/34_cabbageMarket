@@ -121,7 +121,11 @@
 									<div class ="content">
 										<h3>중고,경매 상품 등록</h3><br>
 										<p>검증받은 상품을 중고거래, 경매거래로 등록할 수 있습니다.</p>
-										 <a href="${pageContext.request.contextPath}/users/getApplyProductSalesDeliveryList?userId=${usersSession.userId}">상품 등록</a>
+<<<<<<< HEAD
+										 <a href="${pageContext.request.contextPath}/users/myProductManagement">상품 등록</a>
+=======
+										 <a href="${pageContext.request.contextPath}/users/getApplyProductSalesDeliveryList">상품 등록</a>
+>>>>>>> branch 'master' of https://github.com/goodee-project/34_cabbageMarket.git
 									</div>
 								</div>
 							</div>
