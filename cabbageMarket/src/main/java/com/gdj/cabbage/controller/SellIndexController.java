@@ -1,7 +1,10 @@
 package com.gdj.cabbage.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +40,7 @@ public class SellIndexController {
 		return "applyProductSales/addApplyProductSalesDelivery";
 	}
 	
-	@PostMapping("addApplyProductSalesDelivery")
+	@PostMapping("addApplyProductSalesDelivery") //210719 세션수정
 	public String addApplyProductSalesDelivery(ApplyProductSalesDelivery applyProductSalesDelivery,
 			@RequestParam(value = "applyProductSalesDeliveryImgs", required = true)List<MultipartFile> applyProductSalesDeliveryImgs) {
 	
@@ -47,18 +50,19 @@ public class SellIndexController {
 		
 		applyProductSalesService.addApplyProductSalesDelivery(applyProductSalesDelivery, applyProductSalesDeliveryImgs);
 		
-		return "redirect:/users/getApplyProductSalesDeliveryList?userId="+applyProductSalesDelivery.getUserId();
+		return "redirect:/users/getApplyProductSalesDeliveryList";
 	}
 	
-	// 상품 판매 배송 신청 등록
+	// 상품 판매 배송 신청 등록 리스트 //210719 세션수정
 	@GetMapping("getApplyProductSalesDeliveryList")
 	public String getApplyProductSalesDeliveryList(Model model,
-			@RequestParam(value="userId") int userId,
+			HttpSession session,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 			@RequestParam(value= "rowPerPage", defaultValue = "12") int rowPerPage,
 			@RequestParam(value="searchWord", required = false)String searchWord) {
 		
-		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId"); 
 		
 		log.debug(Debuging.DEBUG + "[SellIndexController] [getApplyProductSalesDeliveryList] [param] -> userId : " + userId);
 		
@@ -76,10 +80,9 @@ public class SellIndexController {
 	}
 	
 	// 상품 판매 배송 신청 후 환송 신청
-	//경매 상품 등록
-		@GetMapping("addApplyProductSalesDeliveryReturn")
+		@GetMapping("modifyApplyProductSalesDeliveryReturn")
 		public String addApplyProductSalesDeliveryReturn(Model model
-				, @RequestParam(value="applyId", defaultValue="1") int applyId) {
+				, @RequestParam(value="applyId") int applyId) {
 			log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
 			
 			log.debug(Debuging.DEBUG+"1 service에 보낼 applyId 확인: "+applyId);
@@ -92,6 +95,27 @@ public class SellIndexController {
 			model.addAttribute("applyId", applyId);
 			model.addAttribute("productDetail", productDetail);
 			model.addAttribute("imgPathList", imgPathList);
-			return "applyProductSales/addApplyProductSalesDeliveryReturn";
-		}	
+			return "applyProductSales/modifyApplyProductSalesDeliveryReturn";
+		}
+		
+		@PostMapping("addApplyProductSalesDeliveryReturn")
+		public String addApplyProductSalesDeliveryReturn(Model model
+				, @RequestParam(value="applyId") int applyId
+				, @RequestParam(value="address") String address
+				,@RequestParam(value="request") String request) {
+			log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
+			log.debug(Debuging.DEBUG+"0 view에서 넘어온 address 확인:"+address);
+			log.debug(Debuging.DEBUG+"0 view에서 넘어온 request 확인:"+request);
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("applyId",applyId);
+			map.put("address", address);
+			map.put("request", request);
+			log.debug(Debuging.DEBUG+"1 service에 보낼 map 확인: "+map);
+			
+			int updateReturn = applyProductSalesService.modifyApplyRetrun(map);
+			
+			model.addAttribute("applyId", applyId);
+			return "applyProductSales/getApplyProductSalesDeliveryList";
+		}
 }
