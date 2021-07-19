@@ -108,6 +108,9 @@
 				                                    	장소
 				                                    </th>
 				                                    <th>
+				                                    	수정
+				                                    </th>
+				                                    <th>
 				                                    	취소
 				                                    </th>
 				                                </tr>
@@ -138,6 +141,11 @@
 					                                    </td>
 					                                    <td>
 					                                    	<h5>${gdpl.location}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/?registerId=${gdpl.registerId}">
+					                                    		<button class="btn btn-success">수정</button>
+					                                    	</a>
 					                                    </td>
 					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/removeDirectProduct?registerId=${gdpl.registerId}">
@@ -254,6 +262,9 @@
 				                                    	마감날짜
 				                                    </th>
 				                                    <th>
+				                                    	수정
+				                                    </th>
+				                                    <th>
 				                                    	취소
 				                                    </th>
 				                                </tr>
@@ -261,7 +272,7 @@
 					                            
 				                            <tbody>
 				                            	<c:set var="total1" value = "0"/>
-				                            	<c:forEach var="gapl" items="${getActionProductList}">
+				                            	<c:forEach var="gapl" items="${getAuctionProductList}">
 					                                <tr>
 					                                	<td>
 					                                		${total1 = total1+1}
@@ -286,7 +297,12 @@
 					                                    	<h5>${gapl.deadline}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeActionProduct?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
+					                                    		<button class="btn btn-success">수정</button>
+					                                    	</a>
+					                                    </td>
+					                                    <td>
+					                                    	<a href="${pageContext.request.contextPath}/users/removeAuctionProduct?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
 					                                    		<button class="btn btn-success">취소</button>
 					                                    	</a>
 					                                    </td>

@@ -448,7 +448,7 @@
 	</select>
 	
 	<!-- 경매 상품 등록 삭제 -->
-	<delete id="deleteActionProduct" parameterType="Integer">
+	<delete id="deleteAuctionProduct" parameterType="Integer">
 		DELETE
 		FROM
 			auction_product_registration
