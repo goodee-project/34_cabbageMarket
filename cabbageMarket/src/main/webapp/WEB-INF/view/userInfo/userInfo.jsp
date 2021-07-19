@@ -96,20 +96,59 @@
 							    <div class="card mt-3">
 							      <ul class="list-group list-group-flush">
 							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-							          <h6 class="mb-0">등록 상품 수</h6>
-							          <span class="text-secondary">https://bootdey.com</span>
+							          <h6 class="mb-0"><b>등록 상품 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/registedProduct">
+								          		${registedProductCnt} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
 							        </li>
 							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-							          <h6 class="mb-0">구매 내역 수</h6>
-							          <span class="text-secondary">bootdey</span>
+							          <h6 class="mb-0"><b>구매 내역 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/buyingList">
+								          		${buyingCnt} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
 							        </li>
 							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-							          <h6 class="mb-0">미등록 상품 수</h6>
-							          <span class="text-secondary">@bootdey</span>
+							          <h6 class="mb-0"><b>입찰 내역 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/biddingList">
+								          		${0} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
 							        </li>
 							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-							          <h6 class="mb-0">내 배송지 수</h6>
-							          <span class="text-secondary">bootdey</span>
+							          <h6 class="mb-0"><b>미등록 상품 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/myProductManagement">
+								          		${myProductCnt} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
+							        </li>
+							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+							          <h6 class="mb-0"><b>내 배송지 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/shippingAddress">
+								          		${addressCnt} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
 							        </li>
 							      </ul>
 							    </div>
@@ -150,6 +189,15 @@
 							          </div>
 							          <div class="col-sm-9 text-secondary">
 							            ${createDate}
+							          </div>
+							        </div>
+							        <hr>
+							        <div class="row">
+							          <div class="col-sm-3">
+							            <h6 class="mb-0"><b>보유 포인트</b></h6>
+							          </div>
+							          <div class="col-sm-9 text-secondary">
+							            ${usersSession.point}
 							          </div>
 							        </div>
 							        <hr>

@@ -291,6 +291,11 @@ public class UsersController {
 		model.addAttribute("mobile", userInfo.get("mobile"));
 		model.addAttribute("createDate", userInfo.get("createDate"));
 		model.addAttribute("snsType", userInfo.get("snsType"));
+		model.addAttribute("registedProductCnt", userInfo.get("registedProductCnt"));
+		model.addAttribute("myProductCnt", userInfo.get("myProductCnt"));
+		model.addAttribute("addressCnt", userInfo.get("addressCnt"));
+		model.addAttribute("buyingCnt", userInfo.get("buyingCnt"));
+		
 		
 		return "/userInfo/userInfo";
 	}
