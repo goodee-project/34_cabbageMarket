@@ -28,21 +28,28 @@ public class UsedTradeController {
 	//중고상품 목록
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
-												  @RequestParam(value="rowPerPage", defaultValue = "10") int rowPerPage,
-												  @RequestParam(value="searchWord", required = false) String searchWord ) {
+												  @RequestParam(value="rowPerPage", defaultValue = "9") int rowPerPage,
+												  @RequestParam(value="searchWord", required = false) String searchWord) {
 		//디버깅
 		log.debug("★★★★★★★★getUsedProductList() currentPage:" +currentPage);
 		log.debug("★★★★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
 		log.debug("★★★★★★★★getUsedProductList() searchWord:" +searchWord);
-
+		
+		//검색 searchWord 
+		if (searchWord != null && searchWord.equals("")) { 
+			searchWord = null;
+		}
+		
+		//HashMap 생성 - > map에 값 넣어주기
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage-1)*rowPerPage);
 		map.put("rowPerPage", rowPerPage);
 		map.put("searchWord", searchWord);
 		
 		//페이징
-		int usedProductTotal = usedTradeService.getUsedProductTotal(map);
-		int lastPage = (int) Math.ceil((double)usedProductTotal/rowPerPage);
+		int usedProductTotal = usedTradeService.getUsedProductTotal(map); //중고상품 Total
+		int lastPage = (int) Math.ceil((double)usedProductTotal/rowPerPage); //마지막 페이지
+		int pageSet = (currentPage-1)/10;
 		
 		//중고상품 목록 가져오기
 		List<Map<String,Object>> usedProductList = usedTradeService.getUsedProductList(map);
@@ -51,7 +58,9 @@ public class UsedTradeController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("rowPerPage",rowPerPage);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("usedProductTotal",usedProductTotal);
 		model.addAttribute("lastPage",lastPage);
+		model.addAttribute("pageSet",pageSet);
 		model.addAttribute("usedProductList",usedProductList);
 		
 		//getUsedProductList 페이지로 반환
@@ -88,10 +97,11 @@ public class UsedTradeController {
 		return "usedProduct/addUsedProduct";
 	}
 	
-	@PostMapping("addUsedProduct") //form 요청(처리)
+	@PostMapping("addUsedProduct") //form 요청 - 처리
 	public String addUsedProduct(UsedProductRegistration usedProductRegistration, ProductConfirmationRegistration productConfirmationRegistration) {
-		log.debug("★★★★★★controller addUsedProduct() usedProductRegistration :"+usedProductRegistration);//디버깅
-		log.debug("★★★★★★controller addUsedProduct() productConfirmationRegistration :"+productConfirmationRegistration);//디버깅
+		//디버깅 - 객체 디버깅은 toString() 사용.
+		log.debug("★★★★★★controller addUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		log.debug("★★★★★★controller addUsedProduct() productConfirmationRegistration :"+productConfirmationRegistration.toString());
 		
 		//서비스호출
 		usedTradeService.addUsedProduct(usedProductRegistration, productConfirmationRegistration);
@@ -103,12 +113,13 @@ public class UsedTradeController {
 	//중고상품 수정
 	@GetMapping("modifyUsedProduct")
 	public String modifyUsedProduct(Model model, @RequestParam (value="applyId", required = true) int applyId) {
-		log.debug("★★★★★★★modifyUsedProduct() applyId :"+applyId);
+		log.debug("★★★★★★★modifyUsedProduct() applyId :"+applyId); //디버깅
 		
 		//중고상품 상세 details 가져오기
 		Map<String,Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
 		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
-		
+	
+		//model에 usedProductDetail (중고상품 상세 정보) 넣어주기.
 		model.addAttribute("usedProductDetail", usedProductDetail);
 		
 		return "usedProduct/modifyUsedProduct";
@@ -116,8 +127,11 @@ public class UsedTradeController {
 	
 	@PostMapping("modifyUsedProduct")
 	public String modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
-		log.debug("★★★★★★★modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		//디버깅 - 객체 디버깅은 toString() 사용.
+		log.debug("☆☆☆☆☆☆☆☆modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		
 		usedTradeService.modifyUsedProduct(usedProductRegistration);
+		
 		return "redirect:/users/getUsedProductOne?applyId="+usedProductRegistration.getApplyProductSalesDeliveryId();
 	}
 }

@@ -16,7 +16,11 @@
 	         <div class="header__top__right__auth">
 	             <a href="${pageContext.request.contextPath}/users/userInfo"><i class="fa fa-user"></i>${usersSession.get("nickname")}</a>
 	         </div>                
-       		<div class="header__cart__price">POINTS: <span>${usersSession.get("point")}</span></div>     
+       		<div class="header__cart__price">
+       			<a href="${pageContext.request.contextPath}/users/userPointHistory">
+       				POINTS: ${usersSession.get("point")}
+       			</a>
+       		</div>     
        		<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>           
         </c:if>
         <c:if test="${usersSession == null}">      
@@ -80,7 +84,11 @@
 		                            </div>
 	                            </li>
 	                            <li>
-	                            	<div class="header__cart__price">POINTS: <span>${usersSession.get("point")}</span></div>
+	                            	<div class="header__cart__price">
+	                            		<a href="${pageContext.request.contextPath}/users/userPointHistory">
+	                            			POINTS: ${usersSession.get("point")}
+	                            		</a>
+	                            	</div>
 	                            </li>
 	                            <li>
 	                            	<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>

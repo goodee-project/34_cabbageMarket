@@ -65,11 +65,11 @@
 						<div class="sidebar__item">
 							<h4>Department</h4>
 							<ul>
-								<li><a
-									href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
-								<li><a href="#">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/buyingList">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/biddingList">입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>
@@ -122,7 +122,7 @@
 													</th>
 												</tr>
 											</thead>
-											<c:set var="index" value = "0"/>
+											<c:set var="index" value = "${beginRow}"/>
 											<c:forEach var="u" items="${userPointHistory}">
 												<c:if test="${u.content == '충전' || u.content == '유찰' || u.content == '판매'}">
 													<tr style="color : blue">
@@ -160,7 +160,7 @@
 										</table>
 									</div>
 									<div class="card-footer">
-										<c:if test="${lastPage != 1 && lastPage!=0}">
+										<c:if test="${currentPage>1}">
 											<a href="${pageContext.request.contextPath}/users/userPointHistory?currentPage=${currentPage-1}&content=${content}">
 												<button type="button" class="btn btn-outline-secondary">이전</button>
 											</a>

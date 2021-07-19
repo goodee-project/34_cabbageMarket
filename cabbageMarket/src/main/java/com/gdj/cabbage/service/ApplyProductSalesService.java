@@ -1,4 +1,5 @@
 // 작성자 : 김태훈
+// 수정자 : 강혜란 (210716)
 package com.gdj.cabbage.service;
 
 import java.io.File;
@@ -10,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ApplyProductSalesMapper;
 import com.gdj.cabbage.vo.ApplyProductSalesDelivery;
 import com.gdj.cabbage.vo.ApplyproductSalesDeliveryImg;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 @Transactional
 public class ApplyProductSalesService {
 	
@@ -64,5 +69,19 @@ public class ApplyProductSalesService {
 				}
 			}
 			
+		}
+
+		public Map<String, Object> getApplyOne(int applyId) {
+			log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
+			log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
+			Map<String,Object> applyOne = applyProductSalesMapper.selectApplyOne(applyId); //상세정보 가져오는 mapper
+			return applyOne;
+		}
+
+		public List<String> getApplyImg(int applyId) {
+			log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
+			log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
+			List<String> applyImgs = applyProductSalesMapper.selectApplyImgByKey(applyId); //이미지를 가져오는 mapper
+			return applyImgs;
 		}
 }

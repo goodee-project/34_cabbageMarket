@@ -97,7 +97,8 @@
 								<li><a href="${pageContext.request.contextPath}/users/userInfo">회원정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
-								<li><a href="#">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/buyingList">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/biddingList">입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
 							</ul>
@@ -119,7 +120,7 @@
 										<input type="text" id="recipientName" name="recipientName" placeholder="수령인 성함" style="display:inline-block; width: 85%" class="form-control">
 										<input type="text" id="recipientPhoneNumber" name="recipientPhoneNumber" placeholder="수령인 핸드폰 번호" style="display:inline-block; width: 85%" class="form-control">
 										<input type="text" id="sample5_address" name="location" placeholder="도로명 주소" readonly="readonly" style="display:inline-block; width: 85%" class="form-control">
-										<input class="btn btn-outline-success" type="button" onclick="sample5_execDaumPostcode()" value="검색" style="display:inline-block; width: 10%">
+										<input class="btn btn-dark" type="button" onclick="sample5_execDaumPostcode()" value="검색" style="display:inline-block; width: 10%">
 										<input type="text" id="location2" name="location2" placeholder="상세 주소" style="display:inline-block; width: 85%" class="form-control">
 										<div>	
 											<br>	

@@ -1,25 +1,31 @@
 package com.gdj.cabbage.restapi;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.UsersMapper;
+import com.gdj.cabbage.service.UsersService;
 import com.gdj.cabbage.vo.PointsRechargeHistory;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class PointRestController {
-	@Autowired UsersMapper usersMapper;
+public class UsersRestController {
+@Autowired UsersMapper usersMapper;
+@Autowired UsersService usersService;
 	
+
 	@GetMapping("/pointRecharge")
 	public void pointRecharge(HttpSession session, @RequestParam(value="amount", required = true) int amount) {
 		log.debug(Debuging.DEBUG+" amount : "+ amount);
@@ -41,5 +47,6 @@ public class PointRestController {
 		
 		log.debug(Debuging.DEBUG+" 포인트 충전 성공 여부 : "+row);	
 	}
+	
 	
 }

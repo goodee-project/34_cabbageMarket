@@ -30,4 +30,5 @@ public class CategoryRestController {
 	public List<CategorySub> getCategorySub(int categoryMiddleId){
 		return categoryService.getCategorySubList(categoryMiddleId);
 	}
+	
 }

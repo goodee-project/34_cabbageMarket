@@ -13,7 +13,7 @@
 			apsd.product_name productName,
 			cs.category_sub_name categorySubName
 		FROM 
-			apply_product_sales_delivery apsd
+			apply_product_sales_delivery apsd 
 		  	LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
 		  	LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
 			LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
@@ -57,4 +57,25 @@
 	<insert id="insertApplyproductSalesDeliveryImg" parameterType="com.gdj.cabbage.vo.ApplyproductSalesDeliveryImg">
 		INSERT INTO apply_product_sales_delivery_img VALUES(#{applyProductSalesDeliveryId}, #{imgName}, #{imgType}, #{imgSize})
 	</insert>
+	
+	
+	<select id="selectApplyOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
+		SELECT 
+			apsd.apply_product_sales_delivery_id applyId
+			,main.category_main_name categoryMain
+			,username userName
+			,middle.category_middle_name categoryMiddelName
+			,category_sub_name categorySubName
+			,product_name productName
+			,IF(ISNULL(pcr.registration_state) , 'null심사중', '9등록가능') AS registrationState
+			,apsd.create_date createDate
+		FROM apply_product_sales_delivery apsd
+				LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
+				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
+				LEFT JOIN category_middle middle ON middle.category_middle_id = sub.category_middle_id
+				LEFT JOIN category_main main ON main.category_main_id = middle.category_main_id
+				LEFT JOIN users ON apsd.user_id = users.user_id
+		WHERE apsd.apply_product_sales_delivery_id = #{applyId} AND ((pcr.registration_state = 9) OR (ISNULL(pcr.registration_state)))
+		GROUP BY apsd.apply_product_sales_delivery_id
+	</select>
 </mapper>
