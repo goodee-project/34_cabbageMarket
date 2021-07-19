@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.service.UsedTradeService;
+import com.gdj.cabbage.service.UsersService;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
+import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.UsedProductRegistration;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/users")
 public class UsedTradeController {
 	@Autowired UsedTradeService usedTradeService;
-	
+	@Autowired UsersService usersService;
 	//중고상품 목록
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
@@ -128,10 +130,28 @@ public class UsedTradeController {
 	@PostMapping("modifyUsedProduct")
 	public String modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
 		//디버깅 - 객체 디버깅은 toString() 사용.
-		log.debug("☆☆☆☆☆☆☆☆modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		log.debug("☆☆☆☆☆☆☆☆controller modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
 		
 		usedTradeService.modifyUsedProduct(usedProductRegistration);
 		
 		return "redirect:/users/getUsedProductOne?applyId="+usedProductRegistration.getApplyProductSalesDeliveryId();
+	}
+	
+	//중고상품 구매
+	@GetMapping("/buyUsedProduct")
+	public String getUsedProductForBuy(Model model, @RequestParam (value="applyId", required = true) int applyId,
+													@RequestParam (value="userId", required = true) int userId) {
+		log.debug("★★★★★★★controller getUsedProductForBuy() applyId :"+applyId); //디버깅
+		
+		Map<String,Object> productForBuy = usedTradeService.getUsedProductOneForBuy(applyId);//구매할 상품 정보
+		log.debug("★★★★★★★controller getUsedProductForBuy() productForBuy :"+productForBuy); //디버깅
+		
+		List<ShippingAddress> shippingAddress = usersService.getAddressByUserId(userId);//배송지 정보
+		log.debug("★★★★★★★controller getUsedProductForBuy() ShippingAddress :"+shippingAddress); //디버깅
+		
+		model.addAttribute("productForBuy",productForBuy);	
+		model.addAttribute("shippingAddress",shippingAddress);	
+		
+		return "usedProduct/buyUsedProduct";
 	}
 }

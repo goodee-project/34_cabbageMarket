@@ -21,4 +21,6 @@ public interface UsedTradeMapper {
 
 	void updateUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 수정(상품설명, 상품가격)
 	
+	Map<String, Object> selectUsedProductOneForBuy(int applyId); //구매할 중고상품 정보
+	
 }

@@ -97,4 +97,23 @@
 		WHERE  
 			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
+
+<!-- 중고상품 구매 -->
+	<select id="selectUsedProductOneForBuy" parameterType="Integer" resultType="java.util.Map">
+	SELECT 
+	  	   upr.apply_product_sales_delivery_id applyId,
+		   apsd.product_name productName,
+		   img.img_name imgName,
+		   u.nickname nickName,
+		   upr.product_price productPrice
+		   
+	FROM used_product_registration upr 
+	LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id 
+	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+	LEFT JOIN users u ON apsd.user_id = u.user_id
+	WHERE apsd.apply_product_sales_delivery_id = ${applyId}
+	GROUP BY product_name
+	</select>
+	
+	
 </mapper>
