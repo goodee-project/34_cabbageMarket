@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,8 +106,9 @@ public class AuctionController {
 	
 	// 경매상품 상세보기
 	@GetMapping("getAuctionOne")
-	public String getDirectTradeOne(Model model,
-		@RequestParam(value="applyId") int applyId) {
+	public String getDirectTradeOne(Model model
+			,@RequestParam(value="applyId") int applyId
+			,@RequestParam(value="cnt",  defaultValue = "-1") int cnt) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
 			
 		// 상품 상세정보 + 이미지들 불러오기
@@ -114,7 +117,34 @@ public class AuctionController {
 		
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
+		model.addAttribute("cnt", cnt);
 		
 		return "auction/getAuctionOne";
 	}
+	
+	// 경매상품 입찰
+	@PostMapping("addBid")
+	public String getDirectTradeOne(Model model
+			,HttpSession session
+			,@RequestParam(value="applyId") int applyId
+			,@RequestParam(value="newPrice") int newPrice) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+newPrice+"<--newPrice");
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+userId+"<--userId");		
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("applyId", applyId);
+		map.put("newPrice", newPrice);
+		map.put("userId", userId);
+		
+		// 상품 상세정보 + 이미지들 불러오기
+		int cnt = auctionService.addBid(map);
+		
+		model.addAttribute("cnt", cnt);
+		
+		return "auction/getAuctionOne";
+		}
 }
