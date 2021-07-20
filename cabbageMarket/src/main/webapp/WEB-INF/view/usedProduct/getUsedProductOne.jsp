@@ -87,7 +87,7 @@
 							<span>(18 reviews)</span>
 						</div>
 						<div class="product__details__price">${usedProductDetail.productPrice} 원</div>
-						<a href="${pageContext.request.contextPath}/users/"><input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="Buy Now" /></a>
+							<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn">Buy Now</a>
 						<div class="heart-btn">
 							<div class="content">
 								<span class="heart"></span>

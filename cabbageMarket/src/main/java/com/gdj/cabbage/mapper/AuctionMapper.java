@@ -27,4 +27,6 @@ public interface AuctionMapper {
 
 	void updateConfirmationState(int applyId); //옥션 등록시, confirmation state변경
 
+	int selectLastBidUserId(Object object); //마지막 옥션 입찰자 찾는 mapper
+
 }

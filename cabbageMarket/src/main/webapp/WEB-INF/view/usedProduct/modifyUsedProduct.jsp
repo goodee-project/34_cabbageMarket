@@ -168,7 +168,6 @@
 	<!-- Breadcrumb Section End -->
 	<div class="container">
 		<form id="modifyUsedProductForm" action="${pageContext.request.contextPath}/users/modifyUsedProduct" method="post">
-			<input type="hidden" name="userId" value="8"> 
 			<input type="hidden" name="applyProductSalesDeliveryId" value="${usedProductDetail.applyId}">
 			<div class="row">
 				<div class="col-lg-12">
@@ -215,8 +214,6 @@
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad"></section>
 	<!-- Product Details Section End -->
-
-
 
 	<!-- Related Product Section End -->
 

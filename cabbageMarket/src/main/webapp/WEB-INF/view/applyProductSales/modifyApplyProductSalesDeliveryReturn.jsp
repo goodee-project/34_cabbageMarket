@@ -52,20 +52,11 @@
 	            
 	        	console.log("summitBtn click!");
 	        	
-	            if($('#minBidPrice').val() == '') {
-	                alert('최소 입찰가를 입력해 주세요');
-	                $('#minBidPrice').focus();
-	            } else if ($('#quote').val() == '') {
-	                alert('호가를 입력하세요');
-	                $('#quote').focus();
-	            } else if ($('#productDesc').val() == '') {
-	                alert('상품설명을 입력하세요');
-	                $('#productDesc').focus();
-	            } else if ($('#registrationDeadline').val() == '') {
-	                alert('마감기한을 입력하세요');
-	                $('#registrationDeadline').focus();
+	            if($('#adress').val() == '') {
+	                alert('주소를 선택해 주세요');
+	                $('#adress').focus();
 	            } else {
-	                $('#addAuctionProdeuctForm').submit();
+	                $('#modifyApplyProductSalesDeliveryReturnForm').submit();
 	            }
 	        });
 			
@@ -89,9 +80,16 @@
 				console.log('주소지 선택');
 				var index = $('.categoryMainBtn').index(this);
 				var categoryMainText = $(".categoryMainBtn").eq(index).text();
-				$('#selectShippingAddress').empty();
-				$("#selectShippingAddress").append(" "+categoryMainText );
+				$('#selectAddress').empty();
+				$("#selectAddress").append(" "+categoryMainText );
+
+				$('#selectedAddress').empty();
+				var html = '';
+				html += '<input type="text" id="address" name="address" value="'+categoryMainText+'">';
+				$('#selectedAddress').append(html);
 			});
+
+			
 		});
 	</script>
 </head>
@@ -136,7 +134,7 @@
                                 미리보기
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost/cabbageMarket/users/getApplyProductSalesDeliveryList?userId=${usersSession.userId}"
+                                <a class="nav-link" href="http://localhost/cabbageMarket/users/getApplyProductSalesDeliveryList"
                                     aria-selected="false">취소 : 등록하기로 돌아가기</a>
                             </li>
                         </ul>
@@ -145,8 +143,8 @@
                                 <div class="product__details__tab__desc">
                                     
                                 	<div class="container">
-									<form id="addAuctionProdeuctForm" action="${pageContext.request.contextPath}/users/addAuction" method="post" enctype="multipart/form-data">
-										<input type="hidden" name="userId" value="8"> <!-- userId = 8으로 입력 테스트 -->
+									<form id="modifyApplyProductSalesDeliveryReturnForm" action="${pageContext.request.contextPath}/users/modifyApplyProductSalesDeliveryReturn" method="post" enctype="multipart/form-data">
+										<c:if test="${productDetail.userId == usersSession.userId}">
 										<div class="row">
 											<div class="col-lg-6 col-md-6">
 							                    <div class="product__details__pic">
@@ -169,7 +167,9 @@
 							                            <i class="fa fa-star-half-o"></i>
 							                            <span>(18 reviews)</span>
 							                        </div>
-							                        <div class="product__details__price">현재 상태 : ${productDetail.registrationState}</div>
+							                        <div class="product__details__price">
+							                        현재 상태 : ${productDetail.registrationState}
+							                        </div>
 							                        <p>${productDetail.productDesc}</p>
 							                        
 							                    </div>
@@ -177,7 +177,7 @@
 																		<div class="col-lg-12">
 												<div class="section-title product__discount__title" style="margin-top: 30px;">
 								                	<h2>반송정보<span style="color: #7fad39; font-size: 1rem; margin-left: 2rem;">*필수항목</span></h2>
-								                	<input type="hidden" name="applyProductSalesDeliveryId" value="${applyId }" readonly="readonly">
+								                	<input type="hidden" name="applyId" value="${productDetail.applyId }" readonly="readonly">
 								                </div>
 							                </div>
 											<!-- 1배송지 수정 -->
@@ -193,7 +193,8 @@
 								                </div>
 								                <div class="col-lg-9">
 								                	<span id="selectCategory" style="margin-top: 1.5rem; font-size: 16px; color: #7fad39;">선택한 주소:
-								                	<span id="selectShippingAddress" style="font-weight:bold;"></span>
+								                	<span id="selectAddress" style="font-weight:bold;"></span>
+								                		<span id="selectedAddress"> <input type="text" id="address" name="address" value="${productDetail.address}"> </span>
 								                	</span>
 								                </div>
 							                </div>
@@ -203,7 +204,7 @@
 							                	<h4>요청사항</h4>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="delivery_requests">
+							                	<input type="text" id="request">
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px grey;"></div>
 							                
@@ -212,52 +213,15 @@
 							                </div>
 							                
 										</div>
+										</c:if>
 									</form>
+									
 								</div>
 								<!-- Product Details Section Begin -->
                                     
                                     
                                     
                                     
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="tab-pane" id="list tabs-2" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>상품 스펙</h6>
-                                    <p>
-                                    	<table class="table table-light">
-                                    		<tr>
-                                    			<th>판매자 구입가격</th>
-                                    			<td></td>
-                                    		</tr>
-                                    		<tr>
-                                    			<th>판매자 사용기한</th>
-                                    			<td></td>
-                                    		</tr>
-                                    	</table>
-                                    	<hr>	
-                                    	<table class="table table-dark">	
-                                    		<tr>
-                                    			<th>현재 최저가</th>
-                                    			<td></td>
-                                    		</tr>
-                                    	</table>
-                                    	<hr>	
-                                    	<table class="table table-light">	
-                                    		<tr>
-                                    			<th>현재 최저가</th>
-                                    			<td></td>
-                                    		</tr>
-                                    	</table>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>상품 확인 직원 : ${productDetail.managerName} 후기</h6>
-                                    <p> comment</p>
                                 </div>
                             </div>
                         </div>

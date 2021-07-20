@@ -1,6 +1,8 @@
 <!-- 작성자 : 강혜란 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -25,6 +27,45 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
+    <!-- ajax 사용 -->   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"> <!-- 유효성 검사 -->
+    $(document).ready(function() {
+		if ( ${cnt} == 210720 ){
+			alert("동일한 입찰인이라서 입찰실패")
+			
+		}
+		else if ( ${cnt} > 0){
+			if ( confirm("입찰성공: 현재 포인트="+ ${usersSession.get("point")}+"\n 입찰내역으로 이동하시겠습니까?" )) {
+				location.href= "${pageContext.request.contextPath}/users/biddingList"; //입찰내용으로 이동
+			}
+		} else if (  ${cnt} == 0) {
+			alert("알수없는 이유로 입찰실패")
+		}
+    	
+    	console.log('호가 가능');
+    	$(document).on('click', '#callQuote', function(){
+    		console.log('호가 클릭');
+    		console.log( ${productDetail.newPrice-usersSession.get("point")} );
+    		var minus = ${productDetail.newPrice-usersSession.get("point")};
+    		if(minus > 0){  //newPrice가 point보다 커서, minus가 양수면 포인트 부족.
+    			if(confirm( minus+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
+    				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
+    			} else {
+    				alert("입찰불가 : "+ minus+ "포인트 부족");
+    			}
+    			
+    		} else { //계산이 음수면 입찰가능
+    			var plus = ${usersSession.get("point")-productDetail.newPrice};
+    			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 다음 입찰자가 있을때 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
+    				$('#addNewBid').submit();
+    			} else {
+    				alert("입찰취소")
+    			}
+            }
+    	})
+    });
+    </script>
 </head>
 
 <body>
@@ -83,11 +124,15 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <span>(${(productDetail.price-productDetail.minPrice)/productDetail.quote} 회 입찰됨)</span>
                         </div>
-                        <div class="product__details__price">${productDetail.price}</div>
+                        <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
                         <p>${productDetail.productDesc}</p>
-                        <a href="#" class="primary-btn" style="margin-top: 3px;">호가 : ${productDetail.quote}</a>
+                        <form id="addBid" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        	<input type="hidden" id="applyId" value="${productDetail.applyId}">
+                        	<input type="hidden" id="newPrice" value="${productDetail.newPrice}">
+                        	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>
+                        </form>
                         <div class="heart-btn">
 					      <div class="content">
 					        <span class="heart"></span>
@@ -97,7 +142,7 @@
                         <ul>
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
                             <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
-                            <li><b>현재 입찰가</b> <span>${productDetail.price}</span></li>
+                            <li><b>현재 입찰가</b> <span><fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></span></li>
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>

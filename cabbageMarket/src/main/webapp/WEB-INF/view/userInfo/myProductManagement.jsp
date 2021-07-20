@@ -135,7 +135,9 @@
 					                                        </c:if>
 					                                    </td>
 					                                    <td>
-					                                    	<span class="icon_refresh"></span>
+					                                    	<c:if test="${apsdl.registrationState == '9등록가능'}">
+					                                    		<a href="${pageContext.request.contextPath}/users/modifyApplyProductSalesDeliveryReturn?applyId=${apsdl.applyProductSalesDeliveryId}"><span class="icon_refresh"></span></a>
+					                                    	</c:if>
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>

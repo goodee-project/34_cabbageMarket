@@ -70,18 +70,38 @@ public class ApplyProductSalesService {
 			}
 			
 		}
-
+		
+		//modifyApplyProductSalesDeliveryReturn 에 상세정보를 가져오는 Service
 		public Map<String, Object> getApplyOne(int applyId) {
 			log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 			log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
 			Map<String,Object> applyOne = applyProductSalesMapper.selectApplyOne(applyId); //상세정보 가져오는 mapper
+			log.debug(Debuging.DEBUG+"4 mapper에서 가져온 applyOne 학인 : "+ applyOne.toString());
 			return applyOne;
 		}
-
+		//modifyApplyProductSalesDeliveryReturn에 이미지를 가져오는 Service
 		public List<String> getApplyImg(int applyId) {
 			log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 			log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
 			List<String> applyImgs = applyProductSalesMapper.selectApplyImgByKey(applyId); //이미지를 가져오는 mapper
+			log.debug(Debuging.DEBUG+"4 mapper에서 가져온 applyImgs 학인 : "+ applyImgs.toString());
 			return applyImgs;
+		}
+		
+		//modifyApplyProductSalesDeliveryReturn 에서 가져온값으로 수정하는 Service
+		public int modifyApplyRetrun(Map<String, Object> map) {
+			log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map);
+			log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
+			
+			int cnt = 0 ;
+			if (map.get("address") != null) { //address가 있다면 update
+				cnt = applyProductSalesMapper.updateApplyOne(map); //업데이트를 하는 mapper
+			}
+			log.debug(Debuging.DEBUG+"4 mapper에서 가져온 cnt 학인 : "+ cnt); 
+			
+			if (cnt==0) { //현재 주석처리
+				cnt = applyProductSalesMapper.insertPCROne( map.get("applyId"));
+			}
+			return cnt;
 		}
 }

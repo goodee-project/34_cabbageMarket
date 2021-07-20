@@ -54,4 +54,9 @@ public class UsedTradeService {
 		usedTradeMapper.updateUsedProduct(usedProductRegistration);//중고상품(설명, 가격) 수정
 	}
 	
+	//구매할 중고상품 정보
+	public Map<String, Object> getUsedProductOneForBuy(int applyId) {
+		log.debug("★★★★★★★★★★service getUsedProductOneForBuy() applyId:"+applyId);
+		return usedTradeMapper.selectUsedProductOneForBuy(applyId);
+	}
 }

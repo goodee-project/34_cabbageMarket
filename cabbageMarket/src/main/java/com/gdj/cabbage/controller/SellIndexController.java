@@ -81,7 +81,7 @@ public class SellIndexController {
 	
 	// 상품 판매 배송 신청 후 환송 신청
 		@GetMapping("modifyApplyProductSalesDeliveryReturn")
-		public String addApplyProductSalesDeliveryReturn(Model model
+		public String modifyApplyProductSalesDeliveryReturn(Model model
 				, @RequestParam(value="applyId") int applyId) {
 			log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
 			
@@ -91,21 +91,23 @@ public class SellIndexController {
 			Map<String, Object> productDetail = applyProductSalesService.getApplyOne(applyId);
 			List<String> imgPathList = applyProductSalesService.getApplyImg(applyId);
 			
-			
-			model.addAttribute("applyId", applyId);
 			model.addAttribute("productDetail", productDetail);
 			model.addAttribute("imgPathList", imgPathList);
 			return "applyProductSales/modifyApplyProductSalesDeliveryReturn";
 		}
 		
-		@PostMapping("addApplyProductSalesDeliveryReturn")
-		public String addApplyProductSalesDeliveryReturn(Model model
+		@PostMapping("modifyApplyProductSalesDeliveryReturn")
+		public String modifyApplyProductSalesDeliveryReturn(Model model
 				, @RequestParam(value="applyId") int applyId
 				, @RequestParam(value="address") String address
-				,@RequestParam(value="request") String request) {
+				, @RequestParam(value="request", required = false) String request) {
 			log.debug(Debuging.DEBUG+"0 view에서 넘어온 applyId 확인:"+applyId);
 			log.debug(Debuging.DEBUG+"0 view에서 넘어온 address 확인:"+address);
 			log.debug(Debuging.DEBUG+"0 view에서 넘어온 request 확인:"+request);
+			
+			if( request=="") {
+				request="NULL";
+			}
 			
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("applyId",applyId);

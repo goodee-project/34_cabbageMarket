@@ -7,13 +7,11 @@
 		SELECT
 			apr.apply_product_sales_delivery_id applyId
 			,registration_deadline registrationDeadline
-			,FORMAT(quote, N'#,0') quote
 			,apr.create_date createDate
 			,product_name productName
 			,img_name imgName
 			,category_sub_id categorySubName
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT(apr.min_bid_price, N'#,0') , FORMAT(bap.bid_price, N'#,0')) price
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price+quote), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
+			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
 		FROM 
 			auction_product_registration apr
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
@@ -36,9 +34,11 @@
 			,username userName
 			,category_sub_name categorySubName
 			,product_name productName
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT(apr.min_bid_price, N'#,0') , FORMAT(bap.bid_price, N'#,0')) price
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price, bap.bid_price+quote) newPrice
 			,product_desc productDesc
-			,FORMAT(quote, N'#,0') quote
+			,min_bid_price minPrice
+			,quote
 			,registration_state registrationState
 			,pcr.create_date createDate
 			,manager_name managerName
@@ -117,28 +117,39 @@
 	</select>
 	
 	<insert id="insertAuction" parameterType="com.gdj.cabbage.vo.AuctionProductRegistration">
-	INSERT INTO auction_product_registration (
-		apply_product_sales_delivery_id
-		,product_desc
-		,min_bid_price
-		,quote
-		,registration_deadline
-		,create_date
-		)
-		VALUES(
-		#{applyProductSalesDeliveryId}
-		,#{productDesc}
-		,#{minBidPrice}
-		,#{quote}
-		,#{registrationDeadline}
-		,NOW()
-		)
+		INSERT INTO auction_product_registration (
+			apply_product_sales_delivery_id
+			,product_desc
+			,min_bid_price
+			,quote
+			,registration_deadline
+			,create_date
+			)
+			VALUES(
+			#{applyProductSalesDeliveryId}
+			,#{productDesc}
+			,#{minBidPrice}
+			,#{quote}
+			,#{registrationDeadline}
+			,NOW()
+			)
 	</insert>
 	
 	<update id="updateConfirmationState" parameterType="int">
-	UPDATE product_confirmation_registration
-	SET registration_state = 2
-	WHERE apply_product_sales_delivery_id = ${applyId};
+		UPDATE 
+			product_confirmation_registration
+		SET 
+			registration_state = 2
+		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
+	
+	<select id="selectLastBidUserId" parameterType="int" resultType="int">
+		SELECT
+			user_id userId
+		FROM 
+			bidding_auction_product bap
+		GROUP BY apply_product_sales_delivery_id=${applyId}
+		ORDER BY create_date DESC
+	</select>
 	
 </mapper>

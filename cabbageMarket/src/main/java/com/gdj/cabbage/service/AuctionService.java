@@ -118,5 +118,21 @@ public class AuctionService {
 		}
 		return cnt;
 	}
+	public int addBid(Map<String, Object> map) {
+		int cnt = 0;
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
+		//이전 입찰자 찾는 mapper
+		int lastUserId = auctionMapper.selectLastBidUserId( (map.get("applyId")) );
+		if ( lastUserId == ((int)map.get("userId")) ) {
+			cnt = 210720;
+		} else {
+			cnt= 1;
+			//cnt = auctionMapper.insertBidHistory(map);
+			//cnt = + auctionMapper.insertBidHistory(map);
+			//cnt = + auctionMapper.insertBidCommision(map);
+		}
+		return cnt;
+	}
 
 }
