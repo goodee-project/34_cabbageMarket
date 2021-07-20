@@ -27,7 +27,7 @@ public interface UsedTradeMapper {
 	
 	Map<String, Object> selectUsedProductOneForBuy(int applyId); //구매할 중고상품 정보
 	void insertUsedProduct(BuyingUsedProduct buyingUsedProduct); //1.구매한 중고상품 
-	void insertusingPoint(BuyingPointsUsingHistory buyingPointsUsingHistory); //2.포인트 수입/지출 내역
+	void insertusingPoint(Map<String, Object> map); //2.포인트 수입/지출 내역
 	void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory); //3.판매자의 중고상품 수수료
 	void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery); //4.상품 배송정보
 	void updateRegistrationState(ProductConfirmationRegistration poductConfirmationRegistration); //5.상품등록상태 변경 

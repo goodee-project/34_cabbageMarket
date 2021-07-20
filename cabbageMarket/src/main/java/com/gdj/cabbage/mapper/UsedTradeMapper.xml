@@ -130,7 +130,7 @@
 	</insert>
 	
 	<!-- 2. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
-	<insert id="insertusingPoint" parameterType="com.gdj.cabbage.vo.BuyingPointsUsingHistory">
+	<insert id="insertusingPoint" parameterType="java.util.Map">
 		INSERT INTO buying_points_using_history(
 			apply_product_sales_delivery_id,
 			income_expenditure,
