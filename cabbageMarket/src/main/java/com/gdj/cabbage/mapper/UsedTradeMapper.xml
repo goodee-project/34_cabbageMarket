@@ -16,13 +16,22 @@
 		LEFT JOIN apply_product_sales_delivery pd ON pr.apply_product_sales_delivery_id = pd.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery_img img ON pd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 		LEFT JOIN category_sub cateSub ON pd.category_sub_id = cateSub.category_sub_id
+		LEFT JOIN category_middle cateMid ON cateSub.category_middle_id = cateMid.category_middle_id
+		LEFT JOIN category_main cateMain ON cateMid.category_main_id = cateMain.category_main_id
 		<where>
 			<if test="searchWord != null">
 				AND pd.product_name LIKE CONCAT ('%',#{searchWord},'%')
 			</if>
+			<if test="categoryMainId != null">
+				AND cateMid.category_main_id = #{categoryMainId}
+			</if>
 		</where>
 		GROUP BY productName 
-		ORDER BY pr.create_date DESC
+		<choose>
+	    <when test="sortBy == 1">ORDER BY pr.product_price, img.img_name </when>
+	    <when test="sortBy == 2">ORDER BY pr.product_price DESC, img.img_name </when>
+	    <otherwise>ORDER BY pr.create_date DESC, img.img_name</otherwise>
+	 	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 

@@ -35,22 +35,30 @@ public class UsedTradeController {
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 												  @RequestParam(value="rowPerPage", defaultValue = "9") int rowPerPage,
-												  @RequestParam(value="searchWord", required = false) String searchWord) {
+												  @RequestParam(value="searchWord", required = false) String searchWord,
+												  @RequestParam(value="categoryMainId", required = false) String categoryMainId,
+												  @RequestParam(value="sortBy", required = false) Integer sortBy) {
 		//디버깅
 		log.debug("★★★★★getUsedProductList() currentPage:" +currentPage);
 		log.debug("★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
 		log.debug("★★★★★getUsedProductList() searchWord:" +searchWord);
+		log.debug("★★★★★getUsedProductList() categoryMainId:" +categoryMainId);
+		log.debug("★★★★★getUsedProductList() sortBy:" +sortBy);
 		
 		//검색 searchWord 
 		if (searchWord != null && searchWord.equals("")) { 
 			searchWord = null;
 		}
-		
+		if(categoryMainId != null && categoryMainId.equals("")) {
+			categoryMainId = null;
+		}
 		//HashMap 생성 - > map에 값 넣어주기
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage-1)*rowPerPage);
 		map.put("rowPerPage", rowPerPage);
 		map.put("searchWord", searchWord);
+		map.put("categoryMainId", categoryMainId);
+		map.put("sortBy", sortBy);
 		
 		//페이징
 		int usedProductTotal = usedTradeService.getUsedProductTotal(map); //중고상품 Total
@@ -62,8 +70,9 @@ public class UsedTradeController {
 		
 		//model에 값 넣어주기
 		model.addAttribute("currentPage",currentPage);
-		model.addAttribute("rowPerPage",rowPerPage);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("categoryMainId",categoryMainId);
+		model.addAttribute("sortBy",sortBy);
 		model.addAttribute("usedProductTotal",usedProductTotal);
 		model.addAttribute("lastPage",lastPage);
 		model.addAttribute("pageSet",pageSet);
@@ -144,7 +153,7 @@ public class UsedTradeController {
 	//중고상품 구매
 	@GetMapping("buyUsedProduct")
 	public String getUsedProductOneForBuy(Model model, @RequestParam (value="applyId", required = true) int applyId
-												  , @RequestParam (value="userId", required = true) int userId) {
+													 , @RequestParam (value="userId", required = true) int userId) {
 		log.debug("★★★★★controller getUsedProductForBuy() applyId :"+applyId); //디버깅
 		
 		Map<String,Object> productForBuy = usedTradeService.getUsedProductOneForBuy(applyId);//구매할 상품 정보
@@ -158,4 +167,6 @@ public class UsedTradeController {
 		
 		return "usedProduct/buyUsedProduct";
 	}
+	
+	
 }

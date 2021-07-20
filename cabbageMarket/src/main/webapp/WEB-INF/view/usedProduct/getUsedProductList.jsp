@@ -10,7 +10,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>cabbageMarket UsedProduct</title>
+	<title>cabbageMarket UsedProductList</title>
 	
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -42,45 +42,50 @@
 	  color: #aaa;
 	  font-style: italic;
 	}
+	.box{
+	  width:35%;
+	  position: absolute;
+  	  right: 15px;
+	}
 	</style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
 	$(document).ready(function(){
 	   
-		$.ajax({
-		   type:'get',
-		   url:'${pageContext.request.contextPath}/getCategoryMain',
-		   
-		   success: function(jsonData) {
-		      $(jsonData).each(function(index, item) {
-		     	 console.log(item.categoryMainName);
-		         $('#categoryMain').append(
-		            '<li value="'+item.categoryMainId+'"><a href="./shop-details.html">'+item.categoryMainName+'</a></li>'
-		         );
-		      });
-		   }
+		$('#sortBy').change(function(){
+			console.log($('#sortBy').val());
+			$('#sortByForm').submit();
 		});
-		
-		$('#btn').click(function(){
-			console.log('btn click!!')
-			$('#searchForm').submit();
-		})
+	});	
+	
+	$.ajax({
+	   type:'get',
+	   url:'${pageContext.request.contextPath}/getCategoryMain',
+	   
+	   success: function(jsonData) {
+	      $(jsonData).each(function(index, item) {
+	     	 console.log(item.categoryMainName);
+	         $('#categoryMain').append(
+	        		'<li><a href="${pageContext.request.contextPath}/users/getUsedProductList?categoryMainId='+item.categoryMainId+'">'+item.categoryMainName+'</a></li>'
+	         );
+	      });
+	   }
 	});
-	</script>
 
+	</script>
 </head>
 <body>
-	<!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <!-- Humberger Begin -->
+    <!-- header Section Begin -->
     <jsp:include page="/WEB-INF/view/header.jsp"/>
-	<!-- Humberger End -->
+	<!-- header Section End -->
 
-    <!-- Breadcrumb Section Begin -->
+	
+    <!-- Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="${pageContext.request.contextPath}/template/img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
@@ -96,7 +101,7 @@
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
+    <!-- Section End -->
 
     <!-- Product Section Begin -->
     <section class="product spad">
@@ -106,7 +111,7 @@
                     <div class="sidebar">
                         <div class="sidebar__item">
                             <h4>CATEGORY</h4>
-                            <ul class="categoryMain" id="categoryMain" name="categoryMain"></ul>	   
+                            <ul id="categoryMain"></ul>
                         </div>
                         
                         <br><br><br>
@@ -159,37 +164,66 @@
                         
                     </div>
                 </div>
+                
                 <div class="col-lg-9 col-md-7">
-                    <div class="filter__item">
-                        <div class="row">
+	                <div class="product__discount">
+	                	<!-- search 검색 -->
+						<div class="box">
+							<form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" >
+								<div class="input-group mb-4 border rounded-pill p-1" id="form">
+									<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="search">
+						    		<div class="input-group-append border-0">
+						     			<button id="btn" type="submit" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+                   		<div class="col-lg-4 col-md-4">
+                        	<div class="filter__sort">
+                            	<form id="sortByForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" style="display:inline;">
+                             		<input type="hidden" name="categoryMainId" value="${categoryMainId}">
+                              		<select id="sortBy" name="sortBy">
+		                              	<c:if test="${sortBy == 0}">
+		                              		<option value="0" selected="selected">최근등록순</option>
+		                              	</c:if>
+		                              	<c:if test="${sortBy != 0}">
+		                              		<option value="0">최근 등록순</option>
+		                              	</c:if>
+		                              	
+		                              	<c:if test="${sortBy == 1}">
+		                              		<option value="1" selected="selected">낮은가격순</option>
+		                              	</c:if>
+		                              	<c:if test="${sortBy != 1}">
+		                              		<option value="1">낮은 가격순</option>
+		                              	</c:if>
+		                              	
+		                              	<c:if test="${sortBy == 2}">
+		                              		<option value="2" selected="selected">높은가격순</option>
+		                              	</c:if>
+		                              	<c:if test="${sortBy != 2}">
+		                              		<option value="2">높은 가격순</option>
+		                              	</c:if>
+									</select>
+                            	</form>
+                       	 	</div>
+						</div>
                         
-                            <div class="col-lg-4 col-md-4">
-                                <div class="filter__sort">
-                                    <select>
-                                    	<option value="0">최근등록순</option>
-                                        <option value="0">낮은가격순</option>
-                                        <option value="0">높은가격순</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-4 col-md-4">
-                                <div class="filter__found">
-                                    <h6>Total Products<span>&nbsp;${usedProductTotal}</span></h6>
-                                </div>
-                            </div>
-                            
-                            <!-- search 검색 -->
-                            <form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" class="col-lg-4 col-md-4">
-	                             <div class="input-group mb-4 border rounded-pill p-1">
-		            				<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="search">
-						           	<div class="input-group-append border-0">
-						            	<button id="btn" type="button" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
-						            </div>
-						         </div>
-				        	</form>
-				        	
+                    <div class="col-lg-4 col-md-4">
+                        <div class="filter__found">
+                            <h6>Total Products<span>&nbsp;${usedProductTotal}</span></h6>
                         </div>
+                    </div>
+                        
+        			<div class="col-lg-4 col-md-3">
+                            <div class="filter__option">
+                                <span class="icon_grid-2x2"></span>
+                                <span class="icon_ul"></span>
+                            </div>
+                        </div>
+                        
                     </div>
                     <br>
                     <div class="row">
@@ -214,7 +248,7 @@
                     </div>
                     
                     <!-- 페이징 -->
-                    <div class="product__pagination">
+                    <div class="product__pagination" style="text-align: center;">
                     	<c:if test="${currentPage > 1}">
 				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}">
 				            	<i class="fa fa-long-arrow-left"></i>

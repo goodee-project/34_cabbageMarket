@@ -62,5 +62,4 @@ public class UsedTradeService {
 		log.debug("★★★★★★★★★★service getUsedProductOneForBuy() applyId:"+applyId);
 		return usedTradeMapper.selectUsedProductOneForBuy(applyId);
 	}
-	
 }
