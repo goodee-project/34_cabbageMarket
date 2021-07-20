@@ -23,6 +23,54 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 오늘 회원
+	public int getTodayUsers(){
+		
+		return managerMapper.selectTodayUsers();
+	}
+	
+	// 오늘 회원
+	public int getTodayDirect(){
+		
+		return managerMapper.selectTodayDirect();
+	}
+	
+	// 오늘 회원
+	public int getTodayUsed(){
+		
+		return managerMapper.selectTodayUsed();
+	}
+	
+	// 오늘 회원
+	public int getTodayAuction(){
+		
+		return managerMapper.selectTodayAuction();
+	}
+	
+	// 총 회원
+	public int getTotalUsers(){
+		
+		return managerMapper.selectTotalUsers();
+	}
+	
+	// 총 회원
+	public int getTotalDirectProduct(){
+		
+		return managerMapper.selectTotalDirectProduct();
+	}
+	
+	// 총 회원
+	public int getTotalUsedProduct(){
+		
+		return managerMapper.selectTotalUsedProduct();
+	}
+	
+	// 총 회원
+	public int getTotalAuctionProduct(){
+		
+		return managerMapper.selectTotalAuctionProduct();
+	}
+
 	// 배송 신청된 상품 목록 출력
 	public List<Map<String,Object>> getDeliveryProductList(){
 		
@@ -110,11 +158,11 @@ public class ManagerService {
 	}
 
 	// 관리자 세션
-	public Map<String, Object> ManagerloginSession(Manager manager){
+	public Map<String, Object> managerLoginSession(Manager manager){
 		log.debug(Debuging.DEBUG+" manager "+ manager.toString());
 		
-		Map<String, Object> managerSession = managerMapper.ManagerloginSession(manager);
-		log.debug(Debuging.DEBUG+" managerSession" + managerSession.toString()); // 나중에확인해보기 디버그
+		Map<String, Object> managerSession = managerMapper.managerLoginSession(manager);
+		log.debug(Debuging.DEBUG+" managerSession" + managerSession); // 나중에확인해보기 디버그
 		
 		return managerSession;
 	}

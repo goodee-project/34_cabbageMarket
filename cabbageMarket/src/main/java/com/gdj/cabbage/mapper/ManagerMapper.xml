@@ -3,23 +3,130 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 오늘 회원등록 수 -->
+
+<select id="selectTodayUsers"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		users
+	WHERE
+		date_format(create_date, '%Y-%m-%d')=date_format(NOW(), '%Y-%m-%d')
+
+</select>
+
+<!-- 오늘 직거래등록 수 -->
+
+<select id="selectTodayDirect"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		direct_trade_product_registration
+	WHERE
+		date_format(create_date, '%Y-%m-%d')=date_format(NOW(), '%Y-%m-%d')
+
+</select>
+
+<!-- 오늘 중고등록 수 -->
+
+<select id="selectTodayUsed"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		used_product_registration
+	WHERE
+		date_format(create_date, '%Y-%m-%d')=date_format(NOW(), '%Y-%m-%d')
+
+</select>
+
+<!-- 오늘 경매등록 수 -->
+
+<select id="selectTodayAuction"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		auction_product_registration
+	WHERE
+		date_format(create_date, '%Y-%m-%d')=date_format(NOW(), '%Y-%m-%d')
+
+</select>
+
+<!-- index 총 회원 -->
+
+<select id="selectTotalUsers"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		users
+
+</select>
+
+<!-- index 총 직거래 -->
+	
+<select id="selectTotalDirectProduct"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		direct_trade_product_registration
+
+</select>
+
+<!-- index 총 중고 -->
+	
+<select id="selectTotalUsedProduct"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		used_product_registration
+
+</select>
+
+<!-- index 총 경매 -->
+	
+<select id="selectTotalAuctionProduct"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		auction_product_registration
+
+</select>
+
+
 <!-- 배송 신청된 상품 목록 출력 -->
 
 	<select id="selectDeliveryProductList"
 			resultType="map">
 
 		SELECT
-			user_id userId,
-			category_sub_id csi,
-			product_name productName,
-			return_address address,
-			waybill_number waybillNo,
-			delivery_requests delReq
+			apsd.user_id userId,
+			img_name imgName,
+			cs.category_sub_name categorySubName,
+			apsd.product_name productName,
+			apsd.waybill_number waybillNo
+			
 		FROM
-			apply_product_sales_delivery
+			apply_product_sales_delivery apsd
+			LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
+		  	LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
 			
 		WHERE
-			apply_product_sales_delivery_id
+			apsd.apply_product_sales_delivery_id
 			
 		NOT IN
 			(SELECT
@@ -28,6 +135,9 @@
 				product_confirmation_registration
 			
 			)
+			
+		GROUP BY
+			apsd.product_name
 			
 	</select>
 
@@ -147,7 +257,7 @@
 	</update>
 	
 <!-- 관리자 세션 -->
-	<select id="ManagerloginSession"
+	<select id="managerLoginSession"
 			resultType="java.util.Map"
 			parameterType="com.gdj.cabbage.vo.Manager">
 		SELECT

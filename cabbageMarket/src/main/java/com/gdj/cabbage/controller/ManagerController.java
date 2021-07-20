@@ -26,6 +26,27 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 	
+	// 관리자 인덱스
+	@GetMapping("/manager/managerIndex")
+	public String managerIndex(Model model) {
+		
+		Map<String, Object> totoMap = new HashMap<>();
+		
+		totoMap.put("usersTotal", managerService.getTotalUsers());
+		totoMap.put("directTotal", managerService.getTotalDirectProduct());
+		totoMap.put("usedTotal", managerService.getTotalUsedProduct());
+		totoMap.put("auctionTotal", managerService.getTotalAuctionProduct());
+		totoMap.put("usersToday", managerService.getTodayUsers());
+		totoMap.put("directToday", managerService.getTodayDirect());
+		totoMap.put("usedToday", managerService.getTodayUsed());
+		totoMap.put("auctionToday", managerService.getTodayAuction());
+		
+		model.addAttribute("totoMap", totoMap);
+		
+		return "/manager/managerIndex";
+	}
+	
+	
 	//관리자 수정 //
 	// GET // 수정페이지만 보내주는것
 	@GetMapping("/manager/modifyManager")
@@ -124,32 +145,28 @@ public class ManagerController {
 	// 관리자 로그인 //
 	// GET
 	@GetMapping("/managerLogin")
-	public String login() {
+	public String managerLogin() {
 		return "/managerLogin";
 	}
 	
 	// POST
 	@PostMapping("/managerLogin")
-	public String login(HttpSession session, Manager manager) {
+	public String managerLogin(HttpSession session, Manager manager) {
 		log.debug(Debuging.DEBUG+"=================================== manager " + manager);
-		log.debug(Debuging.DEBUG+" manager " + manager);
+		log.debug(Debuging.DEBUG+" session " + session);
 		
-		Map<String, Object> managerSession = managerService.ManagerloginSession(manager);
-		log.debug(Debuging.DEBUG+" managerSession : " + managerSession);
+		Map<String, Object> managerSession = managerService.managerLoginSession(manager);
+		log.debug(Debuging.DEBUG+" $$$$$$$$$$$$$$$managerSession : " + managerSession);
 		
 		if(managerSession != null) {
 			session.setAttribute("managerSession", managerSession);
 			
 		}
 		
-		return "redirect:/managerIndex";
-	}
-	
-	@GetMapping("/managerIndex")
-	public String managerIndex() {
-		return "/manager/managerIndex";
+		return "redirect:/manager/managerIndex";
 	}
 
+	//로그아웃 -> 세션 초기화 해야함 ////////$$$$$$$$$$
 	
 	// 관리자 추가 //
 	// 폼
