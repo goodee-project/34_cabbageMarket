@@ -126,6 +126,16 @@ public class UsersService {
 		return getUserProductList;
 	}
 	
+	// 배송지 삭제 서비스
+	public int deleteAddress(ShippingAddress shippingAddress) {
+		log.debug(Debuging.DEBUG+" shippingAddress : "+shippingAddress);
+		
+		int row = usersMapper.deleteAddress(shippingAddress);
+		log.debug(Debuging.DEBUG+" 배송지 삭제 성공 여부 : "+row);
+		
+		return row;
+	}
+	
 	// 배송지 출력 서비스
 	public List<ShippingAddress> getAddressByUserId(int userId){
 		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드

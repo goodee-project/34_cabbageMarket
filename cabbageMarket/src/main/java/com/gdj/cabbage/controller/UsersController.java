@@ -141,6 +141,25 @@ public class UsersController {
 		return "/userInfo/myProductManagement";
 	}
 	
+	// 내 배송지 삭제 컨트롤러
+	@GetMapping("/users/removeAddress")
+	public String removeAddress(HttpSession session, int shippingAddressId) {
+		log.debug(Debuging.DEBUG+" shippingAddressId : "+shippingAddressId);
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		ShippingAddress shippingAddress = new ShippingAddress();
+		shippingAddress.setShippingAddressId(shippingAddressId);
+		shippingAddress.setUserId(userId);
+		
+		int row = usersService.deleteAddress(shippingAddress);
+		log.debug(Debuging.DEBUG+" 주소 삭제 성공 여부 : "+row);
+		
+		return "redirect:/users/shippingAddress";
+		
+	}
+	
 	// 내 배송지 관리 이동 컨트롤러
 	@GetMapping("/users/shippingAddress")
 	public String shippingAddress(Model model, HttpSession session) {
