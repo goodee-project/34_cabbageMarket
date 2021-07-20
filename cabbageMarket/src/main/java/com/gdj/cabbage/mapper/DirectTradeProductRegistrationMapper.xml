@@ -87,12 +87,21 @@
 	           dtpr.location,
 	           dtpr.product_state productState,
 	           dtpr.create_date createDate,
-	           dtpi.img_name imgName
-	      FROM category_sub cs, direct_trade_product_registration dtpr, direct_trade_product_img dtpi
-	     WHERE cs.category_sub_id = dtpr.category_sub_id AND
+	           dtpi.img_name imgName,
+	           cm.category_middle_id categoryMiddleId
+	      FROM category_middle cm, category_sub cs, direct_trade_product_registration dtpr, direct_trade_product_img dtpi
+	     WHERE cm.category_middle_id = cs.category_middle_id AND
+		  	   cs.category_sub_id = dtpr.category_sub_id AND
 		  	   dtpr.direct_trade_product_registration_id = dtpi.direct_trade_product_registration_id AND
 		       dtpr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 		 LIMIT 1
+	</select>
+	
+	<select id="selectNicknameBydtprKey" resultType="String" parameterType="int">
+	   SELECT u.nickname
+		 FROM direct_trade_product_registration dtpr, users u
+		WHERE dtpr.user_id = u.user_id AND
+			  dtpr.direct_trade_product_registration_id = #{directTradeProductRegistrationId}
 	</select>
 	
 	<select id="selectDirectTradeProductImgByKey" parameterType="int" resultType="String">
@@ -134,8 +143,23 @@
 			   product_desc = #{productDesc},
 			   location = #{location}
 		 WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
-	
 	</update>
+	
+	<select id="selectRelatedDirectProduct"  parameterType="int" resultType="map">
+		SELECT cm.category_middle_id categoryMiddleId,
+			   cm.category_middle_name categoryMiddleName,
+			   dtpr.direct_trade_product_registration_id directTradeProductRegistrationId,
+			   dtpr.product_name productName,
+			   dtpr.product_price productPrice,
+			   dtpi.img_name imgName
+	      FROM category_middle cm,category_sub cs, direct_trade_product_registration dtpr, direct_trade_product_img dtpi
+		 WHERE cm.category_middle_id = cs.category_middle_id AND
+	           cs.category_sub_id = dtpr.category_sub_id AND
+	      	   dtpr.direct_trade_product_registration_id = dtpi.direct_trade_product_registration_id AND
+	      	   cm.category_middle_id = #{categoryMiddleId}
+	  GROUP BY RAND(), dtpr.product_name
+	     LIMIT 4
+	</select>
 </mapper>
 
 

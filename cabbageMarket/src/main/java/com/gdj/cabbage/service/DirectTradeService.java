@@ -40,11 +40,21 @@ public class DirectTradeService {
 		return directTradeProductRegistrationMapper.selectDirectTradeProductOneByKey(directTradeProductRegistrationId);
 	}
 	
+	// 관련 상품 가져오기
+	public List<Map<String, Object>> getRelatedDirectProduct(int categoryMiddleId){
+		return directTradeProductRegistrationMapper.selectRelatedDirectProduct(categoryMiddleId);
+	}
+	
+	// 판매자 닉네임 가져오기
+	public String getNicknameBydtprKey(int directTradeProductRegistrationId){
+		return directTradeProductRegistrationMapper.selectNicknameBydtprKey(directTradeProductRegistrationId);
+	}
+	
 	// 직거래 상품 이미지
 	public List<String> getDirectTradeProductImg(int directTradeProductRegistrationId){
 		return directTradeProductRegistrationMapper.selectDirectTradeProductImgByKey(directTradeProductRegistrationId);
 	}
-	
+		
 	// 직거래 상품 등록
 	public void addDirectTradeProduct(DirectTradeProductRegistration directTradeProductRegistration, List<MultipartFile> directTradeProductImgs) {
 		

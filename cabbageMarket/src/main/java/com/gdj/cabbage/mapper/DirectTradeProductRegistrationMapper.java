@@ -17,8 +17,11 @@ public interface DirectTradeProductRegistrationMapper {
 	
 	Map<String, Object> selectDirectTradeProductOneByKey(int directTradeProductRegistrationId);
 	List<String> selectDirectTradeProductImgByKey(int directTradeProductRegistrationId);
+	String selectNicknameBydtprKey(int directTradeProductRegistrationId);
 	
 	void insertDirectTradeProductImg(DirectTradeProductImg directTradeProductImg);
 	void insertDirectTradeProductRegistration(DirectTradeProductRegistration directTradeProductRegistration);
 	void updateDirectTradeProductRegistration(DirectTradeProductRegistration directTradeProductRegistration);
+	
+	List<Map<String, Object>> selectRelatedDirectProduct(int categoryMiddleId);
 }

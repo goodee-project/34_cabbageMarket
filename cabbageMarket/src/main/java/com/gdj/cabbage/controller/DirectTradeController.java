@@ -97,9 +97,15 @@ public class DirectTradeController {
 		// 상품 상세정보
 		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
 		List<String> imgNameList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
+		String sellerNickname = directTradeService.getNicknameBydtprKey(directTradeProductRegistrationId);
+		
+		// 관련 상품 정보
+		List<Map<String, Object>> relatedDirectProductList = directTradeService.getRelatedDirectProduct((int)productDetail.get("categoryMiddleId"));
 		
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgNameList", imgNameList);
+		model.addAttribute("sellerNickname", sellerNickname);
+		model.addAttribute("relatedDirectProductList", relatedDirectProductList);
 		
 		return "directTrade/getDirectTradeOne";
 	}
