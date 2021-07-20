@@ -1,6 +1,7 @@
 <!-- 작성자 : 김태훈 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -86,7 +87,7 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price">${productDetail.productPrice}</div>
+                        <div class="product__details__price"><fmt:formatNumber value="${productDetail.productPrice}" pattern="#,###" /></div>
                         <p>${productDetail.productDesc}</p>
                         	<c:if test="${productDetail.userId == usersSession.userId}">
                         		<input class="primary-btn" style="margin-top: 3px; border: 0px;" type="button" value="회원님 상품"/>

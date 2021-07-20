@@ -9,7 +9,7 @@
 			pr.apply_product_sales_delivery_id applyId,
 			img.img_name imgName,
 			pd.product_name productName,
-			FORMAT(pr.product_price, N'#,0') productPrice,
+			pr.product_price productPrice,
 			cateSub.category_sub_name categorySubName
 		FROM 
 			used_product_registration pr
@@ -46,7 +46,7 @@
 			apsd.product_name productName,
 			u.nickname nickname,
 			upr.product_desc productDesc,
-			FORMAT(upr.product_price, N'#,0') productPrice,
+			upr.product_price productPrice,
 			LEFT(upr.registration_deadline,16) deadLine
 		
 		FROM used_product_registration upr
@@ -99,21 +99,102 @@
 	</update>
 
 <!-- 중고상품 구매 -->
+	<!-- 구매할 상품에 대한 정보 select -->
 	<select id="selectUsedProductOneForBuy" parameterType="Integer" resultType="java.util.Map">
-	SELECT 
-	  	   upr.apply_product_sales_delivery_id applyId,
-		   apsd.product_name productName,
-		   img.img_name imgName,
-		   u.nickname nickName,
-		   upr.product_price productPrice
-		   
-	FROM used_product_registration upr 
-	LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id 
-	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
-	LEFT JOIN users u ON apsd.user_id = u.user_id
-	WHERE apsd.apply_product_sales_delivery_id = ${applyId}
-	GROUP BY product_name
+		SELECT 
+		  	   upr.apply_product_sales_delivery_id applyId,
+			   apsd.product_name productName,
+			   img.img_name imgName,
+			   u.nickname nickName,
+			   upr.product_price productPrice
+			   
+		FROM used_product_registration upr 
+		LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id 
+		LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+		LEFT JOIN users u ON apsd.user_id = u.user_id
+		WHERE apsd.apply_product_sales_delivery_id = #{applyId}
+		GROUP BY product_name
 	</select>
 	
+	<!-- 1.구매한 상품이 중고상품구매 테이블에 insert (어느구매자가 어떤상품을 구매했는지...) -->
+	<insert id="insertBuyingUsedProduct" parameterType="com.gdj.cabbage.vo.BuyingUsedProduct">
+		INSERT INTO buying_used_product(
+			apply_product_sales_delivery_id,
+			user_id,
+			create_date
+		)VALUES(
+			#{appyProductSalesDeliveryId},
+			#{userId},
+			NOW()
+		)
+	</insert>
+	
+	<!-- 2. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
+	<insert id="insertUsingPoint" parameterType="java.util.Map">
+		INSERT INTO buying_points_using_history(
+			apply_product_sales_delivery_id,
+			income_expenditure,
+			point,
+			create_date
+		)VALUES(
+			#{applyProductSalesDeliveryId},
+			'지출',
+			#{point},
+			NOW()
+		),(
+			#{applyProductSalesDeliveryId},
+			'수입',
+			#{point},
+			NOW()
+		)
+	</insert>
+	
+	<!-- 3.중고상품 판매 시 판매자가 내야할 수수료 insert -->
+	<insert id="insertCommissionsPoint" parameterType="com.gdj.cabbage.vo.BuyingCommissionsHistory">
+		INSERT INTO buying_commissions_history(
+			apply_product_sales_delivery_id,
+			commission_info_id,
+			commission_point,
+			create_date
+		)VALUES(
+			#{applyProductSalesDeliveryId},
+			1,
+			#{commissionPoint},
+			NOW()
+		)
+	</insert>
+	
+	<!-- 4.상품 배송지 정보 insert -->
+	<insert id="insertProductDeliveryInfo" parameterType="com.gdj.cabbage.vo.BuyingProductDelivery">
+		INSERT INTO buying_product_delivery(
+			apply_product_sales_delivery_id,
+			shipping_address_id,
+			delivery_state,
+			waybill_number,
+			delivery_requests,
+			create_date
+		)VALUES(
+			#{applyProductSalesDeliveryId},
+			#{shippingAddressId},
+			#{deliveryState},
+			#{waybillNumber},
+			#{deliveryRequests),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 5.상품확인등록 테이블의 registration_state 1.중고 -> 0.판매로 update -->
+	<update id="updateRegistrationState" parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
+		UPDATE product_confirmation_registration
+		SET registration_state = 0
+		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+		
+	</update>
+	
+	<!-- 6.중고상품등록 테이블에서 판매된 상품 delete -->
+	<delete id="deleteSoldUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration" > 
+		DELETE FROM used_product_registration
+		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+	</delete>	
 	
 </mapper>

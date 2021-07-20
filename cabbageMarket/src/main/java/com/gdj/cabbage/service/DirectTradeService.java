@@ -85,4 +85,9 @@ public class DirectTradeService {
 		}
 		
 	}
+	
+	// 직거래 상품 정보 수정
+	public void modifyDirectTradeProduct(DirectTradeProductRegistration directTradeProductRegistration){
+		directTradeProductRegistrationMapper.updateDirectTradeProductRegistration(directTradeProductRegistration);
+	}
 }

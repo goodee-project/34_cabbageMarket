@@ -20,22 +20,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/logintemplate/css/style.css">
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-	$(document).ready(function() {
-		console.log('ready...')
-		$('#btn').click(function() {
-			console.log('click...')
-			$('#loginForm').submit();
-		});
-	});
-</script>
 
 <title>ManagerLogin</title>
 </head>
 <body>
 <h2>ManagerLogin</h2>
 
-<c:if test="${managerSession == null}">
 
 <div class="content">
 	<div class="container">
@@ -53,10 +43,10 @@
 					
 					<form id="managerLoginForm" action="${pageContext.request.contextPath}/managerLogin" method="post">
 						<div class="form-group first">
-							<input type="text" class="form-control" id="email" placeholder="email">						
+							<input type="text" class="form-control" id="managerId" placeholder="email" name="managerId">						
 						</div>
 						<div class="form-group last mb-4">
-							<input type="password" class="form-control" id="password" placeholder="password">						  
+							<input type="password" class="form-control" id="managerPassword" placeholder="password" name="managerPassword">						  
 						</div>						
 						<div class="d-flex mb-5 align-items-center">
 							<label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
@@ -85,7 +75,6 @@
 	</div>
 </div>
 
-</c:if>
 
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>

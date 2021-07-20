@@ -1,6 +1,7 @@
 <!-- 작성자: 김희진 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -205,7 +206,7 @@
 	                                <div class="product__item__text">
 	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${upl.categorySubName}</span>
 	                                    <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyId}">${upl.productName}</a></h6>
-	                                    <h5>${upl.productPrice}</h5>
+	                                    <h5><span><fmt:formatNumber value="${upl.productPrice}" pattern="#,###" /></span></h5>
 	                                </div>
 	                            </div>
 	                        </div>

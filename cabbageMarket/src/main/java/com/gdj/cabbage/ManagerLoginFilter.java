@@ -14,12 +14,12 @@ import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
 
-@WebFilter("/ManagerLoginFilter")
+@WebFilter("/manager/*")
 @Slf4j
 public class ManagerLoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		log.debug(Debuging.DEBUG+" filter 적용 전");
+		
 		HttpSession session = null;
 		if(request instanceof HttpServletRequest) {
 			session = ((HttpServletRequest)request).getSession();
@@ -27,14 +27,12 @@ public class ManagerLoginFilter implements Filter {
 		
 		if(session.getAttribute("managerSession") == null) {
 			if(response instanceof HttpServletResponse) {
-				((HttpServletResponse)response).sendRedirect("/cabbageMarket/manager/managerLogin"); // home.jsp
+				((HttpServletResponse)response).sendRedirect("/cabbageMarket/managerLogin");
 			}			
 			return;
 		}
 		
-		
 		chain.doFilter(request, response);
-		
 		
 		log.debug(Debuging.DEBUG+" filter 적용 후");
 	}

@@ -12,6 +12,22 @@ import com.gdj.cabbage.vo.Page;
 @Mapper
 public interface ManagerMapper {
 	
+	// 오늘 회원
+	int selectTodayUsers();
+	// 오늘 직거래
+	int selectTodayDirect();
+	// 오늘 중고
+	int selectTodayUsed();
+	// 오늘 경매
+	int selectTodayAuction();
+	// 총 회원
+	int selectTotalUsers();
+	// 총 직거래
+	int selectTotalDirectProduct();
+	// 총 중고
+	int selectTotalUsedProduct();
+	// 총 경매
+	int selectTotalAuctionProduct();
 	// 배송 신청된 상품 목록 출력
 	List<Map<String,Object>> selectDeliveryProductList();
 	// 매니저 상세보기
@@ -29,6 +45,6 @@ public interface ManagerMapper {
 	// 관리자 추가
 	int insertManager(Map<String, Object> map);
 	// 관리자 세션
-	Map<String, Object> ManagerloginSession(Manager manager);
+	Map<String, Object> managerLoginSession(Manager manager);
 
 }

@@ -1,28 +1,32 @@
 <!-- 김희진 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-<!-- Css Styles -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
-<title>buyUsedProduct</title>
-
+	<meta charset="UTF-8">
+	<meta name="description" content="Ogani Template">
+	<meta name="keywords" content="Ogani, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>buyUsedProduct</title>
+	
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+	
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 </head>
 <body>
 <section class="product spad">
@@ -33,8 +37,7 @@
 					<div class="section-title product__discount__title">
 						<h2>중고상품 구매</h2>
 					</div>
-					
-					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/" method="post">
+					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyingList" method="post">
 						<div class="col-md-12">
 							<div class="card">
 								<table class="table table-hover" style="text-align: center">
@@ -52,7 +55,7 @@
 											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productForBuy.imgName}" height="50px" width="50px"></td>
 											<td>${productForBuy.productName}</td>
 											<td>${productForBuy.nickName}</td>
-											<td>${productForBuy.productPrice}</td>
+											<td><span><fmt:formatNumber value="${productForBuy.productPrice}" pattern="#,###" /></span></td>
 											<td>${usersSession.point}</td>
 										</tr>
 									</tbody>
@@ -77,7 +80,7 @@
 												<td>${sa.recipientName}</td>
 												<td>${sa.address}</td>
 												<td>${sa.recipientPhoneNumber}</td>
-												<td><input id="check" name="check" type="radio"></td>
+												<td><input id="checkBtn" name="radiobox" type="radio"></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -85,15 +88,13 @@
 							</div>
 							<br>
 							<div style="float: right;">
-								<button class="btn btn-success" id="button" name="button" type="submit">구매</button>
-								<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${productForBuy.applyId}">
-									<button class="btn btn-success" id="button" name="button" type="button">취소</button>
-								</a>
+								<button class="btn btn-success" id="btn" name="button" type="submit">구매</button>
+							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${productForBuy.applyId}">
+								<button class="btn btn-success" type="button">취소</button>
+							</a>
 							</div>
-							
 						</div>
 					</form>
-					
 				</div>
 			</div>	
 		</div>

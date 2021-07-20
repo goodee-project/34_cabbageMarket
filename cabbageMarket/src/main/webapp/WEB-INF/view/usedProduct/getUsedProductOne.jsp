@@ -1,6 +1,7 @@
 <!-- 작성자 : 김희진 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -86,8 +87,13 @@
 							<i class="fa fa-star-half-o"></i> 
 							<span>(18 reviews)</span>
 						</div>
-						<div class="product__details__price">${usedProductDetail.productPrice} 원</div>
-							<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn">Buy Now</a>
+						<div class="product__details__price"> <span><fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###" /></span> 원</div>
+						<c:if test="${usedProductDetail.productPrice <= usersSession.point}"> 
+							<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
+						</c:if>
+						<c:if test="${usedProductDetail.productPrice > usersSession.point}">
+							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductDetail.applyId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
+						</c:if>
 						<div class="heart-btn">
 							<div class="content">
 								<span class="heart"></span>
@@ -96,8 +102,8 @@
 					    </div>
 						<ul>
 							<li><b>판매자</b> <span>${usedProductDetail.nickname}</span></li>
-							<li><b>판매 가격</b> <span>${usedProductDetail.productPrice}원</span></li>
-							<li><b>마감 기한</b> <span style="color:#CD0000;"> ${usedProductDetail.deadLine}</span></li>
+							<li><b>판매 가격</b> <fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###" />원</li>
+							<li><b>마감 기한</b> <span style="color:#CD0000;"> ${usedProductDetail.deadLine.substring(0,10)}</span></li>
 							<li><b>Share on</b>
 								<div class="share">
 									<a href="#"><i class="fa fa-facebook"></i></a>

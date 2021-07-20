@@ -1,6 +1,7 @@
 <!-- 작성자 : 김태훈 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -144,7 +145,7 @@
 	                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
 	                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
 	                                                </c:if>
-	                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
+	                                                <span><fmt:formatNumber value="${DirectTradeProductRegistrationList[i].productPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 	                                        </c:if>
@@ -166,7 +167,7 @@
 		                                                <c:if test="${DirectTradeProductRegistrationList[i].productName.length() <= 9}">
 		                                                	<h6>${DirectTradeProductRegistrationList[i].productName}</h6>
 		                                                </c:if>
-		                                                <span>${DirectTradeProductRegistrationList[i].productPrice}</span>
+		                                                <span><fmt:formatNumber value="${DirectTradeProductRegistrationList[i].productPrice}" pattern="#,###" /></span>
 		                                            </div>
 		                                        </a>
 		                                        </c:if>
@@ -200,7 +201,7 @@
 	                                        <div class="product__discount__item__text">
 	                                            <span>${dtprl.categorySubName}</span>
 	                                            <h5><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${dtprl.directTradeProductRegistrationId}">${dtprl.productName}</a></h5>
-	                                            <div class="product__item__price">${dtprl.productPrice}</div>
+	                                            <div class="product__item__price"><fmt:formatNumber value="${dtprl.productPrice}" pattern="#,###" /></div>
 	                                        </div>
 	                                    </div>
 	                                </div>
@@ -267,7 +268,7 @@
 	                                <div class="product__item__text">
 	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${dtprl.categorySubName}</span>
 	                                    <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${dtprl.directTradeProductRegistrationId}">${dtprl.productName}</a></h6>
-	                                    <h5>${dtprl.productPrice}</h5>
+	                                    <h5><fmt:formatNumber value="${dtprl.productPrice}" pattern="#,###" /></h5>
 	                                </div>
 	                            </div>
 	                        </div>

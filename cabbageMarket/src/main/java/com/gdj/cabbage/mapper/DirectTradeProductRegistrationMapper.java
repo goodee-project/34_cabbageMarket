@@ -20,4 +20,5 @@ public interface DirectTradeProductRegistrationMapper {
 	
 	void insertDirectTradeProductImg(DirectTradeProductImg directTradeProductImg);
 	void insertDirectTradeProductRegistration(DirectTradeProductRegistration directTradeProductRegistration);
+	void updateDirectTradeProductRegistration(DirectTradeProductRegistration directTradeProductRegistration);
 }

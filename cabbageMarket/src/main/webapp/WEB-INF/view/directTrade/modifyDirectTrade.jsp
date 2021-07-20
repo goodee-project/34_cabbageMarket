@@ -1,6 +1,7 @@
 <!-- 작성자 : 김태훈 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -97,10 +98,15 @@
 	<script> <!-- 유효성 검사 -->
     $(document).ready(function() {
     	
+    	
     	// 상품 가격 숫자입력 유효성 검사
     	var enCheck = RegExp( /[^0-9]$/);
     	// 카테고리 유효성 검사
-    	var cateCheck = 0;
+    	var cateCheck = 1;
+    	
+    	var html = '';
+		html += '<input type="hidden" id="categorySubId" name="categorySubId" value="${productDetail.categorySubId}">';
+		$('#categorySub').append(html);
     	
     	$('#productPrice').keyup(function(){
     		if(enCheck.test($('#productPrice').val())){
@@ -113,12 +119,8 @@
         $('#summitBtn').click(function() {
             
         	console.log("summitBtn click!");
-			
-        	var fileCheck = document.getElementById("imgFileUpload").value;
 
-            if(!fileCheck){
-                alert("파일을 첨부해 주세요");
-            }else if ($('#productName').val() == '') {
+            if ($('#productName').val() == '') {
                 alert('제목을 입력해 주세요');
                 $('#productName').focus();
             } else if ($('#productPrice').val() == '') {
@@ -131,7 +133,7 @@
                 alert('카테고리를 선택해 주세요');
                 $('#categorySubId').focus();
             } else {
-                $('#addDirectTradeProductForm').submit();
+                $('#modifyDirectTradeProductForm').submit();
             }
         });
         
@@ -252,7 +254,8 @@
     </section>
     <!-- Breadcrumb Section End -->
 		<div class="container">
-			<form id="addDirectTradeProductForm" action="${pageContext.request.contextPath}/users/addDirectTrade" method="post" enctype="multipart/form-data">
+			<form id="modifyDirectTradeProductForm" action="${pageContext.request.contextPath}/users/modifyDirectTrade" method="post">
+				<input type="hidden" name="directTradeProductRegistrationId" value="${directTradeProductRegistrationId}">
 				<input type="hidden" name="userId" value="${usersSession.userId}">
 				<div class="row">
 					<div class="col-lg-12">
