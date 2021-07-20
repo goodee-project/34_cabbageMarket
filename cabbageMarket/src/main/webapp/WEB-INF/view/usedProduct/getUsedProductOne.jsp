@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -11,6 +12,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>cabbageMarket UsedProductOne</title>
 	
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -26,7 +28,25 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
 	
-	<title>배추마켓 중고상품 상세정보</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	
+	$(document).ready(function() {
+		$('#btn').click(function() {
+			var point = ${usersSession.point};
+			if( point < ${usedProductDetail.productPrice}){
+				alert("포인트가 부족합니다.")
+				if(confirm("포인트를 충전하시겠습니까?") == true){
+					var url = "${pageContext.request.contextPath}/users/pointRecharge";
+					location.href = url;
+				
+				}else{
+					return false;
+				}
+			}
+		});
+	});
+	</script>
 </head>
 
 <body>
@@ -92,7 +112,7 @@
 							<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
 						</c:if>
 						<c:if test="${usedProductDetail.productPrice > usersSession.point}">
-							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductDetail.applyId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
+							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductDetail.applyId}" class="primary-btn" style="margin-top: 3px; border: 0px;" id="btn">Buy Now</a>
 						</c:if>
 						<div class="heart-btn">
 							<div class="content">

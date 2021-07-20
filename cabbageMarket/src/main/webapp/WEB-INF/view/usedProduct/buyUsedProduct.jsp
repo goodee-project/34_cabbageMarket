@@ -47,7 +47,7 @@
 											<th>제품명</th>
 											<th>판매자</th>
 											<th>가격</th>
-											<th>point</th>
+											<th style="color:#CD0000;">Point</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -56,7 +56,7 @@
 											<td>${productForBuy.productName}</td>
 											<td>${productForBuy.nickName}</td>
 											<td><span><fmt:formatNumber value="${productForBuy.productPrice}" pattern="#,###" /></span></td>
-											<td>${usersSession.point}</td>
+											<td style="color:#CD0000;">${usersSession.point}</td>
 										</tr>
 									</tbody>
 								</table>
