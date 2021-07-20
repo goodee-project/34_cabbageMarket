@@ -133,9 +133,21 @@ public class DirectTradeController {
 		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
 		List<String> imgNameList = directTradeService.getDirectTradeProductImg(directTradeProductRegistrationId);
 		
+		model.addAttribute("directTradeProductRegistrationId", directTradeProductRegistrationId);
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgNameList", imgNameList);
 		
 		return "directTrade/modifyDirectTrade";
+	}
+	
+	@PostMapping("modifyDirectTrade")
+	public String modifyDirectTrade(DirectTradeProductRegistration directTradeProductRegistration) {
+		
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addDirectTrade] [directTradeProductRegistration] -> directTradeProductRegistration : " + directTradeProductRegistration.toString());
+		
+		// 상품 정보 수정
+		directTradeService.modifyDirectTradeProduct(directTradeProductRegistration);
+		
+		return "redirect:/users/getDirectTradeOne?directTradeProductRegistrationId=" + directTradeProductRegistration.getDirectTradeProductRegistrationId();
 	}
 }

@@ -8,7 +8,7 @@
 			   regi.user_id userId,
 			   regi.category_sub_id categorySubId,
 			   regi.product_name productName,
-		       FORMAT(regi.product_price, N'#,0') productPrice, <!-- 숫자 3자리마다 ,찍기 -->
+		       regi.product_price productPrice, <!-- 숫자 3자리마다 ,찍기 -->
 		       regi.product_desc productDesc,
 		       regi.location,
 		       regi.product_state productState,
@@ -58,7 +58,7 @@
 			   regi.user_id userId,
 			   regi.category_sub_id categorySubId,
 			   regi.product_name productName,
-		       FORMAT(regi.product_price, N'#,0') productPrice,
+		       regi.product_price productPrice,
 		       regi.product_desc productDesc,
 		       regi.location,
 		       regi.product_state productState,
@@ -80,8 +80,9 @@
 		SELECT dtpr.direct_trade_product_registration_id directTradeProductRegistrationId,
 			   dtpr.user_id userId,
 			   cs.category_sub_name categorySubName,
+			   cs.category_sub_id categorySubId,
 		       dtpr.product_name productName,
-	           FORMAT(dtpr.product_price, N'#,0') productPrice,
+	           dtpr.product_price productPrice,
 	           dtpr.product_desc productDesc,
 	           dtpr.location,
 	           dtpr.product_state productState,
@@ -124,6 +125,17 @@
 	<insert id="insertDirectTradeProductImg" parameterType="com.gdj.cabbage.vo.DirectTradeProductImg">
 		INSERT INTO direct_trade_product_img VALUES(#{directTradeProductRegistrationId}, #{imgName}, #{imgType}, #{imgSize})
 	</insert>
+	
+	<update id="updateDirectTradeProductRegistration" parameterType="com.gdj.cabbage.vo.DirectTradeProductRegistration">
+		UPDATE direct_trade_product_registration
+		   SET category_sub_id = #{categorySubId},
+		       product_name = #{productName},
+			   product_price = #{productPrice},
+			   product_desc = #{productDesc},
+			   location = #{location}
+		 WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
+	
+	</update>
 </mapper>
 
 
