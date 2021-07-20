@@ -112,12 +112,12 @@
 		LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id 
 		LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 		LEFT JOIN users u ON apsd.user_id = u.user_id
-		WHERE apsd.apply_product_sales_delivery_id = ${applyId}
+		WHERE apsd.apply_product_sales_delivery_id = #{applyId}
 		GROUP BY product_name
 	</select>
 	
 	<!-- 1.구매한 상품이 중고상품구매 테이블에 insert (어느구매자가 어떤상품을 구매했는지...) -->
-	<insert id="insertUsedProduct" parameterType="com.gdj.cabbage.vo.BuyingUsedProduct">
+	<insert id="insertBuyingUsedProduct" parameterType="com.gdj.cabbage.vo.BuyingUsedProduct">
 		INSERT INTO buying_used_product(
 			apply_product_sales_delivery_id,
 			user_id,
@@ -130,7 +130,7 @@
 	</insert>
 	
 	<!-- 2. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
-	<insert id="insertusingPoint" parameterType="java.util.Map">
+	<insert id="insertUsingPoint" parameterType="java.util.Map">
 		INSERT INTO buying_points_using_history(
 			apply_product_sales_delivery_id,
 			income_expenditure,

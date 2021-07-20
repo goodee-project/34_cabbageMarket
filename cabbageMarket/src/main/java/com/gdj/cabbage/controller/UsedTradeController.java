@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.service.UsedTradeService;
 import com.gdj.cabbage.service.UsersService;
+import com.gdj.cabbage.vo.BuyingCommissionsHistory;
+import com.gdj.cabbage.vo.BuyingPointsUsingHistory;
+import com.gdj.cabbage.vo.BuyingProductDelivery;
+import com.gdj.cabbage.vo.BuyingUsedProduct;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.UsedProductRegistration;
@@ -33,9 +37,9 @@ public class UsedTradeController {
 												  @RequestParam(value="rowPerPage", defaultValue = "9") int rowPerPage,
 												  @RequestParam(value="searchWord", required = false) String searchWord) {
 		//디버깅
-		log.debug("★★★★★★★★getUsedProductList() currentPage:" +currentPage);
-		log.debug("★★★★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
-		log.debug("★★★★★★★★getUsedProductList() searchWord:" +searchWord);
+		log.debug("★★★★★getUsedProductList() currentPage:" +currentPage);
+		log.debug("★★★★★getUsedProductList() rowPerPage:" +rowPerPage);
+		log.debug("★★★★★getUsedProductList() searchWord:" +searchWord);
 		
 		//검색 searchWord 
 		if (searchWord != null && searchWord.equals("")) { 
@@ -73,15 +77,15 @@ public class UsedTradeController {
 	//중고상품 상세
 	@GetMapping("getUsedProductOne")
 	public String getUsedProductOne(Model model, @RequestParam(value="applyId")int applyId) {
-		log.debug("★★★★★★★controller getUsedProductOne() applyId:" + applyId); //디버깅
+		log.debug("★★★★★controller getUsedProductOne() applyId:" + applyId); //디버깅
 		
 		//중고상품 상세 details 가져오기
 		Map<String,Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
-		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
+		log.debug("★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
 		
 		//중고상품 이미지 img 가져오기
 		List<String> imgNameList = usedTradeService.getUsedProductImg(applyId);
-		log.debug("★★★★★★★controller getUsedProductOne() usedProductImg:" + imgNameList); //디버깅
+		log.debug("★★★★★controller getUsedProductOne() usedProductImg:" + imgNameList); //디버깅
 		
 		//model에 값 넣어주기
 		model.addAttribute("usedProductDetail", usedProductDetail);
@@ -102,8 +106,8 @@ public class UsedTradeController {
 	@PostMapping("addUsedProduct") //form 요청 - 처리
 	public String addUsedProduct(UsedProductRegistration usedProductRegistration, ProductConfirmationRegistration productConfirmationRegistration) {
 		//디버깅 - 객체 디버깅은 toString() 사용.
-		log.debug("★★★★★★controller addUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
-		log.debug("★★★★★★controller addUsedProduct() productConfirmationRegistration :"+productConfirmationRegistration.toString());
+		log.debug("★★★★★controller addUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		log.debug("★★★★★controller addUsedProduct() productConfirmationRegistration :"+productConfirmationRegistration.toString());
 		
 		//서비스호출
 		usedTradeService.addUsedProduct(usedProductRegistration, productConfirmationRegistration);
@@ -115,11 +119,11 @@ public class UsedTradeController {
 	//중고상품 수정
 	@GetMapping("modifyUsedProduct")
 	public String modifyUsedProduct(Model model, @RequestParam (value="applyId", required = true) int applyId) {
-		log.debug("★★★★★★★modifyUsedProduct() applyId :"+applyId); //디버깅
+		log.debug("★★★★★modifyUsedProduct() applyId :"+applyId); //디버깅
 		
 		//중고상품 상세 details 가져오기
 		Map<String,Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
-		log.debug("★★★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
+		log.debug("★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); //디버깅
 	
 		//model에 usedProductDetail (중고상품 상세 정보) 넣어주기.
 		model.addAttribute("usedProductDetail", usedProductDetail);
@@ -130,7 +134,7 @@ public class UsedTradeController {
 	@PostMapping("modifyUsedProduct")
 	public String modifyUsedProduct(UsedProductRegistration usedProductRegistration) {
 		//디버깅 - 객체 디버깅은 toString() 사용.
-		log.debug("☆☆☆☆☆☆☆☆controller modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
+		log.debug("☆☆☆☆☆controller modifyUsedProduct() usedProductRegistration :"+usedProductRegistration.toString());
 		
 		usedTradeService.modifyUsedProduct(usedProductRegistration);
 		
@@ -138,16 +142,16 @@ public class UsedTradeController {
 	}
 	
 	//중고상품 구매
-	@GetMapping("/buyUsedProduct")
-	public String getUsedProductForBuy(Model model, @RequestParam (value="applyId", required = true) int applyId,
-													@RequestParam (value="userId", required = true) int userId) {
-		log.debug("★★★★★★★controller getUsedProductForBuy() applyId :"+applyId); //디버깅
+	@GetMapping("buyUsedProduct")
+	public String getUsedProductOneForBuy(Model model, @RequestParam (value="applyId", required = true) int applyId
+												  , @RequestParam (value="userId", required = true) int userId) {
+		log.debug("★★★★★controller getUsedProductForBuy() applyId :"+applyId); //디버깅
 		
 		Map<String,Object> productForBuy = usedTradeService.getUsedProductOneForBuy(applyId);//구매할 상품 정보
-		log.debug("★★★★★★★controller getUsedProductForBuy() productForBuy :"+productForBuy); //디버깅
+		log.debug("★★★★★controller getUsedProductForBuy() productForBuy :"+productForBuy); //디깅
 		
 		List<ShippingAddress> shippingAddress = usersService.getAddressByUserId(userId);//배송지 정보
-		log.debug("★★★★★★★controller getUsedProductForBuy() ShippingAddress :"+shippingAddress); //디버깅
+		log.debug("★★★★★controller getUsedProductForBuy() ShippingAddress :"+shippingAddress); //디버깅
 		
 		model.addAttribute("productForBuy",productForBuy);	
 		model.addAttribute("shippingAddress",shippingAddress);	

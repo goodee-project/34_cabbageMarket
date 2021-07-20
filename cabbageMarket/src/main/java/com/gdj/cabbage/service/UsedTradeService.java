@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdj.cabbage.mapper.CategoryMapper;
 import com.gdj.cabbage.mapper.UsedTradeMapper;
+import com.gdj.cabbage.vo.BuyingCommissionsHistory;
+import com.gdj.cabbage.vo.BuyingPointsUsingHistory;
+import com.gdj.cabbage.vo.BuyingProductDelivery;
+import com.gdj.cabbage.vo.BuyingUsedProduct;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.UsedProductRegistration;
 
@@ -59,4 +62,5 @@ public class UsedTradeService {
 		log.debug("★★★★★★★★★★service getUsedProductOneForBuy() applyId:"+applyId);
 		return usedTradeMapper.selectUsedProductOneForBuy(applyId);
 	}
+	
 }
