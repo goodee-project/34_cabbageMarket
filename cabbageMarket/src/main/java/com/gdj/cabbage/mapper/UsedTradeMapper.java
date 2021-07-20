@@ -5,6 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdj.cabbage.vo.BuyingCommissionsHistory;
+import com.gdj.cabbage.vo.BuyingPointsUsingHistory;
+import com.gdj.cabbage.vo.BuyingProductDelivery;
+import com.gdj.cabbage.vo.BuyingUsedProduct;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.UsedProductRegistration;
 
@@ -22,5 +26,10 @@ public interface UsedTradeMapper {
 	void updateUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 수정(상품설명, 상품가격)
 	
 	Map<String, Object> selectUsedProductOneForBuy(int applyId); //구매할 중고상품 정보
-	
+	void insertUsedProduct(BuyingUsedProduct buyingUsedProduct); //1.구매한 중고상품 
+	void insertusingPoint(BuyingPointsUsingHistory buyingPointsUsingHistory); //2.포인트 수입/지출 내역
+	void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory); //3.판매자의 중고상품 수수료
+	void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery); //4.상품 배송정보
+	void updateRegistrationState(ProductConfirmationRegistration poductConfirmationRegistration); //5.상품등록상태 변경 
+	void deleteSoldUsedProduct(UsedProductRegistration usedProductRegistration); //6.판매된 중고상품 삭제
 }
