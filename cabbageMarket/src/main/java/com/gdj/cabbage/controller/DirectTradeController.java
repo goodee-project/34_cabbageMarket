@@ -34,7 +34,8 @@ public class DirectTradeController {
 			@RequestParam(value= "rowPerPage", defaultValue = "12") int rowPerPage,
 			@RequestParam(value="searchWord", required = false)String searchWord,
 			@RequestParam(value="categoryMainId", required = false)String categoryMainId,
-			@RequestParam(value="sortValue", required = false)Integer sortValue) {
+			@RequestParam(value="sortValue", required = false)Integer sortValue,
+			@RequestParam(value="reservationState", required = false)String reservationState) {
 		
 		if(searchWord != null && searchWord.equals("")) {
 			searchWord = null;
@@ -44,11 +45,16 @@ public class DirectTradeController {
 			categoryMainId = null;
 		}
 		
+		if(reservationState != null && reservationState.equals("")) {
+			reservationState = null;
+		}
+		
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> currentPage : " + currentPage);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> rowPerPage : " + rowPerPage);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> searchWord : " + searchWord);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> categoryMainId : " + categoryMainId);
 		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> sortValue : " + sortValue);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> reservationState : " + reservationState);
 		
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", (currentPage-1)*rowPerPage);
@@ -56,6 +62,7 @@ public class DirectTradeController {
 		paramMap.put("searchWord", searchWord);
 		paramMap.put("categoryMainId", categoryMainId);
 		paramMap.put("sortValue", sortValue);
+		paramMap.put("reservationState", reservationState);
 		
 		int pageSet = (currentPage-1)/10;
 		int directProductTotal = directTradeService.getDirectTradeProductTotal(paramMap);
@@ -83,6 +90,7 @@ public class DirectTradeController {
 		model.addAttribute("pageSet", pageSet);
 		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("directProductTotal", directProductTotal);
+		model.addAttribute("reservationState", reservationState);
 		
 		return "directTrade/getDirectTradeList";
 	}

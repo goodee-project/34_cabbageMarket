@@ -67,6 +67,7 @@ public class ChattingController {
 		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);
 		
 		model.addAttribute("userId", userId);
+		model.addAttribute("directTradeProductRegistrationId", directTradeProductRegistrationId);
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("ChattingRoomInfo", ChattingRoomInfo);
 		model.addAttribute("chattingContentList", chattingContentList);
