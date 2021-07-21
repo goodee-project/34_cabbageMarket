@@ -20,13 +20,18 @@
 		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id AND<!-- inner join 조건 -->
 		 	regi.category_sub_id = cs.category_sub_id AND
 		 	cs.category_middle_id = cmd.category_middle_id AND
-		 	cmd.category_main_id = cm.category_main_id AND
-		 	regi.product_state = 1
+		 	cmd.category_main_id = cm.category_main_id
 			<if test="searchWord != null">
 				AND regi.product_name LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="categoryMainId != null">
 				AND cm.category_main_id = #{categoryMainId}
+			</if>
+			<if test="reservationState == null">
+				AND regi.product_state = 1
+			</if>
+			<if test="reservationState != null">
+				AND (regi.product_state = 1 or regi.product_state = 2)
 			</if>
 		</where>
 	  GROUP BY regi.direct_trade_product_registration_id
@@ -69,7 +74,8 @@
 		  FROM direct_trade_product_img img, direct_trade_product_registration regi, category_sub cs
 		 WHERE
 		 		regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id AND
-		 		regi.category_sub_id = cs.category_sub_id
+		 		regi.category_sub_id = cs.category_sub_id AND
+		 		regi.product_state = 1
 	  GROUP BY regi.direct_trade_product_registration_id
 	  ORDER BY RAND() , img.img_name
 	  LIMIT 6
@@ -161,6 +167,11 @@
 	  GROUP BY RAND(), dtpr.product_name
 	     LIMIT 4
 	</select>
+	
+	<update id="updateProductStateByKey"  parameterType="int">
+		UPDATE direct_trade_product_registration SET product_state = #{productState}
+		 WHERE direct_trade_product_registration_id = #{directTradeProductRegistrationId}
+	</update>
 </mapper>
 
 

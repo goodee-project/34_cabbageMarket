@@ -97,7 +97,30 @@ $(document).ready(function() {
         $("#chattingContent").append(html);
         document.documentElement.scrollTop = document.body.scrollHeight;
     }
+    
+    $('#productState').change(function(){
+    	
+    	$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/modifyProductState',
+			data:{productState : $('#productState').val(), directTradeProductRegistrationId : $('#directTradeProductRegistrationId').val()},
+			success: function() {
+				$('#changeComplete').empty();
+				$("#changeComplete").append(" 수정이 완료 되었습니다<br>내정보 -> 등록상품에서 확인 가능합니다");
+			}
+		});
+    	
+	});
 });
+ 
+    function onClick() {
+        document.querySelector('.modal_wrap').style.display ='block';
+        document.querySelector('.black_bg').style.display ='block';
+    }   
+    function offClick() {
+        document.querySelector('.modal_wrap').style.display ='none';
+        document.querySelector('.black_bg').style.display ='none';
+    }
 </script>
 <body>
 <div class="container bootstrap snippets bootdey">
@@ -117,8 +140,23 @@ $(document).ready(function() {
     				</c:if>
     			</div>
     		</div>
-    		<button class="bannerButton" type="button">상태변경</button>
+    		<button class="bannerButton modal_btn" type="button" onclick="onClick()">상태변경</button>
     	</div>
+    	
+    	<div class="black_bg"></div>
+			<div class="modal_wrap">
+		    	<div class="modal_close"><a href="#" onclick="offClick()">close</a></div>
+		        <br><br>
+		        <div class="filter__sort">
+		        	<input type="hidden" id="directTradeProductRegistrationId" value="${directTradeProductRegistrationId}">
+		        	<select id="productState" name="productState">
+			        	<option value="1">판매중</option>
+			        	<option value="2">예약중</option>
+			        	<option value="3">판매완료</option>
+			        </select><br>
+			        <span id="changeComplete"></span>
+		        </div>
+			</div>
     	
         <!-- selected chat -->
     	<div class="col-md-8 bg-white ">

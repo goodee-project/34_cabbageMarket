@@ -24,4 +24,5 @@ public interface DirectTradeProductRegistrationMapper {
 	void updateDirectTradeProductRegistration(DirectTradeProductRegistration directTradeProductRegistration);
 	
 	List<Map<String, Object>> selectRelatedDirectProduct(int categoryMiddleId);
+	void updateProductStateByKey(int directTradeProductRegistrationId, int productState);
 }
