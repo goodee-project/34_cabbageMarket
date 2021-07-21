@@ -43,4 +43,5 @@ public interface UsersMapper {
 	List<Map<String, Object>> getDirectProductListByUserId(int userId);
 	List<Map<String, Object>> getBuyingUsedProductByUserId(Map<String, Object> map);
 	int getBuyingUsedProductCount(int userId);
+	List<Map<String, Object>> getBiddingListByUser(Map<String, Object> map);
 } 

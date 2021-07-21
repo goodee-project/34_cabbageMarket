@@ -92,9 +92,6 @@
 			                                		이미지
 			                                	</th>
 			                                    <th>
-			                                    	카테고리
-			                                    </th>
-			                                    <th>
 			                                    	제품명
 			                                    </th>
 			                                    <th>
@@ -114,10 +111,7 @@
 				                                		${index = index+1}
 				                                	</td>
 				                                    <td>
-				                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${bupl.img}" width="70px" height="50px">
-				                                    </td>
-				                                    <td>
-				                                    	<h6>${bupl.category}</h6>
+				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bupl.img}" width="70px" height="50px">
 				                                    </td>
 				                                    <td>
 				                                    	<h5>

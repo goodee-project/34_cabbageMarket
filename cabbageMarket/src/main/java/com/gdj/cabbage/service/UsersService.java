@@ -34,6 +34,37 @@ public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	@Autowired ApplyProductSalesMapper applyProductSalesMapper;
 	
+	// 유저 입찰 내역 리스트
+	public Map<String, Object> biddingList(int userId, int currentPage, int rowPerPage){
+		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드
+		
+		int beginRow = (currentPage-1)*rowPerPage;// 페이지 시작 행
+		
+		Map<String, Object> serviceMap = new HashMap<>();// 맵에 구매내역 리스트를 받아오기 위한 정보를 저장하기 위한 맵
+		serviceMap.put("userId", userId);
+		serviceMap.put("beginRow", beginRow);
+		serviceMap.put("rowPerPage", rowPerPage);
+		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);// 디버깅 코드
+		
+		
+		List<Map<String, Object>> biddingList = usersMapper.getBiddingListByUser(serviceMap);// 유저 구매내역 리스트
+		
+		int totalRow = biddingList.size();// 총 행의 수
+		int lastPage = totalRow/rowPerPage;// 마지막 페이지
+		if(totalRow % rowPerPage != 0) {// 마지막 페이지의 자료 수가 보여줄 행의 수와 나눠 떨어지지 않으면 마지막페이지에 1을 더한다.
+			lastPage++;
+		}
+		
+		Map<String, Object> controllerMap = new HashMap<>();
+		controllerMap.put("biddingList", biddingList);
+		controllerMap.put("lastPage", lastPage);
+		controllerMap.put("beginRow", beginRow);
+		log.debug(Debuging.DEBUG+" controllerMap : "+controllerMap);// 디버깅 코드
+		
+		return controllerMap;
+	
+	}
+	
 	// 유저 중고 상품 구매 내역 리스트
 	public Map<String, Object> buyingUsedProductByUserId(int userId, int currentPage, int rowPerPage){
 		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드
