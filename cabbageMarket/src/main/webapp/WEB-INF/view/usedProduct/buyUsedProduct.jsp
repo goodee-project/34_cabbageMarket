@@ -48,6 +48,7 @@
 						<h2>중고상품 구매</h2>
 					</div>
 					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyUsedProduct" method="post">
+						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
 						<input type="hidden" name="userId" value="${usersSession.userId}">
 						<input type="hidden" name="productPrice" value="${productForBuy.productPrice}">
 						
@@ -100,20 +101,35 @@
 								</table>
 							</div>
 							<br>
-							<div>요구사항</div>
-							<input name="deliveryRequests" type="text">
-							<div style="float: right;">
-								<button class="btn btn-success" id="btn" name="button" type="button">구매</button>
+							
+							<div class="card">
+								<table class="table table-hover" >
+									<thead>
+										<tr>
+											<th>배송 요청사항</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<textarea name="deliveryRequests" rows="5" cols="80"></textarea>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<br><br>
+						<div style="float: right;">
+							<button class="btn btn-success" id="btn" name="button" type="button">구매</button>
 							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${productForBuy.applyId}">
 								<button class="btn btn-success" type="button">취소</button>
 							</a>
-							</div>
 						</div>
 					</form>
 				</div>
 			</div>	
 		</div>
-	</div>
 </section>
 </body>
 </html>
