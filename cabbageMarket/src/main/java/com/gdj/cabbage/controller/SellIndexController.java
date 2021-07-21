@@ -50,7 +50,7 @@ public class SellIndexController {
 		
 		applyProductSalesService.addApplyProductSalesDelivery(applyProductSalesDelivery, applyProductSalesDeliveryImgs);
 		
-		return "redirect:/users/getApplyProductSalesDeliveryList";
+		return "redirect:/users/myProductManagement";
 	}
 	
 	// 상품 판매 배송 신청 등록 리스트 //210719 세션수정
@@ -76,7 +76,7 @@ public class SellIndexController {
 		//model.addAttribute("pageSet", pageSet);
 		//model.addAttribute("lastPage", lastPage);
 				
-		return "applyProductSales/getApplyProductSalesDeliveryList";
+		return "userInfo/myProductManagement";
 	}
 	
 	// 상품 판매 배송 신청 후 환송 신청
@@ -118,6 +118,6 @@ public class SellIndexController {
 			int updateReturn = applyProductSalesService.modifyApplyRetrun(map);
 			
 			model.addAttribute("applyId", applyId);
-			return "applyProductSales/getApplyProductSalesDeliveryList";
+			return "userInfo/myProductManagement";
 		}
 }

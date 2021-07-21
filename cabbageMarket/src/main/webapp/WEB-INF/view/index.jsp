@@ -47,7 +47,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
-                    <div class="hero__categories header__menu">
+                    <div class="hero__categories header__menu" style="padding: 0;">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
                             <span>카테고리</span>

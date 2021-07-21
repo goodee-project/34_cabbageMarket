@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     });
 
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { sendName(); $('#chatContent').val('');});
     // 채팅 내용 서버 전송 함수 
     // chatting_content 테이블 도메인에 맞는 값을 JSON으로 전송한다.
     function sendName() {
