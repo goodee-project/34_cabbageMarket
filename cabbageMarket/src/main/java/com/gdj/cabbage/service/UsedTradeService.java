@@ -62,4 +62,24 @@ public class UsedTradeService {
 		log.debug("★★★★★★★★★★service getUsedProductOneForBuy() applyId:"+applyId);
 		return usedTradeMapper.selectUsedProductOneForBuy(applyId);
 	}
+	
+	//중고상품 구매
+	public void insertBuyingUsedProduct(BuyingUsedProduct buyingUsedProduct) { //1.
+		usedTradeMapper.insertBuyingUsedProduct(buyingUsedProduct);
+	}
+	public void insertUsingPoint(Map<String, Object> map) { //2.
+		usedTradeMapper.insertUsingPoint(map);
+	}
+	public void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory) { //3.
+		usedTradeMapper.insertCommissionsPoint(buyingcommissiongsHistory);
+	}
+	public void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery) { //4.
+		usedTradeMapper.insertProductDeliveryInfo(buyingProductDelivery);
+	}
+	public void updateRegistrationState(int applyProductSalesDeliveryId) { //5.
+		usedTradeMapper.updateRegistrationState(applyProductSalesDeliveryId);
+	}
+	public void deleteSoldUsedProduct(int applyProductSalesDeliveryId) { //6.
+		usedTradeMapper.deleteSoldUsedProduct(applyProductSalesDeliveryId);
+	}
 }

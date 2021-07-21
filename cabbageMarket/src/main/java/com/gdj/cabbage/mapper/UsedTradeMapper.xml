@@ -129,7 +129,7 @@
 	<insert id="insertBuyingUsedProduct" parameterType="com.gdj.cabbage.vo.BuyingUsedProduct">
 		INSERT INTO buying_used_product(
 			apply_product_sales_delivery_id,
-			user_id,
+			user_id,r
 			create_date
 		)VALUES(
 			#{appyProductSalesDeliveryId},
@@ -148,12 +148,12 @@
 		)VALUES(
 			#{applyProductSalesDeliveryId},
 			'지출',
-			#{point},
+			#{exPoint},
 			NOW()
 		),(
 			#{applyProductSalesDeliveryId},
 			'수입',
-			#{point},
+			#{inPoint},
 			NOW()
 		)
 	</insert>
@@ -185,9 +185,9 @@
 		)VALUES(
 			#{applyProductSalesDeliveryId},
 			#{shippingAddressId},
-			#{deliveryState},
-			#{waybillNumber},
-			#{deliveryRequests),
+			0,
+			null,
+			#{deliveryRequests},
 			NOW()
 		)
 	</insert>
