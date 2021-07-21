@@ -84,7 +84,7 @@ public class UsersController {
 	
 	// 직거래 상품 삭제 컨트롤러
 	@PostMapping("/users/removeDirectProduct")
-	public String removeDirectProduct(int registerId) {
+	public String removeDirectProduct(@RequestParam(value="registerId", required = true) int registerId) {
 		log.debug(Debuging.DEBUG+" registerId : "+registerId);//디버깅 코드
 		
 		int row = usersService.deleteDirectProduct(registerId);// 삭제가 성공하면 1 실패는 0

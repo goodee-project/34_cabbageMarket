@@ -26,12 +26,25 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+	.table td, .table th {
+	    vertical-align: middle;
+	}
+	.productState{
+		width: 120px;
+		height: 40px;
+		font-size: 18px;
+	    font-weight: bold;
+	}
+	</style>
 	<script>
 		$('#document').ready(function(){
-			$('#delDirectBtn').click(function(){
+			$('.delDirectBtn').click(function(){
+				
+				var index = $('.delDirectBtn').index(this);
 				val=confirm('취소 하시겠습니까?');
 				if(val){
-					$('#delDirectForm').submit();
+					$('.delDirectForm').eq(index).submit();
 				}
 			});
 			$('#delUsedBtn').click(function(){
@@ -45,6 +58,21 @@
 				if(val){
 					$('#delAuctionForm').submit();
 				}
+			});
+			
+			$('.productState').change(function(){
+				var index = $('.productState').index(this);
+				var stateRegisterId = $('.stateRegisterId').eq(index).val();
+				
+		    	$.ajax({
+					type:'get',
+					url:'${pageContext.request.contextPath}/modifyProductState',
+					data:{productState : $('.productState').eq(index).val(), directTradeProductRegistrationId : stateRegisterId},
+					success: function() {
+						alert('수정이 완료 되었습니다');
+					}
+				});
+		    	
 			});
 		});
 	</script>
@@ -109,7 +137,7 @@
 								<br>
 								<div class="card">
 									<table class="table table-hover" style="text-align: center">
-				                            <thead>
+				                            <thead style="width: auto;">
 				                                <tr>
 				                                	<th>
 				                                		순번
@@ -127,6 +155,9 @@
 				                                    	장소
 				                                    </th>
 				                                    <th>
+				                                    	상태
+				                                    </th>
+				                                    <th>
 				                                    	수정
 				                                    </th>
 				                                    <th>
@@ -139,11 +170,11 @@
 				                            	<c:set var="index" value = "0"/>
 				                            	<c:forEach var="gdpl" items="${getDirectProductList}">
 					                                <tr>
-					                                	<td>
+					                                	<td style="width: 80px;">
 					                                		${index = index+1}
 					                                	</td>
-					                                    <td>
-					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${gdpl.img}" width="70px" height="50px">
+					                                    <td style="width: 100px;">
+					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${gdpl.img}" width="50px" height="50px">
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
@@ -159,14 +190,38 @@
 					                                    	<h5>${gdpl.location}</h5>
 					                                    </td>
 					                                    <td>
+					                                    	<input type="hidden" class="stateRegisterId" value="${gdpl.registerId}">
+					                                    	<c:if test="${gdpl.productState == 1}">
+					                                    		<select class="productState">
+														        	<option value="1" selected="selected">판매중</option>
+														        	<option value="2">예약중</option>
+														        	<option value="3">판매완료</option>
+														        </select>
+					                                    	</c:if>
+					                                    	<c:if test="${gdpl.productState == 2}">
+					                                    		<select class="productState">
+					                                    			<option value="1">판매중</option>
+														        	<option value="2" selected="selected">예약중</option>
+														        	<option value="3">판매완료</option>
+														        </select>
+					                                    	</c:if>
+					                                    	<c:if test="${gdpl.productState == 3}">
+					                                    		<select class="productState">
+														        	<option value="1">판매중</option>
+														        	<option value="2">예약중</option>
+														        	<option value="3" selected="selected">판매완료</option>
+														        </select>
+					                                    	</c:if>
+					                                    </td>
+					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/modifyDirectTrade?directTradeProductRegistrationId=${gdpl.registerId}">
-					                                    		<button class="btn btn-success">수정</button>
+					                                    		<button class="btn btn-success" style="width: 50px; padding: 0px;">수정</button>
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<form method="post" id="delDirectForm" action="${pageContext.request.contextPath}/users/removeDirectProduct">
+					                                    	<form method="post" class="delDirectForm" action="${pageContext.request.contextPath}/users/removeDirectProduct">
 					                                    		<input type="hidden" name="registerId" value="${gdpl.registerId}">
-					                                    		<button type="button" id="delDirectBtn" class="btn btn-success">취소</button>
+					                                    		<button type="button" class="btn btn-success delDirectBtn" style="width: 50px; padding: 0px;">취소</button>
 					                                    	</form>	                                    	
 					                                    </td>
 					                                </tr>
