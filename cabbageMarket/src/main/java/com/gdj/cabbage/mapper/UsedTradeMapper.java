@@ -26,10 +26,12 @@ public interface UsedTradeMapper {
 	void updateUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 수정(상품설명, 상품가격)
 	
 	Map<String, Object> selectUsedProductOneForBuy(int applyId); //구매할 중고상품 정보
-	void insertBuyingUsedProduct(BuyingUsedProduct buyingUsedProduct); //1.구매한 중고상품 
+	
+	void insertBuyingUsedProduct(int applyProductSalesDeliveryId, int userId); //1.구매한 중고상품 
+	int selectCommissionRate();//수수료율
 	void insertUsingPoint(Map<String, Object> map); //2.포인트 수입/지출 내역
-	void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory); //3.판매자의 중고상품 수수료
-	void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery); //4.상품 배송정보
+	void insertCommissionsPoint(int applyProductSalesDeliveryId, int commissionPoint); //3.판매자의 중고상품 수수료
+	void insertProductDeliveryInfo(Map<String, Object> map); //4.상품 배송정보
 	void updateRegistrationState(int applyProductSalesDeliveryId); //5.상품등록상태 변경 
 	void deleteSoldUsedProduct(int applyProductSalesDeliveryId); //6.판매된 중고상품 삭제
 }

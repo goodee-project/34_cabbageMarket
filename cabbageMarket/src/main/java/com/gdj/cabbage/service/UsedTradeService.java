@@ -1,5 +1,6 @@
 package com.gdj.cabbage.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,22 +65,35 @@ public class UsedTradeService {
 	}
 	
 	//중고상품 구매
-	public void insertBuyingUsedProduct(BuyingUsedProduct buyingUsedProduct) { //1.
-		usedTradeMapper.insertBuyingUsedProduct(buyingUsedProduct);
-	}
-	public void insertUsingPoint(Map<String, Object> map) { //2.
-		usedTradeMapper.insertUsingPoint(map);
-	}
-	public void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory) { //3.
-		usedTradeMapper.insertCommissionsPoint(buyingcommissiongsHistory);
-	}
-	public void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery) { //4.
-		usedTradeMapper.insertProductDeliveryInfo(buyingProductDelivery);
-	}
-	public void updateRegistrationState(int applyProductSalesDeliveryId) { //5.
-		usedTradeMapper.updateRegistrationState(applyProductSalesDeliveryId);
-	}
-	public void deleteSoldUsedProduct(int applyProductSalesDeliveryId) { //6.
-		usedTradeMapper.deleteSoldUsedProduct(applyProductSalesDeliveryId);
+	public void buyUsedProduct(Map<String, Object> map) { 
+		
+		//1.구매한 중고상품 
+		usedTradeMapper.insertBuyingUsedProduct((int)map.get("applyProductSalesDeliveryId"), (int)map.get("userId"));
+		
+		// 수수료
+		int commissionRate = usedTradeMapper.selectCommissionRate();
+		int productPrice = (int)map.get("productPrice");
+		int commissionPoint = (int)(productPrice * (double)(commissionRate/100));  // 수수료 0.5원 밑으로 할인 ex) 수수료 500.5원이면 -> 500원으로
+		
+		//2.포인트 수입/지출 내역
+		Map<String,Object> insertUsingPointMap = new HashMap<>();
+		insertUsingPointMap.put("applyProductSalesDeliveryId", (int)map.get("applyProductSalesDeliveryId"));
+		insertUsingPointMap.put("exPoint", productPrice); // 지출포인트 = 상품가격
+		
+		// 수입포인트 = 상품가격 - 수수료(상품가격*(수수료/100))
+		int inPoint = productPrice - commissionPoint;
+		insertUsingPointMap.put("inPoint", inPoint); // 상품가격 - 수수료
+		
+		usedTradeMapper.insertUsingPoint(insertUsingPointMap);
+		
+		//3.판매자의 중고상품 수수료
+		usedTradeMapper.insertCommissionsPoint((int)map.get("applyProductSalesDeliveryId"), commissionPoint);
+		//4.상품 배송정보
+		usedTradeMapper.insertProductDeliveryInfo(map);
+		//5.상품등록상태 변경 
+		usedTradeMapper.updateRegistrationState((int)map.get("applyProductSalesDeliveryId"));
+		//6.판매된 중고상품 삭제
+		usedTradeMapper.deleteSoldUsedProduct((int)map.get("applyProductSalesDeliveryId"));
+		
 	}
 }
