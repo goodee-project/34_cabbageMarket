@@ -50,6 +50,7 @@
 					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyUsedProduct" method="post">
 						<input type="hidden" name="userId" value="${usersSession.userId}">
 						<input type="hidden" name="productPrice" value="${productForBuy.productPrice}">
+						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
 						
 						<div class="col-md-12">
 							<div class="card">
