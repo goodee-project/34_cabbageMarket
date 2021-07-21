@@ -52,6 +52,13 @@
 				}
 			});
 			
+			$('#delAddressBtn').click(function(){
+				val=confirm('삭제 하시겠습니까?');
+				if(val){
+					$('#delAddressForm').submit();
+				}
+			});
+			
 		});
 	</script>
 	
@@ -145,7 +152,10 @@
 						              <div class="row">
 						              	<div class="col-10"></div>
 						              	<div class="col-2">
-						              		<a href="${pageContext.request.contextPath}/users/removeAddress?shippingAddressId=${a.shippingAddressId}" class="card-link" onclick="return delAddress();">삭제</a>
+						              		<form method="post" id="delAddressForm" action="${pageContext.request.contextPath}/users/removeAddress">
+	                                    		<input type="hidden" name="shippingAddressId" value="${a.shippingAddressId}">
+	                                    		<button type="button" id="delAddressBtn" class="btn btn-success">삭제</button>
+	                                    	</form>	 
 						              	</div>
 						              </div>						              
 						            </div>
@@ -223,11 +233,6 @@
 	            }
 	        }).open();
 	    }
-	</script>
-	<script>
-		function delAddress(){
-		       return confirm("삭제하시겠습니까?");
-		}
 	</script>
 
 </body>

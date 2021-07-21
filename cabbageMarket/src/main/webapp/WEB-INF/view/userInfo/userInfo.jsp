@@ -24,6 +24,17 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    	$('#document').ready(function(){
+    		$('#removeBtn').click(function(){
+    			val=confirm('탈퇴 하시겠습니까?');
+    			if(val){
+    				$('#removeForm').submit();
+    			}
+    		});
+    	});
+    </script>
 </head>
 
 <body>
@@ -211,9 +222,18 @@
 							        </div>
 							        <hr>
 							        <div class="row">
-							          <div class="col-sm-12">
-							            <a class="btn btn-success" href="${pageContext.request.contextPath}/users/modifyUsers?userId=${userId}">수정</a>							            
-							          </div>
+							          	<div class="col-2.5">
+								          	<form method="post" action="${pageContext.request.contextPath}/users/updateUsers" id="updateForm" class="form-inline">
+								          		<input type="hidden" name="userId" value="${userId}">
+								          		<button type="submit" id="updateBtn" class="btn btn-success">수정</button>&nbsp;
+								          	</form>		
+							          	</div>
+							          	<div class="col-2.5">
+								          	<form method="post" action="${pageContext.request.contextPath}/users/deleteUsers" id="removeForm" class="form-inline">
+								          		<input type="hidden" name="userId" value="${userId}">
+								          		<button type="button" id="removeBtn" class="btn btn-success">탈퇴</button>
+								          	</form>	
+								         </div>				            
 							        </div>
 							      </div>
 							    </div>							    

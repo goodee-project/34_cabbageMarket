@@ -83,7 +83,7 @@ public class UsersController {
 	}
 	
 	// 직거래 상품 삭제 컨트롤러
-	@GetMapping("/users/removeDirectProduct")
+	@PostMapping("/users/removeDirectProduct")
 	public String removeDirectProduct(int registerId) {
 		log.debug(Debuging.DEBUG+" registerId : "+registerId);//디버깅 코드
 		
@@ -94,7 +94,7 @@ public class UsersController {
 	}
 	
 	// 경매 상품 삭제 컨트롤러
-	@GetMapping("/users/removeAuctionProduct")
+	@PostMapping("/users/removeAuctionProduct")
 	public String removeAuctionProduct(int applyProductSalesDeliveryId) {
 		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);// 디버깅 코드
 		
@@ -105,7 +105,7 @@ public class UsersController {
 	}
 	
 	// 중고 상품 삭제 컨트롤러
-	@GetMapping("/users/removeUsedProduct")
+	@PostMapping("/users/removeUsedProduct")
 	public String removeUsedProduct(int applyId) {
 		log.debug(Debuging.DEBUG+" applyId : "+applyId);//디버깅 코드
 		
@@ -154,7 +154,7 @@ public class UsersController {
 	}
 	
 	// 내 배송지 삭제 컨트롤러
-	@GetMapping("/users/removeAddress")
+	@PostMapping("/users/removeAddress")
 	public String removeAddress(HttpSession session, int shippingAddressId) {
 		log.debug(Debuging.DEBUG+" shippingAddressId : "+shippingAddressId);
 		
@@ -238,7 +238,7 @@ public class UsersController {
 	}
 	
 	// 회원 탈퇴 컨트롤러
-	@GetMapping("/users/removeUsers")
+	@PostMapping("/users/deleteUsers")
 	public String removeUser(Model model, @RequestParam(value="userId", required = true) int userId) {
 		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드
 		
@@ -272,7 +272,7 @@ public class UsersController {
 	}
 	
 	// 회원 수정 페이지 이동 컨트롤러
-	@GetMapping("/users/modifyUsers")
+	@PostMapping("/users/updateUsers")
 	public String modifyUsers(Model model, @RequestParam(value = "userId", required = true) int userId) {
 		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드
 		

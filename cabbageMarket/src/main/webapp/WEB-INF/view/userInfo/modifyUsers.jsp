@@ -44,13 +44,7 @@
 					$('#modifyUserForm').submit();
 				}
 			});
-			
-			$('#removeUserBtn').click(function(){
-				val=confirm('탈퇴 하시겠습니까?');
-				if(val){
-					location='${pageContext.request.contextPath}/users/removeUsers?userId='+${userId};
-				}
-			});
+	
 		});
 	</script>
 	
@@ -184,7 +178,6 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<button type="button" id="btn" class="btn btn-success">수정</button>
-													<button type="button" id="removeUserBtn" class="btn btn-success">탈퇴</button>
 												</div>
 											</div>
 										</div>

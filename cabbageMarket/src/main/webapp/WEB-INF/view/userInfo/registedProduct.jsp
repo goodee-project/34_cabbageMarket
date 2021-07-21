@@ -26,6 +26,28 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$('#document').ready(function(){
+			$('#delDirectBtn').click(function(){
+				val=confirm('취소 하시겠습니까?');
+				if(val){
+					$('#delDirectForm').submit();
+				}
+			});
+			$('#delUsedBtn').click(function(){
+				val=confirm('취소 하시겠습니까?');
+				if(val){
+					$('#delUsedForm').submit();
+				}
+			});
+			$('#delAuctionBtn').click(function(){
+				val=confirm('취소 하시겠습니까?');
+				if(val){
+					$('#delAuctionForm').submit();
+				}
+			});
+		});
+	</script>
 </head>
 
 <body>
@@ -142,9 +164,10 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeDirectProduct?registerId=${gdpl.registerId}" onclick="return delDirect();">
-					                                    		취소
-					                                    	</a>			                                    	
+					                                    	<form method="post" id="delDirectForm" action="${pageContext.request.contextPath}/users/removeDirectProduct">
+					                                    		<input type="hidden" name="registerId" value="${gdpl.registerId}">
+					                                    		<button type="button" id="delDirectBtn" class="btn btn-success">취소</button>
+					                                    	</form>	                                    	
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -210,9 +233,10 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/removeUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}" class="btn btn-success"  onclick="return delUsed();">
-					                                    		취소
-					                                    	</a>					                                    	
+					                                    	<form method="post" id="delUsedForm" action="${pageContext.request.contextPath}/users/removeUsedProduct">
+					                                    		<input type="hidden" name="applyId" value="${gupl.applyProductSalesDeliveryId}">
+					                                    		<button type="button" id="delUsedBtn" class="btn btn-success">취소</button>
+					                                    	</form>	  				                                    	
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -284,9 +308,10 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                   		<a href="${pageContext.request.contextPath}/users/removeAuctionProduct?applyId=${gupl.applyProductSalesDeliveryId}" class="btn btn-success"  onclick="return delAuction();">
-					                                    		취소
-					                                    	</a>
+					                                    	<form method="post" id="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
+					                                    		<input type="hidden" name="applyId" value="${gupl.applyProductSalesDeliveryId}">
+					                                    		<button type="button" id="delAuctionBtn" class="btn btn-success">취소</button>
+					                                    	</form>	 
 					                                    </td>
 					                                </tr>
 				                                </c:forEach>
@@ -314,19 +339,6 @@
 	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-	<script type="text/javascript">
-		function delUsed(){
-		       return confirm("삭제하시겠습니까?");
-		}
-		function delDirect(){
-		       return confirm("삭제하시겠습니까?");
-		}
-		function delAuction(){
-		       return confirm("삭제하시겠습니까?");
-		}
-	</script>
-
-
 
 </body>
 
