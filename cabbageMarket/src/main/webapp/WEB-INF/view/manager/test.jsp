@@ -1,60 +1,82 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>ManagerInfo</title>
-<!-- bootstrapì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ CDNì£¼ì†Œ -->
+<title>modifyManager</title>
+<!-- bootstrapÀ» »ç¿ëÇÏ±â À§ÇÑ CDNÁÖ¼Ò -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		console.log("document ready!");
+		$('#btn').click(function(){
+			console.log("btn click!");
+			
+			// Æû À¯È¿¼º °Ë»ç
+			$('#modifyForm').submit();
+		});
+	});
+</script>
 </head>
 <body>
 <div class="container">
-
-    <h1>ManagerInfo</h1>
-     <table class="table">
-			<tbody>
+    <h1>modifyManager</h1>
+    
+    <form id="modifyForm" action="${pageContext.request.contextPath}/manager/modifyManager" method="post">
+	     <table class="table">
+         <tbody>
 				<tr>
 					<td>managerId :</td>
-					<td>${managerInfo.managerId}</td>
+					<td>
+						<input type="hidden" id="managerId" name="managerId" value="${modifyManagerOne.managerId}">
+						${modifyManagerOne.managerId}
+					</td>
 				</tr>
 				<tr>
 					<td>managerName :</td>
-					<td>${managerInfo.managerName}</td>
+					<td>${modifyManagerOne.managerName}</td>
 				</tr>
 				<tr>
-					<td>managerNickname :</td>
-					<td>${managerInfo.managerNickname}</td>
-				</tr>
-				<tr>
-					<td>managerAddress :</td>
-					<td>${managerInfo.managerAddress}</td>
-				</tr>
-				<tr>
-					<td>managerPhoneNumber :</td>
-					<td>${managerInfo.managerPhoneNumber}</td>
-				</tr>
-				<tr>
-					<td>managerLevel :</td>
-					<td>${managerInfo.managerLevel}</td>
-				</tr>
+	                <td>managerNickname :</td>
+	                <td><input type="text" id="managerNickname" name="managerNickname" value="${modifyManagerOne.managerNickname}"></td>
+	            </tr>
+	            <tr>
+	                <td>managerAddress :</td>
+	                <td><input type="text" id="managerAddress" name="managerAddress" value="${modifyManagerOne.managerAddress}"></td>
+	            </tr>
+	            <tr>
+	                <td>managerPhoneNumber :</td>
+	                <td><input type="text" id="managerPhoneNumber" name="managerPhoneNumber" value="${modifyManagerOne.managerPhoneNumber}"></td>
+	            </tr>
+	            <tr>
+	                <td>managerLevel :</td>
+	                <td>
+	                	<select name="managerLevel" id="managerLevel" class="form-control">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+						</select>
+	            </tr>
 				<tr>
 					<td>createDate :</td>
-					<td>${managerInfo.createDate}</td>
+					<td>${modifyManagerOne.createDate}</td>
 				</tr>
 			</tbody>
-		</table>
-		
-		<a class="btn btn-default" href="${pageContext.request.contextPath}/manager/modifyManager?managerId=${managerInfo.managerId}">ìˆ˜ì •</a>
-    
-
-	</div>
+	    </table>
+	    <button id="btn" type="button">¼öÁ¤</button>
+   	</form>
+</div>
 </body>
 </html>
