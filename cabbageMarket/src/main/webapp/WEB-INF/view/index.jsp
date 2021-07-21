@@ -29,6 +29,80 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    
+    <!-- ajax 사용 -->   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"> <!-- 유효성 검사 -->
+    $(document).ready(function() {
+    	// 카테고리 비동기 통신
+        console.log('카테고리 대분류');
+		
+    	$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/getCategoryMain',
+			success: function(jsonData) {
+				$(jsonData).each(function(index, item) {
+					var html = '';
+					html += '<button class="btn" id="categoryMainBtn"><li><input type="hidden" id="categoryMainId" value='+item.categoryMainId+'/>';
+					html += item.categoryMainName+'</li></button><Br>';
+					$('#categoryMainHeroBar').append(html);
+				});
+			}
+		});
+    	
+    	console.log('카테고리 소분류');
+			
+		$.ajax({
+				type:'get',
+				url:'${pageContext.request.contextPath}/getCategorySub',
+				data:{categoryMiddleId : $('.categoryMiddleBtn').eq(index).val()},
+				success: function(jsonData) {
+					
+					$('#categorySub').empty();
+					
+					$(jsonData).each(function(index, item) {
+						var html = '';
+						html += '<li><input type="hidden" id="categorySubId" name="categorySubId" value="'+item.categorySubId+'">';
+						html += '<button class="categoryBtn categorySubBtn" type="button">';
+						html += item.categorySubName+'</button></td>';
+						$('#categorySub').append(html);
+					});
+				}
+		});
+    	
+    	$(document).on('click', '.categoryMainBtn', function(){
+			cateCheck = 0;
+			console.log('카테고리 중분류');
+			var index = $('.categoryMainBtn').index(this);
+			
+			var categoryMainText = $(".categoryMainBtn").eq(index).text();
+			$('#selectCategoryMain').empty();
+			$('#selectCategoryMiddle').empty();
+			$('#selectCategorySub').empty();
+			$("#categoryMainDropdown").append(" "+categoryMainText);
+
+			$.ajax({
+				type:'get',
+				url:'${pageContext.request.contextPath}/getCategoryMiddle',
+				data:{categoryMainId : $('.categoryMainBtn').eq(index).val()},
+				success: function(jsonData) {
+					
+					$('#categoryMiddle').empty();
+					$('#categorySub').empty();
+					
+					$(jsonData).each(function(index, item) {
+						var html = '';
+						html += '<li><input type="hidden" id="categoryMiddleId" value='+item.categoryMiddleId+'/>';
+						html += item.categoryMiddleName+'</li>';
+						$('#categorySubUl').append(html);
+					});
+				}
+			});
+		});
+
+    });
+    </script>
+    
 </head>
 
 <body>
@@ -52,32 +126,20 @@
                             <i class="fa fa-bars"></i>
                             <span>카테고리</span>
                         </div>
-                        <ul>
-                            <li><a href="#">가전</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">계절가전</a></li>
-                                    <li><a href="./shoping-cart.html">주방가전</a></li>
-                                    <li><a href="./checkout.html">생활가전</a></li>
-                                    <li><a href="./blog-details.html">미용/욕실가전</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">TV</a></li>
-                            <li><a href="#">컴퓨터</a></li>
-                            <li><a href="#">노트북</a></li>
-                            <li><a href="#">태블릿</a></li>
-                            <li><a href="#">모바일</a></li>
-                            <li><a href="#">디지털 카메라</a></li>
-                            <li><a href="#">음향기기</a></li>
-                        </ul>
+                        <ul id="categoryMainHeroBar">
+                        	<li>All</li>
+	                        	<ul class="header__menu__dropdown" id="categoryMiddle">
+	                        		<li> </li>
+	                            </ul>
+	                    </ul>
                     </div>
                 </div>
                 <div class="col-lg-10">
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="#">
-                                <div class="hero__search__categories">
+                                <div class="hero__search__categories" id="categoryMainDropdown">
                                     모든 카테고리
-                                    <span class="arrow_carrot-down"></span>
                                 </div>
                                 <input type="text" placeholder="무엇이 필요하신가요?">
                                 <button type="submit" class="site-btn">찾기</button>
@@ -123,7 +185,7 @@
                         <h2>최근 판매된 상품</h2>
                     </div>
                     <div class="featured__controls">
-                        <ul>
+                        <ul id="categorySubUl">
                             <li class="active" data-filter="*">All</li>
                             <li data-filter=".oranges">가전</li>
                             <li data-filter=".fresh-meat">TV</li>
