@@ -295,7 +295,7 @@
 				#{managerNickname},
 				#{managerAddress},
 				#{managerPhoneNumber},
-				#{managerLevel},
+				DEFAULT(manager_level),
 				NOW()
 			
 			)

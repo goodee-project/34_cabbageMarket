@@ -96,9 +96,6 @@
 				                                		이미지
 				                                	</th>
 				                                    <th>
-				                                    	카테고리
-				                                    </th>
-				                                    <th>
 				                                    	제품명
 				                                    </th>
 				                                    <th>
@@ -125,9 +122,6 @@
 					                                	</td>
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${gdpl.img}" width="70px" height="50px">
-					                                    </td>
-					                                    <td>
-					                                    	<h6>${gdpl.category}</h6>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
@@ -174,9 +168,6 @@
 				                                		이미지
 				                                	</th>
 				                                    <th>
-				                                    	카테고리
-				                                    </th>
-				                                    <th>
 				                                    	제품명
 				                                    </th>
 				                                    <th>
@@ -203,10 +194,7 @@
 					                                	</td>
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gupl.img}" width="70px" height="50px">
-					                                    </td>
-					                                    <td>
-					                                    	<h6>${gupl.category}</h6>
-					                                    </td>
+					                                    </td>					                                   
 					                                    <td>
 					                                    	<h5 style="color: #3CC2FF"><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gupl.applyProductSalesDeliveryId}">${gupl.productName}</a></h5>
 					                                    </td>
@@ -250,9 +238,6 @@
 				                                		이미지
 				                                	</th>
 				                                    <th>
-				                                    	카테고리
-				                                    </th>
-				                                    <th>
 				                                    	제품명
 				                                    </th>
 				                                    <th>
@@ -279,9 +264,6 @@
 					                                	</td>
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gapl.img}" width="70px" height="50px">
-					                                    </td>
-					                                    <td>
-					                                    	<h6>${gapl.category}</h6>
 					                                    </td>
 					                                    <td>
 					                                    	<h5>

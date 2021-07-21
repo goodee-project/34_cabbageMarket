@@ -46,7 +46,18 @@ public class UsersController {
 	@Autowired UsersMapper usersMapper;
 	
 	@GetMapping("/users/biddingList")
-	public String biddingList(Model model, HttpSession session) {
+	public String biddingList(Model model, HttpSession session, @RequestParam(value="currentPage" , defaultValue = "1") int currentPage,
+																@RequestParam(value="rowPerPage", defaultValue = "5") int rowPerPage) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		Map<String, Object> serviceMap = usersService.biddingList(userId, currentPage, rowPerPage);// 구매내역 리스트 관련 호출 메서드
+		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);// 디버깅코드
+		
+		model.addAttribute("biddingList", serviceMap.get("biddingList"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", serviceMap.get("lastPage"));
+		model.addAttribute("beginRow", serviceMap.get("beginRow"));
 		
 		return "/userInfo/biddingList";
 	}
@@ -64,6 +75,7 @@ public class UsersController {
 		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);// 디버깅코드
 		
 		model.addAttribute("byingUsedProductList", serviceMap.get("buyingUsedProductByUserId"));
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", serviceMap.get("lastPage"));
 		model.addAttribute("beginRow", serviceMap.get("beginRow"));
 		
