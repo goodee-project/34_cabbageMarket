@@ -46,6 +46,11 @@
 				console.log($('#sortValue').val());
 				$('#sortValueForm').submit();
 			});
+			
+			$('#reservCheckbox').change(function(){
+				console.log($('#reservCheckbox').val());
+				$('#reservationStateForm').submit();
+			});
 		});
 		
 		$.ajax({
@@ -217,6 +222,7 @@
                                     <form id="sortValueForm" action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get" style="display:inline;">
 	                                    <input type="hidden" name="searchWord" value="${searchWord}">
 	                                    <input type="hidden" name="categoryMainId" value="${categoryMainId}">
+	                                    <input type="hidden" name="reservationState" value="${reservationState}">
 	                                    <select id="sortValue" name="sortValue">
 	                                    	<c:if test="${sortValue eq 0}">
 	                                    		<option value="0" selected="selected">최근 등록순</option>
@@ -239,19 +245,24 @@
 	                                    		<option value="2">낮은 가격순</option>
 	                                    	</c:if>
 	                                    </select>
-	                                    <div class="checkout__input__checkbox" style="display: inline;">
-		                                    <label for="payment" style="padding-left: 20px;">
+	                                </form>
+                                    <div class="checkout__input__checkbox" style="display: inline;">
+	                                    <form id="reservationStateForm" action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get" style="display:inline;">
+	                                    	<input type="hidden" name="searchWord" value="${searchWord}">
+	                                    	<input type="hidden" name="categoryMainId" value="${categoryMainId}">
+	                                    	<input type="hidden" name="sortValue" value="${sortValue}">
+		                                    <label style="padding-left: 20px;">
 		                                        예약중 포함
 		                                        <c:if test="${reservationState eq 'on'}">
-		                                        	<input type="checkbox" id="payment" name="reservationState" value="on" checked="checked">
+		                                        	<input type="checkbox" id="reservCheckbox" name="reservationState" value="on" checked="checked">
 		                                        </c:if>
 		                                        <c:if test="${reservationState ne 'on'}">
-		                                        	<input type="checkbox" id="payment" name="reservationState" value="on">
+		                                        	<input type="checkbox" id="reservCheckbox" name="reservationState" value="on">
 		                                        </c:if>
 		                                        <span class="checkmark"></span>
 		                                    </label>
-		                                </div>
-                                    </form>
+	                                    </form>
+	                                </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
