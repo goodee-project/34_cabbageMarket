@@ -100,4 +100,10 @@ public class DirectTradeService {
 	public void modifyDirectTradeProduct(DirectTradeProductRegistration directTradeProductRegistration){
 		directTradeProductRegistrationMapper.updateDirectTradeProductRegistration(directTradeProductRegistration);
 	}
+	
+	// 직거래 상품 상태 수정
+	public void modifyProductStateByKey(int directTradeProductRegistrationId, int productState){
+		directTradeProductRegistrationMapper.updateProductStateByKey(directTradeProductRegistrationId, productState);
+	}
+		
 }

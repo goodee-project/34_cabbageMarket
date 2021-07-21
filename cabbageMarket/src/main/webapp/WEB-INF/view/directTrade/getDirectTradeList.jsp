@@ -85,7 +85,7 @@
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get">
-                                <input type="text" placeholder="What do yo u need?" name="searchWord">
+                                <input type="text" placeholder="직거래 상품을 검색하세요" name="searchWord">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -215,6 +215,7 @@
                                 <div class="filter__sort">
                                     <span>Sort By</span>
                                     <form id="sortValueForm" action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get" style="display:inline;">
+	                                    <input type="hidden" name="searchWord" value="${searchWord}">
 	                                    <input type="hidden" name="categoryMainId" value="${categoryMainId}">
 	                                    <select id="sortValue" name="sortValue">
 	                                    	<c:if test="${sortValue eq 0}">
@@ -241,7 +242,12 @@
 	                                    <div class="checkout__input__checkbox" style="display: inline;">
 		                                    <label for="payment" style="padding-left: 20px;">
 		                                        예약중 포함
-		                                        <input type="checkbox" id="payment">
+		                                        <c:if test="${reservationState eq 'on'}">
+		                                        	<input type="checkbox" id="payment" name="reservationState" value="on" checked="checked">
+		                                        </c:if>
+		                                        <c:if test="${reservationState ne 'on'}">
+		                                        	<input type="checkbox" id="payment" name="reservationState" value="on">
+		                                        </c:if>
 		                                        <span class="checkmark"></span>
 		                                    </label>
 		                                </div>
@@ -274,7 +280,12 @@
 	                                </div>
 	                                <div class="product__item__text">
 	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${dtprl.categorySubName}</span>
-	                                    <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${dtprl.directTradeProductRegistrationId}">${dtprl.productName}</a></h6>
+	                                    <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${dtprl.directTradeProductRegistrationId}">
+	                                    <c:if test="${dtprl.productState == 2}">
+	                                		<span style="font-weight: 700; color: #7fad39;">예약중 </span>${dtprl.productName}
+	                                	</c:if>
+	                                    	${dtprl.productName}
+	                                    </a></h6>
 	                                    <h5><fmt:formatNumber value="${dtprl.productPrice}" pattern="#,###" /></h5>
 	                                </div>
 	                            </div>
@@ -286,21 +297,21 @@
                     <div class="product__pagination">
                     	
                     	<c:if test="${currentPage > 1}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}&reservationState=${reservationState}">
 				            	<i class="fa fa-long-arrow-left"></i>
 				            </a>
 				        </c:if>
 				        
 				        <c:forEach var="i" begin="1" end="10">
 							<c:if test="${(pageSet*10)+i < lastPage+1}">
-					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
+					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}&reservationState=${reservationState}">
 									${(pageSet*10)+i}
 								</a>
 							</c:if>
 						</c:forEach>
 		
 				        <c:if test="${currentPage < lastPage}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}">
+				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortValue=${sortValue}&reservationState=${reservationState}">
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
