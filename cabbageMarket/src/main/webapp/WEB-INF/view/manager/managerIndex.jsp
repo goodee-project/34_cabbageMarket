@@ -30,10 +30,10 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-seedling"></i>
                 </div>
@@ -55,7 +55,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                관리하기
+                관리 MENU
             </div>
 			
 			<!--  -->
@@ -108,7 +108,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-green topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -313,11 +313,11 @@
                     <div class="row">
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 총 회원 수</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.usersTotal }명</div>
                                         </div>
@@ -330,11 +330,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 총 직거래 상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.directTotal }개</div>
                                         </div>
@@ -347,11 +347,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 총 중고 상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.usedTotal }개</div>
                                         </div>
@@ -364,11 +364,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 총 경매 상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.auctionTotal }개</div>
                                         </div>
@@ -381,11 +381,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 오늘 가입한 회원</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.usersToday }명</div>
                                         </div>
@@ -398,11 +398,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 오늘 등록된 직거래상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.directToday }개</div>
                                         </div>
@@ -415,11 +415,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 오늘 등록된 중고상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.usedToday }개</div>
                                         </div>
@@ -432,11 +432,11 @@
                         </div>
                         
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 오늘 등록된 경매상품</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.auctionToday }개</div>
                                         </div>
@@ -449,11 +449,11 @@
                         </div>
                         
                         <div class="col-xl-5 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 오늘의 수수료</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.cummissionToday }원</div>
                                         </div>
@@ -466,11 +466,11 @@
                         </div>
                         
                         <div class="col-xl-5 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-base font-weight-bold text-primary text-uppercase mb-2">
+                                            <div class="text-base font-weight-bold text-success text-uppercase mb-2">
                                                 총 수수료</div>
                                             <div class="h2 mb-0 font-weight-bold text-gray-800">${totoMap.cummissionToday }원</div>
                                         </div>
