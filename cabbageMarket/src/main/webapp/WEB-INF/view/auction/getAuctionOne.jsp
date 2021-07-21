@@ -58,7 +58,7 @@
     		} else { //계산이 음수면 입찰가능
     			var plus = ${usersSession.get("point")-productDetail.newPrice};
     			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 다음 입찰자가 있을때 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
-    				$('#addNewBid').submit();
+    				$('#addNewBidForm').submit();
     			} else {
     				alert("입찰취소")
     			}
@@ -119,16 +119,20 @@
                     <div class="product__details__text">
                         <h3>${productDetail.productName}</h3>
                         <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(${(productDetail.price-productDetail.minPrice)/productDetail.quote} 회 입찰됨)</span>
+                        	<c:set var="count" value="${ (productDetail.price-productDetail.minPrice)/productDetail.quote }"/>
+                        	<c:forEach var="i" begin="0" end="${count}">
+                        		<c:if test="${i ==0}">
+                        			<i></i>
+                        		</c:if>
+                        		<c:if test="${i !=0}">
+	                            	<i class="fa fa-star"></i>
+	                            </c:if>
+                            </c:forEach>
+                            <span>( ${count} 회 입찰됨)</span>
                         </div>
                         <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
                         <p>${productDetail.productDesc}</p>
-                        <form id="addBid" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        <form id="addBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
                         	<input type="hidden" id="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" id="newPrice" value="${productDetail.newPrice}">
                         	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>

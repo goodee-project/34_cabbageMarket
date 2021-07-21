@@ -20,7 +20,8 @@
 		 	regi.direct_trade_product_registration_id = img.direct_trade_product_registration_id AND<!-- inner join 조건 -->
 		 	regi.category_sub_id = cs.category_sub_id AND
 		 	cs.category_middle_id = cmd.category_middle_id AND
-		 	cmd.category_main_id = cm.category_main_id
+		 	cmd.category_main_id = cm.category_main_id AND
+		 	regi.product_state = 1
 			<if test="searchWord != null">
 				AND regi.product_name LIKE CONCAT('%',#{searchWord},'%')
 			</if>

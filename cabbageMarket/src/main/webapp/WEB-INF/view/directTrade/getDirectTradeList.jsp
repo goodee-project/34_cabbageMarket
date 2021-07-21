@@ -238,6 +238,13 @@
 	                                    		<option value="2">낮은 가격순</option>
 	                                    	</c:if>
 	                                    </select>
+	                                    <div class="checkout__input__checkbox" style="display: inline;">
+		                                    <label for="payment" style="padding-left: 20px;">
+		                                        예약중 포함
+		                                        <input type="checkbox" id="payment">
+		                                        <span class="checkmark"></span>
+		                                    </label>
+		                                </div>
                                     </form>
                                 </div>
                             </div>
