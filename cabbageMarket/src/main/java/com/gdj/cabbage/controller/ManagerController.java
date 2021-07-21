@@ -218,7 +218,7 @@ public class ManagerController {
 		model.addAttribute("managerPhoneNumber", managerPhoneNumber);
 		model.addAttribute("managerLevel", managerLevel);
 		
-		return "redirect:/manager/managerIndex";
+		return "redirect:/manager/getManagerList";
 	}
 
 }

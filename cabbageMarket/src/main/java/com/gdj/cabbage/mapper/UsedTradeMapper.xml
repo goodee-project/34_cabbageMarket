@@ -126,17 +126,24 @@
 	</select>
 	
 	<!-- 1.구매한 상품이 중고상품구매 테이블에 insert (어느구매자가 어떤상품을 구매했는지...) -->
-	<insert id="insertBuyingUsedProduct" parameterType="com.gdj.cabbage.vo.BuyingUsedProduct">
+	<insert id="insertBuyingUsedProduct" parameterType="int">
 		INSERT INTO buying_used_product(
 			apply_product_sales_delivery_id,
-			user_id,r
+			user_id,
 			create_date
 		)VALUES(
-			#{appyProductSalesDeliveryId},
+			#{applyProductSalesDeliveryId},
 			#{userId},
 			NOW()
 		)
 	</insert>
+	
+	<!-- 수수료율 가져오기 -->
+	<select id="selectCommissionRate" resultType="int">
+		SELECT commission_rate commissionRate
+		FROM commission_info
+		WHERE commission_info_id = 1
+	</select>
 	
 	<!-- 2. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
 	<insert id="insertUsingPoint" parameterType="java.util.Map">
@@ -159,7 +166,7 @@
 	</insert>
 	
 	<!-- 3.중고상품 판매 시 판매자가 내야할 수수료 insert -->
-	<insert id="insertCommissionsPoint" parameterType="com.gdj.cabbage.vo.BuyingCommissionsHistory">
+	<insert id="insertCommissionsPoint" parameterType="int">
 		INSERT INTO buying_commissions_history(
 			apply_product_sales_delivery_id,
 			commission_info_id,
@@ -174,7 +181,7 @@
 	</insert>
 	
 	<!-- 4.상품 배송지 정보 insert -->
-	<insert id="insertProductDeliveryInfo" parameterType="com.gdj.cabbage.vo.BuyingProductDelivery">
+	<insert id="insertProductDeliveryInfo" parameterType="map">
 		INSERT INTO buying_product_delivery(
 			apply_product_sales_delivery_id,
 			shipping_address_id,
@@ -193,7 +200,7 @@
 	</insert>
 	
 	<!-- 5.상품확인등록 테이블의 registration_state 1.중고 -> 0.판매로 update -->
-	<update id="updateRegistrationState" parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
+	<update id="updateRegistrationState" parameterType="int">
 		UPDATE product_confirmation_registration
 		SET registration_state = 0
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
@@ -201,7 +208,7 @@
 	</update>
 	
 	<!-- 6.중고상품등록 테이블에서 판매된 상품 delete -->
-	<delete id="deleteSoldUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration" > 
+	<delete id="deleteSoldUsedProduct" parameterType="int" > 
 		DELETE FROM used_product_registration
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</delete>	

@@ -188,6 +188,8 @@ public class UsedTradeController {
 		map.put("shippingAddressId", shippingAddressId);
 		map.put("deliveryRequests", deliveryRequests);
 
+		usedTradeService.buyUsedProduct(map);
+		
 		return "redirect:/users/buyingList";
 	}
 	

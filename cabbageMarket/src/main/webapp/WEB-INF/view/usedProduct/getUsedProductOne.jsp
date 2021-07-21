@@ -110,7 +110,7 @@
 							<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
 						</c:if>
 						<c:if test="${usedProductDetail.productPrice > usersSession.point}">
-							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${usedProductDetail.applyId}" class="primary-btn" style="margin-top: 3px; border: 0px;" id="btn">Buy Now</a>
+							<button type="button" class="primary-btn" style="margin-top: 3px; border: 0px;" id="btn">Buy Now</button>
 						</c:if>
 						<div class="heart-btn">
 							<div class="content">

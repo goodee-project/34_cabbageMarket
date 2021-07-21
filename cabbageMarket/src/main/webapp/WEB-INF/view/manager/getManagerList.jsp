@@ -342,6 +342,23 @@
 										</c:forEach>
 									</tbody>
 								</table>
+								
+								 <ul class="pager">
+							        <c:if test="${currentPage > 1}">
+							            <li class="previous"><a href="${pageContext.request.contextPath}/manager/getManagerList?currentPage=${currentPage-1}">&lt; PREV</a></li>
+							        </c:if>
+							        <c:if test="${currentPage < lastPage}">
+							            <li class="next"><a href="${pageContext.request.contextPath}/manager/getManagerList?currentPage=${currentPage+1}">NEXT &gt;</a></li>
+							        </c:if>
+							    </ul>
+								
+									<a href="${pageContext.request.contextPath}/manager/addManager" class="btn btn-success btn-icon-split btn-lg">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">매니저 추가하기</span>
+                                    </a>
+                                    
                             </div>
                         </div>
                     </div>
