@@ -30,6 +30,6 @@ public interface UsedTradeMapper {
 	void insertUsingPoint(Map<String, Object> map); //2.포인트 수입/지출 내역
 	void insertCommissionsPoint(BuyingCommissionsHistory buyingcommissiongsHistory); //3.판매자의 중고상품 수수료
 	void insertProductDeliveryInfo(BuyingProductDelivery buyingProductDelivery); //4.상품 배송정보
-	void updateRegistrationState(ProductConfirmationRegistration poductConfirmationRegistration); //5.상품등록상태 변경 
-	void deleteSoldUsedProduct(UsedProductRegistration usedProductRegistration); //6.판매된 중고상품 삭제
+	void updateRegistrationState(int applyProductSalesDeliveryId); //5.상품등록상태 변경 
+	void deleteSoldUsedProduct(int applyProductSalesDeliveryId); //6.판매된 중고상품 삭제
 }

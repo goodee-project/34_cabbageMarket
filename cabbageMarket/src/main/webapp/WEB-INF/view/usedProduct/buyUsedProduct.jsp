@@ -26,7 +26,17 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	
+	<script>
+	$(document).ready(function () {
+        $('#btn').click(function() {
+        	if($('input[name="shippingAddressId"]:checked').length < 1) {
+        		alert('배송정보를 선택하세요');
+        	} else {
+        		$('#buyUsedProduct').submit();
+        	}
+        });	
+    });
+	</script>
 </head>
 <body>
 <section class="product spad">
@@ -37,7 +47,12 @@
 					<div class="section-title product__discount__title">
 						<h2>중고상품 구매</h2>
 					</div>
-					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyingList" method="post">
+					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyUsedProduct" method="post">
+						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
+						<input type="hidden" name="userId" value="${usersSession.userId}">
+						<input type="hidden" name="productPrice" value="${productForBuy.productPrice}">
+						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
+						
 						<div class="col-md-12">
 							<div class="card">
 								<table class="table table-hover" style="text-align: center">
@@ -80,25 +95,42 @@
 												<td>${sa.recipientName}</td>
 												<td>${sa.address}</td>
 												<td>${sa.recipientPhoneNumber}</td>
-												<td><input id="checkBtn" name="radiobox" type="radio"></td>
+												<td><input id="radioBtn" name="shippingAddressId" type="radio" value="${sa.shippingAddressId}"></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 							<br>
-							<div style="float: right;">
-								<button class="btn btn-success" id="btn" name="button" type="submit">구매</button>
+							
+							<div class="card">
+								<table class="table table-hover" >
+									<thead>
+										<tr>
+											<th>배송 요청사항</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<textarea name="deliveryRequests" rows="5" cols="80"></textarea>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<br><br>
+						<div style="float: right;">
+							<button class="btn btn-success" id="btn" name="button" type="button">구매</button>
 							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${productForBuy.applyId}">
 								<button class="btn btn-success" type="button">취소</button>
 							</a>
-							</div>
 						</div>
 					</form>
 				</div>
 			</div>	
 		</div>
-	</div>
 </section>
 </body>
 </html>

@@ -92,59 +92,114 @@
 			                                		이미지
 			                                	</th>
 			                                    <th>
-			                                    	카테고리
-			                                    </th>
-			                                    <th>
 			                                    	제품명
 			                                    </th>
 			                                    <th>
-			                                    	구매 가격
+			                                    	입찰 가격
 			                                    </th>
 			                                    <th>
-			                                    	구매 날짜
+			                                    	입찰 날짜
+			                                    </th>
+			                                    <th>
+			                                    	취소
 			                                    </th>
 			                                </tr>
 			                            </thead>
 				                            
 			                            <tbody>
 			                            	<c:set var="index" value = "${beginRow}"/>
-			                            	<c:forEach var="bupl" items="${byingUsedProductList}">
-				                                <tr>
-				                                	<td>
-				                                		${index = index+1}
-				                                	</td>
-				                                    <td>
-				                                        <img src="${pageContext.request.contextPath}/template/img/directTradeImg/${bupl.img}" width="70px" height="50px">
-				                                    </td>
-				                                    <td>
-				                                    	<h6>${bupl.category}</h6>
-				                                    </td>
-				                                    <td>
-				                                    	<h5>
-				                                    		<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${gdpl.applyProductSalesDeliveryId}" style="text-decoration: none">
-				                                    			${bupl.productName}
-				                                    		</a>
-				                                    	</h5>
-				                                    </td>
-				                                    <td>
-				                                    	<h5>${bupl.price}</h5>
-				                                    </td>
-				                                    <td>
-				                                    	<h5>${bupl.buyingDate}</h5>
-				                                    </td>
-				                                </tr>
+			                            	<c:forEach var="bl" items="${biddingList}">
+				                                <c:if test="${bl.auctionState == '경매종료' && bl.auctionResult == 0 }">
+					                                <tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
+					                                    			${bl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.point}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.biddingDate}</h5>
+					                                    </td>
+					                                    <td style="color: red">
+					                                    	<b>유찰</b>
+					                                    </td>
+					                                </tr>
+				                                </c:if>
+				                                <c:if test="${bl.auctionState == '경매종료' && bl.auctionResult == 1 }">
+					                                <tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
+					                                    			${bl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.point}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.biddingDate}</h5>
+					                                    </td>
+					                                    <td style="color: blue">
+					                                    	<b>낙찰</b>
+					                                    </td>
+					                                </tr>
+				                                </c:if>
+				                                <c:if test="${bl.auctionState == '경매중'}">
+					                                <tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td>
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
+					                                    			${bl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.point}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.biddingDate}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<button id="removeBtn" class="btn btn-success">취소</button>
+					                                    </td>
+					                                </tr>
+				                                </c:if>
+				                               
 			                                </c:forEach>
 			                            </tbody>
 			                        </table>
 							</div>
 							<div class="card-footer">
 								<c:if test="${currentPage>1}">
-									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage-1}&content=${content}">
+									<a href="${pageContext.request.contextPath}/users/biddingList?currentPage=${currentPage-1}&content=${content}">
 										<button type="button" class="btn btn-outline-secondary">이전</button>
 									</a>
 								</c:if>
 								<c:if test="${currentPage < lastPage}">
-									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage+1}&content=${content}">
+									<a href="${pageContext.request.contextPath}/users/biddingList?currentPage=${currentPage+1}&content=${content}">
 										<button type="button" class="btn btn-outline-secondary">다음</button>
 									</a>
 								</c:if>

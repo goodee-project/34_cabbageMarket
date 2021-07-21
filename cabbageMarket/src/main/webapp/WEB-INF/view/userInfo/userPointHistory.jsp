@@ -143,7 +143,7 @@
 												<c:if test="${u.content == '낙찰' || u.content == '입찰' || u.content == '구매'}">
 													<tr style="color : red">
 														<td>
-															${total = total+1}
+															${index = index+1}
 														</td>
 														<td>
 															${u.content}
