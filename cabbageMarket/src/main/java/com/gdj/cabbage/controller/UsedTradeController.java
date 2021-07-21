@@ -95,7 +95,7 @@ public class UsedTradeController {
 		//중고상품 이미지 img 가져오기
 		List<String> imgNameList = usedTradeService.getUsedProductImg(applyId);
 		log.debug("★★★★★controller getUsedProductOne() usedProductImg:" + imgNameList); //디버깅
-		
+				
 		//model에 값 넣어주기
 		model.addAttribute("usedProductDetail", usedProductDetail);
 		model.addAttribute("imgNameList", imgNameList);
@@ -152,7 +152,7 @@ public class UsedTradeController {
 	
 	//중고상품 구매
 	@GetMapping("buyUsedProduct")
-	public String getUsedProductOneForBuy(Model model, @RequestParam (value="applyId", required = true) int applyId
+	public String buyUsedProduct(Model model, @RequestParam (value="applyId", required = true) int applyId
 													 , @RequestParam (value="userId", required = true) int userId) {
 		log.debug("★★★★★controller getUsedProductForBuy() applyId :"+applyId); //디버깅
 		
@@ -166,7 +166,30 @@ public class UsedTradeController {
 		model.addAttribute("shippingAddress",shippingAddress);	
 		
 		return "usedProduct/buyUsedProduct";
+		
 	}
-	
+	@PostMapping("buyUsedProduct")
+	public String buyUsedProduct(@RequestParam (value="applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId
+								,@RequestParam (value="userId", required = true) int userId
+								,@RequestParam (value="productPrice", required = true) int productPrice
+								,@RequestParam (value="shippingAddressId", required = true) int shippingAddressId
+								,@RequestParam (value="deliveryRequests") String deliveryRequests){
+		//디버깅
+		log.debug("applyProductSalesDeliveryId :"+applyProductSalesDeliveryId);
+		log.debug("userId :"+userId);
+		log.debug("productPrice :"+productPrice);
+		log.debug("shippingAddressId :"+shippingAddressId);
+		log.debug("deliveryRequests :"+deliveryRequests);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("applyProductSalesDeliveryId",applyProductSalesDeliveryId);		
+		map.put("userId", userId);
+		map.put("productPrice", productPrice);
+		map.put("shippingAddressId", shippingAddressId);
+		map.put("deliveryRequests", deliveryRequests);
+
+		
+		return "redirect:/users/buyingList";
+	}
 	
 }

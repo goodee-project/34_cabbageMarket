@@ -148,12 +148,12 @@
 		)VALUES(
 			#{applyProductSalesDeliveryId},
 			'지출',
-			#{point},
+			#{exPoint},
 			NOW()
 		),(
 			#{applyProductSalesDeliveryId},
 			'수입',
-			#{point},
+			#{inPoint},
 			NOW()
 		)
 	</insert>
@@ -185,9 +185,9 @@
 		)VALUES(
 			#{applyProductSalesDeliveryId},
 			#{shippingAddressId},
-			#{deliveryState},
-			#{waybillNumber},
-			#{deliveryRequests),
+			0,
+			null,
+			#{deliveryRequests},
 			NOW()
 		)
 	</insert>

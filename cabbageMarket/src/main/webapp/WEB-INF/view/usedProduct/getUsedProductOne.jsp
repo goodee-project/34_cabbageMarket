@@ -36,10 +36,8 @@
 			var point = ${usersSession.point};
 			if( point < ${usedProductDetail.productPrice}){
 				alert("포인트가 부족합니다.")
-				if(confirm("포인트를 충전하시겠습니까?") == true){
-					var url = "${pageContext.request.contextPath}/users/pointRecharge";
-					location.href = url;
-				
+				if(confirm("포인트를 충전하시겠습니까?")){
+					location.href ="${pageContext.request.contextPath}/users/pointRecharge";
 				}else{
 					return false;
 				}
@@ -55,11 +53,11 @@
 		<div class="loader"></div>
 	</div>
 
-	<!-- Humberger Begin -->
+	<!-- header Begin -->
 	<jsp:include page="/WEB-INF/view/header.jsp" />
-	<!-- Humberger End -->
+	<!-- header End -->
 
-	<!-- Breadcrumb Section Begin -->
+	<!-- Section Begin -->
 	<section class="breadcrumb-section set-bg" data-setbg="${pageContext.request.contextPath}/template/img/breadcrumb.jpg">
 		<div class="container">
 			<div class="row">
@@ -76,7 +74,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- Breadcrumb Section End -->
+	<!-- Section End -->
 
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad">
@@ -142,7 +140,7 @@
 								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
+								href="#tabs-3" role="tab" aria-selected="false">Information</a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -154,12 +152,11 @@
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Reviews</h6>
-									<p> 
-										Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus.
-									</p>
+									<h6>Information</h6>
+									<p>상품: ${usedProductDetail.productName}</p>
+									<p>판매자: ${usedProductDetail.nickname}</p>
+									<p>판매가격: <fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###" /></p>
+									<p>마감기한: ${usedProductDetail.deadLine.substring(0,10)}</p>
 								</div>
 							</div>
 						</div>
@@ -194,5 +191,4 @@
       
      </script>
 </body>
-
 </html>
