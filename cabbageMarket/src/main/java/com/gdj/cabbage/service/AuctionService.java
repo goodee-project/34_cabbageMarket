@@ -123,14 +123,23 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
 		//이전 입찰자 찾는 mapper
-		int lastUserId = auctionMapper.selectLastBidUserId( (map.get("applyId")) );
-		if ( lastUserId == ((int)map.get("userId")) ) {
+		Map<String, Object> beforeBid = auctionMapper.selectBeforeBidId(map);
+		log.debug(Debuging.DEBUG+"4 mapper에서 온 beforeBid.userId 확인: "+ beforeBid.get("userId"));
+		if ( ((int)beforeBid.get("userId")) == ((int)map.get("userId")) ) {
 			cnt = 210720;
 		} else {
 			cnt= 1;
-			//cnt = auctionMapper.insertBidHistory(map);
-			//cnt = + auctionMapper.insertBidHistory(map);
-			//cnt = + auctionMapper.insertBidCommision(map);
+			cnt = auctionMapper.insertBidPointMinusHistory(beforeBid);
+			
+			
+			cnt = + auctionMapper.insertBidHistory(map);
+			log.debug(Debuging.DEBUG+"4 insertBidHistory mapper에서 온 cnt 확인: "+ cnt);
+			
+			int newBidId = auctionMapper.selectNewBidId(map);
+			log.debug(Debuging.DEBUG+"4 selectBidId mapper에서 온 newBidId 확인: "+ newBidId);
+			map.put("newBidId", newBidId);
+			cnt = + auctionMapper.insertBidPointPlusHistory(map);
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt 확인: "+ cnt);
 		}
 		return cnt;
 	}
