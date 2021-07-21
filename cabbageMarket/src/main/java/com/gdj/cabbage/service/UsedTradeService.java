@@ -73,7 +73,7 @@ public class UsedTradeService {
 		// 수수료
 		int commissionRate = usedTradeMapper.selectCommissionRate();
 		int productPrice = (int)map.get("productPrice");
-		int commissionPoint = (int)(productPrice * (double)(commissionRate/100));  // 수수료 0.5원 밑으로 할인 ex) 수수료 500.5원이면 -> 500원으로
+		int commissionPoint = (int)(productPrice * ((double)commissionRate/(double)100));  // 수수료 0.5원 밑으로 할인 ex) 수수료 500.5원이면 -> 500원으로
 		
 		//2.포인트 수입/지출 내역
 		Map<String,Object> insertUsingPointMap = new HashMap<>();
@@ -93,7 +93,7 @@ public class UsedTradeService {
 		//5.상품등록상태 변경 
 		usedTradeMapper.updateRegistrationState((int)map.get("applyProductSalesDeliveryId"));
 		//6.판매된 중고상품 삭제
-		usedTradeMapper.deleteSoldUsedProduct((int)map.get("applyProductSalesDeliveryId"));
+		//usedTradeMapper.deleteSoldUsedProduct((int)map.get("applyProductSalesDeliveryId"));
 		
 	}
 }

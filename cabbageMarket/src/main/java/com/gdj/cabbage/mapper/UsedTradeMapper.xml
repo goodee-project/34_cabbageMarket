@@ -200,7 +200,7 @@
 	</insert>
 	
 	<!-- 5.상품확인등록 테이블의 registration_state 1.중고 -> 0.판매로 update -->
-	<update id="updateRegistrationState" parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
+	<update id="updateRegistrationState" parameterType="int">
 		UPDATE product_confirmation_registration
 		SET registration_state = 0
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
@@ -208,7 +208,7 @@
 	</update>
 	
 	<!-- 6.중고상품등록 테이블에서 판매된 상품 delete -->
-	<delete id="deleteSoldUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration" > 
+	<delete id="deleteSoldUsedProduct" parameterType="int" > 
 		DELETE FROM used_product_registration
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</delete>	
