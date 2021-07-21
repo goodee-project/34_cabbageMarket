@@ -145,6 +145,6 @@ public class AuctionController {
 		
 		model.addAttribute("cnt", cnt);
 		
-		return "auction/getAuctionOne";
+		return "auction/getAuctionOne?applyId="+applyId;
 		}
 }

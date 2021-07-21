@@ -152,4 +152,71 @@
 		ORDER BY create_date DESC
 	</select>
 	
+	<insert id="insertBidHistory" parameterType="map">
+		INSERT INTO bidding_auction_product(
+			apply_product_sales_delivery_id
+			,user_id
+			,bid_price
+			,create_date
+			)
+			VALUES(
+			#{applyId}
+			,#{userId}
+			,#{newPrice}
+			,now()
+			)
+	</insert>
+	
+	<select id="selectBeforeBidId" parameterType="map" resultType="map">
+		SELECT
+			bidding_auction_product_id bidId
+			,bid_price price
+			,user_id userId
+		FROM
+			bidding_auction_product
+		WHERE
+			apply_product_sales_delivery_id = #{applyId} AND user_id != #{userId}
+		ORDER BY create_date DESC
+	</select>
+	
+	<insert id="insertBidPointMinusHistory" parameterType="map">
+		INSERT INTO bidding_points_using_history(
+			bidding_auction_product_id
+			,income_expenditure
+			,point
+			,create_date
+			)
+			VALUES(
+			#{bidId}
+			,'수입'
+			,#{price}
+			,now()
+			)
+	</insert>
+	
+	<select id="selectNewBidId" parameterType="map" resultType="int">
+		SELECT
+			bidding_auction_product_id
+		FROM
+			bidding_auction_product
+		WHERE
+			apply_product_sales_delivery_id = #{applyId} AND user_id = #{userId}
+		ORDER BY create_date DESC
+	</select>
+	
+	<insert id="insertBidPointPlusHistory" parameterType="map">
+		INSERT INTO bidding_points_using_history(
+			bidding_auction_product_id
+			,income_expenditure
+			,point
+			,create_date
+			)
+			VALUES(
+			#{newBidId}
+			,'지출'
+			,#{newPrice}
+			,now()
+			)
+	</insert>
+	
 </mapper>

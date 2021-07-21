@@ -29,4 +29,12 @@ public interface AuctionMapper {
 
 	int selectLastBidUserId(Object object); //마지막 옥션 입찰자 찾는 mapper
 
+	int insertBidHistory(Map<String, Object> map);// 입찰 등록하는 mapper
+
+	int selectNewBidId(Map<String, Object> map); //입찰id를 가져오는 테이블
+	Map<String, Object> selectBeforeBidId(Map<String, Object> map); //입찰id를 가져오는 테이블
+	
+	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 테이블
+	int insertBidPointMinusHistory(Map<String, Object> map); //포인트 사용을 반환하는 테이블
+
 }

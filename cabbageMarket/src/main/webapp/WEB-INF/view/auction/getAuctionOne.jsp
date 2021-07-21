@@ -51,8 +51,10 @@
     		if(minus > 0){  //newPrice가 point보다 커서, minus가 양수면 포인트 부족.
     			if(confirm( minus+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
     				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
+    				return false;
     			} else {
     				alert("입찰불가 : "+ minus+ "포인트 부족");
+    				return false;
     			}
     			
     		} else { //계산이 음수면 입찰가능
@@ -60,7 +62,8 @@
     			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 다음 입찰자가 있을때 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
     				$('#addNewBidForm').submit();
     			} else {
-    				alert("입찰취소")
+    				alert("입찰취소");
+    				return false;
     			}
             }
     	})
@@ -122,19 +125,18 @@
                         	<c:set var="count" value="${ (productDetail.price-productDetail.minPrice)/productDetail.quote }"/>
                         	<c:forEach var="i" begin="0" end="${count}">
                         		<c:if test="${i ==0}">
-                        			<i></i>
+                        			<i><i class="fa fa-star"></i></i>
                         		</c:if>
                         		<c:if test="${i !=0}">
 	                            	<i class="fa fa-star"></i>
 	                            </c:if>
                             </c:forEach>
-                            <span>( ${count} 회 입찰됨)</span>
+                            <span>( ${count+1} 회 입찰됨)</span>
                         </div>
                         <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
-                        <p>${productDetail.productDesc}</p>
-                        <form id="addBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
-                        	<input type="hidden" id="applyId" value="${productDetail.applyId}">
-                        	<input type="hidden" id="newPrice" value="${productDetail.newPrice}">
+                        <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        	<input type="hidden" name="applyId" value="${productDetail.applyId}">
+                        	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>
                         </form>
                         <div class="heart-btn">
@@ -178,7 +180,9 @@
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>판매자의 설명</h6>
-                                    <p>${productDetail.productDesc}</p>
+                                    <p>
+                                    	<pre>${productDetail.productDesc}</pre>
+                                    </p>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
