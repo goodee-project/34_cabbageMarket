@@ -338,7 +338,7 @@
 										
 											<tr>
 												<td>${gdpl.userId}#</td>
-												<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gdpl.imgName}" width="250px" height="160px"></td>
+												<td><a href="${pageContext.request.contextPath}/manager/getDeliveryProductInfo?apsdi=${gdpl.apsdi}"><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gdpl.imgName}" width="250px" height="160px"></a></td>
 												<td>${gdpl.categorySubName}#</td>
 												<td>${gdpl.productName}#</td>
 												<td>${gdpl.waybillNo}#</td>

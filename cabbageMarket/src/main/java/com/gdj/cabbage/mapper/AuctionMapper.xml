@@ -45,7 +45,6 @@
 			,quote
 			,registration_state registrationState
 			,pcr.create_date createDate
-			,manager_name managerName
 		FROM auction_product_registration apr
 				LEFT JOIN product_confirmation_registration pcr ON apr.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
@@ -55,6 +54,7 @@
 				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
 		WHERE apr.apply_product_sales_delivery_id = #{applyId}
 		GROUP BY apr.apply_product_sales_delivery_id
+		LIMIT 1
 	</select>
 	
 	<select id="selectApplyForCount" parameterType="map" resultType="int"> <!-- 전체 apply 가져오는 매퍼 *검색어 페이징추가 해야함* -->
@@ -147,6 +147,47 @@
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
+	<select id="selectBeforeBidId" parameterType="map" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			bidding_auction_product bap
+		WHERE
+			bap.user_id = #{userId}
+	</select>
+	<select id="selectUserPoint" parameterType="map" resultType="int">
+		SELECT
+			utp.point point
+		FROM
+			users u 
+			LEFT JOIN users_total_point utp ON u.user_id=utp.userId 
+		WHERE
+			u.user_id=#{userId}
+	</select>
+	<select id="selectBeforeBidPrice" parameterType="map" resultType="int">
+		SELECT
+			bid_price price
+		FROM
+			bidding_auction_product
+		WHERE
+			user_id=#{userId}
+		ORDER BY create_date DESC
+	</select>
+	
+	
+	<select id="selectBeforeBid" parameterType="map" resultType="map">
+		SELECT
+			bidding_auction_product_id bidId
+			,bid_price price
+			,user_id userId
+		FROM
+			bidding_auction_product
+		WHERE
+			apply_product_sales_delivery_id = #{applyId}
+		ORDER BY create_date DESC
+	</select>
+	
+	
 	<insert id="insertBidding" parameterType="map">
 		INSERT INTO bidding_auction_product(
 			apply_product_sales_delivery_id
@@ -162,17 +203,17 @@
 			)
 	</insert>
 	
-	<select id="selectBeforeBid" parameterType="map" resultType="map">
+	<select id="selectBeforeBidCnt" parameterType="map" resultType="int">
 		SELECT
-			bidding_auction_product_id bidId
-			,bid_price price
-			,user_id userId
+			count(*)
 		FROM
 			bidding_auction_product
 		WHERE
-			apply_product_sales_delivery_id = #{applyId} AND user_id != #{userId}
+			apply_product_sales_delivery_id = #{applyId}
 		ORDER BY create_date DESC
 	</select>
+	
+
 	
 	<insert id="insertBidPointMinusHistory" parameterType="map">
 		INSERT INTO bidding_points_using_history(
@@ -197,6 +238,7 @@
 		WHERE
 			apply_product_sales_delivery_id = #{applyId} AND user_id = #{userId}
 		ORDER BY create_date DESC
+		LIMIT 1
 	</select>
 	
 	<insert id="insertBidPointPlusHistory" parameterType="map">
@@ -213,5 +255,7 @@
 			,now()
 			)
 	</insert>
+	
+	
 	
 </mapper>

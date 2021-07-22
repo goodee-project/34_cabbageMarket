@@ -27,6 +27,9 @@ public interface AuctionMapper {
 
 	void updateConfirmationState(int applyId); //옥션 등록시, confirmation state변경
 
+	
+
+	
 	int selectLastBidUserId(Object object); //마지막 옥션 입찰자 찾는 mapper
 
 	int insertBidding(Map<String, Object> map);// 입찰 등록하는 mapper
@@ -36,5 +39,13 @@ public interface AuctionMapper {
 	
 	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 테이블
 	int insertBidPointMinusHistory(Map<String, Object> map); //포인트 사용을 반환하는 테이블
+
+	int selectBeforeBidCnt(Map<String, Object> map); //이전 입찰 갯수를 가져오는 mapper
+
+	
+
+	int selectBeforeBidId(Map<String, Object> map); //이전 입찰 아이디를 가져오는 mapper
+	int selectUserPoint(Map<String, Object> map); //포인트를 가져오는 mapper
+	int selectBeforeBidPrice(Map<String, Object> map); //입찰id를 가져오는 테이블
 
 }

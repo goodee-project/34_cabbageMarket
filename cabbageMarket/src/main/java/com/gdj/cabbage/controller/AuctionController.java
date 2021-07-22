@@ -109,8 +109,11 @@ public class AuctionController {
 	@GetMapping("getAuctionOne")
 	public String getDirectTradeOne(Model model
 			,@RequestParam(value="applyId") int applyId
-			,@RequestParam(value="cnt",  defaultValue = "-1") int cnt) {
+			,@RequestParam(value="cnt", defaultValue = "1") int cnt
+			,@RequestParam(value="ablePoint", defaultValue = "1" ) int ablePoint) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+cnt+"<--cnt");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+ablePoint+"<--ablePoint");
 			
 		// 상품 상세정보 + 이미지들 불러오기
 		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
@@ -119,13 +122,14 @@ public class AuctionController {
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
 		model.addAttribute("cnt", cnt);
+		model.addAttribute("ablePoint", ablePoint);
 		
 		return "auction/getAuctionOne";
 	}
 	
 	// 경매상품 입찰
 	@PostMapping("addBid")
-	public String getDirectTradeOne(Model model
+	public String getAuctionOne(Model model
 			,HttpSession session
 			,@RequestParam(value="applyId") int applyId
 			,@RequestParam(value="newPrice") int newPrice) {
@@ -140,12 +144,13 @@ public class AuctionController {
 		map.put("applyId", applyId);
 		map.put("newPrice", newPrice);
 		map.put("userId", userId);
+		log.debug(Debuging.DEBUG+"1 view에서 넘겨줄 map 확인:"+map.toString());		
+
+		int ablePoint = auctionService.confirmBeforeBid(map);
+		log.debug(Debuging.DEBUG+"5 service에서 받은 ablePoint 확인 : "+ablePoint);
 		
-		// 상품 상세정보 + 이미지들 불러오기
-		int cnt = auctionService.addBid(map);
+		model.addAttribute("ablePoint", ablePoint);
 		
-		model.addAttribute("cnt", cnt);
-		
-		return "auction/getAuctionOne?applyId="+applyId;
+		return "redirect:/users/getAuctionOne?applyId="+applyId;
 		}
 }

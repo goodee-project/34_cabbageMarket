@@ -97,8 +97,6 @@ public class AuctionService {
 		return resultMap;
 	}
 
-	// 상품 판매 배송 신청 리스트에서 선택해서 넘어오는 서비스 : addAuction? 이걸로 addUsedProduct 랑 updateAuction/usedProdect도 될것같은데.. 
-	// 아 생각대로 할려면 ajax으로 해야하는데요? 우선 만들게...게요?
 	public Map<String, Object> getApplyOne(int applyId) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
@@ -118,31 +116,39 @@ public class AuctionService {
 		}
 		return cnt;
 	}
-	public int addBid(Map<String, Object> map) {
-		int cnt = 0;
+	public int confirmBeforeBid(Map<String, Object> map) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
-
-		Map<String, Object> beforeBid = auctionMapper.selectBeforeBid(map);		//이전 입찰자 찾는 mapper
-		log.debug(Debuging.DEBUG+"4 mapper에서 온 beforeBid 확인: "+ beforeBid.toString());
 		
-		if ( ((int)beforeBid.get("userId")) == ((int)map.get("userId")) ) {
-			cnt = 210720;
-		} else {
-			cnt= 1;
-			cnt = auctionMapper.insertBidPointMinusHistory(beforeBid);
+		int ablePoint = 0;
+		
+		int userPoint = auctionMapper.selectUserPoint(map); //현재 포인트 확인
+		log.debug(Debuging.DEBUG+"4 mapper에서 온 userPoint 확인:"+userPoint);
+		ablePoint = (int)map.get("newPrice") - userPoint; // 지금 포인트로 살수 있는지 계산
+
+		int BeforBidcnt = auctionMapper.selectBeforeBidId(map); //아이디로 입찰한적 잇는지 확인
+		
+		if(BeforBidcnt == 0) // 이 아이디로 입찰한적이 없다면,
+		{
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidId가 null = 입찰한적 없음");
+			//없으면, 계산값출력
+		} else { // 이 아이디로 입찰한적이 있다면,
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidcnt가"+BeforBidcnt+"= 입찰했음");
+			int beforeBidPrice = auctionMapper.selectBeforeBidPrice(map);	//이전 입찰정보를 찾는 mapper
 			
-			
-			cnt = + auctionMapper.insertBidding(map);
-			log.debug(Debuging.DEBUG+"4 insertBidHistory mapper에서 온 cnt 확인: "+ cnt);
-			
-			int newBidId = auctionMapper.selectNewBidId(map);
-			log.debug(Debuging.DEBUG+"4 selectBidId mapper에서 온 newBidId 확인: "+ newBidId);
-			map.put("newBidId", newBidId);
-			cnt = + auctionMapper.insertBidPointPlusHistory(map);
-			log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt 확인: "+ cnt);
+			ablePoint = - beforeBidPrice;// 입찰한 값을 줄어준다. 
 		}
-		return cnt;
+
+		log.debug(Debuging.DEBUG+"값 계산 음수,0 가능, 양수 불가.:"+ablePoint);
+		
+		return ablePoint;
+	}
+	
+	public int modifyPcrActuon() {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+"없음");
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ "없음");
+		
+		return 0;
 	}
 
 }
