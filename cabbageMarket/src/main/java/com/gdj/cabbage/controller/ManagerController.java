@@ -25,6 +25,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+
+	// 관리자 상세보기
+	@GetMapping("/manager/getDeliveryProductInfo")
+	public String getDeliveryProductInfo(Model model, @RequestParam(value="applyProductSalesDeliveryId", required=true) int applyProductSalesDeliveryId) {
+		
+		Map<String, Object> productInfo = managerService.getDeliveryProductInfo(applyProductSalesDeliveryId);
+		log.debug(Debuging.DEBUG+" productInfo : " + productInfo.toString());
+		
+		model.addAttribute("productInfo", productInfo);
+		
+		return "/manager/getDeliveryProductInfo";
+	}
 	
 	// 관리자 인덱스
 	@GetMapping("/manager/managerIndex")

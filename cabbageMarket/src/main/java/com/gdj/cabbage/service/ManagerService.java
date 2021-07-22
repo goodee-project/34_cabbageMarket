@@ -23,6 +23,14 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 배송상품 상세보기
+	public Map<String, Object> getDeliveryProductInfo(int applyProductSalesDeliveryId) {
+		
+		Map<String, Object> productInfoMap = managerMapper.selectDeliveryProductInfo(applyProductSalesDeliveryId);
+		
+		return productInfoMap;
+	}
+
 	// 오늘 회원
 	public int getTodayUsers(){
 		

@@ -3,6 +3,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 배송상품 상세보기 -->
+
+<select id="selectDeliveryProductInfo"
+		resultType="map"
+		parameterType="Integer">
+
+	SELECT
+			apsd.user_id userId,
+			img_name imgName,
+			cs.category_sub_name categorySubName,
+			apsd.apply_product_sales_delivery_id apsdi,
+			apsd.product_name productName,
+			apsd.waybill_number waybillNo,
+			apsd.delivery_requests request,
+			apsd.return_address adress,
+			apsd.create_date createDate
+			
+		FROM
+			apply_product_sales_delivery apsd
+			LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
+		  	LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
+			
+		WHERE
+			apsd.apply_product_sales_delivery_id
+			
+		NOT IN
+			(SELECT
+				apply_product_sales_delivery_id
+			FROM
+				product_confirmation_registration
+			
+			)
+			
+		GROUP BY
+			apsd.product_name
+		
+		ORDER BY
+			apsd.create_date DESC
+		
+
+</select>
+
 <!-- 오늘 회원등록 수 -->
 
 <select id="selectTodayUsers"
