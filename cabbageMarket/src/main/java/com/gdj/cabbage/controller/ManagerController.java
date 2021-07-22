@@ -26,11 +26,11 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 
-	// 관리자 상세보기
+	// 배송상품 상세보기
 	@GetMapping("/manager/getDeliveryProductInfo")
-	public String getDeliveryProductInfo(Model model, @RequestParam(value="applyProductSalesDeliveryId", required=true) int applyProductSalesDeliveryId) {
+	public String getDeliveryProductInfo(Model model, @RequestParam(value="apsdi", required=true) Integer apsdi) {
 		
-		Map<String, Object> productInfo = managerService.getDeliveryProductInfo(applyProductSalesDeliveryId);
+		Map<String, Object> productInfo = managerService.getDeliveryProductInfo(apsdi);
 		log.debug(Debuging.DEBUG+" productInfo : " + productInfo.toString());
 		
 		model.addAttribute("productInfo", productInfo);

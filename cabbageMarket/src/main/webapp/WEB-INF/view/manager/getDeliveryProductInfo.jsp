@@ -307,55 +307,60 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">매니저 정보</h1>
-                    <p class="mb-4">매니저 정보 수정을 하시려면 <strong>수정버턴</strong>을 클릭하세요.<br>
-                    <small>※ 레벨이 0인 매니저는 퇴사한 매니저입니다.</small></p>
+                    <h1 class="h3 mb-2 text-gray-800">배송상품 정보</h1>
+                    <p class="mb-4">상품등록을 가능하게 하시려면, <strong>검수완료</strong> 버턴을 클릭하세요.<br>
+                    <small>※ 정확한 검수 후 승인 바랍니다.</small></p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary"><strong>${managerInfo.managerName}님의 정보</strong></h5>
+                            <h5 class="m-0 font-weight-bold text-primary"><strong>${productInfo.productName}의 상세정보</strong></h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 										<tbody>
 											<tr>
-												<td>아이디 :</td>
-												<td>${managerInfo.managerId}</td>
+												<td>유저 아이디 :</td>
+												<td>${productInfo.userId}</td>
 											</tr>
 											<tr>
-												<td>이름 :</td>
-												<td>${managerInfo.managerName}</td>
+												<td>제품 사진 :</td>
+												<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productInfo.imgName}" width="250px" height="160px"></td>
 											</tr>
 											<tr>
-												<td>닉네임 :</td>
-												<td>${managerInfo.managerNickname}</td>
+												<td>배송 등록 번호 :</td>
+												<td>${productInfo.apsdi}</td>
 											</tr>
 											<tr>
-												<td>주소 :</td>
-												<td>${managerInfo.managerAddress}</td>
+												<td>제품 이름 :</td>
+												<td>${productInfo.productName}</td>
 											</tr>
 											<tr>
-												<td>전화번호 :</td>
-												<td>${managerInfo.managerPhoneNumber}</td>
+												<td>운송장 번호 :</td>
+												<td>${productInfo.waybillNo}</td>
 											</tr>
 											<tr>
-												<td>레벨 :</td>
-												<td>${managerInfo.managerLevel}</td>
+												<td>반품시 요청사항 :</td>
+												<td>${productInfo.request}</td>
 											</tr>
 											<tr>
-												<td>입사 날짜 :</td>
-												<td>${managerInfo.createDate}</td>
+												<td>반품 주소 :</td>
+												<td>${productInfo.adress}</td>
+											</tr>
+											<tr>
+												<td>등록 날짜 :</td>
+												<td>${productInfo.createDate}</td>
 											</tr>
 										</tbody>
 									</table>
 								
-									<a href="${pageContext.request.contextPath}/manager/modifyManager?managerId=${managerInfo.managerId}" class="btn btn-warning btn-icon-split btn-lg">
+									<div class="my-2"></div>
+                                    <a href="#" class="btn btn-success btn-icon-split">
                                         <span class="icon text-white-50">
-                                            <i class="fas fa-exclamation-triangle"></i>
+                                            <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text">정보 수정</span>
+                                        <span class="text">등록 승인</span>
                                     </a>
                                     
                             </div>

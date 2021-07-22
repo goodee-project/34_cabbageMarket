@@ -13,7 +13,7 @@ import com.gdj.cabbage.vo.Page;
 public interface ManagerMapper {
 	
 	// 배송상품 상세보기
-	Map<String, Object> selectDeliveryProductInfo(int applyProductSalesDeliveryId);
+	Map<String, Object> selectDeliveryProductInfo(Integer apsdi);
 	// 오늘 회원
 	int selectTodayUsers();
 	// 오늘 직거래

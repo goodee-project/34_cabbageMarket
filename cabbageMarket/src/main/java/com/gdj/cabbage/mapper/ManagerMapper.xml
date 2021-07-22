@@ -10,6 +10,18 @@
 		parameterType="Integer">
 
 	SELECT
+			userId,
+			imgName,
+			categorySubName,
+			apsdi,
+			productName,
+			waybillNo,
+			request,
+			adress,
+			createDate
+	FROM
+
+		(SELECT
 			apsd.user_id userId,
 			img_name imgName,
 			cs.category_sub_name categorySubName,
@@ -37,12 +49,10 @@
 			)
 			
 		GROUP BY
-			apsd.product_name
-		
-		ORDER BY
-			apsd.create_date DESC
-		
-
+			apsd.product_name) dpl
+			
+			WHERE apsdi = #{apsdi}
+			
 </select>
 
 <!-- 오늘 회원등록 수 -->
@@ -160,8 +170,8 @@
 			img_name imgName,
 			cs.category_sub_name categorySubName,
 			apsd.product_name productName,
-			apsd.waybill_number waybillNo
-			
+			apsd.waybill_number waybillNo,
+			apsd.apply_product_sales_delivery_id apsdi
 		FROM
 			apply_product_sales_delivery apsd
 			LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
