@@ -37,4 +37,8 @@ public interface AuctionMapper {
 	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 테이블
 	int insertBidPointMinusHistory(Map<String, Object> map); //포인트 사용을 반환하는 테이블
 
+	int selectBeforeBidCnt(Map<String, Object> map); //이전 입찰 갯수를 가져오는 mapper
+
+	int selectBeforeBidId(Map<String, Object> map); //이전 입찰 아이디를 가져오는 mapper
+
 }
