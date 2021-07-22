@@ -29,7 +29,7 @@
 		</where>
 		GROUP BY productName 
 		<choose>
-	    <when test="sortBy == 1">ORDER BY uprproduct_price, img.img_name </when>
+	    <when test="sortBy == 1">ORDER BY upr.product_price, img.img_name </when>
 	    <when test="sortBy == 2">ORDER BY upr.product_price DESC, img.img_name </when>
 	    <otherwise>ORDER BY upr.create_date DESC, img.img_name</otherwise>
 	 	</choose>

@@ -21,18 +21,18 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/managerTemplete/css/sb-admin-2.min.css" rel="stylesheet">
-
-<script>
-	$(document).ready(function() {
-		console.log("document ready!");
-		$('#btn').click(function() {
-			console.log("btn click!");
-
-			// 폼 유효성 검사
-			$('#modifyForm').submit();
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			console.log("document ready!");
+			$('#btn').click(function() {
+				console.log("btn click!");
+	
+				// 폼 유효성 검사
+				$('#modifyForm').submit();
+			});
 		});
-	});
-</script>
+	</script>
 
 </head>
 
@@ -311,8 +311,6 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
                     
                       <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -329,7 +327,9 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            
                             <form id="modifyForm" action="${pageContext.request.contextPath}/manager/modifyManager" method="post">
+                            
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 											<tbody>
 												<tr>
@@ -346,19 +346,19 @@
 													<td>닉네임 :</td>
 													<td><input type="text" id="managerNickname"
 														name="managerNickname"
-														value="${modifyManagerOne.managerNickname}"></td>
+														value="${modifyManagerOne.managerNickname}" class="form-control"></td>
 												</tr>
 												<tr>
 													<td>주소 :</td>
 													<td><input type="text" id="managerAddress"
 														name="managerAddress"
-														value="${modifyManagerOne.managerAddress}"></td>
+														value="${modifyManagerOne.managerAddress}" class="form-control"></td>
 												</tr>
 												<tr>
 													<td>전화번호 :</td>
 													<td><input type="text" id="managerPhoneNumber"
 														name="managerPhoneNumber"
-														value="${modifyManagerOne.managerPhoneNumber}"></td>
+														value="${modifyManagerOne.managerPhoneNumber}" class="form-control"></td>
 												</tr>
 												<tr>
 													<td>레벨 :</td>
@@ -377,12 +377,13 @@
 											</tbody>
 										</table>
 							
-									<a type="button" id="btn" class="btn btn-primary btn-icon-split btn-lg">
+									<button id="btn" type="button" class="btn btn-primary btn-icon-split btn-lg">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
                                         <span class="text">수정 완료</span>
-                                    </a>
+                                    </button>
+                                    
                             	</form>
                             </div>
                         </div>

@@ -1,305 +1,425 @@
-<!-- 작성자 : 김태훈 -->
-<!-- 수정 : 강혜란 210712 http://localhost/cabbageMarket/users/getApplyProductSalesDeliveryList?userId=3 -->
+<!-- 작성자 : 백영재 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>배추마켓</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <title>배추마켓 - 배송 상품 관리</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="${pageContext.request.contextPath}/managerTemplete/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/managerTemplete/css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
 
-<body>
-	<!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">배 추 마 켓 <sup>M</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/managerIndex">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>홈 으 로</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                관리 MENU
+            </div>
+			
+			<!--  -->
+			
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/getManagerList">
+                    <i class="fas fa-fw fa-users-cog"></i>
+                    <span>매니저 관리</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/getDeliveryProductList">
+                    <i class="fas fa-fw fa-tv"></i>
+                    <span>배송 상품 관리</span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/getAllUsersByManager">
+                    <i class="fas fa-fw fa-user-friends"></i>
+                    <span>회원 관리</span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/manageSales">
+                    <i class="fas fa-fw fa-clipboard-list"></i>
+                    <span>판매 관리</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="${pageContext.request.contextPath}/managerTemplete/img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2">저희 <strong>배추마켓</strong>은 고객님들의 안전한 배송을 추구합니다.</p>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-green topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                   
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> McGee</span>
+                                <img class="img-profile rounded-circle"
+                                    src="${pageContext.request.contextPath}/managerTemplete/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    
+                      <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">배송 상품 관리</h1>
+                    <p class="mb-4">상세 정보를 원하시면 매니저 <strong>상품 사진</strong>을 클릭하세요.<br>
+                    <small>※ 정확한 제품 검수 부탁드립니다.</small></p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">배송요청된 상품 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                            
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+
+											<th>회원 아이디</th>
+											<th>상품 사진</th>
+											<th>품목 종류</th>
+											<th>상품 이름</th>
+											<th>운송장 번호</th>
+											<th>등록 승인 해주기</th>
+
+										</tr>
+									</thead>
+									
+									<tbody>
+										<c:forEach var="gdpl" items="${getDeliveryProductList}">
+										
+											<tr>
+												<td>${gdpl.userId}#</td>
+												<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gdpl.imgName}" width="250px" height="160px"></td>
+												<td>${gdpl.categorySubName}#</td>
+												<td>${gdpl.productName}#</td>
+												<td>${gdpl.waybillNo}#</td>
+													<td><a href="#" class="btn btn-success btn-icon-split">
+															<span class="icon text-white-25"> <i
+																class="fas fa-check"></i>
+														</span> <span class="text">등록 승인</span>
+													</a></td>
+												</tr>
+											
+										</c:forEach>
+									</tbody>
+								</table>
+									
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; GooDee 34th _Team CABBAGE_ 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Humberger Begin -->
-    <jsp:include page="/WEB-INF/view/header.jsp"/>
-	<!-- Humberger End -->
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/managerTemplete/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/managerTemplete/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="${pageContext.request.contextPath}/template/img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>배송확인 리스트</h2>
-                        <div class="breadcrumb__option">
-                            <a href="${pageContext.request.contextPath}/index">Home</a>
-                            <span>Cabbage Market</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    <!-- Core plugin JavaScript-->
+    <script src="${pageContext.request.contextPath}/managerTemplete/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Product Section Begin -->
-    <section class="product spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-5">
-                    <div class="sidebar">
-                        <div class="sidebar__item">
-                            <h4>Department</h4>
-                            <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                            </ul>
-                        </div>
-                        <div class="sidebar__item">
-                            <h4>Price</h4>
-                            <div class="price-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="10" data-max="540">
-                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                </div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar__item sidebar__item__color--option">
-                            <h4>Colors</h4>
-                            <div class="sidebar__item__color sidebar__item__color--white">
-                                <label for="white">
-                                    White
-                                    <input type="radio" id="white">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--gray">
-                                <label for="gray">
-                                    Gray
-                                    <input type="radio" id="gray">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--red">
-                                <label for="red">
-                                    Red
-                                    <input type="radio" id="red">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--black">
-                                <label for="black">
-                                    Black
-                                    <input type="radio" id="black">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--blue">
-                                <label for="blue">
-                                    Blue
-                                    <input type="radio" id="blue">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--green">
-                                <label for="green">
-                                    Green
-                                    <input type="radio" id="green">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                
-                <div class="col-lg-9 col-md-7">
+    <!-- Custom scripts for all pages-->
+    <script src="${pageContext.request.contextPath}/managerTemplete/js/sb-admin-2.min.js"></script>
 
-                    <div class="filter__item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-5">
-                                <div class="filter__sort">
-                                    <span>Sort By</span>
-                                    <select>
-                                        <option value="0">최근 등록순</option>
-                                        <option value="0">마감 임박순</option>
-                                        <option value="0">금액 고가순</option>
-                                        <option value="0">금액 저가순</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <div class="filter__found">
-                                    <h6>총<span>${lastPage}</span>개 상품</h6>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-3">
-                                <div class="filter__option">
-                                    <span class="icon_grid-2x2"></span>
-                                    <span class="icon_ul"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Shoping Cart Section Begin -->
-				    <section class="shoping-cart spad">
-				        <div class="container">
-				            <div class="row">
-				                <div class="col-lg-12">
-				                    <div class="shoping__cart__table">
-				                        <table>
-				                            <thead>
-				                                <tr>
-				                                	<th>#</th>
-				                                    <th colspan="3" class="shoping__product">Products</th>
-				                                    <th colspan="2">등록</th>
-				                                    <th>환송</th>
-				                                </tr>
-				                            </thead>
-				                            
-				                            <tbody>
-				                            	<c:forEach var="gdpl" items="${getDeliveryProductList}">
-				                                <tr>
-				                                	<td>
-				                                		${gdpl.userId}#
-				                                	</td>
-				                                	<td>
-				                                		${gdpl.csi}#
-				                                	</td>
-				                                	<td>
-				                                		${gdpl.productName}#
-				                                	</td>
-				                                	<td>
-				                                		${gdpl.address}#
-				                                	</td>
-				                                	<td>
-				                                		${gdpl.waybillNo}#
-				                                	</td>
-				                                	<td>
-				                                		${gdpl.delReq}#
-				                                	</td>
-				                                    
-				                                    <td class="shoping__cart__item__close">
-				                                        <span class="icon_refresh"></span>
-				                                    </td>
-				                                </tr>
-				                                </c:forEach>
-				                            </tbody>
-				                        </table>
-				                    </div>
-				                </div>
-				            </div>
-				            <div class="row">
-				                <div class="col-lg-12">
-				                    <div class="shoping__cart__btns">
-				                        <a href="${pageContext.request.contextPath}/users/addApplyProductSalesDelivery" class="primary-btn cart-btn">추가로 안전거래 신청</a>
-				                    </div>
-				                </div>
-				                
-				               
-				            </div>
-				        </div>
-				    </section>
-				    <!-- Shoping Cart Section End -->
-                    
-               
-                    <!-- 페이징 -->
-                    <div class="product__pagination">
-                    	
-                    	<c:if test="${currentPage > 1}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage-1}&searchWord=${searchWord}">
-				            	<i class="fa fa-long-arrow-left"></i>
-				            </a>
-				        </c:if>
-				        
-				        <c:forEach var="i" begin="1" end="10">
-							<c:if test="${(pageSet*10)+i < lastPage+1}">
-					            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${(pageSet*10)+i}">
-									${(pageSet*10)+i}
-								</a>
-							</c:if>
-						</c:forEach>
-		
-				        <c:if test="${currentPage < lastPage}">
-				            <a href="${pageContext.request.contextPath}/users/getDirectTradeList?currentPage=${currentPage+1}&searchWord=${searchWord}">
-				            	<i class="fa fa-long-arrow-right"></i>
-				            </a>
-				        </c:if>
+    <!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/managerTemplete/vendor/chart.js/Chart.min.js"></script>
 
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Product Section End -->
-
-    <!-- Footer Section Begin -->
-	<jsp:include page="/WEB-INF/view/footer.jsp"/>
-    <!-- Footer Section End -->
-
-    <!-- Js Plugins -->
-    <script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-
-
+    <!-- Page level custom scripts -->
+    <script src="${pageContext.request.contextPath}/managerTemplete/js/demo/chart-area-demo.js"></script>
+    <script src="${pageContext.request.contextPath}/managerTemplete/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

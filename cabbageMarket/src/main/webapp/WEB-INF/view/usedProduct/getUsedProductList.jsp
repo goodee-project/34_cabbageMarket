@@ -184,8 +184,9 @@
                    		<div class="col-lg-4 col-md-4">
                         	<div class="filter__sort">
                             	<form id="sortByForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" style="display:inline;">
-                             		<input type="hidden" name="categoryMainId" value="${categoryMainId}">
-                              		<select id="sortBy" name="sortBy">
+                             		<input type="hidden" name="searchWord" value="${searchWord}">
+	                                <input type="hidden" name="categoryMainId" value="${categoryMainId}">
+                              		<select id="sortBy" name="sortBy" >
 		                              	<c:if test="${sortBy == 0}">
 		                              		<option value="0" selected="selected">최근등록순</option>
 		                              	</c:if>
@@ -250,19 +251,19 @@
                     <!-- 페이징 -->
                     <div class="product__pagination" style="text-align: center;">
                     	<c:if test="${currentPage > 1}">
-				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}">
+				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
 				            	<i class="fa fa-long-arrow-left"></i>
 				            </a>
 				        </c:if>
  						<c:forEach var="i" begin="1" end="10">
 							<c:if test="${(pageSet*10)+i < lastPage+1}">
-					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${(pageSet*10)+i}">
+					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
 									${(pageSet*10)+i}
 								</a>
 							</c:if>
 						</c:forEach>
 				        <c:if test="${currentPage < lastPage}">
-				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage+1}&searchWord=${searchWord}">
+				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
