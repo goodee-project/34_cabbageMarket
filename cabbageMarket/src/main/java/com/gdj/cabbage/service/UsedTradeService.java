@@ -47,6 +47,11 @@ public class UsedTradeService {
 		return usedTradeMapper.selectUsedProductImg(applyProductSalesDeliveryId);
 	}
 	
+	//관련된 중고상품 목록
+	public List<Map<String, Object>> getRelatedUsedProduct(int categoryMiddleId){
+		return usedTradeMapper.selectRelatedUsedProduct(categoryMiddleId);
+	}
+	
 	//중고상품 등록
 	public void addUsedProduct(UsedProductRegistration usedProductRegistration, ProductConfirmationRegistration productConfirmationRegistration) {
 		usedTradeMapper.insertUsedProduct(usedProductRegistration); //중고상품 등록
@@ -64,7 +69,7 @@ public class UsedTradeService {
 		return usedTradeMapper.selectUsedProductOneForBuy(applyId);
 	}
 	
-	//중고상품 구매
+	//중고상품 구매 (1 ~ 5)
 	public void buyUsedProduct(Map<String, Object> map) { 
 		
 		//1.구매한 중고상품 
@@ -88,11 +93,14 @@ public class UsedTradeService {
 		
 		//3.판매자의 중고상품 수수료
 		usedTradeMapper.insertCommissionsPoint((int)map.get("applyProductSalesDeliveryId"), commissionPoint);
+		
 		//4.상품 배송정보
 		usedTradeMapper.insertProductDeliveryInfo(map);
+		
 		//5.상품등록상태 변경 
 		usedTradeMapper.updateRegistrationState((int)map.get("applyProductSalesDeliveryId"));
-		//6.판매된 중고상품 삭제
+		
+		//6.판매된 중고상품 삭제 -> 처리 불가로 주석처리함.
 		//usedTradeMapper.deleteSoldUsedProduct((int)map.get("applyProductSalesDeliveryId"));
 		
 	}

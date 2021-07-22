@@ -119,8 +119,8 @@
     	});
 		
 		// 폼 전송 유효성 검사
-		$('#summitBtn').click(function() {
-			console.log("summitBtn click!");
+		$('#btn').click(function() {
+			console.log("btn click!");
 
 			if ($('#productDesc').val() == '') {
 				alert("상품 설명을 입력하세요");
@@ -204,9 +204,9 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
-				<!-- 등록 버튼 -->
+				<!-- 수정 버튼 -->
 				<div class="col-lg-12" style="text-align: right;">
-					<button id="summitBtn" class="summitBtn" type="button">수정</button>
+					<button id="btn" type="button" class="btn btn-success">수정</button>
 				</div>
 			</div>
 		</form>
