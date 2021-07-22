@@ -95,10 +95,10 @@ public class UsersController {
 	
 	// 경매 상품 삭제 컨트롤러
 	@PostMapping("/users/removeAuctionProduct")
-	public String removeAuctionProduct(int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliverId : "+applyProductSalesDeliveryId);// 디버깅 코드
+	public String removeAuctionProduct(int applyId) {
+		log.debug(Debuging.DEBUG+" applyId : "+applyId);// 디버깅 코드
 		
-		int row = usersService.deleteAuctionProduct(applyProductSalesDeliveryId);// 삭제가 성공하면 1 실패는 0
+		int row = usersService.deleteAuctionProduct(applyId);// 삭제가 성공하면 1 실패는 0
 		log.debug(Debuging.DEBUG+" 경매등록 상품 삭제 성공 여부 : "+row);// 디버깅 코드
 		
 		return "redirect:/users/registedProduct";// 컨트롤러 수행 후 등록상품으로 이동

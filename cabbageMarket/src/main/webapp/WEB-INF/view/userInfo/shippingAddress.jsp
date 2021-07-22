@@ -52,15 +52,20 @@
 				}
 			});
 			
-			for (var i = 1; i <=5; i++) {
+			let i=1;
+			for(i=1; i<=5; i++){
+				delClick(i);
+			};
+			
+			function delClick(i){
 				$('#delAddressBtn'+i).click(function(){
 					val=confirm('삭제 하시겠습니까?');
-					if(val){
-						console.log('실행');
+					if(val){						
 						$('#delAddressForm'+i).submit();
 					}
 				});
 			};
+			
 			
 			
 			
