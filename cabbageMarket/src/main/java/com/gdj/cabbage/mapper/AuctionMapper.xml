@@ -35,22 +35,25 @@
 		SELECT 
 			apr.apply_product_sales_delivery_id applyId
 			,username userName
-			,manager_name managerName
 			,category_sub_name categorySubName
 			,product_name productName
-			,product_desc productDesc
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price, bap.bid_price+quote) newPrice
+			,count(bap.apply_product_sales_delivery_id) count
+			,product_desc productDesc
+			,min_bid_price minPrice
+			,quote
 			,registration_state registrationState
-		FROM bidding_auction_product bap 
-			inner join auction_product_registration apr ON bap.apply_product_sales_delivery_id = apr.apply_product_sales_delivery_id
-			LEFT JOIN product_confirmation_registration pcr ON apr.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
-			LEFT JOIN manager ON pcr.manager_id = manager.manager_id
-			LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
-			LEFT JOIN users ON apsd.user_id = users.user_id
-			LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
-		WHERE bap.apply_product_sales_delivery_id = ${applId}
-		ORDER BY bap.create_date DESC
+			,pcr.create_date createDate
+		FROM auction_product_registration apr
+				LEFT JOIN product_confirmation_registration pcr ON apr.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
+				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+				LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+				LEFT JOIN manager ON pcr.manager_id = manager.manager_id
+				LEFT JOIN users ON apsd.user_id = users.user_id
+				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
+		WHERE apr.apply_product_sales_delivery_id = #{applyId}
+		GROUP BY apr.apply_product_sales_delivery_id
 		LIMIT 1
 	</select>
 	
@@ -144,6 +147,47 @@
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
+	<select id="selectBeforeBidId" parameterType="map" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			bidding_auction_product bap
+		WHERE
+			bap.user_id = #{userId}
+	</select>
+	<select id="selectUserPoint" parameterType="map" resultType="int">
+		SELECT
+			utp.point point
+		FROM
+			users u 
+			LEFT JOIN users_total_point utp ON u.user_id=utp.userId 
+		WHERE
+			u.user_id=#{userId}
+	</select>
+	<select id="selectBeforeBidPrice" parameterType="map" resultType="int">
+		SELECT
+			bid_price price
+		FROM
+			bidding_auction_product
+		WHERE
+			user_id=#{userId}
+		ORDER BY create_date DESC
+	</select>
+	
+	
+	<select id="selectBeforeBid" parameterType="map" resultType="map">
+		SELECT
+			bidding_auction_product_id bidId
+			,bid_price price
+			,user_id userId
+		FROM
+			bidding_auction_product
+		WHERE
+			apply_product_sales_delivery_id = #{applyId}
+		ORDER BY create_date DESC
+	</select>
+	
+	
 	<insert id="insertBidding" parameterType="map">
 		INSERT INTO bidding_auction_product(
 			apply_product_sales_delivery_id
@@ -159,15 +203,6 @@
 			)
 	</insert>
 	
-	<select id="selectBeforeBidId" parameterType="map" resultType="int">
-		SELECT
-			bidding_auction_product_id bidId
-		FROM
-			bidding_auction_product bap
-		WHERE
-			bap.user_id = #{userId}
-	</select>
-	
 	<select id="selectBeforeBidCnt" parameterType="map" resultType="int">
 		SELECT
 			count(*)
@@ -178,18 +213,7 @@
 		ORDER BY create_date DESC
 	</select>
 	
-	<select id="selectBeforeBid" parameterType="map" resultType="map">
-		SELECT
-			bidding_auction_product_id bidId
-			,bid_price price
-			,user_id userId
-		FROM
-			bidding_auction_product
-		WHERE
-			apply_product_sales_delivery_id = #{applyId}
-		ORDER BY create_date DESC
-		LIMIT 1
-	</select>
+
 	
 	<insert id="insertBidPointMinusHistory" parameterType="map">
 		INSERT INTO bidding_points_using_history(

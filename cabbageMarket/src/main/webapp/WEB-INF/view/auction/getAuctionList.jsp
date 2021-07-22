@@ -27,6 +27,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+
+    <!-- ajax 사용 -->   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"> <!-- 유효성 검사 -->
+    $(document).ready(function() {
+    	console.log('이동 가능');
+    	$(document).on('click', '#nameBtn', function(){
+    		console.log('이동 클릭');
+    		$('#getAuctionOneForm').submit();
+    	})
+    });
+    </script>
 </head>
 
 <body>
@@ -199,8 +211,12 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <h5><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${al.applyId}">${al.productName}</a></h5>
+                                            <h5><a id="nameBtn">${al.productName}</a></h5>
+                                            <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
+                                            	<input type="hidden" name="applyId" value="${al.applyId }"/>
+                                            </form>
                                             <div class="product__item__price"> ${al.price}</div>
+                                            
                                         </div>
                                     </div>
                                 </div>

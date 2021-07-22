@@ -31,43 +31,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
-    	console.log( ${productDetail.newPrice-usersSession.get("point")} );
-		var minus = ${productDetail.newPrice-usersSession.get("point")}; //계산
-		if(minus > 0){  ///newPrice가 point보다 커서, minus가 양수면 포인트 부족.
-			if(confirm( minus+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
+    	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
+
+		if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
+			if(confirm( ${ablePoint}+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
 				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
 				return false;
 			} else {
-				alert("입찰불가 : "+ minus+ "포인트 부족");
+				alert("입찰불가 : "+ ${ablePoint}+ "포인트 부족");
 				return false;
-		} else { ///minus가 계산이 음수면 입찰가능
-    			var plus = ${usersSession.get("point")-productDetail.newPrice};
-    			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 다음 입찰자가 있을때 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
+		} else { ///ablePoint가 계산이 음수거나 0이면 입찰가능
+    			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
     				$('#addNewBidForm').submit();
     			} else {
     				alert("입찰취소");
     				return false;
     			}
         }
-		if ( ${cnt} == 210720 ){
-			alert("동일한 입찰인이라서 입찰실패")
-			
-		}
-		else if ( ${cnt} > 0){
-			if ( confirm("입찰성공: 현재 포인트="+ ${usersSession.get("point")}+"\n 입찰내역으로 이동하시겠습니까?" )) {
-				location.href= "${pageContext.request.contextPath}/users/biddingList"; //입찰내용으로 이동
-			}
-		} else if (  ${cnt} == 0) {
-			alert("알수없는 이유로 입찰실패")
-		}
     	
     	console.log('호가 가능');
     	$(document).on('click', '#callQuote', function(){
     		console.log('호가 클릭');
     		if (usersSession.get("userId") != ${productDetail.userId}) { //판매자가 아니면,
-        		
-	    			
-	    		
+    			$('#addNewBidForm').submit();
     		}else { //판매자가 맞으면
     			alert("판매자는 입찰블가");
 				return false;
