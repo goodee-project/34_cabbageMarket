@@ -39,24 +39,25 @@
 	</style>
 	<script>
 		$('#document').ready(function(){
-			$('.delDirectBtn').click(function(){
-				
+			$('.delDirectBtn').click(function(){				
 				var index = $('.delDirectBtn').index(this);
 				val=confirm('취소 하시겠습니까?');
 				if(val){
 					$('.delDirectForm').eq(index).submit();
 				}
 			});
-			$('#delUsedBtn').click(function(){
+			$('.delUsedBtn').click(function(){				
+				var index = $('.delUsedBtn').index(this);
 				val=confirm('취소 하시겠습니까?');
 				if(val){
-					$('#delUsedForm').submit();
+					$('.delUsedForm').eq(index).submit();
 				}
 			});
-			$('#delAuctionBtn').click(function(){
+			$('.delAuctionBtn').click(function(){				
+				var index = $('.delAuctionBtn').index(this);
 				val=confirm('취소 하시겠습니까?');
 				if(val){
-					$('#delAuctionForm').submit();
+					$('.delAuctionForm').eq(index).submit();
 				}
 			});
 			
@@ -288,9 +289,9 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<form method="post" id="delUsedForm" action="${pageContext.request.contextPath}/users/removeUsedProduct">
+					                                    	<form method="post" class="delUsedForm" action="${pageContext.request.contextPath}/users/removeUsedProduct">
 					                                    		<input type="hidden" name="applyId" value="${gupl.applyProductSalesDeliveryId}">
-					                                    		<button type="button" id="delUsedBtn" class="btn btn-success">취소</button>
+					                                    		<button type="button" id="delUsedBtn" class="btn btn-success delUsedBtn">취소</button>
 					                                    	</form>	  				                                    	
 					                                    </td>
 					                                </tr>
@@ -363,9 +364,9 @@
 					                                    	</a>
 					                                    </td>
 					                                    <td>
-					                                    	<form method="post" id="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
-					                                    		<input type="hidden" name="applyId" value="${gupl.applyProductSalesDeliveryId}">
-					                                    		<button type="button" id="delAuctionBtn" class="btn btn-success">취소</button>
+					                                    	<form method="post" class="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
+					                                    		<input type="hidden" name="applyId" value="${gapl.applyProductSalesDeliveryId}">
+					                                    		<button type="button" class="btn btn-success delAuctionBtn">취소</button>
 					                                    	</form>	 
 					                                    </td>
 					                                </tr>

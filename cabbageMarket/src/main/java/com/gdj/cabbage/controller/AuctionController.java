@@ -125,7 +125,7 @@ public class AuctionController {
 	
 	// 경매상품 입찰
 	@PostMapping("addBid")
-	public String getDirectTradeOne(Model model
+	public String getAuctionOne(Model model
 			,HttpSession session
 			,@RequestParam(value="applyId") int applyId
 			,@RequestParam(value="newPrice") int newPrice) {
@@ -140,12 +140,12 @@ public class AuctionController {
 		map.put("applyId", applyId);
 		map.put("newPrice", newPrice);
 		map.put("userId", userId);
-		
+		log.debug(Debuging.DEBUG+"1 view에서 넘겨줄 map 확인:"+map.toString());		
 		// 상품 상세정보 + 이미지들 불러오기
 		int cnt = auctionService.addBid(map);
 		
 		model.addAttribute("cnt", cnt);
 		
-		return "auction/getAuctionOne?applyId="+applyId;
+		return "redirect:/users/getAuctionOne?applyId="+applyId;
 		}
 }
