@@ -2,8 +2,10 @@
 <!-- 수정자 : 강혜란 210707 localhost/cabbageMarket/index-->
 <!-- 수정자 : 강혜란 210712 판매하기 버튼, 배추톡 버튼 링크 수정-->
 <!-- 수정자 : 김태훈 210714 배추톡 세션체크 추가-->
+<!-- 수정자 : 김희진 210722 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -30,79 +32,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
     
-    <!-- ajax 사용 -->   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript"> <!-- 유효성 검사 -->
-    $(document).ready(function() {
-    	// 카테고리 비동기 통신
-        console.log('카테고리 대분류');
-		
-    	$.ajax({
-			type:'get',
-			url:'${pageContext.request.contextPath}/getCategoryMain',
-			success: function(jsonData) {
-				$(jsonData).each(function(index, item) {
-					var html = '';
-					html += '<button class="btn" id="categoryMainBtn"><li><input type="hidden" id="categoryMainId" value='+item.categoryMainId+'/>';
-					html += item.categoryMainName+'</li></button><Br>';
-					$('#categoryMainHeroBar').append(html);
-				});
-			}
-		});
-    	
-    	console.log('카테고리 소분류');
-			
-		$.ajax({
-				type:'get',
-				url:'${pageContext.request.contextPath}/getCategorySub',
-				data:{categoryMiddleId : $('.categoryMiddleBtn').eq(index).val()},
-				success: function(jsonData) {
-					
-					$('#categorySub').empty();
-					
-					$(jsonData).each(function(index, item) {
-						var html = '';
-						html += '<li><input type="hidden" id="categorySubId" name="categorySubId" value="'+item.categorySubId+'">';
-						html += '<button class="categoryBtn categorySubBtn" type="button">';
-						html += item.categorySubName+'</button></td>';
-						$('#categorySub').append(html);
-					});
-				}
-		});
-    	
-    	$(document).on('click', '.categoryMainBtn', function(){
-			cateCheck = 0;
-			console.log('카테고리 중분류');
-			var index = $('.categoryMainBtn').index(this);
-			
-			var categoryMainText = $(".categoryMainBtn").eq(index).text();
-			$('#selectCategoryMain').empty();
-			$('#selectCategoryMiddle').empty();
-			$('#selectCategorySub').empty();
-			$("#categoryMainDropdown").append(" "+categoryMainText);
-
-			$.ajax({
-				type:'get',
-				url:'${pageContext.request.contextPath}/getCategoryMiddle',
-				data:{categoryMainId : $('.categoryMainBtn').eq(index).val()},
-				success: function(jsonData) {
-					
-					$('#categoryMiddle').empty();
-					$('#categorySub').empty();
-					
-					$(jsonData).each(function(index, item) {
-						var html = '';
-						html += '<li><input type="hidden" id="categoryMiddleId" value='+item.categoryMiddleId+'/>';
-						html += item.categoryMiddleName+'</li>';
-						$('#categorySubUl').append(html);
-					});
-				}
-			});
-		});
-
-    });
-    </script>
-    
 </head>
 
 <body>
@@ -111,40 +40,17 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Humberger Begin -->
+    <!-- header Begin -->
     <jsp:include page="/WEB-INF/view/header.jsp"/>
-	<!-- Humberger End -->
+	<!-- header End -->
 
 
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2">
-                    <div class="hero__categories header__menu" style="padding: 0;">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>카테고리</span>
-                        </div>
-                        <ul id="categoryMainHeroBar">
-                        	<li>All</li>
-	                        	<ul class="header__menu__dropdown" id="categoryMiddle">
-	                        		<li> </li>
-	                            </ul>
-	                    </ul>
-                    </div>
-                </div>
-                <div class="col-lg-10">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories" id="categoryMainDropdown">
-                                    모든 카테고리
-                                </div>
-                                <input type="text" placeholder="무엇이 필요하신가요?">
-                                <button type="submit" class="site-btn">찾기</button>
-                            </form>
-                        </div>
+                <div class="col-lg-12">
+                    <div class="hero__search" >
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
                                 <a href="${pageContext.request.contextPath}/users/sellIndex"><i class="fa fa-heart"></i> <span>판매하기</span></a>
@@ -167,7 +73,7 @@
                             <span>판매자를 구합니다.</span>
                             <h2>중고상품 <br />보장 100%</h2>
                             <p>중고상품을 안전거래합니다.</p>
-                            <a href="#" class="primary-btn">가입</a>
+                            <a href="${pageContext.request.contextPath}/registerUser" class="primary-btn btn-lg">회원가입</a>
                         </div>
                     </div>
                 </div>
@@ -177,200 +83,95 @@
     <!-- Hero Section End -->
 
     <!-- Featured Section Begin -->
-    <section class="featured spad">
+     <section class="related-product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>최근 판매된 상품</h2>
-                    </div>
-                    <div class="featured__controls">
-                        <ul id="categorySubUl">
-                            <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">가전</li>
-                            <li data-filter=".fresh-meat">TV</li>
-                            <li data-filter=".vegetables">컴퓨터</li>
-                            <li data-filter=".fastfood">노트북</li>
-                            <li data-filter=".oranges">태블릿</li>
-                            <li data-filter=".fresh-meat">모바일</li>
-                            <li data-filter=".vegetables">디카</li>
-                            <li data-filter=".fastfood">음향</li>
-                        </ul>
+                    <div class="section-title related__product__title">
+                        <h2>직거래 상품</h2>
                     </div>
                 </div>
             </div>
-            <div class="row featured__filter">
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="template/img/featured/feature-1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li> <!-- 입찰하기 -->
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
+            <div class="row">
+	            <c:forEach var="dtpl" items="${directTradeProductList}">
+	                <div class="col-lg-3 col-md-4 col-sm-6">
+	                    <div class="product__item">
+	                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/directTradeImg/${dtpl.imgName}">
+	                            <ul class="product__item__pic__hover">
+	                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="product__item__text">
+	                            <h6><a href="${pageContext.request.contextPath}/users/getDirectTradeOne?directTradeProductRegistrationId=${dtpl.directTradeProductRegistrationId}">${dtpl.productName}</a></h6>
+	                            <h5><fmt:formatNumber value="${dtpl.productPrice}" pattern="#,###"/></h5>
+	                        </div>
+	                    </div>
+	                </div>
+	            </c:forEach>    
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>경매 상품</h2>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="template/img/featured/feature-2.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
+            </div>
+            <div class="row">
+	            <c:forEach var="apl" items="${auctionProductList}">
+	                <div class="col-lg-3 col-md-4 col-sm-6">
+	                    <div class="product__item">
+	                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${apl.imgName}">
+	                            <ul class="product__item__pic__hover">
+	                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="product__item__text">
+	                            <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${apl.applyProductSalesDeliveryId}">${apl.productName}</a></h6>
+	                            <h5><fmt:formatNumber value="${apl.productPrice}" pattern="#,###"/>?</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	            </c:forEach>    
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>중고 상품</h2>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="row">
+	            <c:forEach var="upl" items="${usedProductList}">
+	                <div class="col-lg-3 col-md-4 col-sm-6">
+	                    <div class="product__item">
+	                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${upl.imgName}">
+	                            <ul class="product__item__pic__hover">
+	                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+	                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+	                            </ul>
+	                        </div>
+	                        <div class="product__item__text">
+	                            <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyProductSalesDeliveryId}">${upl.productName}</a></h6>
+	                            <h5><fmt:formatNumber value="${upl.productPrice}" pattern="#,###"/></h5>
+	                        </div>
+	                    </div>
+	                </div>
+	            </c:forEach>    
             </div>
         </div>
     </section>
     <!-- Featured Section End -->
-
-    <!-- Categories Section Begin -->
-    <section class="categories">
-        <div class="container">
-            <div class="row">
-                <div class="categories__slider owl-carousel">
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-1.jpg">
-                            <h5><a href="#">가전</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-2.jpg">
-                            <h5><a href="#">TV</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-3.jpg">
-                            <h5><a href="#">컴퓨터</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-4.jpg">
-                            <h5><a href="#">노트북</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-5.jpg">
-                            <h5><a href="#">태블릿</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-5.jpg">
-                            <h5><a href="#">모바일</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-5.jpg">
-                            <h5><a href="#">디지털 카메라</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="template/img/categories/cat-5.jpg">
-                            <h5><a href="#">음향기기</a></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Categories Section End -->
     
     <!-- Blog Section Begin -->
     <section class="from-blog spad">

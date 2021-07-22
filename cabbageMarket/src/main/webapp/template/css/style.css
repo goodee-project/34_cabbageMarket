@@ -588,7 +588,7 @@ transparent;
 }
 
 .header__menu ul li a {
-	font-size: 14px;
+	font-size: 16px;
 	color: #252525;
 	text-transform: uppercase;
 	font-weight: 700;
@@ -808,14 +808,14 @@ transparent;
 }
 
 .hero__search__phone__icon {
-	font-size: 10px;
+	font-size: 14px;
 	color: #7fad39;
 	height: 50px;
-	width: 80px;
+	width: 110px;
 	background: #f5f5f5;
 	line-height: 50px;
 	text-align: center;
-	border-radius: 50%;
+	border-radius: 10%;
 	float: left;
 	margin-right: 20px;
 }
@@ -836,7 +836,7 @@ transparent;
 }
 
 .hero__item {
-	height: 431px;
+	height: 510px;
 	display: flex;
 	align-items: center;
 	padding-left: 75px;

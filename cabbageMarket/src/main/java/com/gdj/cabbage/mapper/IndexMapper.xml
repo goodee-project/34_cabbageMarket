@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 작성자: 김희진 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdj.cabbage.mapper.IndexMapper">
+
+<!-- index에 직거래상품 4개를 랜덤으로 출력. -->
+<select id="selectDirectProductListForIndex" resultType="map">
+	SELECT 
+		dtpr.direct_trade_product_registration_id directTradeProductRegistrationId,
+		dtpr.product_name productName,
+		dtpr.product_price productPrice,
+		dtpi.img_name imgName
+	FROM 
+		direct_trade_product_registration dtpr, 
+		direct_trade_product_img dtpi
+	WHERE
+		dtpr.direct_trade_product_registration_id = dtpi.direct_trade_product_registration_id 
+	GROUP BY 
+		RAND(), dtpr.direct_trade_product_registration_id
+	LIMIT 4
+</select>
+
+<!-- index에 경매상품 4개를 랜덤으로 출력. -->
+<select id="selectAuctionProductForIndex" resultType="map">
+	SELECT 
+		 apsd.apply_product_sales_delivery_id applyId,
+		 apsd.product_name productName,
+		 img.img_name imgName,
+		 bap.bid_price bidPrice
+	FROM 
+		 apply_product_sales_delivery apsd
+	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+	LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
+	LEFT JOIN bidding_auction_product bap ON apsd.apply_product_sales_delivery_id = bap.bidding_auction_product_id
+	WHERE 
+		pcr.registration_state = 2
+	GROUP BY 
+		RAND(), apsd.apply_product_sales_delivery_id
+	LIMIT 4
+</select>
+
+<!-- index에 중고상품 4개를 랜덤으로 출력. -->
+<select id="selectUsedProductForIndex" resultType="map">
+	SELECT 
+		   apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
+		   apsd.product_name productName,
+		   img.img_name imgName,
+		   upr.product_price productPrice
+	FROM 
+		apply_product_sales_delivery apsd 
+	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+	LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
+	LEFT JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id = upr.apply_product_sales_delivery_id
+	WHERE 
+		pcr.registration_state = 1
+	GROUP BY 
+		RAND(), apsd.apply_product_sales_delivery_id
+	LIMIT 4
+</select>
+
+</mapper>
