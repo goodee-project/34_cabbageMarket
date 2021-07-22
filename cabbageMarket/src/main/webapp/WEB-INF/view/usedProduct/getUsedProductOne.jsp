@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 	
 	$(document).ready(function() {
