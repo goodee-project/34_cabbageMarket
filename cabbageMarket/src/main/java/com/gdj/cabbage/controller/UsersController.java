@@ -131,7 +131,7 @@ public class UsersController {
 		log.debug(Debuging.DEBUG+" getDirectProductList : "+getDirectProductList);// 디버깅 코드
 		
 		model.addAttribute("getUsedProductList", getUsedProductList);
-		model.addAttribute("getActionProductList", getAuctionProductList);
+		model.addAttribute("getAuctionProductList", getAuctionProductList);
 		model.addAttribute("getDirectProductList", getDirectProductList);
 		
 		return "/userInfo/registedProduct";
