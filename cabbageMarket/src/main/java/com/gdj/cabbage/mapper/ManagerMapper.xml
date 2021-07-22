@@ -138,6 +138,9 @@
 			
 		GROUP BY
 			apsd.product_name
+		
+		ORDER BY
+			apsd.create_date DESC
 			
 	</select>
 
