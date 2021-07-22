@@ -116,6 +116,8 @@ public class AuctionService {
 		}
 		return cnt;
 	}
+	
+	//포인트 계산하는 Service
 	public int confirmBeforeBid(Map<String, Object> map) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
@@ -126,14 +128,15 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"4 mapper에서 온 userPoint 확인:"+userPoint);
 		ablePoint = (int)map.get("newPrice") - userPoint; // 지금 포인트로 살수 있는지 계산
 
-		int BeforBidcnt = auctionMapper.selectBeforeBidId(map); //아이디로 입찰한적 잇는지 확인
+		int beforBidCnt = 0;
+		beforBidCnt += auctionMapper.selectBeforeBidCnt(map); //아이디로 입찰한적 잇는지 확인
 		
-		if(BeforBidcnt == 0) // 이 아이디로 입찰한적이 없다면,
+		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
 			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidId가 null = 입찰한적 없음");
 			//없으면, 계산값출력
 		} else { // 이 아이디로 입찰한적이 있다면,
-			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidcnt가"+BeforBidcnt+"= 입찰했음");
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 beforBidCnt가"+beforBidCnt+"= 입찰했음");
 			int beforeBidPrice = auctionMapper.selectBeforeBidPrice(map);	//이전 입찰정보를 찾는 mapper
 			
 			ablePoint = - beforeBidPrice;// 입찰한 값을 줄어준다. 
@@ -142,6 +145,43 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"값 계산 음수,0 가능, 양수 불가.:"+ablePoint);
 		
 		return ablePoint;
+	}
+	
+	//입찰하는 Service
+	public int insertBid(Map<String, Object> map) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
+		
+		int cnt = 0;
+
+		int beforBidCnt = auctionMapper.selectBeforeBidCnt(map); //아이디로 입찰한적 잇는지 확인
+		
+		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
+		{
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidId가 null = 입찰한적 없음");
+			cnt += auctionMapper.insertBidding(map); //우선 매퍼로 입찰을 기록하고.
+			log.debug(Debuging.DEBUG+"4 insertBidding mapper에서 온 cnt :"+cnt);
+			Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
+			cnt += auctionMapper.insertBidPointMinusByBid(MyBid); //그 정보로 mihus입찰에 넣는다.
+			log.debug(Debuging.DEBUG+"4 insertBidPointMinusByBid mapper에서 온 cnt :"+cnt);
+		} else { // 이 아이디로 입찰한적이 있다면,
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 beforBidCnt가"+beforBidCnt+"= 입찰했음");
+			Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
+			
+			Map<String, Object> MyNewBid = new HashMap<String,Object>();
+			MyNewBid.put("newPrice", map.get("newPrice"));
+			MyNewBid.put("userId", map.get("userId"));
+			MyNewBid.put("applyId", map.get("applyId"));
+			MyNewBid.put("bidId", MyBid.get("bidId"));
+			
+			cnt += auctionMapper.updateBidding(MyNewBid); //그정보로 bid정보를 수정한다.
+			log.debug(Debuging.DEBUG+"4 updateBidding mapper에서 온 cnt :"+cnt);
+			cnt += auctionMapper.updateBidPointMinusByBid(MyNewBid); //그 정보로 mihus입찰에 넣는다.
+			log.debug(Debuging.DEBUG+"4 updateBidPointMinusByBid mapper에서 온 cnt :"+cnt);
+			
+		}
+		
+		return cnt;
 	}
 	
 	public int modifyPcrActuon() {

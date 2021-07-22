@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.AuctionService;
@@ -107,13 +109,9 @@ public class AuctionController {
 	
 	// 경매상품 상세보기
 	@GetMapping("getAuctionOne")
-	public String getDirectTradeOne(Model model
-			,@RequestParam(value="applyId") int applyId
-			,@RequestParam(value="cnt", defaultValue = "1") int cnt
-			,@RequestParam(value="ablePoint", defaultValue = "1" ) int ablePoint) {
+	public String getAuctionOne(Model model
+			,@RequestParam(value="applyId") int applyId) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+cnt+"<--cnt");
-		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+ablePoint+"<--ablePoint");
 			
 		// 상품 상세정보 + 이미지들 불러오기
 		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
@@ -121,15 +119,12 @@ public class AuctionController {
 		
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
-		model.addAttribute("cnt", cnt);
-		model.addAttribute("ablePoint", ablePoint);
-		
 		return "auction/getAuctionOne";
 	}
 	
-	// 경매상품 입찰
-	@PostMapping("addBid")
-	public String getAuctionOne(Model model
+	// 포인트 계산
+	@PostMapping("calculatePoint")
+	public String calculatePoint(RedirectAttributes redirectAttributes
 			,HttpSession session
 			,@RequestParam(value="applyId") int applyId
 			,@RequestParam(value="newPrice") int newPrice) {
@@ -149,8 +144,32 @@ public class AuctionController {
 		int ablePoint = auctionService.confirmBeforeBid(map);
 		log.debug(Debuging.DEBUG+"5 service에서 받은 ablePoint 확인 : "+ablePoint);
 		
-		model.addAttribute("ablePoint", ablePoint);
-		
+		redirectAttributes.addFlashAttribute("ablePoint", ablePoint);
 		return "redirect:/users/getAuctionOne?applyId="+applyId;
 		}
+	
+	@PostMapping("addBid")
+	public String addBid(RedirectAttributes redirectAttributes
+			,HttpSession session
+			,@RequestParam(value="applyId") int applyId
+			,@RequestParam(value="newPrice") int newPrice){
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+newPrice+"<--newPrice");
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+userId+"<--userId");		
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("applyId", applyId);
+		map.put("newPrice", newPrice);
+		map.put("userId", userId);
+		log.debug(Debuging.DEBUG+"1 view에서 넘겨줄 map 확인:"+map.toString());	
+		
+		int cnt = auctionService.insertBid(map);
+		log.debug(Debuging.DEBUG+"5 service에서 받은 cnt 확인 : "+cnt);
+		
+		redirectAttributes.addFlashAttribute("cnt", cnt);
+		return "redirect:/users/getAuctionOne?applyId="+applyId;
+	}
 }

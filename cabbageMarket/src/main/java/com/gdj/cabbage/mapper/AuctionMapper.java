@@ -35,17 +35,21 @@ public interface AuctionMapper {
 	int insertBidding(Map<String, Object> map);// 입찰 등록하는 mapper
 
 	int selectNewBidId(Map<String, Object> map); //입찰id를 가져오는 테이블
-	Map<String, Object> selectBeforeBid(Map<String, Object> map); //입찰id를 가져오는 테이블
-	
-	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 테이블
-	int insertBidPointMinusHistory(Map<String, Object> map); //포인트 사용을 반환하는 테이블
 
+	
+	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 매퍼
+	
+
+
+
+	
 	int selectBeforeBidCnt(Map<String, Object> map); //이전 입찰 갯수를 가져오는 mapper
-
-	
-
 	int selectBeforeBidId(Map<String, Object> map); //이전 입찰 아이디를 가져오는 mapper
 	int selectUserPoint(Map<String, Object> map); //포인트를 가져오는 mapper
-	int selectBeforeBidPrice(Map<String, Object> map); //입찰id를 가져오는 테이블
+	int selectBeforeBidPrice(Map<String, Object> map); //입찰id를 가져오는 매퍼
+	int insertBidPointMinusByBid(Map<String, Object> map); //포인트 사용하는 튜플 넣기
+	Map<String, Object> selectBeforeBid(Map<String, Object> map); //입찰id를 가져오는 매퍼
+	int updateBidding(Map<String, Object> myNewBid); //이전 입찰을 업데이트하는 mapper
+	int updateBidPointMinusByBid(Map<String, Object> myNewBid); // 이전 입찰 포인트를 업데이트하는 mapper
 
 }

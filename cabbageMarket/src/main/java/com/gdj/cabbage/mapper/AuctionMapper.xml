@@ -45,6 +45,7 @@
 			,quote
 			,registration_state registrationState
 			,pcr.create_date createDate
+			,apsd.user_id userId
 		FROM auction_product_registration apr
 				LEFT JOIN product_confirmation_registration pcr ON apr.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
@@ -147,13 +148,21 @@
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
-	<select id="selectBeforeBidId" parameterType="map" resultType="int">
+	<select id="selectBeforeBidCnt" parameterType="map" resultType="int">
 		SELECT
 			count(*)
 		FROM
 			bidding_auction_product bap
 		WHERE
-			bap.user_id = #{userId}
+			user_id = #{userId} And apply_product_sales_delivery_id =#{applyId}
+	</select>
+		<select id="selectBeforeBidId" parameterType="map" resultType="int">
+		SELECT
+			bidding_auction_product_id
+		FROM
+			bidding_auction_product bap
+		WHERE
+			user_id = #{userId} And apply_product_sales_delivery_id =#{applyId}
 	</select>
 	<select id="selectUserPoint" parameterType="map" resultType="int">
 		SELECT
@@ -173,21 +182,6 @@
 			user_id=#{userId}
 		ORDER BY create_date DESC
 	</select>
-	
-	
-	<select id="selectBeforeBid" parameterType="map" resultType="map">
-		SELECT
-			bidding_auction_product_id bidId
-			,bid_price price
-			,user_id userId
-		FROM
-			bidding_auction_product
-		WHERE
-			apply_product_sales_delivery_id = #{applyId}
-		ORDER BY create_date DESC
-	</select>
-	
-	
 	<insert id="insertBidding" parameterType="map">
 		INSERT INTO bidding_auction_product(
 			apply_product_sales_delivery_id
@@ -202,33 +196,67 @@
 			,now()
 			)
 	</insert>
-	
-	<select id="selectBeforeBidCnt" parameterType="map" resultType="int">
+	<select id="selectBeforeBid" parameterType="map" resultType="map">
 		SELECT
-			count(*)
+			bidding_auction_product_id bidId
+			,bid_price price
+			,user_id userId
 		FROM
 			bidding_auction_product
 		WHERE
-			apply_product_sales_delivery_id = #{applyId}
-		ORDER BY create_date DESC
+			apply_product_sales_delivery_id = #{applyId} and user_id = #{userId}
 	</select>
+	<insert id="insertBidPointMinusByBid" parameterType="map">
+		INSERT INTO bidding_points_using_history(
+				bidding_auction_product_id
+				,income_expenditure
+				,point
+				,create_date
+				)
+			VALUES(
+				#{bidId}
+				,'입찰'
+				,#{price}
+				,now()
+				)
+	</insert>
+	<update id="updateBidding" parameterType="map" >
+		UPDATE 
+			bidding_auction_product
+		SET 
+			bid_price = #{newPrice}
+			, create_date = now()
+		WHERE
+			bidding_auction_product_id = ${bidId}
+	</update>
+	<update id="updateBidPointMinusByBid" parameterType="map" >
+		UPDATE 
+			bidding_points_using_history(
+				point
+				,create_date
+				)
+			VALUES(
+				#{newPrice}
+				,now()
+				)
+		WHERE
+			bidding_auction_product_id = ${bidId}
+	</update>
+	
+	
+	
+	
 	
 
 	
-	<insert id="insertBidPointMinusHistory" parameterType="map">
-		INSERT INTO bidding_points_using_history(
-			bidding_auction_product_id
-			,income_expenditure
-			,point
-			,create_date
-			)
-			VALUES(
-			#{bidId}
-			,'수입'
-			,#{price}
-			,now()
-			)
-	</insert>
+	
+
+	
+
+	
+
+	
+
 	
 	<select id="selectNewBidId" parameterType="map" resultType="int">
 		SELECT

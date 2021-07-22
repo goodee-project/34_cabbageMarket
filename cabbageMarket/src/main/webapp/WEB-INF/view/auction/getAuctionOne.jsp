@@ -31,6 +31,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
+    	
+    	
     	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
 
 		if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
@@ -40,25 +42,37 @@
 			} else {
 				alert("입찰불가 : "+ ${ablePoint}+ "포인트 부족");
 				return false;
+			}
 		} else { ///ablePoint가 계산이 음수거나 0이면 입찰가능
-    			if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
-    				$('#addNewBidForm').submit();
-    			} else {
-    				alert("입찰취소");
-    				return false;
-    			}
+    		if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
+    			$('#addNewBidForm').submit();
+    		} else {
+    			alert("입찰취소");
+    			return false;
+    		}
         }
+    	
+		console.log( ${cnt} ); //입찰 여부
+    	if ( ${cnt} > 0){
+			if ( confirm("입찰성공: 현재 포인트="+ ${usersSession.get("point")}+"\n 입찰내역으로 이동하시겠습니까?" )) {
+				location.href= "${pageContext.request.contextPath}/users/biddingList"; //입찰내용으로 이동
+				return false;
+			}
+		} else if (  ${cnt} == 0) {
+			alert("알수없는 이유로 입찰실패")
+			return false;
+		}
     	
     	console.log('호가 가능');
     	$(document).on('click', '#callQuote', function(){
     		console.log('호가 클릭');
-    		if (usersSession.get("userId") != ${productDetail.userId}) { //판매자가 아니면,
-    			$('#addNewBidForm').submit();
-    		}else { //판매자가 맞으면
+    		if ( (int)(usersSession.get("userId")) == ${productDetail.userId} ) { //판매자가 아니면,
     			alert("판매자는 입찰블가");
 				return false;
-            	}
-    	})
+    		} else { //판매자가 다르면
+    			$('#calculPointForm').submit();
+            }
+    	});
     });
     </script>
 </head>
@@ -124,10 +138,14 @@
                             <span>( ${productDetail.count} 회 입찰됨)</span>
                         </div>
                         <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
-                        <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        <form id="calculPointForm" action="${pageContext.request.contextPath}/users/calculatePoint" method="post" enctype="multipart/form-data">
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>
+                        </form>
+                        <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        	<input type="hidden" name="applyId" value="${productDetail.applyId}">
+                        	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         </form>
                         <div class="heart-btn">
 					      <div class="content">
