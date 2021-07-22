@@ -52,12 +52,17 @@
 				}
 			});
 			
-			$('#delAddressBtn').click(function(){
-				val=confirm('삭제 하시겠습니까?');
-				if(val){
-					$('#delAddressForm').submit();
-				}
-			});
+			for (var i = 1; i <=5; i++) {
+				$('#delAddressBtn'+i).click(function(){
+					val=confirm('삭제 하시겠습니까?');
+					if(val){
+						console.log('실행');
+						$('#delAddressForm'+i).submit();
+					}
+				});
+			};
+			
+			
 			
 		});
 	</script>
@@ -143,6 +148,7 @@
 							</div>
 							<br>		
 							<div class="col-md-10">
+								<c:set var="index" value="0"/>
 								<c:forEach var="a" items="${getAddressByUserId}">
 						          <div class="card">
 						            <div class="card-block">
@@ -152,9 +158,9 @@
 						              <div class="row">
 						              	<div class="col-10"></div>
 						              	<div class="col-2">
-						              		<form method="post" id="delAddressForm" action="${pageContext.request.contextPath}/users/removeAddress">
+						              		<form method="post" id="delAddressForm${index=index+1}" action="${pageContext.request.contextPath}/users/removeAddress">
 	                                    		<input type="hidden" name="shippingAddressId" value="${a.shippingAddressId}">
-	                                    		<button type="button" id="delAddressBtn" class="btn btn-success">삭제</button>
+	                                    		<button type="button" id="delAddressBtn${index}" class="btn btn-success">삭제</button>
 	                                    	</form>	 
 						              	</div>
 						              </div>						              

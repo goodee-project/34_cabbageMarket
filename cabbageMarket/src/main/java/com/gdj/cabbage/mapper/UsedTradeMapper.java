@@ -19,6 +19,7 @@ public interface UsedTradeMapper {
 	
 	Map<String, Object> selectUsedProductOne(int applyId); //중고상품 상세 Details
 	List<String> selectUsedProductImg(int applyProductSalesDeliveryId); //증고상품 상세 img
+	List<Map<String, Object>> selectRelatedUsedProduct(int categoryMiddleId); //관련 중고상품 목록
 	
 	void insertUsedProduct(UsedProductRegistration usedProductRegistration); //중고상품 등록
 	void updateProductRegistrationState(ProductConfirmationRegistration productConfirmationRegistration); //상태값 변경(미등록->중고상품)

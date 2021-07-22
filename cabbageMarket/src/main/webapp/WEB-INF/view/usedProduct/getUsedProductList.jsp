@@ -171,7 +171,7 @@
 						<div class="box">
 							<form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" >
 								<div class="input-group mb-4 border rounded-pill p-1" id="form">
-									<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="search">
+									<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="중고상품 검색">
 						    		<div class="input-group-append border-0">
 						     			<button id="btn" type="submit" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
 									</div>
