@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
+	
 	//addAuction ajax
     @RequestMapping(value = "/previewAuction", method = RequestMethod.POST)
     public String test7_1(Model model, AuctionProductRegistration auction) {

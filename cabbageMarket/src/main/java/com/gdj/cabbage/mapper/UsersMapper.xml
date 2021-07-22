@@ -414,12 +414,13 @@
 			dtpr.product_name productName,
 			dtpr.product_price price,
 			dtpr.location location,
+			dtpr.product_state productState,
 			dtpr.create_date createDate
 		FROM
 		direct_trade_product_registration dtpr LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id
 		JOIN category_sub cs ON dtpr.category_sub_id=cs.category_sub_id
 		<where>
-			dtpr.user_id=#{userId} AND (dtpr.product_state=1 OR dtpr.product_state=2)
+			dtpr.user_id=#{userId} AND dtpr.product_state <![CDATA[ <> ]]> 0
 		</where>
 		GROUP BY
 			dtpr.direct_trade_product_registration_id

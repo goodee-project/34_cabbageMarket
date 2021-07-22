@@ -40,39 +40,33 @@
 		<link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
-	
-		<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
-        <!-- ㅇdate -->
-          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		  <link rel="stylesheet" href="/resources/demos/style.css">
-		  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		  <script>
-		  $( function() {
-		    $( "#datepicker" ).datepicker();
-		  } );
-		  </script>
-        
-		<!--  <script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>-->
-		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/template/js/bootstrap-material-datetimepicker.js"></script>
-  <script>
-  $( function() {
-	  //https://jqueryui.com/datepicker/
-    $( "#registrationDeadline" ).datepicker({ format : 'YYYY-MM-DD'});
-    //$('#min-date').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm', minDate : new Date() });
-  } );
+<!-- datePicker -->
+<script>
+	$(function() {
+    //input을 datepicker로 선언
+		$("#registrationDeadline").datepicker({
+			 dateFormat: 'yy-mm-dd' //달력 날짜 형태
+			,minDate: "+0d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+			,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
+		});
+	//초기값을 오늘 날짜로 설정
+	$('#registrationDeadline').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+  });
+</script>
+
   </script>
 		<script type="text/javascript">
 		$(document).ready(function()
 		{
-			//date https://t00rk.github.io/bootstrap-material-datetimepicker/
-			//$('#min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() });
-
-			//$.material.init()
+			// 상품 가격 숫자입력 유효성 검사
+	    	var enCheck = RegExp( /[^0-9]$/);
+			
+	    	$('#productPrice').keyup(function(){
+	    		if(enCheck.test($('#productPrice').val())){
+	    			alert('숫자만 입력해 주세요');
+	    			$('#productPrice').val('');
+	    		}
+	    	});
 			
 			// 폼 전송 유효성 검사
 	        $('#summitBtn').click(function() {

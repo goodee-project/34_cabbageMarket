@@ -10,13 +10,16 @@
 			,apr.create_date createDate
 			,product_name productName
 			,img_name imgName
+			,DATEDIFF(apr.registration_deadline, now()) datediff
 			,category_sub_id categorySubName
+			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price), N'#,0')) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
 		FROM 
 			auction_product_registration apr
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
 				LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
 				LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+		WHERE ( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
 		GROUP BY apsdi.apply_product_sales_delivery_id
 		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
 	</select>
@@ -36,6 +39,7 @@
 			,product_name productName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price, bap.bid_price+quote) newPrice
+			,count(bap.apply_product_sales_delivery_id) count
 			,product_desc productDesc
 			,min_bid_price minPrice
 			,quote
@@ -143,16 +147,7 @@
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
-	<select id="selectLastBidUserId" parameterType="int" resultType="int">
-		SELECT
-			user_id userId
-		FROM 
-			bidding_auction_product bap
-		GROUP BY apply_product_sales_delivery_id=${applyId}
-		ORDER BY create_date DESC
-	</select>
-	
-	<insert id="insertBidHistory" parameterType="map">
+	<insert id="insertBidding" parameterType="map">
 		INSERT INTO bidding_auction_product(
 			apply_product_sales_delivery_id
 			,user_id
@@ -167,7 +162,7 @@
 			)
 	</insert>
 	
-	<select id="selectBeforeBidId" parameterType="map" resultType="map">
+	<select id="selectBeforeBid" parameterType="map" resultType="map">
 		SELECT
 			bidding_auction_product_id bidId
 			,bid_price price

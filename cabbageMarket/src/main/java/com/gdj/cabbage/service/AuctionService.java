@@ -122,9 +122,10 @@ public class AuctionService {
 		int cnt = 0;
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
-		//이전 입찰자 찾는 mapper
-		Map<String, Object> beforeBid = auctionMapper.selectBeforeBidId(map);
-		log.debug(Debuging.DEBUG+"4 mapper에서 온 beforeBid.userId 확인: "+ beforeBid.get("userId"));
+
+		Map<String, Object> beforeBid = auctionMapper.selectBeforeBid(map);		//이전 입찰자 찾는 mapper
+		log.debug(Debuging.DEBUG+"4 mapper에서 온 beforeBid 확인: "+ beforeBid.toString());
+		
 		if ( ((int)beforeBid.get("userId")) == ((int)map.get("userId")) ) {
 			cnt = 210720;
 		} else {
@@ -132,7 +133,7 @@ public class AuctionService {
 			cnt = auctionMapper.insertBidPointMinusHistory(beforeBid);
 			
 			
-			cnt = + auctionMapper.insertBidHistory(map);
+			cnt = + auctionMapper.insertBidding(map);
 			log.debug(Debuging.DEBUG+"4 insertBidHistory mapper에서 온 cnt 확인: "+ cnt);
 			
 			int newBidId = auctionMapper.selectNewBidId(map);

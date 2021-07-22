@@ -122,16 +122,14 @@
                     <div class="product__details__text">
                         <h3>${productDetail.productName}</h3>
                         <div class="product__details__rating">
-                        	<c:set var="count" value="${ (productDetail.price-productDetail.minPrice)/productDetail.quote }"/>
-                        	<c:forEach var="i" begin="0" end="${count}">
+                        	<c:forEach var="i" begin="0" end="${productDetail.count}">
                         		<c:if test="${i ==0}">
-                        			<i><i class="fa fa-star"></i></i>
                         		</c:if>
                         		<c:if test="${i !=0}">
 	                            	<i class="fa fa-star"></i>
 	                            </c:if>
                             </c:forEach>
-                            <span>( ${count+1} 회 입찰됨)</span>
+                            <span>( ${productDetail.count} 회 입찰됨)</span>
                         </div>
                         <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
                         <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
