@@ -190,7 +190,6 @@
     <!-- Latest Product Section End -->
 
 
-
     <!-- Footer Section Begin -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
     <!-- Footer Section End -->
