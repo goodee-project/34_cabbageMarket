@@ -319,50 +319,41 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-										<tbody>
-											<tr>
-												<td>유저 아이디 :</td>
-												<td>${productInfo.userId}</td>
-											</tr>
-											<tr>
-												<td>제품 사진 :</td>
-												<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productInfo.imgName}" width="250px" height="160px"></td>
-											</tr>
-											<tr>
-												<td>배송 등록 번호 :</td>
-												<td>${productInfo.apsdi}</td>
-											</tr>
-											<tr>
-												<td>제품 이름 :</td>
-												<td>${productInfo.productName}</td>
-											</tr>
-											<tr>
-												<td>운송장 번호 :</td>
-												<td>${productInfo.waybillNo}</td>
-											</tr>
-											<tr>
-												<td>반품시 요청사항 :</td>
-												<td>${productInfo.request}</td>
-											</tr>
-											<tr>
-												<td>반품 주소 :</td>
-												<td>${productInfo.adress}</td>
-											</tr>
-											<tr>
-												<td>등록 날짜 :</td>
-												<td>${productInfo.createDate}</td>
-											</tr>
-										</tbody>
-									</table>
-								
-									<div class="my-2"></div>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">등록 승인</span>
-                                    </a>
-                                    
+									<tbody>
+										<tr>
+											<td>유저 아이디 :</td>
+											<td>${productInfo.userId}</td>
+										</tr>
+										<tr>
+											<td>제품 사진 :</td>
+											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productInfo.imgName}" width="250px" height="160px"></td>
+										</tr>
+										<tr>
+											<td>배송 등록 번호 :</td>
+											<td>${productInfo.apsdi}</td>
+										</tr>
+										<tr>
+											<td>제품 이름 :</td>
+											<td>${productInfo.productName}</td>
+										</tr>
+										<tr>
+											<td>운송장 번호 :</td>
+											<td>${productInfo.waybillNo}</td>
+										</tr>
+										<tr>
+											<td>반품시 요청사항 :</td>
+											<td>${productInfo.request}</td>
+										</tr>
+										<tr>
+											<td>반품 주소 :</td>
+											<td>${productInfo.adress}</td>
+										</tr>
+										<tr>
+											<td>등록 날짜 :</td>
+											<td>${productInfo.createDate}</td>
+										</tr>
+									</tbody>
+								</table>
                             </div>
                         </div>
                     </div>
