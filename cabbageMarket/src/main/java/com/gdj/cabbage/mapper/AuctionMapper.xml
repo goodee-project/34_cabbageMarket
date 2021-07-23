@@ -12,8 +12,8 @@
 			,img_name imgName
 			,DATEDIFF(apr.registration_deadline, now()) datediff
 			,apsd.category_sub_id categorySubName
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price), N'#,0')) price
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
 		FROM category_main cm 
 		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
 			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
@@ -31,7 +31,12 @@
 			( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
-		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		<choose>
+		    <when test="sortValue == 1">ORDER BY newPrice DESC, apsdi.img_name</when>
+		    <when test="sortValue == 2">ORDER BY newPrice, apsdi.img_name</when>
+		    <when test="sortValue == 3">ORDER BY datediff, apsdi.img_name</when>
+		    <otherwise>ORDER BY bap.create_date, apsd.create_date, apsdi.img_name</otherwise>
+	  	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	

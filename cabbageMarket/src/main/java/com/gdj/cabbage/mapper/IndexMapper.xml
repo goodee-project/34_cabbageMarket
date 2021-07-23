@@ -26,9 +26,11 @@
 		 apsd.apply_product_sales_delivery_id applyId,
 		 apsd.product_name productName,
 		 img.img_name imgName,
-		 bap.bid_price bidPrice
+		 IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price,
+		 IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
 	FROM 
 		 apply_product_sales_delivery apsd
+	LEFT JOIN auction_product_registration apr ON apsd.apply_product_sales_delivery_id= apr.apply_product_sales_delivery_id
 	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 	LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 	LEFT JOIN bidding_auction_product bap ON apsd.apply_product_sales_delivery_id = bap.bidding_auction_product_id

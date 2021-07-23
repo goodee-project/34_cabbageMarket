@@ -38,6 +38,7 @@ public class AuctionService {
 		page.put("rowPerPage", ((int)paramMap.get("rowPerPage")));
 		page.put("searchWord", ((String)paramMap.get("searchWord")));
 		page.put("categoryMainId", ((String)paramMap.get("categoryMainId")));
+		page.put("sortValue", ((int)paramMap.get("sortValue")));
 		
 		int total = (auctionMapper.selectAuctionForCount(page));
 		int lastPage = (int)(Math.ceil((double)total / (int)paramMap.get("rowPerPage"))); //lastPage 계산
