@@ -25,25 +25,26 @@ public interface AuctionMapper {
 
 	int insertAuction(AuctionProductRegistration auctionProductRegistration); //옥션 등록하는 mapper
 
-	void updateConfirmationState(int applyId); //옥션 등록시, confirmation state변경
+	void updateConfirmationState(int applyId, int state); //옥션 등록시, confirmation state변경
 
 	
 
 	
-	int selectLastBidUserId(Object object); //마지막 옥션 입찰자 찾는 mapper
+	Map<String, Object> selectLastBidInfo(int applyId); //마지막 옥션 입찰자 찾는 mapper
+	List<Map<String, Object>> selectNotLastBidInfo(Map<String, Object> lastBid); //마지막 옥션 입찰자 찾는 mapper
 
 	int insertBidding(Map<String, Object> map);// 입찰 등록하는 mapper
 
 	int selectNewBidId(Map<String, Object> map); //입찰id를 가져오는 테이블
 
 	
-	int insertBidPointPlusHistory(Map<String,Object> map); //포인트 사용을 추가하는 매퍼
-	
-
-
 
 	
-	int selectBeforeBidCnt(Map<String, Object> map); //이전 입찰 갯수를 가져오는 mapper
+
+
+
+	
+	int selectBeforeBidCntByBuyerId(int applyId); //이전 입찰 갯수를 가져오는 mapper
 	int selectBeforeBidId(Map<String, Object> map); //이전 입찰 아이디를 가져오는 mapper
 	int selectUserPoint(Map<String, Object> map); //포인트를 가져오는 mapper
 	int selectBeforeBidPrice(Map<String, Object> map); //입찰id를 가져오는 매퍼
@@ -51,5 +52,10 @@ public interface AuctionMapper {
 	Map<String, Object> selectBeforeBid(Map<String, Object> map); //입찰id를 가져오는 매퍼
 	int updateBidding(Map<String, Object> myNewBid); //이전 입찰을 업데이트하는 mapper
 	int updateBidPointMinusByBid(Map<String, Object> myNewBid); // 이전 입찰 포인트를 업데이트하는 mapper
+
+	List<Integer> getTimeOutApplyId(); //시간초과된 ApplyId를 찾아주는 매퍼
+	int selectBeforeBidCnt(int applyId); //이전 입찰 갯수를 가져오는 mapper
+	int selectBeforeBidCntByApplyId(int applyId);
+	int insertBidPointPlusHistory(Map<String, Object> notLastBid); //포인트 사용을 추가하는 매퍼
 
 }
