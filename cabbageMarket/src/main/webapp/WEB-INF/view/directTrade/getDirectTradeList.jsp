@@ -90,7 +90,7 @@
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="${pageContext.request.contextPath}/users/getDirectTradeList" method="get">
-                                <input type="text" placeholder="직거래 상품을 검색하세요" name="searchWord">
+                                <input type="text" placeholder="경매 상품을 검색하세요" name="searchWord">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -326,7 +326,6 @@
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
-
                     </div>
                     
                 </div>

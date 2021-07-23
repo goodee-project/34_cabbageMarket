@@ -78,16 +78,19 @@ public class AuctionController {
 	public String getAuctionList(Model model
 			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 			, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
-			, @RequestParam(value="searchWord", required=false) String searchWord) {
+			, @RequestParam(value="searchWord", required=false) String searchWord
+			, @RequestParam(value="categoryMainId", required=false) String categoryMainId) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+currentPage+"<--currentPage");
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+rowPerPage+"<--rowPerPage");
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+searchWord+"<--searchWord");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+categoryMainId+"<--categoryMainId");
 		
 		//페이징에 관한 정보 담기
 		Map<String,Object> page = new HashMap<String,Object>();
 		page.put("currentPage", currentPage);
 		page.put("rowPerPage", rowPerPage);
 		page.put("searchWord", searchWord);
+		page.put("categoryMainId", categoryMainId);
 		log.debug(Debuging.DEBUG+"1 service에 보낼 map 확인: "+page.toString());
 		
 		Map<String,Object> resultMap =  auctionService.getAuctionList(page); //경매상품과 검색어에따른 total, lastpage, auctionList가져오는 서비스
@@ -99,10 +102,12 @@ public class AuctionController {
 	
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("categoryMainId",categoryMainId);
 		model.addAttribute("categoryMainList", categoryMainList);
 		model.addAttribute("auctionList", resultMap.get("auctionList"));
 		model.addAttribute("total",resultMap.get("total"));
 		model.addAttribute("lastPage",resultMap.get("lastPage"));
+		model.addAttribute("pageSet",resultMap.get("pageSet"));
 		model.addAttribute("categoryMainList", resultMap.get("categoryMainList"));		
 		return "auction/getAuctionList";
 	}

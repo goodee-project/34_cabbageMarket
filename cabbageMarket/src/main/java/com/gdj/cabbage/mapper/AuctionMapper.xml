@@ -11,24 +11,48 @@
 			,product_name productName
 			,img_name imgName
 			,DATEDIFF(apr.registration_deadline, now()) datediff
-			,category_sub_id categorySubName
+			,apsd.category_sub_id categorySubName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price), N'#,0')) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
-		FROM 
-			auction_product_registration apr
-				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
-				LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
-				LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
-		WHERE ( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
+		FROM category_main cm 
+		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
+			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
+		   	 INNER JOIN apply_product_sales_delivery apsd ON cs.category_sub_id = apsd.category_sub_id
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			  LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
+			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+		<where>
+			<if test="searchWord != null">
+				product_name LIKE CONCAT('%',#{searchWord},'%') AND
+			</if>
+			<if test="categoryMainId != null">
+				cm.category_main_id = #{categoryMainId} AND
+			</if>
+			( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
+		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
 		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	<select id="selectAuctionForCount" resultType="int"> <!-- 전체 aution 가져오는 매퍼 *검색어 페이징추가 해야함* -->
+	<select id="selectAuctionForCount" parameterType="map" resultType="int"> <!-- 전체 aution 가져오는 매퍼 *검색어 페이징추가 해야함* -->
 		SELECT
 			count(*)
 		FROM 
-			auction_product_registration
+			category_main cm 
+		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
+			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
+		   	 INNER JOIN apply_product_sales_delivery apsd ON cs.category_sub_id = apsd.category_sub_id
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+		<where>
+			<if test="searchWord != null">
+				product_name LIKE CONCAT('%',#{searchWord},'%') AND
+			</if>
+			<if test="categoryMainId != null">
+				cm.category_main_id = #{categoryMainId} AND
+			</if>
+			( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
+		</where>
 	</select>
 	
 	<select id="selectAuctionOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
