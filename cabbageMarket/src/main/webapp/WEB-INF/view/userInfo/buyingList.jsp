@@ -68,6 +68,7 @@
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/buyingList">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/sellList">판매 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/biddingList">입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
@@ -104,7 +105,7 @@
 			                            </thead>
 				                            
 			                            <tbody>
-			                            	<c:set var="index" value = "0"/>
+			                            	<c:set var="index" value = "${beginRow}"/>
 			                            	<c:forEach var="bupl" items="${byingUsedProductList}">
 				                                <tr>
 				                                	<td>
@@ -132,7 +133,16 @@
 			                        </table>
 							</div>
 							<div class="card-footer">
-								
+								<c:if test="${currentPage>1}">
+									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage-1}">
+										<button type="button" class="btn btn-outline-secondary">이전</button>
+									</a>
+								</c:if>
+								<c:if test="${currentPage < lastPage}">
+									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage+1}">
+										<button type="button" class="btn btn-outline-secondary">다음</button>
+									</a>
+								</c:if>
 							</div>
 						</div>
 				</div>

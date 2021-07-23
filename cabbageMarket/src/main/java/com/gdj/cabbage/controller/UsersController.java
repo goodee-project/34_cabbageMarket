@@ -45,6 +45,23 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/sellList")
+	public String sellList(Model model, HttpSession session,  @RequestParam(value="currentPage" , defaultValue = "1") int currentPage,
+																@RequestParam(value="rowPerPage", defaultValue = "5") int rowPerPage) {
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		
+		Map<String, Object> serviceMap = usersService.sellList(userId, currentPage, rowPerPage);// 구매내역 리스트 관련 호출 메서드
+		log.debug(Debuging.DEBUG+" serviceMap : "+serviceMap);// 디버깅코드
+		
+		model.addAttribute("sellList", serviceMap.get("sellList"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", serviceMap.get("lastPage"));
+		model.addAttribute("beginRow", serviceMap.get("beginRow"));
+		
+		return "/userInfo/sellList";
+	}
+	
 	@GetMapping("/users/biddingList")
 	public String biddingList(Model model, HttpSession session, @RequestParam(value="currentPage" , defaultValue = "1") int currentPage,
 																@RequestParam(value="rowPerPage", defaultValue = "5") int rowPerPage) {
@@ -326,8 +343,9 @@ public class UsersController {
 		model.addAttribute("myProductCnt", userInfo.get("myProductCnt"));
 		model.addAttribute("addressCnt", userInfo.get("addressCnt"));
 		model.addAttribute("buyingCnt", userInfo.get("buyingCnt"));
-		
-		
+		model.addAttribute("biddingCnt", userInfo.get("biddingCnt"));
+		model.addAttribute("sellingCnt", userInfo.get("sellingCnt"));
+				
 		return "/userInfo/userInfo";
 	}
 	
