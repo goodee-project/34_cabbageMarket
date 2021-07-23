@@ -19,6 +19,7 @@
        		<div class="header__cart__price">
        			<a href="${pageContext.request.contextPath}/users/userPointHistory">
        				POINTS: ${usersSession.get("point")}
+       				
        			</a>
        		</div>     
        		<a href="${pageContext.request.contextPath}/users/usersLogout">로그아웃</a>           
