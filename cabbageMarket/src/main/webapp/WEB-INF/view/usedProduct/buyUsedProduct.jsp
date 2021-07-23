@@ -1,4 +1,4 @@
-<!-- 김희진 -->
+<!-- 작성자 : 김희진 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -28,14 +28,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 	$(document).ready(function () {
-        $('#btn').click(function() {
+        $('#buyBtn').click(function() {
         	if($('input[name="shippingAddressId"]:checked').length < 1) {
         		alert('배송정보를 선택하세요');
         	} else {
         		$('#buyUsedProduct').submit();
         	}
         });	
-    });
+	});
+	
+    function openWin() {
+    	window.open("${pageContext.request.contextPath}/users/shippingAddress");
+    }
 	</script>
 </head>
 <body>
@@ -67,11 +71,11 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productForBuy.imgName}" height="50px" width="50px"></td>
+											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productForBuy.imgName}" height="40px" width="40px"></td>
 											<td>${productForBuy.productName}</td>
 											<td>${productForBuy.nickName}</td>
-											<td><span><fmt:formatNumber value="${productForBuy.productPrice}" pattern="#,###" /></span></td>
-											<td style="color:#CD0000;">${usersSession.point}</td>
+											<td><fmt:formatNumber value="${productForBuy.productPrice}" pattern="#,###" /></td>
+											<td style="color:#CD0000;"><fmt:formatNumber value="${usersSession.point}" pattern="#,###" /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -102,9 +106,12 @@
 								</table>
 							</div>
 							<br>
-							
+							<div> 
+								<button style="float: right;" class="btn btn-outline-success btn-sm" type="button" onclick="openWin();" >+ 배송지 추가</button>
+							</div>	
+							<br><br><br>	
 							<div class="card">
-								<table class="table table-hover" >
+								<table class="table table-hover">
 									<thead>
 										<tr>
 											<th>배송 요청사항</th>
@@ -120,9 +127,9 @@
 								</table>
 							</div>
 						</div>
-						<br><br>
+						<br>
 						<div style="float: right;">
-							<button class="btn btn-success" id="btn" name="button" type="button">구매</button>
+							<button class="btn btn-success" id="buyBtn" name="button" type="button">구매</button>
 							<a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${productForBuy.applyId}">
 								<button class="btn btn-success" type="button">취소</button>
 							</a>
@@ -131,6 +138,7 @@
 				</div>
 			</div>	
 		</div>
+	</div>
 </section>
 </body>
 </html>
