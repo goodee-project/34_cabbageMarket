@@ -133,7 +133,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span>${usedProductList[i].productPrice}</span>
+	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>

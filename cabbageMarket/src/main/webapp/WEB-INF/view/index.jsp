@@ -205,10 +205,10 @@
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 
 	<script>
-	// 채팅방 팝업창
-    function showPopup() { 
-  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${usersSession.userId}", "chattingList", "width=400, height=600, left=200, top=200"); 
-    }
+		// 채팅방 팝업창
+	    function showPopup() { 
+	  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${usersSession.userId}", "chattingList", "width=400, height=600, left=200, top=200"); 
+	    }
 	</script>
 
 </body>
