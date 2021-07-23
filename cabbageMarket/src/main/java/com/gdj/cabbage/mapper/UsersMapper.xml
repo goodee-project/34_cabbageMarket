@@ -508,7 +508,7 @@
 	<!-- 유저 중고 구매 행 수 -->
 	<select id="getBuyingUsedProductCount" parameterType="Integer" resultType="Integer">
 		SELECT 
-			COUNT(a.applyId)
+			COUNT(*)
 		FROM		
 			(SELECT
 				bpd.apply_product_sales_delivery_id applyId
@@ -517,10 +517,9 @@
 				JOIN apply_product_sales_delivery_img apsdi ON bpd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
 				JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 				JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id=upr.apply_product_sales_delivery_id
-				JOIN shipping_address sa ON bpd.shipping_address_id=sa.shipping_address_id
-			<where>
-				sa.user_id=#{userId}
-			</where>
+				JOIN shipping_address sa ON bpd.shipping_address_id=sa.shipping_address_id		
+			WHERE
+				sa.user_id=#{userId}			
 			GROUP BY
 				bpd.apply_product_sales_delivery_id) a
 	</select>
@@ -552,5 +551,91 @@
 			bap.create_date desc
 		LIMIT
 			#{beginRow},#{rowPerPage}
+	</select>
+	
+	<!--  유저 입찰 내역 수 쿼리 -->
+	<select id="biddingListCount" parameterType="Integer" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			bidding_auction_product 
+		<where>
+			user_id = #{userId}
+		</where>		
+	</select>
+	
+	<!-- 유저 판매 내역 쿼리 -->
+	<select id="sellListByUser" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			a.content content, 
+			a.img img, 
+			a.productName productName, 
+			a.price price, 
+			a.commissions commissions, 
+			a.createDate createDate
+		FROM
+			(SELECT 
+				'직거래 판매' content, dtpi.img_name img, dtpr.product_name productName, dtpr.product_price price, 'X' commissions, dtpr.create_date createDate
+			FROM direct_trade_product_registration dtpr 
+			LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id 
+			WHERE dtpr.user_id=#{userId} 
+			GROUP BY dtpr.direct_trade_product_registration_id
+			UNION ALL
+			SELECT '중고 판매' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, upr.create_date createDate
+			FROM buying_used_product bup 
+			LEFT JOIN apply_product_sales_delivery apsd ON bup.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN buying_points_using_history bpuh ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN buying_commissions_history bch ON bch.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN used_product_registration upr ON upr.apply_product_sales_delivery_id=bup.apply_product_sales_delivery_id
+			WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='수입'
+			GROUP BY bup.apply_product_sales_delivery_id
+			UNION ALL
+			SELECT '경매 낙찰' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, apr.create_date createDate
+			FROM auction_product_registration apr
+			LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN bidding_auction_product bap ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN bidding_points_using_history bpuh ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id
+			JOIN bidding_commissions_history bch ON bch.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
+			GROUP BY apr.apply_product_sales_delivery_id) a
+		ORDER BY
+			a.createDate DESC
+		LIMIT
+			#{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 유저 판매 내역 쿼리 -->
+	<select id="sellListCount" parameterType="Integer" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			(SELECT 
+				'직거래 판매' content, dtpi.img_name img, dtpr.product_name productName, dtpr.product_price price, 'X' commissions, dtpr.create_date createDate
+			FROM direct_trade_product_registration dtpr 
+			LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id 
+			WHERE dtpr.user_id=#{userId} 
+			GROUP BY dtpr.direct_trade_product_registration_id
+			UNION ALL
+			SELECT '중고 판매' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, upr.create_date createDate
+			FROM buying_used_product bup 
+			LEFT JOIN apply_product_sales_delivery apsd ON bup.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN buying_points_using_history bpuh ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN buying_commissions_history bch ON bch.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN used_product_registration upr ON upr.apply_product_sales_delivery_id=bup.apply_product_sales_delivery_id
+			WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='수입'
+			GROUP BY bup.apply_product_sales_delivery_id
+			UNION ALL
+			SELECT '경매 낙찰' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, apr.create_date createDate
+			FROM auction_product_registration apr
+			LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN bidding_auction_product bap ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN bidding_points_using_history bpuh ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id
+			JOIN bidding_commissions_history bch ON bch.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
+			WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
+			GROUP BY apr.apply_product_sales_delivery_id) a
 	</select>
 </mapper>

@@ -78,6 +78,7 @@
 								<li><a href="${pageContext.request.contextPath}/users/registedProduct">등록상품</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/userPointHistory">포인트 사용 조회</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/buyingList">구매 내역</a></li>
+								<li><a href="${pageContext.request.contextPath}/users/sellList">판매 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/biddingList">입찰 내역</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/myProductManagement">내 상품 관리</a></li>
 								<li><a href="${pageContext.request.contextPath}/users/shippingAddress">배송지 관리</a></li>
@@ -129,11 +130,22 @@
 							          </span>
 							        </li>
 							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+							          <h6 class="mb-0"><b>판매 내역 수</b></h6>
+							          <span class="text-secondary">
+							          	<b>
+								          	<a href="${pageContext.request.contextPath}/users/sellList">
+								          		${sellingCnt} 
+								          	</a>
+							          	</b>
+							          	건							          								          	
+							          </span>
+							        </li>
+							        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 							          <h6 class="mb-0"><b>입찰 내역 수</b></h6>
 							          <span class="text-secondary">
 							          	<b>
 								          	<a href="${pageContext.request.contextPath}/users/biddingList">
-								          		${0} 
+								          		${biddingCnt} 
 								          	</a>
 							          	</b>
 							          	건							          								          	

@@ -2,6 +2,7 @@
 <!-- 수정사 : 강혜란 210707 http://localhost/cabbageMarket/users/getAuctionList-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -45,6 +46,11 @@
 			$(".scroll").stop().animate({"top":position+currentPosition-300+"px"},800); 
 		}); 
     	
+		$('#sortValue').change(function(){
+			console.log($('#sortValue').val());
+			$('#sortValueForm').submit();
+		});
+		
 		$.ajax({
 			   type:'get',
 			   url:'${pageContext.request.contextPath}/getCategoryMain',
@@ -148,7 +154,7 @@
 	                                                	<h6>${auctionList[i].productName}</h6>
 	                                                </c:if>
 	                                                <small style="color: black;">현재 입찰가</small>
-	                                                <span>${auctionList[i].price}</span>
+	                                                <span><fmt:formatNumber value="${auctionList[i].price}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 	                                        </c:if>
@@ -171,7 +177,7 @@
 		                                                	<h6>${auctionList[i].productName}</h6>
 		                                                </c:if>
 		                                                <small style="color: black;">현재 입찰가</small>
-		                                                <span>${auctionList[i].price}</span>
+		                                                <span><fmt:formatNumber value="${auctionList[i].price}" pattern="#,###" /></span>
 		                                            </div>
 		                                        </a>
 		                                        </c:if>
@@ -213,7 +219,7 @@
                                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
                                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
                                             </form>
-                                            <div class="product__item__price"> ${al.price}</div>
+                                            <div class="product__item__price"><fmt:formatNumber value="${al.price}" pattern="#,###" /></div>
                                             
                                         </div>
                                     </div>
@@ -227,12 +233,40 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
-                                    <span>정렬순</span>
-                                    <select>
-                                        <option value="0">입찰가격 낮음순</option>
-                                        <option value="0">입찰가격 높음순</option>
-                                        <option value="0">입찰마감 임박순</option>
-                                    </select>
+                                    <span>Sort By</span>
+                                    <form id="sortValueForm" action="${pageContext.request.contextPath}/users/getAuctionList" method="get" style="display:inline;">
+	                                    <input type="hidden" name="searchWord" value="${searchWord}">
+	                                    <input type="hidden" name="categoryMainId" value="${categoryMainId}">
+	                                    <select id="sortValue" name="sortValue">
+	                                    	<c:if test="${sortValue eq 0}">
+	                                    		<option value="0" selected="selected">최근 등록순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 0}">
+	                                    		<option value="0">최근 등록순</option>
+	                                    	</c:if>
+	                                    	
+	                                    	<c:if test="${sortValue eq 1}">
+	                                    		<option value="1" selected="selected">입찰가격 높은순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 1}">
+	                                    		<option value="1">입찰가격 높은순</option>
+	                                    	</c:if>
+	                                    	
+	                                    	<c:if test="${sortValue eq 2}">
+	                                    		<option value="2" selected="selected">입찰가격 낮은순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 2}">
+	                                    		<option value="2">입찰가격 낮은순</option>
+	                                    	</c:if>
+	                                    	
+	                                    	<c:if test="${sortValue eq 3}">
+	                                    		<option value="3" selected="selected">입찰마감 임박순</option>
+	                                    	</c:if>
+	                                    	<c:if test="${sortValue ne 3}">
+	                                    		<option value="3">입찰마감 임박순</option>
+	                                    	</c:if>
+	                                    </select>
+	                                </form>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
@@ -262,7 +296,7 @@
 								<div class="product__item__text">
                                    <span>${al.categorySubId}</span>
                                    <h5><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${al.applyId}">${al.productName}</a></h5>
-                                   <div class="product__item__text"> 현재 입찰가 : ${al.price} </div>
+                                   <div class="product__item__text"> 현재 입찰가 : <fmt:formatNumber value="${al.price}" pattern="#,###" /> </div>
                                 </div>
                             </div>
                         </div>

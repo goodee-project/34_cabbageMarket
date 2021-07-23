@@ -31,26 +31,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
-    	
-    	
-    	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
 
-		if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
-			if(confirm( ${ablePoint}+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
-				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
-				return false;
-			} else {
-				alert("입찰불가 : "+ ${ablePoint}+ "포인트 부족");
+		console.log( ${cnt} ); //입찰 여부
+    	if ( ${cnt} > 0){
+			if ( confirm("입찰성공: 현재 포인트="+ ${usersSession.get("point")}+"\n 입찰내역으로 이동하시겠습니까?" )) {
+				location.href= "${pageContext.request.contextPath}/users/biddingList"; //입찰내용으로 이동
 				return false;
 			}
-		} else { ///ablePoint가 계산이 음수거나 0이면 입찰가능
-    		if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
-    			$('#addNewBidForm').submit();
-    		} else {
-    			alert("입찰취소");
-    			return false;
-    		}
-        }
+		} else if (  ${cnt} == 0) {
+			alert("알수없는 이유로 입찰실패")
+			return false;
+		}
     	
     	console.log('호가 가능');
     	$(document).on('click', '#callQuote', function(){
@@ -116,8 +107,6 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3>${productDetail.productName}</h3>
-                        
-                        <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
                         <div class="product__details__rating">
                         	<c:forEach var="i" begin="0" end="${productDetail.count}">
                         		<c:if test="${i ==0}">
@@ -126,8 +115,9 @@
 	                            	<i class="fa fa-star"></i>
 	                            </c:if>
                             </c:forEach>
-                            <span>( ${productDetail.count} 회 입찰됨) 마지막 입찰자 : </span>
+                            <span>( ${productDetail.count} 회 입찰됨)</span>
                         </div>
+                        <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
                         <form id="calculPointForm" action="${pageContext.request.contextPath}/users/calculatePoint" method="post" enctype="multipart/form-data">
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
@@ -143,10 +133,8 @@
 					        <span class="text">Like</span>
 					      </div>
 					    </div>
-					    
                         <ul>
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
-                            <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
                             <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
                             <li><b>현재 입찰가</b> <span><fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></span></li>
                             <li><b>Share on</b>
