@@ -49,12 +49,12 @@ public class DirectTradeController {
 			reservationState = null;
 		}
 		
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> currentPage : " + currentPage);
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> rowPerPage : " + rowPerPage);
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> searchWord : " + searchWord);
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> categoryMainId : " + categoryMainId);
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> sortValue : " + sortValue);
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> reservationState : " + reservationState);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> currentPage : " + currentPage);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> rowPerPage : " + rowPerPage);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> searchWord : " + searchWord);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> categoryMainId : " + categoryMainId);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> sortValue : " + sortValue);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> reservationState : " + reservationState);
 		
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", (currentPage-1)*rowPerPage);
@@ -68,7 +68,7 @@ public class DirectTradeController {
 		int directProductTotal = directTradeService.getDirectTradeProductTotal(paramMap);
 		int lastPage = (int)Math.ceil((double)directProductTotal / rowPerPage);
 		
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [addManager] [param] -> lastPage : " + lastPage);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeList] [param] -> lastPage : " + lastPage);
 		
 		// 직거래 상품 리스트
 		List<Map<String, Object>> DirectTradeProductRegistrationList = 
@@ -100,7 +100,7 @@ public class DirectTradeController {
 	public String getDirectTradeOne(Model model,
 			@RequestParam(value="directTradeProductRegistrationId") int directTradeProductRegistrationId) {
 		
-		log.debug(Debuging.DEBUG + "[DirectTradeController] [directTradeOne] [param] -> directTradeProductRegistrationId : " + directTradeProductRegistrationId);
+		log.debug(Debuging.DEBUG + "[DirectTradeController] [getDirectTradeOne] [param] -> directTradeProductRegistrationId : " + directTradeProductRegistrationId);
 		
 		// 상품 상세정보
 		Map<String, Object> productDetail = directTradeService.getDirectTradeProductOne(directTradeProductRegistrationId);

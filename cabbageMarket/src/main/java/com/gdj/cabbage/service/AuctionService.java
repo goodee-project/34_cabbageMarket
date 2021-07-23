@@ -31,13 +31,17 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 paramMap확인"+paramMap.toString());
 		
 		int beginRow = (((int)paramMap.get("currentPage")-1)*(int)paramMap.get("rowPerPage"));
-		int total = (auctionMapper.selectAuctionForCount()); //검색어 없이 total 가져오는 mapper
-		int lastPage = (int)(Math.ceil((double)total / (int)paramMap.get("rowPerPage"))); //lastPage 계산
+		int pageSet = ((int)paramMap.get("currentPage")-1)/10;
 		
 		Map<String,Object> page = new HashMap<String,Object>();
 		page.put("beginRow", beginRow);
-		page.put("RowPerPage", ((int)paramMap.get("rowPerPage")));
-		page.put("SearchWord", ((String)paramMap.get("searchWord")));
+		page.put("rowPerPage", ((int)paramMap.get("rowPerPage")));
+		page.put("searchWord", ((String)paramMap.get("searchWord")));
+		page.put("categoryMainId", ((String)paramMap.get("categoryMainId")));
+		
+		int total = (auctionMapper.selectAuctionForCount(page));
+		int lastPage = (int)(Math.ceil((double)total / (int)paramMap.get("rowPerPage"))); //lastPage 계산
+		
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 Page 학인 : "+ page.toString());
 		
 		log.debug(Debuging.DEBUG+"4 mapper에서 온 total 확인: "+ total);
@@ -50,6 +54,7 @@ public class AuctionService {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("total", total);
 		resultMap.put("lastPage", lastPage);
+		resultMap.put("pageSet", pageSet);
 		resultMap.put("auctionList", auctionList);
 		resultMap.put("categoryMainList", categoryMainList);
 		

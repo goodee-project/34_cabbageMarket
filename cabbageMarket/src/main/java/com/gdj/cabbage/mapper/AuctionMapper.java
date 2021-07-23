@@ -13,7 +13,7 @@ public interface AuctionMapper {
 
 	List<Map<String,Object>> selectAuctionList(Map<String, Object> page);//검색어 없이 auctionList 가져오는 mapper
 
-	int selectAuctionForCount();//검색어 없이 total 가져오는 mapper
+	int selectAuctionForCount(Map<String, Object> map);//검색어 없이 total 가져오는 mapper
 
 	Map<String, Object> selectAuctionOne(int applyId); //상세정보 가져오는 mapper
 

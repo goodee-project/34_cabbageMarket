@@ -326,7 +326,6 @@
 				            	<i class="fa fa-long-arrow-right"></i>
 				            </a>
 				        </c:if>
-
                     </div>
                     
                 </div>

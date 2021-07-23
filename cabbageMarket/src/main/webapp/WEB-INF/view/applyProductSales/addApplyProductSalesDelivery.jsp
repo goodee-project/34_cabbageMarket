@@ -130,7 +130,8 @@
         $('#summitBtn').click(function() {
             
         	console.log("summitBtn click!");
-			
+        	$('#imgFileUpload').remove();
+        	
         	var fileCheck = document.getElementById("imgFileUpload").value;
 
             if(!fileCheck){
@@ -291,7 +292,7 @@
 	                	<h4>상품이미지<span style="color: #7fad39;">*</span></h4>
 	                </div>
 	                <div class="col-lg-9" style="display: inline;">
-	                	<label for="imgFileUpload">
+	                	<label for="imgFileUpload"> <span id="target"></span>
 					        <img src="${pageContext.request.contextPath}/template/img/productImgUpload.png"/>
 					    </label>
 					    <input id="imgFileUpload" name="applyProductSalesDeliveryImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>
@@ -421,6 +422,8 @@
     			
     			console.log(image); 
     			reader.readAsDataURL(image); 
+    			
+    			$('#target').prepend('<input id="imgFileUpload" name="applyProductSalesDeliveryImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
     		} 
     	} 
     </script>
