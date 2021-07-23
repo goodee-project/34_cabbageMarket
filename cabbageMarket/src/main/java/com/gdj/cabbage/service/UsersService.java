@@ -34,6 +34,18 @@ public class UsersService {
 	@Autowired UsersMapper usersMapper;
 	@Autowired ApplyProductSalesMapper applyProductSalesMapper;
 	
+	// 구매 정보 내역 서비스
+	public Map<String, Object> boughtOne(int applyId, int type){
+		log.debug(Debuging.DEBUG+" apllyId : "+applyId);
+		log.debug(Debuging.DEBUG+" type : "+type);
+		
+		if(type == 2) {
+			return usersMapper.getBiddingProductOne(applyId);
+		}
+		
+		return usersMapper.getBoughtProductOne(applyId);
+	}
+	
 	// 유저 판매 내역 리스트
 	public Map<String, Object> sellList(int userId, int currentPage, int rowPerPage){
 		log.debug(Debuging.DEBUG+" userId : "+userId);// 디버깅 코드

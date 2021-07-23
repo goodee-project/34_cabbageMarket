@@ -45,6 +45,18 @@ public class UsersController {
 	@Autowired ApplyProductSalesService applyProductSalesService;
 	@Autowired UsersMapper usersMapper;
 	
+	@GetMapping("/users/boughtProductOne")
+	public String boughtProductOne(Model model, int applyId, int type) {
+		log.debug(Debuging.DEBUG+" apllyId : "+applyId);
+		log.debug(Debuging.DEBUG+" type : "+type);
+		
+		Map<String, Object> boughtProductOne = usersService.boughtOne(applyId, type);
+		
+		model.addAttribute("boughtProductOne", boughtProductOne);
+		
+		return "/userInfo/boughtProductOne";
+	}
+	
 	@GetMapping("/users/sellList")
 	public String sellList(Model model, HttpSession session,  @RequestParam(value="currentPage" , defaultValue = "1") int currentPage,
 																@RequestParam(value="rowPerPage", defaultValue = "5") int rowPerPage) {

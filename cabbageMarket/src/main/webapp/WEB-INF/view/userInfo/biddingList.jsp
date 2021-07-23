@@ -120,9 +120,7 @@
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
-					                                    			${bl.productName}
-					                                    		</a>
+					                                    		${bl.productName}
 					                                    	</h5>
 					                                    </td>
 					                                    <td>
@@ -146,7 +144,7 @@
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
+					                                    		<a href="${pageContext.request.contextPath}/users/boughtProductOne?applyId=${bl.applyId}&type=2" style="text-decoration: none">
 					                                    			${bl.productName}
 					                                    		</a>
 					                                    	</h5>

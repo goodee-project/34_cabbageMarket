@@ -484,7 +484,7 @@
 	<!-- 유저 중고 구매 리스트 쿼리 -->
 	<select id="getBuyingUsedProductByUserId" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			bpd.apply_product_sales_delivery_id applyDeliveryId,
+			bpd.apply_product_sales_delivery_id applyId,
 			apsdi.img_name img,
 			cs.category_sub_name category,
 			apsd.product_name productName,
@@ -637,5 +637,50 @@
 			JOIN bidding_commissions_history bch ON bch.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
 			WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
 			GROUP BY apr.apply_product_sales_delivery_id) a
+	</select>
+	
+	<!-- 구매 후 배송정보 쿼리 -->
+	<select id="getBoughtProductOne" resultType="java.util.Map" parameterType="Integer">
+		SELECT
+			apsd.product_name productName,
+			apsdi.img_name img,
+			upr.product_price price,
+			sa.address address,
+			dpd.waybill_number waybillNumber,
+			dpd.delivery_requests deliveryRequests
+		FROM
+			buying_product_delivery dpd 
+			LEFT JOIN apply_product_sales_delivery apsd ON dpd.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN shipping_address sa ON dpd.shipping_address_id=sa.shipping_address_id
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN used_product_registration upr ON upr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id				
+		WHERE
+			apsd.apply_product_sales_delivery_id=#{applyId}
+						
+		GROUP BY
+			apsd.apply_product_sales_delivery_id
+	</select>
+	
+	<!-- 낙찰 후 배송정보 쿼리 -->
+	<select id="getBiddingProductOne" resultType="java.util.Map" parameterType="Integer">
+		SELECT
+			apsd.product_name productName,
+			apsdi.img_name img,
+			sb.price price,
+			sa.address address,
+			dpd.waybill_number waybillNumber,
+			dpd.delivery_requests deliveryRequests
+		FROM
+			bidding_product_delivery dpd 
+			LEFT JOIN apply_product_sales_delivery apsd ON dpd.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN shipping_address sa ON dpd.shipping_address_id=sa.shipping_address_id
+			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
+			JOIN successful_bid sb ON sb.applyId=apsd.apply_product_sales_delivery_id
+		<where>
+			apsd.apply_product_sales_delivery_id=#{applyId}
+		</where>
+		GROUP BY
+			apsd.apply_product_sales_delivery_id
 	</select>
 </mapper>

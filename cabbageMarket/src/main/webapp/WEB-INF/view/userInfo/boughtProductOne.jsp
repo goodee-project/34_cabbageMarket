@@ -11,7 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>구매 내역</title>
+	<title>구매 상품 정보</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	
@@ -79,70 +79,64 @@
 				<div class="col-lg-10 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>구매 내역</h2>
+							<h2>구매 상품 정보</h2>
 						</div>
 						<div class="col-md-12">
 							<div class="card">
-								<table class="table table-hover" style="text-align: center">
-			                            <thead>
-			                                <tr>
-			                                	<th>
-			                                		순번
-			                                	</th>
-			                                	<th>
-			                                		이미지
-			                                	</th>
-			                                    <th>
-			                                    	제품명
-			                                    </th>
-			                                    <th>
-			                                    	구매 가격
-			                                    </th>
-			                                    <th>
-			                                    	구매 날짜
-			                                    </th>
-			                                </tr>
-			                            </thead>
-				                            
-			                            <tbody>
-			                            	<c:set var="index" value = "${beginRow}"/>
-			                            	<c:forEach var="bupl" items="${byingUsedProductList}">
-				                                <tr>
-				                                	<td>
-				                                		${index = index+1}
-				                                	</td>
-				                                    <td>
-				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bupl.img}" width="70px" height="50px">
-				                                    </td>
-				                                    <td>
-				                                    	<h5>
-				                                    		<a href="${pageContext.request.contextPath}/users/boughtProductOne?applyId=${bupl.applyId}&type=1" style="text-decoration: none">
-				                                    			${bupl.productName}
-				                                    		</a>
-				                                    	</h5>
-				                                    </td>
-				                                    <td>
-				                                    	<h5>${bupl.price}</h5>
-				                                    </td>
-				                                    <td>
-				                                    	<h5>${bupl.buyingDate}</h5>
-				                                    </td>
-				                                </tr>
-			                                </c:forEach>
-			                            </tbody>
-			                        </table>
-							</div>
-							<div class="card-footer">
-								<c:if test="${currentPage>1}">
-									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage-1}">
-										<button type="button" class="btn btn-outline-secondary">이전</button>
-									</a>
-								</c:if>
-								<c:if test="${currentPage < lastPage}">
-									<a href="${pageContext.request.contextPath}/users/buyingList?currentPage=${currentPage+1}">
-										<button type="button" class="btn btn-outline-secondary">다음</button>
-									</a>
-								</c:if>
+								<div class="card-body">
+							        <div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>제품명</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							           	 	${boughtProductOne.productName}
+							          	</div>
+							        	</div>
+							        	<hr>
+							        	<div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>상품 이미지</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							            	<img src="${pageContext.request.contextPath}/template/img/applyProductImg/${boughtProductOne.img}" width="300px" height="300px">
+							          	</div>
+							        </div>
+							        <hr>
+							        <div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>구매 가격</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							            	${boughtProductOne.price}
+							         	</div>
+							        </div>
+							        <hr>
+							        <div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>주소</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							            	${boughtProductOne.address}
+							          	</div>
+							        </div>
+							        <hr>
+							        <div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>운송장 번호</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							            	${boughtProductOne.waybillNumber}
+							          	</div>
+							        </div>
+							        <hr>
+							        <div class="row">
+							          	<div class="col-sm-3">
+							            	<h6 class="mb-0"><b>배송 요청사항</b></h6>
+							          	</div>
+							          	<div class="col-sm-9 text-secondary">
+							            	${boughtProductOne.deliveryRequests}
+							          	</div>
+							        </div>
 							</div>
 						</div>
 				</div>

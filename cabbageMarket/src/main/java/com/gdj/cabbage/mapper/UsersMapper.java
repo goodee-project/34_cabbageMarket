@@ -47,4 +47,6 @@ public interface UsersMapper {
 	List<Map<String, Object>> sellListByUser(Map<String, Object> map);
 	int sellListCount(int userId);
 	int biddingListCount(int userId);
+	Map<String, Object> getBoughtProductOne(int applyId);
+	Map<String, Object> getBiddingProductOne(int apllyId);
 } 
