@@ -376,8 +376,9 @@
 			LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
 			JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
+			JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id=pcr.apply_product_sales_delivery_id
 		<where>
-			apsd.user_id=#{userId} AND DATEDIFF(upr.registration_deadline, NOW())>0
+			apsd.user_id=#{userId} AND DATEDIFF(upr.registration_deadline, NOW())>0 AND pcr.registration_state=1
 		</where>
 		GROUP BY
 			apsd.apply_product_sales_delivery_id
@@ -398,8 +399,9 @@
 			JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id
 			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
 			JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
+			JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id=pcr.apply_product_sales_delivery_id
 		<where>
-			apsd.user_id=#{userId} AND TIMEDIFF(apr.registration_deadline,NOW())>0
+			apsd.user_id=#{userId} AND TIMEDIFF(apr.registration_deadline,NOW())>0 AND pcr.registration_state=2
 		</where>
 		GROUP BY 
 			apsd.apply_product_sales_delivery_id
@@ -420,7 +422,7 @@
 		direct_trade_product_registration dtpr LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id
 		JOIN category_sub cs ON dtpr.category_sub_id=cs.category_sub_id
 		<where>
-			dtpr.user_id=#{userId} AND dtpr.product_state <![CDATA[ <> ]]> 0
+			dtpr.user_id=#{userId} AND (dtpr.product_state > 0 AND dtpr.product_state &lt; 3) 
 		</where>
 		GROUP BY
 			dtpr.direct_trade_product_registration_id
