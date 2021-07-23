@@ -133,8 +133,8 @@
 	                            </ul>
 	                        </div>
 	                        <div class="product__item__text">
-	                            <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${apl.applyProductSalesDeliveryId}">${apl.productName}</a></h6>
-	                            <h5><fmt:formatNumber value="${apl.productPrice}" pattern="#,###"/>?</h5>
+	                            <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${apl.applyId}">${apl.productName}</a></h6>
+	                            <h5>현재 입찰가 : <fmt:formatNumber value="${apl.newPrice}" pattern="#,###" /></h5>
 	                        </div>
 	                    </div>
 	                </div>
@@ -188,7 +188,6 @@
     <section class="latest-product spad">
     </section>
     <!-- Latest Product Section End -->
-
 
 
     <!-- Footer Section Begin -->

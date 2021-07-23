@@ -35,61 +35,26 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Humberger Begin -->
+    <!-- header Begin -->
     <jsp:include page="/WEB-INF/view/header.jsp"/>
-	<!-- Humberger End -->
+	<!-- header End -->
 
 
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2">
-                    <div class="hero__categories header__menu">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>카테고리</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">가전</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">계절가전</a></li>
-                                    <li><a href="./shoping-cart.html">주방가전</a></li>
-                                    <li><a href="./checkout.html">생활가전</a></li>
-                                    <li><a href="./blog-details.html">미용/욕실가전</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">TV</a></li>
-                            <li><a href="#">컴퓨터</a></li>
-                            <li><a href="#">노트북</a></li>
-                            <li><a href="#">태블릿</a></li>
-                            <li><a href="#">모바일</a></li>
-                            <li><a href="#">디지털 카메라</a></li>
-                            <li><a href="#">음향기기</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-10">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    모든 카테고리
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="무엇이 필요하신가요?">
-                                <button type="submit" class="site-btn">찾기</button>
-                            </form>
-                        </div>
+                <div class="col-lg-12">
+                    <div class="hero__search" >
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
-                                <a href="#"><i class="fa fa-heart"></i> <span>판매하기</span></a>
+                                <a href="${pageContext.request.contextPath}/users/sellIndex"><i class="fa fa-heart"></i> <span>판매하기</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
-                               <a href="#"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
+                               <a href="${pageContext.request.contextPath}/users/registedProduct"><i class="fa fa-shopping-bag"></i> <span>내 상점</span></a>
                             </div>
                             <div class="hero__search__phone__icon">
-					            <a href="#"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            	<a type="button" onclick="showPopup();"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
                             </div>
                         </div>
                     </div>
@@ -160,7 +125,6 @@
     <!-- Latest Product Section End -->
 
 
-
     <!-- Footer Section Begin -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
     <!-- Footer Section End -->
@@ -175,7 +139,12 @@
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 
-
+	<script>
+	// 채팅방 팝업창
+    function showPopup() { 
+  	  window.open("${pageContext.request.contextPath}/users/getChattingRoomList?userId=${usersSession.userId}", "chattingList", "width=400, height=600, left=200, top=200"); 
+    }
+	</script>
 
 </body>
 

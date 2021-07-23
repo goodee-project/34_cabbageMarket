@@ -12,8 +12,8 @@
 			,img_name imgName
 			,DATEDIFF(apr.registration_deadline, now()) datediff
 			,apsd.category_sub_id categorySubName
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price), N'#,0')) price
-			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT((apr.min_bid_price), N'#,0') , FORMAT((bap.bid_price+quote), N'#,0')) newPrice
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
 		FROM category_main cm 
 		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
 			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
@@ -31,7 +31,12 @@
 			( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
-		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		<choose>
+		    <when test="sortValue == 1">ORDER BY newPrice DESC, apsdi.img_name</when>
+		    <when test="sortValue == 2">ORDER BY newPrice, apsdi.img_name</when>
+		    <when test="sortValue == 3">ORDER BY datediff, apsdi.img_name</when>
+		    <otherwise>ORDER BY bap.create_date, apsd.create_date, apsdi.img_name</otherwise>
+	  	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -56,29 +61,28 @@
 	</select>
 	
 	<select id="selectAuctionOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
-		SELECT 
+	SELECT 
 			apr.apply_product_sales_delivery_id applyId
 			,username userName
 			,category_sub_name categorySubName
 			,product_name productName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price, bap.bid_price+quote) newPrice
-			,count(bap.apply_product_sales_delivery_id) count
 			,product_desc productDesc
 			,min_bid_price minPrice
 			,quote
 			,registration_state registrationState
 			,pcr.create_date createDate
 			,apsd.user_id userId
-		FROM auction_product_registration apr
+		FROM bidding_auction_product bap
+				Right JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
 				LEFT JOIN product_confirmation_registration pcr ON apr.apply_product_sales_delivery_id= pcr.apply_product_sales_delivery_id
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
-				LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
 				LEFT JOIN manager ON pcr.manager_id = manager.manager_id
 				LEFT JOIN users ON apsd.user_id = users.user_id
 				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
 		WHERE apr.apply_product_sales_delivery_id = #{applyId}
-		GROUP BY apr.apply_product_sales_delivery_id
+		ORDER BY bap.create_date DESC
 		LIMIT 1
 	</select>
 	
@@ -220,9 +224,11 @@
 			,now()
 			)
 	</insert>
+
 	<select id="selectBeforeBid" parameterType="map" resultType="map">
 		SELECT
 			bidding_auction_product_id bidId
+			,apply_product_sales_delivery_id applyId
 			,bid_price price
 			,user_id userId
 		FROM
@@ -244,30 +250,28 @@
 				,now()
 				)
 	</insert>
+	<update id="updateBidPointMinusByBid" parameterType="map" >
+		UPDATE 
+			bidding_points_using_history
+			
+		SET
+			point = #{newPrice}
+			,create_date =now()
+			
+		WHERE
+			bidding_auction_product_id = #{bidId}
+	</update>
 	<update id="updateBidding" parameterType="map" >
 		UPDATE 
 			bidding_auction_product
-		SET 
+		SET
 			bid_price = #{newPrice}
-			, create_date = now()
+			,create_date =now()
+			
 		WHERE
-			bidding_auction_product_id = ${bidId}
-	</update>
-	<update id="updateBidPointMinusByBid" parameterType="map" >
-		UPDATE 
-			bidding_points_using_history(
-				point
-				,create_date
-				)
-			VALUES(
-				#{newPrice}
-				,now()
-				)
-		WHERE
-			bidding_auction_product_id = ${bidId}
-	</update>
-	
-	
+			bidding_auction_product_id = #{bidId}
+	</update>	
+
 	
 	
 	

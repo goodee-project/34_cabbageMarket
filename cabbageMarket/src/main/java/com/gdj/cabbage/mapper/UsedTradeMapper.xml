@@ -65,6 +65,7 @@
 		SELECT 
 			upr.apply_product_sales_delivery_id applyId,
 			apsd.product_name productName,
+			apsd.user_id userId,
 			u.nickname nickname,
 			upr.product_desc productDesc,
 			upr.product_price productPrice,
@@ -92,6 +93,7 @@
 		SELECT cm.category_middle_id categoryMiddleId,
 			   cm.category_middle_name categoryMiddleName,
 			   apsd.apply_product_sales_delivery_id applyId,
+			   apsd.apply_product_sales_delivery_id userId,
 			   apsd.product_name productName,
 			   img.img_name imgName,
 			   upr.product_price productPrice

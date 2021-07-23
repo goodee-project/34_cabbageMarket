@@ -56,6 +56,12 @@
 			<if test="categoryMainId != null">
 				AND cm.category_main_id = #{categoryMainId}
 			</if>
+			<if test="reservationState == null">
+				AND regi.product_state = 1
+			</if>
+			<if test="reservationState != null">
+				AND (regi.product_state = 1 or regi.product_state = 2)
+			</if>
 		</where>
 	</select>
 
