@@ -3,6 +3,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 배송상품 등록 승인 -->
+
+<insert id="insertDeliveryProductToPcr"
+		parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
+
+	INSERT INTO
+		product_confirmation_registration(
+		
+			apply_product_sales_delivery_id,
+			manager_id,
+			registration_state,
+			create_date
+			
+		) VALUES (
+			#{applyProductSalesDeliveryId},
+			#{managerId},
+			DEFAULT(registration_state),
+			NOW()
+			
+		)
+	
+</insert>
+
 <!-- 배송상품 상세보기 -->
 
 <select id="selectDeliveryProductInfo"

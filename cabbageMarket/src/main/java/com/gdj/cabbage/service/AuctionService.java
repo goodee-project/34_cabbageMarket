@@ -118,7 +118,7 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt 확인: "+ cnt);
 		
 		if(cnt >0) {
-			auctionMapper.updateConfirmationState(auctionProductRegistration.getApplyProductSalesDeliveryId()); 
+			auctionMapper.updateConfirmationState(auctionProductRegistration.getApplyProductSalesDeliveryId(),2); 
 		}
 		return cnt;
 	}
@@ -135,7 +135,7 @@ public class AuctionService {
 		ablePoint = (int)map.get("newPrice") - userPoint; // 지금 포인트로 살수 있는지 계산
 
 		int beforBidCnt = 0;
-		beforBidCnt += auctionMapper.selectBeforeBidCnt(map); //아이디로 입찰한적 잇는지 확인
+		beforBidCnt += auctionMapper.selectBeforeBidCntByBuyerId(map); //아이디로 입찰한적 잇는지 확인
 		
 		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
@@ -160,7 +160,7 @@ public class AuctionService {
 		
 		int cnt = 0;
 
-		int beforBidCnt = auctionMapper.selectBeforeBidCnt(map); //아이디로 입찰한적 잇는지 확인
+		int beforBidCnt = auctionMapper.selectBeforeBidCntByBuyerId(map); //아이디로 입찰한적 잇는지 확인
 		
 		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
@@ -190,11 +190,26 @@ public class AuctionService {
 		return cnt;
 	}
 	
-	public int modifyPcrActuon() {
+	public int modifyAuction() {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+"없음");
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ "없음");
-		
-		return 0;
+		int cnt =0; 
+		List<Integer> timeOutList = auctionMapper.getTimeOutApplyId();
+		for( int applyId : timeOutList ) {
+			int BidCnt = auctionMapper.selectBeforeBidCntByApplyId( applyId );
+			if (BidCnt != 0) { //경매가 있다.
+				Map<String, Object> lastBid = auctionMapper.selectLastBidInfo(applyId);
+				List<Map<String, Object>> notLastBid = auctionMapper.selectNotLastBidInfo(lastBid);
+				for (int ) {
+					insertCnt= auctionMapper.insertBidPointPlusHistory( notLastBid.get(j) );
+				}
+				
+			} else {
+				
+			}
+			cnt +=1;
+		}
+		return cnt;
 	}
 
 }

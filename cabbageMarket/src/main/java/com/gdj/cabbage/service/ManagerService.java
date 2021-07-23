@@ -13,6 +13,7 @@ import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ManagerMapper;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
+import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
+
+	// 배송상품 등록 승인
+	public void addDeliveryProductToPcr(ProductConfirmationRegistration productConfirmationRegistration) {
+		
+		managerMapper.insertDeliveryProductToPcr(productConfirmationRegistration);
+	}
 
 	// 배송상품 상세보기
 	public Map<String, Object> getDeliveryProductInfo(Integer apsdi) {

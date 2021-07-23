@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ManagerService;
 import com.gdj.cabbage.vo.Manager;
+import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,14 +92,23 @@ public class ManagerController {
 
 	// 배송 신청된 상품 목록 출력
 	@GetMapping("/manager/getDeliveryProductList")
-	public String getDeliveryProductList(Model model) {		
+	public String getDeliveryProductList(HttpSession session, Model model) {		
 		
 		List<Map<String,Object>> getDeliveryProductList = managerService.getDeliveryProductList();
 		log.debug(Debuging.DEBUG+" getDeliveryProductList "+getDeliveryProductList);
 		
+		session.getAttribute("managerSession");
 		model.addAttribute("getDeliveryProductList", getDeliveryProductList);
 		
 		return "/manager/getDeliveryProductList";
+	}
+	
+	@GetMapping("manager/addDeliveryProductList")
+	public String addDeliveryProductToPcr(ProductConfirmationRegistration productConfirmationRegistration) {
+		
+		managerService.addDeliveryProductToPcr(productConfirmationRegistration);
+		
+		return "redirect:/manager/getDeliveryProductList";
 	}
 
 	// 관리자 상세보기

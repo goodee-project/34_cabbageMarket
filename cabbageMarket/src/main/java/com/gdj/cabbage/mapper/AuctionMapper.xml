@@ -61,7 +61,7 @@
 	</select>
 	
 	<select id="selectAuctionOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
-	SELECT 
+		SELECT 
 			apr.apply_product_sales_delivery_id applyId
 			,username userName
 			,category_sub_name categorySubName
@@ -172,11 +172,11 @@
 		UPDATE 
 			product_confirmation_registration
 		SET 
-			registration_state = 2
+			registration_state = ${state}
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
-	<select id="selectBeforeBidCnt" parameterType="map" resultType="int">
+	<select id="selectBeforeBidCntByBuyerId" parameterType="map" resultType="int">
 		SELECT
 			count(*)
 		FROM
@@ -184,7 +184,7 @@
 		WHERE
 			user_id = #{userId} And apply_product_sales_delivery_id =#{applyId}
 	</select>
-		<select id="selectBeforeBidId" parameterType="map" resultType="int">
+	<select id="selectBeforeBidId" parameterType="map" resultType="int">
 		SELECT
 			bidding_auction_product_id
 		FROM
@@ -297,6 +297,49 @@
 		LIMIT 1
 	</select>
 	
+
+	
+	<select id="getTimeOutApplyId" resultType="Integer">
+		SELECT
+			apply_product_sales_delivery_id	applyId
+		FROM auction_product_registration
+		WHERE DATEDIFF(registration_deadline, NOW()) = 0
+	</select>
+	
+	<select id="selectBeforeBidCntByApplyId" parameterType="int" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			bidding_auction_product bap
+		WHERE
+			apply_product_sales_delivery_id =#{applyId}
+	</select>
+	
+	<select id="selectLastBidInfo" parameterType="int" resultType="map">
+		SELECT
+			bidding_auction_product_id bidId
+			,apply_product_sales_delivery_id applyId
+			,bid_price point
+		FROM
+			bidding_auction_product bap
+		WHERE
+			apply_product_sales_delivery_id = #{applyId}
+		ORDER BY create_date DESC
+		limit 1
+	</select>
+	
+	<select id="selectNotLastBidInfo" parameterType="map" resultType="map">
+		SELECT
+			bidding_auction_product_id bidId
+			,apply_product_sales_delivery_id applyId
+			,bid_price point
+		FROM
+			bidding_auction_product bap
+		WHERE
+			apply_product_sales_delivery_id = #{applyId} AND bidding_auction_product_id != ${bidId}
+		ORDER BY create_date DESC
+	</select>
+	
 	<insert id="insertBidPointPlusHistory" parameterType="map">
 		INSERT INTO bidding_points_using_history(
 			bidding_auction_product_id
@@ -305,13 +348,10 @@
 			,create_date
 			)
 			VALUES(
-			#{newBidId}
-			,'지출'
-			,#{newPrice}
+			#{bidId}
+			,'유찰'
+			,#{point}
 			,now()
 			)
 	</insert>
-	
-	
-	
 </mapper>

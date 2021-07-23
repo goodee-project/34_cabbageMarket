@@ -8,10 +8,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
+import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 
 @Mapper
 public interface ManagerMapper {
 	
+	// 배송상품 등록승인
+	void insertDeliveryProductToPcr(ProductConfirmationRegistration productConfirmationRegistration);
 	// 배송상품 상세보기
 	Map<String, Object> selectDeliveryProductInfo(Integer apsdi);
 	// 오늘 회원
