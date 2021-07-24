@@ -76,17 +76,18 @@
 			$('#sortByForm').submit();
 		});
 		
-		$(window).scroll(function () {
-	          if ($(this).scrollTop() > 100) {
-	            $('#scrollTop').fadeIn(500);
-	          } else {
-	            $('#scrollTop').fadeOut('slow');
-	          }
-	        });
-	        $('#scrollTop').click(function (e) {
-	          e.preventDefault();
-	          $('html, body').animate({scrollTop: 0}, 200);
-	        });
+		$(window).scroll(function (){
+			if($(this).scrollTop() > 100) {
+				$('#scrollTop').fadeIn(500);
+			} else {
+				$('#scrollTop').fadeOut('slow');
+			}
+	    });
+		
+        $('#scrollTop').click(function (e) {
+			e.preventDefault();
+			$('html, body').animate({scrollTop: 0}, 200);
+	    });
 	});	
 	
 	$.ajax({

@@ -2,7 +2,8 @@
 <!-- 수정자 : 강혜란 210707 localhost/cabbageMarket/index-->
 <!-- 수정자 : 강혜란 210712 판매하기 버튼, 배추톡 버튼 링크 수정-->
 <!-- 수정자 : 김태훈 210714 배추톡 세션체크 추가-->
-<!-- 수정자 : 김희진 210722 -->
+<!-- 수정자 : 김희진 210722 index 수정, 상품 출력 -->
+<!-- 수정자 : 김희진 210724 scrollTop 추가-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,7 +32,45 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
     
+    <style>
+	.scrolltop {
+      display: none;
+      position: fixed;
+      right: 30px;
+      bottom: 50px;
+      z-index: 1030;
+      font-size: 1.875rem;
+      color: #868e96;
+      transition: all 0.5s ease-in-out;
+      opacity: 0.8;
+	}
+     .scrolltop:hover,
+     .scrolltop:focus {
+      color: #dc3545;
+      transition: all 0.5s ease-in-out;
+	}	
+	</style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			$(window).scroll(function (){
+				if($(this).scrollTop() > 100) {
+					$('#scrollTop').fadeIn(500);
+				} else {
+					$('#scrollTop').fadeOut('slow');
+				}
+		    });
+			
+	        $('#scrollTop').click(function (e) {
+				e.preventDefault();
+				$('html, body').animate({scrollTop: 0}, 200);
+		    });
+		});		
+	</script>
 </head>
 
 <body>
@@ -189,6 +228,11 @@
     </section>
     <!-- Latest Product Section End -->
 
+	<!-- ScrollTop Section Begin -->
+	<a id="scrollTop" class="scrolltop" href="#">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+	<!-- ScrollTop Section End -->
 
     <!-- Footer Section Begin -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
