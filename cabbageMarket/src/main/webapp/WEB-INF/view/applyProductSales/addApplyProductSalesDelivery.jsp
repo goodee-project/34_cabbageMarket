@@ -25,99 +25,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style type="text/css">
-    	.imgBtn {
-		    border: none;
-		    outline: none;
-		    white-space: nowrap;
-		    width: 100%;
-		    height: 100%;
-		    padding: 0px;
-		}
-    	.categoryBtn {
-    		background-color: transparent;
-		    cursor: pointer;
-		    border: none;
-		    outline: none;
-		    white-space: nowrap;
-		    text-align: left;
-		    width: 100%;
-		    height: 100%;
-		    padding: 0px 1.5rem;
-		}
-		.categoryBtn:hover {
-		    background-color: rgb(244, 244, 250);
-		}
-		.categoryBtn:active {
-			background-color: rgb(234, 233, 241);
-		}
-		.categoryUl{
-			display:inline-block; 
-			list-style:none; 
-			overflow-y:scroll; 
-			width:250px; 
-			height:400px;
-			border: 1px solid rgb(220,219,224);
-		}
-		.adrsSearchBtn{
-			height: 42px;
-		    width: 6.5rem;
-		    text-align: center;
-		    border: 1px solid rgb(195, 194, 204);
-		    margin-right: 1rem;
-		    margin-left: 1rem;
-		    border-radius: 2px;
-			white-space: nowrap;
-			background-color: white;
-			padding-right: 20px;
-			padding-left: 20px;
-		}
-		.adrsSearchBtn:hover {
-		    background-color: rgb(244, 244, 250);
-		}
-		.adrsSearchBtn:active {
-			background-color: rgb(234, 233, 241);
-		}
-		.summitBtn{
-			height: 60px;
-		    width: 180px;
-			background-color: #7fad39;
-			color: white;
-		    border: none;
-		    outline: none;
-		    white-space: nowrap;
-		}
-		
-		#returnAddress{
-			-webkit-tap-highlight-color: transparent;
-		    background-color: #fff;
-		    border-radius: 5px;
-		    border: solid 1px #e8e8e8;
-		    box-sizing: border-box;
-		    clear: both;
-		    cursor: pointer;
-		    display: block;
-		    float: left;
-		    font-family: inherit;
-		    font-size: 14px;
-		    font-weight: normal;
-		    height: 42px;
-		    line-height: 40px;
-		    outline: none;
-		    padding-left: 18px;
-		    padding-right: 30px;
-		    position: relative;
-		    text-align: left !important;
-		    -webkit-transition: all 0.2s ease-in-out;
-		    transition: all 0.2s ease-in-out;
-		    -webkit-user-select: none;
-		    -moz-user-select: none;
-		    -ms-user-select: none;
-		    user-select: none;
-		    white-space: nowrap;
-		    width: auto;
-		}
-    </style>
+
 	<script> <!-- 유효성 검사 -->
     $(document).ready(function() {
     	
@@ -131,7 +39,8 @@
             
         	console.log("summitBtn click!");
         	$('#imgFileUpload').remove();
-        	
+        	$('#target').remove();        	
+
         	var fileCheck = document.getElementById("imgFileUpload").value;
 
             if(!fileCheck){
@@ -363,16 +272,7 @@
 	                <div class="col-lg-9 checkout__input" style="display: inline;">
 						<select id="returnAddress" name="returnAddress">
 						</select>
-						<a href="${pageContext.request.contextPath}/users/shippingAddress" target="_blank"><button type="button" class="adrsSearchBtn">주소 추가</button></a>
-	                </div>
-	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
- 
-	                <!-- 판매 상품 등록 판송 요청사항 -->
-	                <div class="col-lg-3">
-	                	<h4>반송 시 요청사항</h4>
-	                </div>
-	                <div class="col-lg-9 checkout__input" style="display: inline;">
-	                	<textarea id="deliveryRequests" name="deliveryRequests" rows="10" cols="30" placeholder="반송 요청사항을 입력해주세요."></textarea>
+						<a href="${pageContext.request.contextPath}/users/shippingAddress" target="_blank">　<button type="button" class="adrsSearchBtn">주소 추가</button></a>
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 	                
@@ -406,12 +306,16 @@
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
     <script> 
     	function setThumbnail(event){ 
-    		
+    		var container = document.getElementById("image_container"); 
+    		while ( container.hasChildNodes() ) { 
+    			container.removeChild( container.firstChild ); 
+    		};
+
     		for (var image of event.target.files) {
-    			
     			var reader = new FileReader(); 
     			
     			reader.onload = function(event) {
+    				
     				var img = document.createElement("img"); 
     				img.setAttribute("src", event.target.result);
     				img.setAttribute("width", 203);
@@ -424,7 +328,7 @@
     			reader.readAsDataURL(image); 
     			
     			$('#target').prepend('<input id="imgFileUpload" name="applyProductSalesDeliveryImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
-    		} 
+    		}
     	} 
     </script>
 </body>
