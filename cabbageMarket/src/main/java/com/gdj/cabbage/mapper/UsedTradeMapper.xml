@@ -19,7 +19,8 @@
 		LEFT JOIN category_middle cateMid ON cateSub.category_middle_id = cateMid.category_middle_id
 		LEFT JOIN category_main cateMain ON cateMid.category_main_id = cateMain.category_main_id
 		<where>
-			pcr.registration_state = 1
+				pcr.registration_state = 1
+			AND DATEDIFF(upr.registration_deadline, NOW()) > 0
 			<if test="searchWord != null">
 				AND apsd.product_name LIKE CONCAT ('%',#{searchWord},'%')
 			</if>
@@ -46,7 +47,8 @@
 		LEFT JOIN category_middle cateMid ON cateSub.category_middle_id = cateMid.category_middle_id
 		LEFT JOIN category_main cateMain ON cateMid.category_main_id = cateMain.category_main_id
 		<where>
-			pcr.registration_state = 1
+				pcr.registration_state = 1
+			AND DATEDIFF(upr.registration_deadline, NOW()) > 0
 			<if test="searchWord != null">
 				AND apsd.product_name LIKE CONCAT ('%',#{searchWord},'%')
 			</if>
@@ -104,10 +106,18 @@
 		LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 		LEFT JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id = upr.apply_product_sales_delivery_id
 		WHERE cm.category_middle_id = #{categoryMiddleId}
+		
 		AND pcr.registration_state = 1
 		GROUP BY RAND(), apsd.product_name
 		LIMIT 4
 	</select>
+	
+<!-- 등록마감기한이 지난 중고상품 처리. 등록 상태값을 1(중고) -> 9로 update. -->
+	<update id="updateDeadlineExceededProduct" parameterType="int">
+		UPDATE product_confirmation_registration 
+		SET registration_state = 9
+		WHERE apply_product_sales_delivery_id = ${applyProductSalesDeliveryId}
+	</update>
 
 <!-- 중고상품 등록 -->
 	<insert id="insertUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
@@ -132,7 +142,8 @@
 		SET registration_state = 1
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
-
+	
+		
 <!-- 중고상품 수정(상품을 올린 회원만 수정 가능) -->
 	<update id="updateUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
 		UPDATE 
@@ -243,11 +254,5 @@
 		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 		
 	</update>
-	
-	<!-- 6.중고상품등록 테이블에서 판매된 상품 delete -->
-	<delete id="deleteSoldUsedProduct" parameterType="int" > 
-		DELETE FROM used_product_registration
-		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
-	</delete>	
 	
 </mapper>
