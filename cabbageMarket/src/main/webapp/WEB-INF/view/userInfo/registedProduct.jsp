@@ -282,7 +282,12 @@
 					                                    	<h5>${gupl.price}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<h5>${gupl.deadline}</h5>
+					                                    	<c:if test="${gupl.state == '등록'}">
+					                                    		<h5>${gupl.deadline}</h5>
+					                                    	</c:if>
+					                                    	<c:if test="${gupl.state == '마감'}">
+					                                    		<h5 style="color:red">마감</h5>
+					                                    	</c:if>
 					                                    </td>
 					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}">
@@ -357,7 +362,12 @@
 					                                    	<h5>${gapl.maxPrice}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<h5>${gapl.deadline}</h5>
+					                                    	<c:if test="${gapl.state == '등록'}">
+					                                    		<h5>${gapl.deadline}</h5>
+					                                    	</c:if>
+					                                    	<c:if test="${gapl.state == '마감'}">
+					                                    		<h5 style="color:red">마감</h5>
+					                                    	</c:if>
 					                                    </td>
 					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">

@@ -414,7 +414,7 @@ public class UsersController {
 	    } else {
 	      model.addAttribute("res", "Login failed!");// 로그인 실패
 	    }
-	    return "index";
+	    return "redirect:/index";
 	}
 	
 

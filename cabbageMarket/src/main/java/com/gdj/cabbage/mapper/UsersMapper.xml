@@ -370,7 +370,8 @@
 			cs.category_sub_name category,
 			apsd.product_name productName,
 			upr.product_price price,
-			upr.registration_deadline deadline
+			upr.registration_deadline deadline,
+			IF(DATEDIFF(upr.registration_deadline, NOW())>=0, '등록', '마감') state
 		FROM 
 			used_product_registration upr 
 			LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 
@@ -378,7 +379,7 @@
 			JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id=apsdi.apply_product_sales_delivery_id
 			JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id=pcr.apply_product_sales_delivery_id
 		<where>
-			apsd.user_id=#{userId} AND DATEDIFF(upr.registration_deadline, NOW())>0 AND pcr.registration_state=1
+			apsd.user_id=#{userId} AND pcr.registration_state=1
 		</where>
 		GROUP BY
 			apsd.apply_product_sales_delivery_id
@@ -392,7 +393,8 @@
 			cs.category_sub_name category,
 			apsd.product_name productName,
 			IFNULL(MAX(bap.bid_price),'') maxPrice,
-			apr.registration_deadline deadline
+			apr.registration_deadline deadline,
+			IF(DATEDIFF(apr.registration_deadline, NOW())>=0, '등록', '마감') state
 		FROM 
 			auction_product_registration apr 
 			LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id=bap.apply_product_sales_delivery_id
@@ -401,7 +403,7 @@
 			JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 			JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id=pcr.apply_product_sales_delivery_id
 		<where>
-			apsd.user_id=#{userId} AND TIMEDIFF(apr.registration_deadline,NOW())>0 AND pcr.registration_state=2
+			apsd.user_id=#{userId} AND pcr.registration_state=2
 		</where>
 		GROUP BY 
 			apsd.apply_product_sales_delivery_id
