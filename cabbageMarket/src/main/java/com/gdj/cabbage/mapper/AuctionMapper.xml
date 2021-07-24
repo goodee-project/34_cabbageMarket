@@ -35,7 +35,7 @@
 		    <when test="sortValue == 1">ORDER BY newPrice DESC, apsdi.img_name</when>
 		    <when test="sortValue == 2">ORDER BY newPrice, apsdi.img_name</when>
 		    <when test="sortValue == 3">ORDER BY datediff, apsdi.img_name</when>
-		    <otherwise>ORDER BY bap.create_date, apsd.create_date, apsdi.img_name</otherwise>
+		    <otherwise>ORDER BY apsd.create_date DESC, bap.create_date, apsdi.img_name</otherwise>
 	  	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

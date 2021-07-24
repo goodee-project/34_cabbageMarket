@@ -154,7 +154,7 @@
 	                                                	<h6>${auctionList[i].productName}</h6>
 	                                                </c:if>
 	                                                <small style="color: black;">현재 입찰가</small>
-	                                                <span><fmt:formatNumber value="${auctionList[i].price}" pattern="#,###" /></span>
+	                                                <span><fmt:formatNumber value="${auctionList[i].newPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 	                                        </c:if>
@@ -177,7 +177,7 @@
 		                                                	<h6>${auctionList[i].productName}</h6>
 		                                                </c:if>
 		                                                <small style="color: black;">현재 입찰가</small>
-		                                                <span><fmt:formatNumber value="${auctionList[i].price}" pattern="#,###" /></span>
+		                                                <span><fmt:formatNumber value="${auctionList[i].newPrice}" pattern="#,###" /></span>
 		                                            </div>
 		                                        </a>
 		                                        </c:if>
@@ -219,7 +219,7 @@
                                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
                                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
                                             </form>
-                                            <div class="product__item__price"><fmt:formatNumber value="${al.price}" pattern="#,###" /></div>
+                                            <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
                                             
                                         </div>
                                     </div>

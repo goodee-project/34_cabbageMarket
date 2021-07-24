@@ -77,7 +77,7 @@ public class AuctionController {
 	@GetMapping("/getAuctionList")
 	public String getAuctionList(Model model
 			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
-			, @RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage
+			, @RequestParam(value="rowPerPage", defaultValue="12") int rowPerPage
 			, @RequestParam(value="searchWord", required=false) String searchWord
 			, @RequestParam(value="categoryMainId", required=false) String categoryMainId
 			, @RequestParam(value="sortValue", defaultValue = "0")Integer sortValue) {
