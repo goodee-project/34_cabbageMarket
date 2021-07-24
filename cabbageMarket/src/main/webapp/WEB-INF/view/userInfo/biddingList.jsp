@@ -157,6 +157,10 @@
 					                                    </td>
 					                                    <td style="color: blue">
 					                                    	<b>낙찰</b>
+					                                    	<form method="post" action="">
+					                                    		<input type="hidden" name="applyId" value="${bl.applyId}">
+					                                    		<button class="btn btn-success">배송지 입력</button>
+					                                    	</form>
 					                                    </td>
 					                                </tr>
 				                                </c:if>
