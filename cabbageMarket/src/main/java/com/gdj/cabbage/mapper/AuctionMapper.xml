@@ -10,7 +10,7 @@
 			,apr.create_date createDate
 			,product_name productName
 			,img_name imgName
-			,DATEDIFF(apr.registration_deadline, now()) datediff
+			,DATEDIFF(apr.registration_deadline, now())-1 datediff
 			,apsd.category_sub_id categorySubName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
@@ -28,7 +28,7 @@
 			<if test="categoryMainId != null">
 				cm.category_main_id = #{categoryMainId} AND
 			</if>
-			( DATEDIFF(apr.registration_deadline, now()) > 0) OR ( DATEDIFF(apr.registration_deadline, now()) = 0)
+			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
 		<choose>
@@ -163,7 +163,7 @@
 			,#{productDesc}
 			,#{minBidPrice}
 			,#{quote}
-			,#{registrationDeadline}
+			,DATE(#{registrationDeadline})
 			,NOW()
 			)
 	</insert>
@@ -176,14 +176,15 @@
 		WHERE apply_product_sales_delivery_id = ${applyId};
 	</update>
 	
-	<select id="selectBeforeBidCntByBuyerId" parameterType="map" resultType="int">
+	<select id="selectBeforeBidCntByMap" parameterType="map" resultType="int">
 		SELECT
-			count(*)
+			count(*) 
 		FROM
 			bidding_auction_product bap
 		WHERE
-			user_id = #{userId} And apply_product_sales_delivery_id =#{applyId}
+			apply_product_sales_delivery_id= #{applyId} AND user_id =#{userId}
 	</select>
+	
 	<select id="selectBeforeBidId" parameterType="map" resultType="int">
 		SELECT
 			bidding_auction_product_id
@@ -270,7 +271,7 @@
 			
 		WHERE
 			bidding_auction_product_id = #{bidId}
-	</update>	
+	</update>		
 
 	
 	
@@ -299,7 +300,7 @@
 	
 
 	
-	<select id="getTimeOutApplyId" resultType="Integer">
+	<select id="getTimeOutApplyId" resultType="map">
 		SELECT
 			apply_product_sales_delivery_id	applyId
 		FROM auction_product_registration
@@ -347,11 +348,51 @@
 			,point
 			,create_date
 			)
-			VALUES(
+		VALUES(
 			#{bidId}
 			,'유찰'
+			,#{point}
+			,date(now())
+			)
+	</insert>
+	
+	<insert id="insertBidCommisionByLastBid" parameterType="map">
+		INSERT INTO bidding_commissions_history(
+			apply_product_sales_delivery_id
+			,commission_info_id
+			,commission_point
+			,create_date
+			)
+		VALUES(
+			#{applyId}
+			,2
+			,#{commission}
+			,date(now())
+			)
+	</insert>
+	
+	<select id="selectBidComissionRateForint" resultType="double">
+		SELECT
+			commission_rate/100
+		FROM
+			commission_info ci
+		WHERE
+			ci.commission_info_id = #{int}
+	</select>
+	
+	<insert id="insertBidPointPlusByLastBid" parameterType="map">
+		INSERT INTO bidding_points_using_history(
+			bidding_auction_product_id
+			,income_expenditure
+			,point
+			,create_date
+			)
+		VALUES(
+			#{bidId}
+			,'낙찰'
 			,#{point}
 			,now()
 			)
 	</insert>
+	
 </mapper>

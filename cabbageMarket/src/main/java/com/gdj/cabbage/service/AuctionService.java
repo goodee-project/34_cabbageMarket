@@ -135,7 +135,7 @@ public class AuctionService {
 		ablePoint = (int)map.get("newPrice") - userPoint; // 지금 포인트로 살수 있는지 계산
 
 		int beforBidCnt = 0;
-		beforBidCnt += auctionMapper.selectBeforeBidCntByBuyerId(map); //아이디로 입찰한적 잇는지 확인
+		beforBidCnt += auctionMapper.selectBeforeBidCntByMap(map); //아이디로 입찰한적 잇는지 확인
 		
 		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
@@ -160,13 +160,13 @@ public class AuctionService {
 		
 		int cnt = 0;
 
-		int beforBidCnt = auctionMapper.selectBeforeBidCntByBuyerId(map); //아이디로 입찰한적 잇는지 확인
+		int beforBidCnt = auctionMapper.selectBeforeBidCntByMap(map); //아이디로 입찰한적 잇는지 확인
 		
 		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
 			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidId가 null = 입찰한적 없음");
 			cnt += auctionMapper.insertBidding(map); //우선 매퍼로 입찰을 기록하고.
-			log.debug(Debuging.DEBUG+"4 insertBidding mapper에서 온 cnt :"+cnt);
+			log.debug(Debuging.DEBUG+"4 insertBidding mapper에서 온 입찰갯수 :"+cnt);
 			Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
 			cnt += auctionMapper.insertBidPointMinusByBid(MyBid); //그 정보로 mihus입찰에 넣는다.
 			log.debug(Debuging.DEBUG+"4 insertBidPointMinusByBid mapper에서 온 cnt :"+cnt);
@@ -193,23 +193,69 @@ public class AuctionService {
 	public int modifyAuction() {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+"없음");
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ "없음");
-		int cnt =0; 
-		List<Integer> timeOutList = auctionMapper.getTimeOutApplyId();
-		for( int applyId : timeOutList ) {
-			int BidCnt = auctionMapper.selectBeforeBidCntByApplyId( applyId );
-			if (BidCnt != 0) { //경매가 있다.
-				Map<String, Object> lastBid = auctionMapper.selectLastBidInfo(applyId);
-				List<Map<String, Object>> notLastBid = auctionMapper.selectNotLastBidInfo(lastBid);
-				for (int ) {
-					insertCnt= auctionMapper.insertBidPointPlusHistory( notLastBid.get(j) );
+		int cnt = 0;
+		int check =0; 
+		double commissionRate = auctionMapper.selectBidComissionRateForint(2) ; // 낙찰수수료 계산하기
+		log.debug(Debuging.DEBUG+"4 selectBidComissionRateForint(2)에서온 경매수수료 비율 학인 : "+ commissionRate+"%");
+		List<Map<String,Object>> timeOutList = auctionMapper.getTimeOutApplyId();
+		log.debug(Debuging.DEBUG+"4 timeOutList에서온 시간지난 List 학인 : "+ timeOutList.toString());
+		int c = timeOutList.size();
+		log.debug(Debuging.DEBUG+"4 timeOutList에서온 시간지난 List.size 만큼 반복 학인 : "+ c);
+		for(int i=0 ; i < c ; i++ ) {
+			log.debug(Debuging.DEBUG+i+"번째 시간지난 아이템 처리~"); 
+			int bidCnt = auctionMapper.selectBeforeBidCntByApplyId( (int)timeOutList.get(i).get("applyId") );
+			log.debug(Debuging.DEBUG+"4 selectBeforeBidCntByApplyId에서온 경매몇개인지 학인 : "+ bidCnt);
+			if (bidCnt > 0) { //경매가 여러개 있다.
+				
+				log.debug(Debuging.DEBUG+"경매가 있다");
+				Map<String, Object> lastBid = auctionMapper.selectLastBidInfo( (int)timeOutList.get(i).get("applyId") ); //마지막 bid 가져오기
+				log.debug(Debuging.DEBUG+"4 selectLastBidInfo에서온 마지막 경매 학인 : "+ lastBid.toString());
+				
+				List<Map<String, Object>> notLastBid = auctionMapper.selectNotLastBidInfo(lastBid); // 마지막 아닌 Bid 리스트 뽑기
+				log.debug(Debuging.DEBUG+"4 selectNotLastBidInfo에서온 마지막 경매가 아닌 경매 학인 : "+ notLastBid.toString());
+				int cc = notLastBid.size(); // LastBid의 사이즈를 구해서
+				log.debug(Debuging.DEBUG+"4 selectNotLastBidInfo에서온 마지막 경매가 아닌 List.size 만큼 반복 학인 : "+ cc);
+				for (int j=0 ; j < cc ; j++) { //for문을 돌린다.
+					cnt += 1; //유찰갯수마다 1개.
+					log.debug(Debuging.DEBUG+i+"번째 시간지난 아이템의"+j+"번째 경매 처리중~"); 
+					Map<String,Object> map = new HashMap<String,Object> ();
+					map.put("applyId", notLastBid.get(j).get("applyId"));
+					map.put("bidId", notLastBid.get(j).get("bidId"));
+					map.put("point", notLastBid.get(j).get("point"));
+					//map을 매번 다시 입력한다
+					
+					check += auctionMapper.insertBidPointPlusHistory( map ); //유찰입력
 				}
-				
-			} else {
-				
-			}
-			cnt +=1;
-		}
-		return cnt;
-	}
+				log.debug(Debuging.DEBUG+"유찰된 갯수 학인 : "+ check);
+				log.debug(Debuging.DEBUG+i+"번째 시간지난 아이템의"+(cc+1)+"번째 경매=낙찰 처리중~"); 
+				cnt += 1; //낙찰갯수마다 1개.
 
-}
+				int oldPoint = (int)lastBid.get("point");
+				log.debug(Debuging.DEBUG+"현재 lastBid에 있는 낙찰포인트oldPoint 확인 : "+ oldPoint); 
+
+
+				int commission = (int)( oldPoint * commissionRate);
+				log.debug(Debuging.DEBUG+"현재 경매수수료 비용으로 계산한 수수료commission 확인 : "+ commission);
+				int newPoint = (oldPoint - commission);
+				log.debug(Debuging.DEBUG+"현재 경매수수료 비용으로 계산한 판매자 포인트newPoint 확인 : "+ newPoint);
+				
+				lastBid.put("commission", commission );
+				log.debug(Debuging.DEBUG+"3 mapper로 보낼 lastBid 확인 : "+ lastBid.toString());
+				check = auctionMapper.insertBidCommisionByLastBid(lastBid); //수수료정보 입력
+				log.debug(Debuging.DEBUG+"4 insertBidCommisionByLastBid에서온 수수료 입력된 갯수 학인 : "+ check); 
+				
+				lastBid.put("point", newPoint );
+				check = auctionMapper.insertBidPointPlusByLastBid( lastBid ); //판매자에게낙찰입력
+				log.debug(Debuging.DEBUG+"4 insertBidPointPlusByLastBid에서온 낙찰 입력된 갯수 학인 : "+ check); 
+				
+				auctionMapper.updateConfirmationState( (int)timeOutList.get(i).get("applyId"),0); //pcr상태변경
+				log.debug(Debuging.DEBUG+"4 updateConfirmationState(0)으로 상태변환"); 
+			}	else{
+				log.debug(Debuging.DEBUG+"경매가 없다");
+			}
+
+		} //for
+		
+			return cnt;
+		} //public
+	}//class
