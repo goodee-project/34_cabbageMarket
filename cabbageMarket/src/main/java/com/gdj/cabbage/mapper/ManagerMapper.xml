@@ -278,7 +278,7 @@
 			
 		<where>
 			<if test="searchWord != null">
-				board_title LIKE CONCAT('%', #{searchWord}, '%')
+				username LIKE CONCAT('%', #{searchWord}, '%')
 			</if>
 		</where>
 		
