@@ -37,11 +37,12 @@ public class UsedTradeController {
 	// 중고상품 목록
 	@GetMapping("getUsedProductList")
 	public String getUsedProductList(Model model,
-			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-			@RequestParam(value = "rowPerPage", defaultValue = "9") int rowPerPage,
-			@RequestParam(value = "searchWord", required = false) String searchWord,
-			@RequestParam(value = "categoryMainId", required = false) String categoryMainId,
-			@RequestParam(value = "sortBy", required = false) Integer sortBy) {
+												 @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+												 @RequestParam(value = "rowPerPage", defaultValue = "9") int rowPerPage,
+												 @RequestParam(value = "searchWord", required = false) String searchWord,
+												 @RequestParam(value = "categoryMainId", required = false) String categoryMainId,
+												 @RequestParam(value = "sortBy", required = false) Integer sortBy) {
+		
 		// 디버깅
 		log.debug("★★★★★getUsedProductList() currentPage:" + currentPage);
 		log.debug("★★★★★getUsedProductList() rowPerPage:" + rowPerPage);
@@ -53,9 +54,11 @@ public class UsedTradeController {
 		if (searchWord != null && searchWord.equals("")) {
 			searchWord = null;
 		}
+		// 카테고리 대분류 조회
 		if (categoryMainId != null && categoryMainId.equals("")) {
 			categoryMainId = null;
 		}
+		
 		// HashMap 생성 - > map에 값 넣어주기
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage - 1) * rowPerPage);
@@ -71,6 +74,9 @@ public class UsedTradeController {
 
 		// 중고상품 목록 가져오기
 		List<Map<String, Object>> usedProductList = usedTradeService.getUsedProductList(map);
+		
+		// 마감입박한 상품 목록 
+		List<Map<String, Object>> deadlineImminentProduct = usedTradeService.getDeadlineImminentProduct6();
 
 		// model에 값 넣어주기
 		model.addAttribute("currentPage", currentPage);
@@ -80,7 +86,8 @@ public class UsedTradeController {
 		model.addAttribute("usedProductTotal", usedProductTotal);
 		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("pageSet", pageSet);
-		model.addAttribute("usedProductList", usedProductList);
+		model.addAttribute("usedProductList", usedProductList); //중고상품 목록
+		model.addAttribute("deadlineImminentProduct", deadlineImminentProduct); //마감 임박한 중고상품 6개
 
 		// getUsedProductList 페이지로 반환
 		return "usedProduct/getUsedProductList";
@@ -203,5 +210,4 @@ public class UsedTradeController {
 
 		return "redirect:/users/buyingList";
 	}
-
 }

@@ -24,6 +24,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 	
 	<style>
 	.form-control:focus {
@@ -47,9 +48,26 @@
 	  position: absolute;
   	  right: 15px;
 	}
+	.scrolltop {
+      display: none;
+      position: fixed;
+      right: 30px;
+      bottom: 50px;
+      z-index: 1030;
+      font-size: 1.875rem;
+      color: #868e96;
+      transition: all 0.5s ease-in-out;
+      opacity: 0.8;
+   }
+    .scrolltop:hover,
+    .scrolltop:focus {
+     color: #dc3545;
+     transition: all 0.5s ease-in-out;
+   }	
 	</style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
 	<script>
 	$(document).ready(function(){
 	   
@@ -57,6 +75,18 @@
 			console.log($('#sortBy').val());
 			$('#sortByForm').submit();
 		});
+		
+		$(window).scroll(function () {
+	          if ($(this).scrollTop() > 100) {
+	            $('#scrollTop').fadeIn(500);
+	          } else {
+	            $('#scrollTop').fadeOut('slow');
+	          }
+	        });
+	        $('#scrollTop').click(function (e) {
+	          e.preventDefault();
+	          $('html, body').animate({scrollTop: 0}, 200);
+	        });
 	});	
 	
 	$.ajax({
@@ -166,6 +196,35 @@
                 </div>
                 
                 <div class="col-lg-9 col-md-7">
+                
+                	<div class="product__discount">
+                        <div class="section-title product__discount__title">
+                            <h2>마감 임박 상품</h2>
+                        </div>
+                        <div class="row">
+                            <div class="product__discount__slider owl-carousel">
+	                            <c:forEach var="dip" items="${deadlineImminentProduct}">
+	                                <div class="col-lg-4">
+	                                    <div class="product__discount__item">
+	                                        <div class="product__discount__item__pic set-bg"
+	                                            data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${dip.imgName}">
+	                                            <ul class="product__item__pic__hover">
+	                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+	                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+	                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+	                                            </ul>
+	                                        </div>
+	                                        <div class="product__discount__item__text">
+	                                            <h5><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${dip.applyId}">${dip.productName}</a></h5>
+	                                            <div class="product__item__price"><fmt:formatNumber value="${dip.productPrice}" pattern="#,###" /></div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                           </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                
 	                <div class="product__discount">
 	                	<!-- search 검색 -->
 						<div class="box">
@@ -274,6 +333,12 @@
         </div>
     </section>
     <!-- Product Section End -->
+    
+    <!-- ScrollTop Section Begin -->
+	<a id="scrollTop" class="scrolltop" href="#">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+	<!-- ScrollTop Section End -->
 
     <!-- Footer Section Begin -->
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
@@ -288,5 +353,6 @@
 	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
 	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
+	
 </body>
 </html>

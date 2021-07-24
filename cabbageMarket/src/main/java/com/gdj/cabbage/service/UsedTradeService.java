@@ -36,6 +36,11 @@ public class UsedTradeService {
 		return usedTradeMapper.selectUsedProductTotal(map);
 	}
 	
+	// 마감 임박한 중고상품 목록
+	public List<Map<String, Object>> getDeadlineImminentProduct6(){
+		return usedTradeMapper.selectDeadlineImminentProduct6();
+	}
+	
 	//중고상품 상세 details
 	public Map<String,Object> getUsedProductOne(int applyId){
 		log.debug("★★★★★★★★service getUsedProductOne() applyId:" + applyId);
@@ -100,8 +105,6 @@ public class UsedTradeService {
 		//5.상품등록상태 변경 
 		usedTradeMapper.updateRegistrationState((int)map.get("applyProductSalesDeliveryId"));
 		
-		//6.판매된 중고상품 삭제 -> 처리 불가로 주석처리함.
-		//usedTradeMapper.deleteSoldUsedProduct((int)map.get("applyProductSalesDeliveryId"));
-		
 	}
+	
 }
