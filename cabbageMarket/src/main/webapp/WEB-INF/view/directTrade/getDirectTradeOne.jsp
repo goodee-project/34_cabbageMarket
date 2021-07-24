@@ -130,7 +130,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
+                                    <h6>Products Description</h6>
                                     <pre>${productDetail.productDesc}</pre>
                                 </div>
                             </div>

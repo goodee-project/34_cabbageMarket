@@ -140,26 +140,28 @@
 				<div class="col-lg-12">
 					<div class="product__details__tab">
 						<ul class="nav nav-tabs" role="tablist">
-							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
 							</li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">Information</a>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">Information</a>
 							</li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Description</h6>
-									<p>${usedProductDetail.productDesc}</p>
+									<h6>Products Description</h6>
+									<p>
+										<pre>${usedProductDetail.productDesc}</pre>
+									</p>
 								</div>
 							</div>
-							<div class="tab-pane" id="tabs-3" role="tabpanel">
+							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Information</h6>
+									<h6>Products Information</h6>
 									<p>상품: ${usedProductDetail.productName}</p>
 									<p>판매자: ${usedProductDetail.nickname}</p>
-									<p>판매가격: <fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###" /></p>
+									<p>판매가격: <fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###"/>원</p>
 									<p>마감기한: ${usedProductDetail.deadLine.substring(0,10)}</p>
 								</div>
 							</div>
@@ -193,7 +195,7 @@
 	                        </div>
 	                        <div class="product__item__text">
 	                            <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${rupl.applyProductSalesDeliveryId}">${rupl.productName}</a></h6>
-	                            <h5><fmt:formatNumber value="${rupl.productPrice}" pattern="#,###"/></h5>
+	                            <h5><fmt:formatNumber value="${rupl.productPrice}" pattern="#,###"/>원</h5>
 	                        </div>
 	                    </div>
 	                </div>

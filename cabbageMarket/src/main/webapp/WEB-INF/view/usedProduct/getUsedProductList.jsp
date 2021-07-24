@@ -163,7 +163,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" /></span>
+	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" />원</span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>
@@ -182,7 +182,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span>${usedProductList[i].productPrice}</span>
+	                                                <span>${usedProductList[i].productPrice}₩</span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>
@@ -196,7 +196,6 @@
                 </div>
                 
                 <div class="col-lg-9 col-md-7">
-                
                 	<div class="product__discount">
                         <div class="section-title product__discount__title">
                             <h2>마감 임박 상품</h2>
@@ -216,7 +215,7 @@
 	                                        </div>
 	                                        <div class="product__discount__item__text">
 	                                            <h5><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${dip.applyId}">${dip.productName}</a></h5>
-	                                            <div class="product__item__price"><fmt:formatNumber value="${dip.productPrice}" pattern="#,###" /></div>
+	                                            <div class="product__item__price"><fmt:formatNumber value="${dip.productPrice}" pattern="#,###" />원</div>
 	                                        </div>
 	                                    </div>
 	                                </div>
@@ -224,67 +223,66 @@
                             </div>
                         </div>
                     </div>
-                
-	                <div class="product__discount">
-	                	<!-- search 검색 -->
-						<div class="box">
-							<form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" >
-								<div class="input-group mb-4 border rounded-pill p-1" id="form">
-									<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="중고상품 검색">
-						    		<div class="input-group-append border-0">
-						     			<button id="btn" type="submit" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
-									</div>
+                	<div class="filter__item">
+                		<div class="row">
+			                <div class="product__discount">
+			                	<!-- search 검색 -->
+								<div class="box">
+									<form id="searchForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" >
+										<div class="input-group mb-4 border rounded-pill p-1" id="form">
+											<input id="search" type="search" name="searchWord" aria-describedby="button-addon1" class="form-control bg-none border-0" placeholder="중고상품 검색">
+								    		<div class="input-group-append border-0">
+								     			<button id="btn" type="submit" class="btn btn-link text-success"><i class="fa fa-search"></i></button>
+											</div>
+										</div>
+									</form>
 								</div>
-							</form>
+							</div>
 						</div>
-					</div>
-					<br>
-					<div class="row">
-                   		<div class="col-lg-4 col-md-4">
-                        	<div class="filter__sort">
-                            	<form id="sortByForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" style="display:inline;">
-                             		<input type="hidden" name="searchWord" value="${searchWord}">
-	                                <input type="hidden" name="categoryMainId" value="${categoryMainId}">
-                              		<select id="sortBy" name="sortBy" >
-		                              	<c:if test="${sortBy == 0}">
-		                              		<option value="0" selected="selected">최근등록순</option>
-		                              	</c:if>
-		                              	<c:if test="${sortBy != 0}">
-		                              		<option value="0">최근 등록순</option>
-		                              	</c:if>
-		                              	
-		                              	<c:if test="${sortBy == 1}">
-		                              		<option value="1" selected="selected">낮은가격순</option>
-		                              	</c:if>
-		                              	<c:if test="${sortBy != 1}">
-		                              		<option value="1">낮은 가격순</option>
-		                              	</c:if>
-		                              	
-		                              	<c:if test="${sortBy == 2}">
-		                              		<option value="2" selected="selected">높은가격순</option>
-		                              	</c:if>
-		                              	<c:if test="${sortBy != 2}">
-		                              		<option value="2">높은 가격순</option>
-		                              	</c:if>
-									</select>
-                            	</form>
-                       	 	</div>
-						</div>
-                        
-                    <div class="col-lg-4 col-md-4">
-                        <div class="filter__found">
-                            <h6>Total Products<span>&nbsp;${usedProductTotal}</span></h6>
-                        </div>
-                    </div>
-                        
-        			<div class="col-lg-4 col-md-3">
-                            <div class="filter__option">
-                                <span class="icon_grid-2x2"></span>
-                                <span class="icon_ul"></span>
-                            </div>
-                        </div>
-                        
-                    </div>
+						<br>
+						<div class="row">
+	                   		<div class="col-lg-4 col-md-5">
+	                        	<div class="filter__sort">
+	                            	<form id="sortByForm" action="${pageContext.request.contextPath}/users/getUsedProductList" method="get" style="display:inline;">
+	                             		<input type="hidden" name="searchWord" value="${searchWord}">
+		                                <input type="hidden" name="categoryMainId" value="${categoryMainId}">
+	                              		<select id="sortBy" name="sortBy" >
+			                              	<c:if test="${sortBy == 0}">
+			                              		<option value="0" selected="selected">최근등록순</option>
+			                              	</c:if>
+			                              	<c:if test="${sortBy != 0}">
+			                              		<option value="0">최근 등록순</option>
+			                              	</c:if>
+			                              	
+			                              	<c:if test="${sortBy == 1}">
+			                              		<option value="1" selected="selected">낮은가격순</option>
+			                              	</c:if>
+			                              	<c:if test="${sortBy != 1}">
+			                              		<option value="1">낮은 가격순</option>
+			                              	</c:if>
+			                              	
+			                              	<c:if test="${sortBy == 2}">
+			                              		<option value="2" selected="selected">높은가격순</option>
+			                              	</c:if>
+			                              	<c:if test="${sortBy != 2}">
+			                              		<option value="2">높은 가격순</option>
+			                              	</c:if>
+										</select>
+	                            	</form>
+	                       	 	</div>
+							</div>
+		                    <div class="col-lg-4 col-md-4">
+		                        <div class="filter__found">
+		                            <h6>Total Products<span>&nbsp;${usedProductTotal}</span></h6>
+		                        </div>
+		                    </div>
+		        			<div class="col-lg-4 col-md-3">
+	                            <div class="filter__option">
+	                                <span class="icon_grid-2x2"></span>
+	                                <span class="icon_ul"></span>
+	                            </div>
+	                        </div>
+                    </div> 
                     <br>
                     <div class="row">
                     	<c:forEach var="upl" items="${usedProductList}">
@@ -300,7 +298,7 @@
 	                                <div class="product__item__text">
 	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${upl.categorySubName}</span>
 	                                    <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyId}">${upl.productName}</a></h6>
-	                                    <h5><span><fmt:formatNumber value="${upl.productPrice}" pattern="#,###" /></span></h5>
+	                                    <h5><span><fmt:formatNumber value="${upl.productPrice}" pattern="#,###" />원</span></h5>
 	                                </div>
 	                            </div>
 	                        </div>
