@@ -44,19 +44,19 @@
 <!-- index에 중고상품 4개를 랜덤으로 출력. -->
 <select id="selectUsedProductForIndex" resultType="map">
 	SELECT 
-		   apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
-		   apsd.product_name productName,
-		   img.img_name imgName,
-		   upr.product_price productPrice
+		 apsd.apply_product_sales_delivery_id applyProductSalesDeliveryId,
+		 apsd.product_name productName,
+		 img.img_name imgName,
+		 upr.product_price productPrice
 	FROM 
-		apply_product_sales_delivery apsd 
+		 apply_product_sales_delivery apsd 
 	LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 	LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 	LEFT JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id = upr.apply_product_sales_delivery_id
 	WHERE 
-		pcr.registration_state = 1
+		 pcr.registration_state = 1
 	GROUP BY 
-		RAND(), apsd.apply_product_sales_delivery_id
+		 RAND(), apsd.apply_product_sales_delivery_id
 	LIMIT 4
 </select>
 
