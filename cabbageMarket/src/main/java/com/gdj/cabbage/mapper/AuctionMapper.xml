@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.AuctionMapper">
 	
-	<select id="selectAuctionList" parameterType="map" resultType="map"> <!-- 전체 aution 정보 가져오는 매퍼 *검색어 페이징추가 해야함* -->
+	<select id="selectAuctionList" parameterType="map" resultType="map"> 
 		SELECT
 			apr.apply_product_sales_delivery_id applyId
 			,registration_deadline registrationDeadline
@@ -11,7 +11,8 @@
 			,product_name productName
 			,img_name imgName
 			,DATEDIFF(apr.registration_deadline, now())-1 datediff
-			,apsd.category_sub_id categorySubName
+			,apsd.category_sub_id categorySubId
+			,cs.category_sub_name categorySubName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
 		FROM category_main cm 
@@ -35,7 +36,7 @@
 		    <when test="sortValue == 1">ORDER BY newPrice DESC, apsdi.img_name</when>
 		    <when test="sortValue == 2">ORDER BY newPrice, apsdi.img_name</when>
 		    <when test="sortValue == 3">ORDER BY datediff, apsdi.img_name</when>
-		    <otherwise>ORDER BY apsd.create_date DESC, bap.create_date, apsdi.img_name</otherwise>
+		    <otherwise>ORDER BY bap.create_date, apsd.create_date, apsdi.img_name</otherwise>
 	  	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -64,7 +65,8 @@
 		SELECT 
 			apr.apply_product_sales_delivery_id applyId
 			,username userName
-			,category_sub_name categorySubName
+			,cs.category_sub_name categorySubName
+			,apsd.category_sub_id categorySubId
 			,product_name productName
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price) price
 			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price, bap.bid_price+quote) newPrice
@@ -80,7 +82,7 @@
 				LEFT JOIN apply_product_sales_delivery apsd ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
 				LEFT JOIN manager ON pcr.manager_id = manager.manager_id
 				LEFT JOIN users ON apsd.user_id = users.user_id
-				LEFT JOIN category_sub sub ON apsd.category_sub_id=sub.category_sub_id
+				LEFT JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 		WHERE apr.apply_product_sales_delivery_id = #{applyId}
 		ORDER BY bap.create_date DESC
 		LIMIT 1
@@ -95,7 +97,7 @@
 			user_id = #{userId}
 	</select>
 	
-	<select id="selectApplyList" parameterType="map" resultType="map"> <!-- 전체 aution 정보 가져오는 매퍼 *검색어 페이징추가 해야함* -->
+	<select id="selectApplyList" parameterType="map" resultType="map"> 
 		SELECT
 			apsd.apply_product_sales_delivery_id applyId
 			,apr.create_date createDate
@@ -394,5 +396,46 @@
 			,now()
 			)
 	</insert>
+	
+	<select id="selectAuctionListBySubId" parameterType="int" resultType="map"> 
+		SELECT
+			apr.apply_product_sales_delivery_id applyId
+			,product_name productName
+			,img_name imgName
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote) newPrice
+		FROM category_main cm 
+		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
+			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
+		   	 INNER JOIN apply_product_sales_delivery apsd ON cs.category_sub_id = apsd.category_sub_id
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			  LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
+			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+		<where>
+			(apsd.category_sub_id = ${subId})
+			AND
+			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
+		</where>
+		GROUP BY apsdi.apply_product_sales_delivery_id
+		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+	</select>
+	
+	<select id="selectAuctionListByDeadline" parameterType="int" resultType="map"> 
+		SELECT
+			apr.apply_product_sales_delivery_id applyId
+			,product_name productName
+			,img_name imgName
+			,DATEDIFF(apr.registration_deadline, now())-1 datediff
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
+		FROM apply_product_sales_delivery apsd
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			  LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
+			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+		WHERE
+			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
+
+		GROUP BY apsdi.apply_product_sales_delivery_id
+		ORDER BY apr.registration_deadline ASC
+		LIMIT #{limit}
+	</select>
 	
 </mapper>

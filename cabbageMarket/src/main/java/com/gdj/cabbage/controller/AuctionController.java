@@ -110,7 +110,6 @@ public class AuctionController {
 		
 		List<CategoryMain> categoryMainList = categoryService.getCategoryMainList(); //카테고리를 불러오는 서비스
 		log.debug(Debuging.DEBUG+"5 service에서 받은 list 확인 categoryMainList : "+categoryMainList);
-		
 	
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("searchWord",searchWord);
@@ -122,6 +121,7 @@ public class AuctionController {
 		model.addAttribute("lastPage",resultMap.get("lastPage"));
 		model.addAttribute("pageSet",resultMap.get("pageSet"));
 		model.addAttribute("categoryMainList", resultMap.get("categoryMainList"));		
+		model.addAttribute("deadlineAuctionList", resultMap.get("deadlineAuctionList"));	
 		return "auction/getAuctionList";
 	}
 	

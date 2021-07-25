@@ -52,12 +52,16 @@ public class AuctionService {
 		List<CategoryMain> categoryMainList = categoryMapper.selectCategoryMain();//카테고리 메인을 불러오는 mapper
 		log.debug(Debuging.DEBUG+"4 mapper에서 보낸 categoryMainList확인"+categoryMainList.toString());
 		
+		List<Map<String,Object>> deadlineAuctionList = auctionMapper.selectAuctionListByDeadline(12); //검색어 없이 deadlineAuctionList 가져오는 mapper
+		log.debug(Debuging.DEBUG+"4 mapper에서 보낸 deadlineAuctionList 확인"+deadlineAuctionList.toString());
+		
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		resultMap.put("total", total);
 		resultMap.put("lastPage", lastPage);
 		resultMap.put("pageSet", pageSet);
 		resultMap.put("auctionList", auctionList);
 		resultMap.put("categoryMainList", categoryMainList);
+		resultMap.put("deadlineAuctionList", deadlineAuctionList);
 		
 		return resultMap;
 	}
@@ -254,8 +258,16 @@ public class AuctionService {
 				log.debug(Debuging.DEBUG+"경매가 없다");
 			}
 
-		} //for
+		}
 		
 			return cnt;
-		} //public
+		}
+	public List<Map<String,Object>>  getAuctionListBySubId(int categorySubId) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 int확인 : "+categorySubId);
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 int 학인 : "+ categorySubId);
+		
+		List<Map<String,Object>> relatedAuctionList = auctionMapper.selectAuctionListBySubId(categorySubId);
+		log.debug(Debuging.DEBUG+"4 mapper로 받아온 list 학인 : "+ relatedAuctionList.toString());
+		return relatedAuctionList;
+		}
 	}//class

@@ -34,16 +34,33 @@
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
     	var currentPosition = parseInt($(".scroll").css("top"));
+    	
+    	console.log($('#deadlineProductNum').val()); //productNum의 갯수를 받는다.
+		var size = ( ( ($('#ProductNum').val())/3) * 400 ); // 1개당 사이즈는 정확이 458px 근데 값커지면 안됨
+
+		try{
+			 const a = $('#deadlineProductNum').val();
+			 if(Object.is(a, null)) throw new Error("null");
+			 if(Object.is(a, undefined)) throw new Error("undefined");
+			 if(Object.is(a, NaN)) throw new Error("NaN");
+			 size += 300;
+			 console.log("+300");
+			}catch(error){
+				size -= 300;
+				console.log("-300");
+			}finally{
+			 console.log(size);
+			}
 		
 		$(window).scroll(function() { 
 			var position = $(window).scrollTop();
 			if(position < 300)
 				position = 300;
 			
-			if(position > 1900)
-				position = 1900;
+			if(position > size)
+				position = size;
 			
-			$(".scroll").stop().animate({"top":position+currentPosition-300+"px"},800); 
+			$(".scroll").stop().animate({"top":position+currentPosition-300+"px"},800); //-300은 헤더크기
 		}); 
     	
 		$('#sortValue').change(function(){
@@ -87,7 +104,7 @@
 	<!-- Hero Section Begin -->
     <section class="hero hero-normal">
         <div class="container">
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-9">
@@ -108,7 +125,7 @@
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="${pageContext.request.contextPath}/template/img/breadcrumb.jpg">
         <div class="container">
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
                         <h2>경매</h2>
@@ -136,48 +153,48 @@
 
                         <div class="sidebar__item">
                             <div class="latest-product__text">
-                                <h4>Latest Products</h4>
+                                <h4>fastest Products</h4>
                                 <div class="latest-product__slider owl-carousel">
                                 
                                     <div class="latest-prdouct__slider__item">
                                         <c:forEach var="i" begin="0" end="2">
-                                        	<c:if test="${auctionList.size() > i}">
-	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${auctionList[i].applyId}">
+                                        	<c:if test="${deadlineAuctionList.size() > i}">
+	                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${deadlineAuctionList[i].applyId}">
 	                                            <div class="latest-product__item__pic">
-	                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${auctionList[i].imgName}" alt="" style="width: 110px; height: 110px;">
+	                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${deadlineAuctionList[i].imgName}" alt="" style="width: 110px; height: 110px;">
 	                                            </div>
 	                                            <div class="latest-product__item__text">
-	                                            	<c:if test="${auctionList[i].productName.length() > 9}">
-	                                                	<h6>${auctionList[i].productName.substring(0,8)}..</h6>
+	                                            	<c:if test="${deadlineAuctionList[i].productName.length() > 9}">
+	                                                	<h6>${deadlineAuctionList[i].productName.substring(0,8)}..</h6>
 	                                                </c:if>
-	                                                <c:if test="${auctionList[i].productName.length() <= 9}">
-	                                                	<h6>${auctionList[i].productName}</h6>
+	                                                <c:if test="${deadlineAuctionList[i].productName.length() <= 9}">
+	                                                	<h6>${deadlineAuctionList[i].productName}</h6>
 	                                                </c:if>
 	                                                <small style="color: black;">현재 입찰가</small>
-	                                                <span><fmt:formatNumber value="${auctionList[i].newPrice}" pattern="#,###" /></span>
+	                                                <span><fmt:formatNumber value="${deadlineAuctionList[i].newPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 	                                        </c:if>
 										</c:forEach>
                                     </div>
                                     
-                                    <c:if test="${auctionList.size() > 2}">
+                                    <c:if test="${deadlineAuctionList.size() > 2}">
 	                                    <div class="latest-prdouct__slider__item">
 	                                        <c:forEach var="i" begin="3" end="5">
-	                                        	<c:if test="${auctionList.size() > i}">
-		                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${auctionList[i].applyId}">
+	                                        	<c:if test="${deadlineAuctionList.size() > i}">
+		                                        <a class="latest-product__item" href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${deadlineAuctionList[i].applyId}">
 		                                            <div class="latest-product__item__pic">
-		                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${auctionList[i].imgName}" alt="" style="width: 110px; height: 110px;">
+		                                                <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${deadlineAuctionList[i].imgName}" alt="" style="width: 110px; height: 110px;">
 		                                            </div>
 		                                            <div class="latest-product__item__text">
-		                                                <c:if test="${auctionList[i].productName.length() > 9}">
-		                                                	<h6>${auctionList[i].productName.substring(0,8)}..</h6>
+		                                                <c:if test="${deadlineAuctionList[i].productName.length() > 9}">
+		                                                	<h6>${deadlineAuctionList[i].productName.substring(0,8)}..</h6>
 		                                                </c:if>
-		                                                <c:if test="${auctionList[i].productName.length() <= 9}">
-		                                                	<h6>${auctionList[i].productName}</h6>
+		                                                <c:if test="${deadlineAuctionList[i].productName.length() <= 9}">
+		                                                	<h6>${deadlineAuctionList[i].productName}</h6>
 		                                                </c:if>
 		                                                <small style="color: black;">현재 입찰가</small>
-		                                                <span><fmt:formatNumber value="${auctionList[i].newPrice}" pattern="#,###" /></span>
+		                                                <span><fmt:formatNumber value="${deadlineAuctionList[i].newPrice}" pattern="#,###" /></span>
 		                                            </div>
 		                                        </a>
 		                                        </c:if>
@@ -192,43 +209,44 @@
 
 
 
-                </div>
-                <div class="col-lg-9 col-md-7">
-                    <div class="product__discount">
-                        <div class="section-title product__discount__title">
-                            <h2>오늘 입찰마감 상품</h2>
-                        </div>
-                        <div class="row">
-                            <div class="product__discount__slider owl-carousel">
-                            
-                            	<c:forEach var="al" items="${auctionList}">
-                            	<c:if test="${al.datediff == 0}">
-                                <div class="col-lg-4">
-                                    <div class="product__discount__item">
-                                        <div class="product__discount__item__pic set-bg"
-                                            data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
-                                            <div class="product__discount__percent">D-${al.datediff}</div>
-                                            <ul class="product__item__pic__hover">
-                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="product__discount__item__text">
-                                            <h5><a id="nameBtn">${al.productName}</a></h5>
-                                            <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
-                                            	<input type="hidden" name="applyId" value="${al.applyId }"/>
-                                            </form>
-                                            <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                </c:if>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
+<!-- 입찰마감상품--></div>
+<!-- 입찰마감상품-->   <div class="col-lg-9 col-md-7">
+<!-- 입찰마감상품-->    <div class="product__discount">
+<!-- 입찰마감상품-->        <div class="section-title product__discount__title">
+<!-- 입찰마감상품-->            <h2>오늘 입찰마감 상품</h2>
+<!-- 입찰마감상품-->        </div>
+<!-- 입찰마감상품-->        <div class="row">
+<!-- 입찰마감상품-->            <div class="product__discount__slider owl-carousel">
+<!-- 입찰마감상품-->            	
+<!-- 입찰마감상품-->            	<c:forEach var="al" items="${deadlineAuctionList}">
+<!-- 입찰마감상품-->            	<c:if test="${al.datediff == 0}">
+								<input name="deadlineProductNum" id="deadlineProductNum" type="hidden" value="${ deadlineAuctionList.size() }">
+<!-- 입찰마감상품-->                <div class="col-lg-4">
+<!-- 입찰마감상품-->                     <div class="product__discount__item">
+<!-- 입찰마감상품-->                         <div class="product__discount__item__pic set-bg"
+				                           data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
+<!-- 입찰마감상품-->                             <div class="product__discount__percent">D-${al.datediff}</div>
+<!-- 입찰마감상품-->                             <ul class="product__item__pic__hover">
+<!-- 입찰마감상품-->                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
+<!-- 입찰마감상품-->                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+<!-- 입찰마감상품-->                                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+<!-- 입찰마감상품-->                             </ul>
+<!-- 입찰마감상품-->                         </div>
+<!-- 입찰마감상품-->                         <div class="product__discount__item__text">
+<!-- 입찰마감상품-->                             <h5><a id="nameBtn">${al.productName}</a></h5>
+<!-- 입찰마감상품-->                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
+<!-- 입찰마감상품-->                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
+<!-- 입찰마감상품-->                             </form>
+<!-- 입찰마감상품-->                             <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
+<!-- 입찰마감상품-->                             
+<!-- 입찰마감상품-->                         </div>
+<!-- 입찰마감상품-->                     </div>
+<!-- 입찰마감상품-->                </div>
+<!-- 입찰마감상품-->                </c:if>
+<!-- 입찰마감상품-->                </c:forEach>
+<!-- 입찰마감상품-->            </div>
+<!-- 입찰마감상품-->        </div>
+<!-- 입찰마감상품-->    </div>
                     <div class="filter__item">
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
@@ -283,6 +301,7 @@
                         </div>
                     </div>
                     <div class="row">
+                    	<input name="ProductNum" id="ProductNum" type="hidden" value="${ auctionList.size() }">
                     	<c:forEach var="al" items="${auctionList}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
@@ -294,7 +313,6 @@
                                     </ul>
                                 </div>
 								<div class="product__item__text">
-                                   <span>${al.categorySubId}</span>
                                    <h5><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${al.applyId}">${al.productName}</a></h5>
                                    <div class="product__item__text"> 현재 입찰가 : <fmt:formatNumber value="${al.price}" pattern="#,###" /> </div>
                                 </div>
