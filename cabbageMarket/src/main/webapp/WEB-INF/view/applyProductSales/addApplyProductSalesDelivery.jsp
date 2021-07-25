@@ -39,7 +39,6 @@
             
         	console.log("summitBtn click!");
         	$('#imgFileUpload').remove();
-        	$('#target').remove();        	
 
         	var fileCheck = document.getElementById("imgFileUpload").value;
 
@@ -48,9 +47,9 @@
             }else if ($('#productName').val() == '') {
                 alert('제목을 입력해 주세요');
                 $('#productName').focus();
-            } else if ($('#deliveryRequests').val() == '') {
-                alert('상품 설명을 입력하세요');
-                $('#deliveryRequests').focus();
+            } else if ($('#waybillNumber').val() == '') {
+                alert('상품 운송장 번호를 입력하세요');
+                $('#waybillNumber').focus();
             } else if (cateCheck == 0) {
                 alert('카테고리를 선택해 주세요');
                 $('#categorySubId').focus();
@@ -306,16 +305,12 @@
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
     <script> 
     	function setThumbnail(event){ 
-    		var container = document.getElementById("image_container"); 
-    		while ( container.hasChildNodes() ) { 
-    			container.removeChild( container.firstChild ); 
-    		};
-
+    		
     		for (var image of event.target.files) {
+    			
     			var reader = new FileReader(); 
     			
     			reader.onload = function(event) {
-    				
     				var img = document.createElement("img"); 
     				img.setAttribute("src", event.target.result);
     				img.setAttribute("width", 203);
@@ -328,7 +323,7 @@
     			reader.readAsDataURL(image); 
     			
     			$('#target').prepend('<input id="imgFileUpload" name="applyProductSalesDeliveryImgs" type="file" style="display: none;" accept="image/*" onchange="setThumbnail(event);" multiple="multiple"/>');
-    		}
+    		} 
     	} 
     </script>
 </body>

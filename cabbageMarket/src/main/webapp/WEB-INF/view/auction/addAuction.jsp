@@ -27,19 +27,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
-	<!-- date -->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<!-- datepicker -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-		<link rel="stylesheet"
-			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
-		<link rel="stylesheet"
-			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/bootstrap-material-datetimepicker.css" />
-		<link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel='stylesheet' type='text/css'>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
 <!-- datePicker -->
 <script>
 	$(function() {
@@ -54,59 +48,61 @@
   });
 </script>
 
-  </script>
-		<script type="text/javascript">
-		$(document).ready(function()
-		{
-			// 상품 가격 숫자입력 유효성 검사
-	    	var enCheck = RegExp( /[^0-9]$/);
-			
-	    	$('#productPrice').keyup(function(){
-	    		if(enCheck.test($('#productPrice').val())){
-	    			alert('숫자만 입력해 주세요');
-	    			$('#productPrice').val('');
-	    		}
-	    	});
-			
-			// 폼 전송 유효성 검사
-	        $('#summitBtn').click(function() {
-	            
-	        	console.log("summitBtn click!");
-	        	
-	            if($('#minBidPrice').val() == '') {
-	                alert('최소 입찰가를 입력해 주세요');
-	                $('#minBidPrice').focus();
-	            } else if ($('#quote').val() == '') {
-	                alert('호가를 입력하세요');
-	                $('#quote').focus();
-	            } else if ($('#productDesc').val() == '') {
-	                alert('상품설명을 입력하세요');
-	                $('#productDesc').focus();
-	            } else if ($('#registrationDeadline').val() == '') {
-	                alert('마감기한을 입력하세요');
-	                $('#registrationDeadline').focus();
-	            } else {
-	                $('#addAuctionProdeuctForm').submit();
-	            }
-	        });
+<script>
+<!-- 유효성 검사 -->
+	$(document).ready(function() {
+
+		// 상품 가격 숫자입력 유효성 검사
+    	var enCheck = RegExp( /[^0-9]$/);
+		
+    	$('#minBidPrice').keyup(function(){
+    		if(enCheck.test($('#minBidPrice').val())){
+    			alert('숫자만 입력해 주세요');
+    			$('#minBidPrice').val('');
+    		} else{
+    			$('#minPrice').empty();
+    			console.log("가격 입력됨");
+    			var price = $('#minBidPrice').val();
+    			$('#minPrice').append( price);
+    		}
+    	});
+		
+    	$('#quote').keyup(function(){
+    		if(enCheck.test($('#quote').val())){
+    			alert('숫자만 입력해 주세요');
+    			$('#quote').val('');
+    		} else {
+    			$('#minQuote').empty();
+    			console.log("호가 입력됨");
+    			var price = $('#quote').val();
+    			$('#minQuote').append(price);
+    		}
+    	});
+    	
+		// 폼 전송 유효성 검사
+		$('#summitBtn').click(function() {
+			console.log("summitBtn click!");
+
+			if ($('#productDesc').val() == '') {
+				alert("상품 설명을 입력하세요");
+				$('#productDesc').focus();
+			} else if ($('#minBidPrice').val() == '') {
+				alert('상품 가격을 입력하세요');
+				$('#minBidPrice').focus();
+			} else if ($('#quote').val() == '') {
+				alert('호가를 입력하세요');
+				$('#quote').focus();
+			} else if ($('#datepicker').val() == '') {
+				alert('마감 일자를 입력하세요');
+				$('#datepicker').focus();
+			} else {
+				$('#addAuctionProductForm').submit();
+			}
 		});
-		</script>
-	<!--//ajax 미리보기 시도중 -->
-    <script>
-    function inputData(){
-        var auction = $('#form').serialize();
-        $.ajax({
-            url: "/previewAuction",
-            data: auction,
-            type:"POST",
-            cache: false
-        }).done(function (fragment) {
-             $("#list").replaceWith(fragment);
-        });
-        
-    }//출처: https://joyhong.tistory.com/104 [옳은 길로..]
-    </script>
-</head>
+
+	});
+</script>
+</head> 
 
 <body>
 	<!-- Page Preloder -->
@@ -157,7 +153,7 @@
                                 <div class="product__details__tab__desc">
                                     
                                 	<div class="container">
-									<form id="addAuctionProdeuctForm" action="${pageContext.request.contextPath}/users/addAuction" method="post" enctype="multipart/form-data">
+									<form id="addAuctionProductForm" action="${pageContext.request.contextPath}/users/addAuction" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="userId" value="8"> <!-- userId = 8으로 입력 테스트 -->
 										<div class="row">
 											<div class="col-lg-12">
@@ -214,20 +210,17 @@
 											<!-- 4 최소 입찰가 -->
 											<div class="col-lg-3">
 							                	<h4>최소 입찰가<span style="color: #7fad39;">*</span></h4>
-							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">추천: 정가의 80%이하</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="minBidPrice" name="minBidPrice" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
+							                	<input type="text" id="minBidPrice" name="minBidPrice" placeholder="추천가: 정가의 80%이하" style="width: 90%">&nbsp;원
 							                </div>
-							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
-							                
+							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 							                <!-- 경매 상품 호가 -->
 											<div class="col-lg-3">
 							                	<h4>호가<span style="color: #7fad39;">*</span></h4>
-							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">추천: 최소 입찰가의 10%</span>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="quote" name="quote" placeholder="상품 가격을 입력해주세요." style="width: 90%">&nbsp;원
+							                	<input type="text" id="quote" name="quote" placeholder="추천가: 최소 입찰가의 10%" style="width: 90%">&nbsp;원
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 							                
@@ -239,90 +232,77 @@
 							                	<textarea id="productDesc" name="productDesc" rows="10" cols="30" placeholder="상품 설명을 입력해주세요."></textarea>
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
-							                <!-- 경매 상품 마감일 -->
+							                <!-- 마감기한 입력 -->
 											<div class="col-lg-3">
-							                	<h4>마감일<span style="color: #7fad39;">*</span></h4>
-							                	<span style="color: #7fad39; font-size: 1rem; margin-left: 4rem;">최대 한달</span>
-							                </div>
-							                <div class="col-lg-9 checkout__input form-control-wrapper" style="display: inline;">
-							                	<!-- https://jqueryui.com/datepicker/-->
-							                	<input type="text" id="datepicker">
-							                	<input type="text" id="date" name="registrationDeadline" placeholder="날짜를 선택해주세요" value="2021-07-30 00:00:00" style="width: 100%">
-							                
-							                
-							                </div>
+												<h4>
+													마감 일자<span style="color: #7fad39;">* <span style="font-size: 1rem;">최대 3개월</span></span> 
+												</h4>
+												
+											</div>
+											<div class="col-lg-9 checkout__input" style="display: inline;">
+												<input type="text" id="registrationDeadline" name="registrationDeadline">
+											</div>
+											<div class="col-lg-12" style="margin-bottom: 15px;">
+												<hr style="border: solid 1px lightgrey;">
+											</div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px grey;"></div>				
 										
-											<!-- 경매 상품 미리보기-->
-											<div class="col-lg-3">
-							                	<div class="section-title product__discount__title" style="margin-top: 30px;">
-								                	<h2>미리보기</h2>
-								                </div>
-							                </div>
-							                <div class="row">
-			                                    <div class="col-lg-6 col-md-6">
-								                    <div class="product__details__pic">
-								                        <div class="product__details__pic__item">
-								                            <img class="product__details__pic__item--large"
+										
+<!-- 경매 상품 미리보기-->						<div class="col-lg-3">
+<!-- 경매 상품 미리보기-->		                	<div class="section-title product__discount__title" style="margin-top: 30px;">
+<!-- 경매 상품 미리보기-->			                	<h2>미리보기</h2>
+<!-- 경매 상품 미리보기-->			                </div>
+<!-- 경매 상품 미리보기-->		                </div>
+<!-- 경매 상품 미리보기-->		                <div class="row">
+<!-- 경매 상품 미리보기-->                          <div class="col-lg-6 col-md-6">
+<!-- 경매 상품 미리보기-->			                    <div class="product__details__pic">
+<!-- 경매 상품 미리보기-->			                        <div class="product__details__pic__item">
+<!-- 경매 상품 미리보기-->			                            <img class="product__details__pic__item--large"
 								                                src="${pageContext.request.contextPath}/template/img/applyProductImg/${imgPathList[0]}" alt="">
-								                        </div>
-								                        <div class="product__details__pic__slider owl-carousel">
-								                        	<div class="ribbon">
-						                                        <div class="text">New</div>
-						                                    <c:forEach var="img" items="${imgPathList}" begin="1">
-								                        		<img data-imgbigurl="${pageContext.request.contextPath}/template/img/applyProductImg/${img}"
-								                                src="${pageContext.request.contextPath}/template/img/applyProductImg/${img}" alt="">
-								                        	</c:forEach>    
-						                                    </div>
-								                        	
-								                        </div>
-								                    </div>
-								                </div>
-								                <div class="col-lg-6 col-md-6">
-								                    <div class="product__details__text">
-								                        <h3>${productDetail.productName}</h3>
-								                        <div class="product__details__rating">
-								                            <i class="fa fa-star"></i>
-								                            <i class="fa fa-star"></i>
-								                            <i class="fa fa-star"></i>
-								                            <i class="fa fa-star"></i>
-								                            <i class="fa fa-star-half-o"></i>
-								                            <span>(reviews)</span>
-								                        </div>
-								                        <div class="product__details__price">ㄱ{productDetail.price}</div>
-								                        <p>ㄱ{productDetail.productDesc}</p>
-								                        <a href="#" class="primary-btn" style="margin-top: 3px;">호가 : ㄱ{productDetail.quote}</a>
-								                        <div class="heart-btn">
-													      <div class="content">
-													        <span class="heart"></span>
-													        <span class="text">Like</span>
-													      </div>
-													    </div>
-								                        <ul>
-								                            <li><b>판매자</b> <span>${productDetail.userName}</span></li>
-								                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
-								                            <li><b>현재 입찰가</b> <span> null </span></li>
-								                            <li><b>Share on</b>
-								                                <div class="share">
-								                                    <a href="#"><i class="fa fa-facebook"></i></a>
-								                                    <a href="#"><i class="fa fa-twitter"></i></a>
-								                                    <a href="#"><i class="fa fa-instagram"></i></a>
-								                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-								                                </div>
-								                            </li>
-								                        </ul>
-								                    </div>
-								                </div>
-			                                    </div>
-							                
-							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
-							                
-							                <div class="col-lg-12" style="text-align: right;">
-							                	<button  id="summitBtn" class="summitBtn" type="button">등록하기</button>
-							                </div>
-							                
-										</div>
-									</form>
+<!-- 경매 상품 미리보기-->			                        </div>
+<!-- 경매 상품 미리보기-->			                        <!-- 세부사진 안보이기 -->
+<!-- 경매 상품 미리보기-->			                    </div>
+<!-- 경매 상품 미리보기-->			                </div>
+<!-- 경매 상품 미리보기-->			                <div class="col-lg-6 col-md-6">
+<!-- 경매 상품 미리보기-->			                    <div class="product__details__text">
+<!-- 경매 상품 미리보기-->			                        <h3>${productDetail.productName}</h3>
+<!-- 경매 상품 미리보기-->			                        <div class="product__details__rating">
+<!-- 경매 상품 미리보기-->			                            <span>( 0 회 입찰됨) 마지막 입찰자 : 없음</span>
+<!-- 경매 상품 미리보기-->			                        </div>
+<!-- 경매 상품 미리보기-->			                        <div class="product__details__price">최조 입찰가 : <span id="minPrice"></span></div>
+<!-- 경매 상품 미리보기-->			                        <a class="primary-btn" style="margin-top: 3px;">호가 : <span id="minQuote"></span></a>
+<!-- 경매 상품 미리보기-->			                        <div class="heart-btn">
+<!-- 경매 상품 미리보기-->								      <div class="content">
+<!-- 경매 상품 미리보기-->								        <span class="heart"></span>
+<!-- 경매 상품 미리보기-->								        <span class="text">Like</span>
+<!-- 경매 상품 미리보기-->							      </div>
+<!-- 경매 상품 미리보기-->								    </div>
+<!-- 경매 상품 미리보기-->			                        <ul>
+<!-- 경매 상품 미리보기-->			                            <li><b>판매자</b> <span>${productDetail.userName}</span></li>
+<!-- 경매 상품 미리보기-->			                            <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
+<!-- 경매 상품 미리보기-->			                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
+<!-- 경매 상품 미리보기-->			                            <li><b>현재 입찰가</b> <span> null </span></li>
+<!-- 경매 상품 미리보기-->			                            <li><b>Share on</b>
+<!-- 경매 상품 미리보기-->			                                <div class="share">
+<!-- 경매 상품 미리보기-->			                                    <a href="#"><i class="fa fa-facebook"></i></a>
+<!-- 경매 상품 미리보기-->			                                    <a href="#"><i class="fa fa-twitter"></i></a>
+<!-- 경매 상품 미리보기-->			                                    <a href="#"><i class="fa fa-instagram"></i></a>
+<!-- 경매 상품 미리보기-->			                                    <a href="#"><i class="fa fa-pinterest"></i></a>
+<!-- 경매 상품 미리보기-->			                                </div>
+<!-- 경매 상품 미리보기-->			                            </li>
+<!-- 경매 상품 미리보기-->			                        </ul>
+<!-- 경매 상품 미리보기-->			                    </div>
+<!-- 경매 상품 미리보기-->			                </div>
+<!-- 경매 상품 미리보기-->                           </div>
+<!-- 경매 상품 미리보기-->		                
+<!-- 경매 상품 미리보기-->		                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
+<!-- 경매 상품 미리보기-->		                
+<!-- 경매 상품 미리보기-->		                <div class="col-lg-12" style="text-align: right;">
+<!-- 경매 상품 미리보기-->		                	<button  id="summitBtn" class="summitBtn" type="button">등록하기</button>
+<!-- 경매 상품 미리보기-->		                </div>
+<!-- 경매 상품 미리보기-->		                
+<!-- 경매 상품 미리보기-->					</div>
+<!-- 경매 상품 미리보기-->				</form>
 								</div>
 								<!-- Product Details Section Begin -->
                                     

@@ -208,9 +208,9 @@
 		SELECT
 			bid_price price
 		FROM
-			bidding_auction_product
+			bidding_auction_product bap
 		WHERE
-			user_id=#{userId}
+			user_id=#{userId} AND bap.apply_product_sales_delivery_id = #{applyId}
 		ORDER BY create_date DESC
 	</select>
 	<insert id="insertBidding" parameterType="map">
@@ -397,7 +397,28 @@
 			)
 	</insert>
 	
-	<select id="selectAuctionListBySubId" parameterType="int" resultType="map"> 
+
+	
+	<select id="selectAuctionListByDeadline" parameterType="int" resultType="map"> 
+		SELECT
+			apr.apply_product_sales_delivery_id applyId
+			,product_name productName
+			,img_name imgName
+			,DATEDIFF(apr.registration_deadline, now())-1 datediff
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
+		FROM apply_product_sales_delivery apsd
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			  LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
+			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+		WHERE
+			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
+
+		GROUP BY apsdi.apply_product_sales_delivery_id
+		ORDER BY apr.registration_deadline ASC
+		LIMIT #{limit}
+	</select>
+	
+		<select id="selectAuctionListBySubId" parameterType="int" resultType="map"> 
 		SELECT
 			apr.apply_product_sales_delivery_id applyId
 			,product_name productName
@@ -419,23 +440,40 @@
 		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
 	</select>
 	
-	<select id="selectAuctionListByDeadline" parameterType="int" resultType="map"> 
+	<select id="selectAuctionListByApplyId" parameterType="int" resultType="map"> 
 		SELECT
 			apr.apply_product_sales_delivery_id applyId
 			,product_name productName
 			,img_name imgName
-			,DATEDIFF(apr.registration_deadline, now())-1 datediff
-			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote)newPrice
-		FROM apply_product_sales_delivery apsd
+			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote) newPrice
+		FROM category_main cm 
+		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
+			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
+		   	 INNER JOIN apply_product_sales_delivery apsd ON cs.category_sub_id = apsd.category_sub_id
 			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
 			  LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id= apsdi.apply_product_sales_delivery_id
 			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
-		WHERE
+		<where>
+			(apsd.category_sub_id = ${applyId})
+			AND
 			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
-
+		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
-		ORDER BY apr.registration_deadline ASC
-		LIMIT #{limit}
+		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+	</select>
+	
+	<select id="selectBidInfo" parameterType="int" resultType="map">
+			SELECT
+			bap.bidding_auction_product_id
+			,bap.user_id userId
+			,username userName
+		FROM apply_product_sales_delivery apsd
+			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
+			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
+			  LEFT JOIN users ON bap.user_id = users.user_id
+		WHERE
+			apsd.apply_product_sales_delivery_id = #{applyId}
+		ORDER BY bap.create_date DESC
 	</select>
 	
 </mapper>

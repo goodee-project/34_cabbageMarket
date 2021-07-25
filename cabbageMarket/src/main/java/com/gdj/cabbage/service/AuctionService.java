@@ -70,7 +70,14 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 applyId확인"+applyId);
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 applyId 학인 : "+ applyId);
 		Map<String,Object> auctionList = auctionMapper.selectAuctionOne(applyId); //상세정보 가져오는 mapper
-		return auctionList;
+		log.debug(Debuging.DEBUG+"4 mapper에서온 auctionList 학인 : "+ auctionList.toString());
+		List<Map<String,Object>> bidInfo = auctionMapper.selectBidInfo(applyId); //Bid정보를 가져오는 mapper
+		log.debug(Debuging.DEBUG+"4 mapper에서온 bidInfo 학인 : "+ bidInfo.toString());
+		
+		Map<String,Object> resultMap = new HashMap <String,Object>();
+		resultMap.put("bidInfo", bidInfo);
+		resultMap.put("auctionList", auctionList);
+		return resultMap;
 	}
 	// 상품 이미지들 불러오는 서비스 : getAuctionOne addAuction
 	public List<String> getApplyImg(int applyId) {
@@ -270,4 +277,13 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"4 mapper로 받아온 list 학인 : "+ relatedAuctionList.toString());
 		return relatedAuctionList;
 		}
+	
+	public List<Map<String, Object>> getAuctionListByApplyId(int applyId) {
+		log.debug(Debuging.DEBUG+"2 controller에서 보낸 int확인 : "+applyId);
+		log.debug(Debuging.DEBUG+"3 mapper로 보낼 int 학인 : "+ applyId);
+		
+		List<Map<String,Object>> relatedAuctionList = auctionMapper.selectAuctionListByApplyId(applyId);
+		log.debug(Debuging.DEBUG+"4 mapper로 받아온 list 학인 : "+ relatedAuctionList.toString());
+		return relatedAuctionList;
+	}
 	}//class

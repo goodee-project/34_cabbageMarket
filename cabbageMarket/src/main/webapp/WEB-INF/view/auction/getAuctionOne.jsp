@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/heartStyle.css" type="text/css">
     <!-- ajax 사용 -->   
@@ -62,7 +61,48 @@
     			$('#calculPointForm').submit();
             }
     	});
-    });
+    	
+    	console.log('이름이동 가능');
+    	$(document).on('click', '#nameBtn', function(){
+    		console.log('이동 클릭');
+    		$('#getAuctionOneForm').submit();
+    	})
+    	
+    	// 연관상품 비동기 통신
+        console.log('연관상품 불러오기');
+		$.ajax({
+			type:'get',
+			url:'${pageContext.request.contextPath}/getRelatedProduct?subId='+${productDetail.categorySubId},
+			success: function(jsonData) {
+				for ( var i = 0; i < jsonData.length ; i++){
+					
+					var html = '';
+
+					html += '<div class="col-lg-3 col-md-4 col-sm-6">';
+					html += '<div class="product__item">';
+					//
+					html += '<div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/'+jsonData[i].imgName+'.jpg">';
+					html += '<ul class="product__item__pic__hover">';
+					html += '        <li><a href="#"><i class="fa fa-heart"></i></a></li>';
+					html += '        <li><a href="#"><i class="fa fa-retweet"></i></a></li>';
+					html += '        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>';
+					html += '</ul>';
+					html += '</div>';
+					//
+					html += '<div class="product__item__text">';
+					html += '           <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId='+jsonData[i].applyId+'">'+jsonData[i].productName+'</a></h6>';
+					html += '           <h5>'+jsonData[i].newPrice+'</h5>';
+                    html += '</div>';
+                    //
+                   	html += '</div>';
+                	html += '</div>';
+					$('#relatedProduct').append(html);
+                	console("왜 안뜨는거지 auctionRest");
+					}//for
+				}//success
+				}); //ajax
+			}); //document Ready
+
     </script>
 </head>
 
@@ -117,38 +157,53 @@
                     <div class="product__details__text">
                         <h3>${productDetail.productName}</h3>
                         
-                        <div class="product__details__price"> <fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></div>
+                        <div class="product__details__price"> 
+                        <c:if test="${bidInfo[0].userId == null }">
+                            	<span> 최초 입찰자가 되어보세요!</span>
+                        </c:if>
+                        <c:if test="${bidInfo[0].userId != null }">
+                        기존 입찰가 : <fmt:formatNumber value="${productDetail.price}" pattern="#,###" />
+                        </c:if>
+                        </div>
                         <div class="product__details__rating">
-                        	<c:forEach var="i" begin="0" end="${productDetail.count}">
+                        	<c:set var="bidInfoSize" value="${  bidInfo.size() == 1 ? bidInfo[0].userId == null  ? 0 : bidInfo.size() : bidInfo.size() }"/>
+                        	<c:set var="bidInfoUserId" value="${ bidInfo[0].userId == null ? '-' : bidInfo[0].userId }"/>
+                        	<c:set var="bidInfoUserName" value="${ bidInfo[0].userId == null ? '없음' : bidInfo[0].userName }"/>
+                        	<c:forEach var="i" begin="0" end="${bidInfoSize}">
                         		<c:if test="${i ==0}">
                         		</c:if>
                         		<c:if test="${i !=0}">
 	                            	<i class="fa fa-star"></i>
 	                            </c:if>
                             </c:forEach>
-                            <span>( ${productDetail.count} 회 입찰됨) 마지막 입찰자 : </span>
+                            
+                            <c:if test="${bidInfo[0].userId != null }">
+                            <span>( ${bidInfoSize}  회 입찰됨) 마지막 입찰자 : (${bidInfoUserId}) ${bidInfoUserName} </span>
+                            </c:if>
                         </div>
                         <form id="calculPointForm" action="${pageContext.request.contextPath}/users/calculatePoint" method="post" enctype="multipart/form-data">
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>
+                        	<div class="heart-btn">
+						      <div class="content">
+						        <span class="heart"></span>
+						        <span class="text">Like</span>
+						      </div>
+						    </div>
+                        
                         </form>
                         <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         </form>
-                        <div class="heart-btn">
-					      <div class="content">
-					        <span class="heart"></span>
-					        <span class="text">Like</span>
-					      </div>
-					    </div>
+                        
 					    
                         <ul>
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
                             <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
-                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
-                            <li><b>현재 입찰가</b> <span><fmt:formatNumber value="${productDetail.price}" pattern="#,###" /></span></li>
+                            <li><b>상품 카테고리</b> <span><span id="categorySubId">${productDetail.categorySubId} : </span>${productDetail.categorySubName}</span></li>
+                            <li><b>최초 입찰가</b> <span><fmt:formatNumber value="${productDetail.minPrice}" pattern="#,###" /></span></li>
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -236,14 +291,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title related__product__title">
-                        <h2>Related Product</h2>
+                        <h2>연관상품<br>계획 categorySubId이 아니라 <br>현재 applyId 사용, 사용 ajax사용으로 변경중</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
+            	<c:forEach var="al" items="${relatedAuctionList}">
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/product/product-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
                             <ul class="product__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -251,56 +307,16 @@
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
+                            <h5><a id="nameBtn">${al.productName}</a></h5>
+                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
+                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
+                             </form>
+                             <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/product/product-2.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/product/product-3.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/product/product-7.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
+                
             </div>
         </div>
     </section>

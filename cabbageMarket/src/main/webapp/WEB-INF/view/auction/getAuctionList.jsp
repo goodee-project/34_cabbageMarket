@@ -82,7 +82,7 @@
 			   }
 			});
 		
-    	console.log('이동 가능');
+    	console.log('이름이동 가능');
     	$(document).on('click', '#nameBtn', function(){
     		console.log('이동 클릭');
     		$('#getAuctionOneForm').submit();

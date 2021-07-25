@@ -60,10 +60,12 @@ public interface AuctionMapper {
 	double selectBidComissionRateForint(int kind); //수수료 계산하는 매퍼
 	int insertBidPointPlusByLastBid(Map<String, Object> map); //낙찰시 판매자에게 지급하는 포인트
 
-	List<Map<String, Object>> selectAuctionListBySubId(int categorySubId);
+	
 
 	List<Map<String, Object>> selectAuctionListByDeadline(int limit); //마감기한 최근순인 상품 가져오는 매퍼
+	List<Map<String, Object>> selectAuctionListBySubId(int categorySubId);//AuctionOne의 연관 상품 가져오는 매퍼
+	List<Map<String, Object>> selectAuctionListByApplyId(int applyId); //AuctionOne의 연관 상품 가져오는 매퍼
 
-
+	List<Map<String, Object>> selectBidInfo(int applyId);
 
 }

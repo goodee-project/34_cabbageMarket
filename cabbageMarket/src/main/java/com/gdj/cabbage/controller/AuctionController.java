@@ -132,11 +132,17 @@ public class AuctionController {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
 			
 		// 상품 상세정보 + 이미지들 불러오기
-		Map<String, Object> productDetail = auctionService.getAuctionOne(applyId);
+		Map<String, Object> resultMap = auctionService.getAuctionOne(applyId);
 		List<String> imgPathList = auctionService.getApplyImg(applyId);
+		log.debug(Debuging.DEBUG + "5 Service에서 받어온 resultMap 확인 : " + resultMap.toString());
 		
-		model.addAttribute("productDetail", productDetail);
+		List<Map<String,Object>> relatedAuctionList = auctionService.getAuctionListByApplyId(applyId);
+		log.debug(Debuging.DEBUG + "5 Service에서 받어온 relatedAuctionList 확인 : " + relatedAuctionList.toString());
+		
+		model.addAttribute("productDetail", resultMap.get("auctionList"));
+		model.addAttribute("bidInfo", resultMap.get("bidInfo"));
 		model.addAttribute("imgPathList", imgPathList);
+		model.addAttribute("relatedAuctionList", relatedAuctionList);
 		return "auction/getAuctionOne";
 	}
 	
