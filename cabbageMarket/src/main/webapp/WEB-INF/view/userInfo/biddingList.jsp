@@ -24,7 +24,34 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	 <!-- ajax 사용 -->   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"> <!-- 유효성 검사 -->
+    $(document).ready(function() {
+    	console.log("ajax 시작");
+    	
+    	console.log( ${userPoint} ); //Service에서 userPoint 검색
+
+		if( ${userPoint} != null ){  ///null 이면
+				alert( '입찰취소 성공! \n 현재 :'+${userPoint}+'포인트입니다' ) ;
+				return false;
+			} else {
+				alert("입찰취소 불가");
+				return false;
+			}
+		}
+    	
+    	$(document).on('click', '#removeBtn', function(){
+    		console.log('입찰쉬소 클릭');
+    		if ( confirm("취소시,\n 원　급: "+$('#point')+"\n수수료 : 20% 입니다. \n 그래도 취소 하시겠습니까?") ) { //입찰 취소 confirm받기
+    			$('#removeBidForm').submit();
+            } else {
+            	alert("입찰 유지");
+				return false;
+            }
+    	});
+    });
+	</script>
 </head>
 
 <body>
@@ -165,7 +192,7 @@
 					                                </tr>
 				                                </c:if>
 				                                <c:if test="${bl.auctionState == '경매중'}">
-					                                <tr>
+				                                	<tr>
 					                                	<td>
 					                                		${index = index+1}
 					                                	</td>
@@ -185,10 +212,16 @@
 					                                    <td>
 					                                    	<h5>${bl.biddingDate}</h5>
 					                                    </td>
-					                                    <td>
+					                                    
+					                                    <form id="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post" enctype="multipart/form-data">
+														<td>
+															<input type="hidden" name="bidId" value="${b1.biddingAuctionProductId}"/>
+															<input type="hidden" name="point" value="${b1.point}"/>
 					                                    	<button id="removeBtn" class="btn btn-success">취소</button>
 					                                    </td>
+					                                    </form>
 					                                </tr>
+					                                
 				                                </c:if>
 				                               
 			                                </c:forEach>

@@ -327,14 +327,15 @@
 	
 	<select id="selectLastBidInfo" parameterType="int" resultType="map">
 		SELECT
-			bidding_auction_product_id bidId
+			bap.bidding_auction_product_id bidId
 			,apply_product_sales_delivery_id applyId
 			,bid_price point
 		FROM
 			bidding_auction_product bap
+				LEFT JOIN bidding_points_using_history bpuh ON bpuh.bidding_auction_product_id = bap.bidding_auction_product_id
 		WHERE
-			apply_product_sales_delivery_id = #{applyId}
-		ORDER BY create_date DESC
+			apply_product_sales_delivery_id = #{applyId} and bpuh.income_expenditure != '유찰'
+		ORDER BY bap.create_date DESC
 		limit 1
 	</select>
 	
@@ -361,7 +362,7 @@
 			#{bidId}
 			,'유찰'
 			,#{point}
-			,date(now())
+			,now()
 			)
 	</insert>
 	
@@ -482,5 +483,20 @@
 			apsd.apply_product_sales_delivery_id = #{applyId}
 		ORDER BY bap.create_date DESC
 	</select>
+	
+	<insert id="insertBidCommisionByCancleBid" parameterType="map">
+		INSERT INTO bidding_commissions_history(
+			apply_product_sales_delivery_id
+			,commission_info_id
+			,commission_point
+			,create_date
+			)
+		VALUES(
+			#{applyId}
+			,4
+			,#{commission}
+			,now()
+			)
+	</insert>
 	
 </mapper>

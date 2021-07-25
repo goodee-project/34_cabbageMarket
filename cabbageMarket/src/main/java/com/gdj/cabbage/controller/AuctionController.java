@@ -215,4 +215,32 @@ public class AuctionController {
 		 fm.put("cnt", cnt);
 		return "redirect:/users/getAuctionOne?applyId="+applyId;
 	}
+	
+	// 입찰삭제
+	@PostMapping("removeBid")
+	public String removeBid(RedirectAttributes redirectAttributes
+			,HttpSession session
+			,@RequestParam(value="bidId") int bidId
+			,@RequestParam(value="point") int point) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+bidId+"<--bidId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+point+"<--point");
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+userId+"<--userId");		
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("bidId", bidId);
+		map.put("point", point);
+		map.put("userId", userId);
+		log.debug(Debuging.DEBUG+"1 view에서 넘겨줄 map 확인:"+map.toString());		
+
+		//결제가능한지 계산까지 해야할까요...
+		//와 어차피 유찰인데 수수료무는건 너무한거 아닌가요...
+		int userPoint = auctionService.removeBid(map);
+		log.debug(Debuging.DEBUG+"5 service에서 받은 userPoint 확인 : "+userPoint);
+		
+		redirectAttributes.addFlashAttribute("userPoint", userPoint);
+		return "redirect:/users/biddingList";
+		}
 }

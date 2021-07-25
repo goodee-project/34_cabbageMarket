@@ -67,5 +67,7 @@ public interface AuctionMapper {
 	List<Map<String, Object>> selectAuctionListByApplyId(int applyId); //AuctionOne의 연관 상품 가져오는 매퍼
 
 	List<Map<String, Object>> selectBidInfo(int applyId);
+	
+	int insertBidCommisionByCancleBid(Map<String, Object> map);  //경매 취소수수료 입력하는 매퍼
 
 }
