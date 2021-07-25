@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.AuctionService;
@@ -128,6 +131,7 @@ public class AuctionController {
 	// 경매상품 상세보기
 	@GetMapping("getAuctionOne")
 	public String getAuctionOne(Model model
+			,HttpServletRequest req
 			,@RequestParam(value="applyId") int applyId) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
 			
@@ -143,7 +147,18 @@ public class AuctionController {
 		model.addAttribute("bidInfo", resultMap.get("bidInfo"));
 		model.addAttribute("imgPathList", imgPathList);
 		model.addAttribute("relatedAuctionList", relatedAuctionList);
-		return "auction/getAuctionOne";
+		//FlashMap에 저장되어 전달된 값을 가져온다.
+		 Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(req);
+		   if(flashMap !=null) {  
+			   if ( (Integer)flashMap.get("cnt") != null ) {
+		       model.addAttribute("cnt", (int)flashMap.get("cnt"));
+		       return "auction/getAuctionOneCnt";
+			   } else {
+				   return "auction/getAuctionOne";
+			   }
+		   } else {
+			   return "auction/getAuctionOne";
+		   }
 	}
 	
 	// 포인트 계산
@@ -174,6 +189,7 @@ public class AuctionController {
 	
 	@PostMapping("addBid")
 	public String addBid(RedirectAttributes redirectAttributes
+			,HttpServletRequest req
 			,HttpSession session
 			,@RequestParam(value="applyId") int applyId
 			,@RequestParam(value="newPrice") int newPrice){
@@ -194,6 +210,9 @@ public class AuctionController {
 		log.debug(Debuging.DEBUG+"5 service에서 받은 cnt 확인 : "+cnt);
 		
 		redirectAttributes.addFlashAttribute("cnt", cnt);
+		//FlashMap에 전달할 값을 저장한다.
+		 FlashMap fm = RequestContextUtils.getOutputFlashMap(req);
+		 fm.put("cnt", cnt);
 		return "redirect:/users/getAuctionOne?applyId="+applyId;
 	}
 }

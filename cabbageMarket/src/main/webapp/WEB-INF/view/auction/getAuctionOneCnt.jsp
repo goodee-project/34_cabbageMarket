@@ -33,13 +33,27 @@
     $(document).ready(function() {
 
 		console.log( ${cnt} ); //입찰 여부
-    	if ( ${cnt} > 0){
-			if ( confirm("입찰성공: 현재 포인트="+ ${usersSession.get("point")}+"\n 입찰내역으로 이동하시겠습니까?" )) {
+		if ( ${cnt} == 210726){
+			alert("판매자와 구매자가 같아서 실패" );
+			location.href= "${pageContext.request.contextPath}/users/getAuctionOne?applyId="+${productDetail.applyId}; //원래 옥션 페이지로 이동
+			return false;
+			
+		} else if ( ${cnt} == 210727){
+			alert("마지막 입찰자와 같아서 실패" );
+			location.href= "${pageContext.request.contextPath}/users/getAuctionOne?applyId="+${productDetail.applyId}; //원래 옥션 페이지로 이동
+			return false;
+			
+		} else if ( ${cnt} > 0){
+			if ( confirm("입찰성공: \n 입찰내역으로 이동하시겠습니까?" )) {
 				location.href= "${pageContext.request.contextPath}/users/biddingList"; //입찰내용으로 이동
+				return false;
+			} else {
+				location.href= "${pageContext.request.contextPath}/users/getAuctionOne?applyId="+${productDetail.applyId}; //원래 옥션 페이지로 이동
 				return false;
 			}
 		} else if (  ${cnt} == 0) {
 			alert("알수없는 이유로 입찰실패")
+			location.href= "${pageContext.request.contextPath}/users/getAuctionOne?applyId="+${productDetail.applyId}; //원래 옥션 페이지로 이동
 			return false;
 		}
     	

@@ -169,33 +169,48 @@ public class AuctionService {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
 		
-		int cnt = 0;
+		int cnt = 210726;
 
 		int beforBidCnt = auctionMapper.selectBeforeBidCntByMap(map); //아이디로 입찰한적 잇는지 확인
 		
 		if(beforBidCnt == 0) // 이 아이디로 입찰한적이 없다면,
 		{
 			log.debug(Debuging.DEBUG+"4 mapper에서 온 BeforBidId가 null = 입찰한적 없음");
-			cnt += auctionMapper.insertBidding(map); //우선 매퍼로 입찰을 기록하고.
-			log.debug(Debuging.DEBUG+"4 insertBidding mapper에서 온 입찰갯수 :"+cnt);
-			Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
-			cnt += auctionMapper.insertBidPointMinusByBid(MyBid); //그 정보로 mihus입찰에 넣는다.
-			log.debug(Debuging.DEBUG+"4 insertBidPointMinusByBid mapper에서 온 cnt :"+cnt);
+			int sellerId = auctionMapper.selectConfirmSellerByUserId(map);
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 sellerId 확인 :"+sellerId);
+			boolean confirm = (sellerId == (int)map.get("userId"));
+			log.debug(Debuging.DEBUG+"4 mapper에서 온 sellerId 비교결과 :"+confirm);
+			if (confirm) {
+				log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt가 0 : 판매자 = 구매자");
+				cnt = 210726;
+			} else {
+				log.debug(Debuging.DEBUG+"4 mapper에서 온 cnt가 0아님 : 판매자 != 구매자");
+				cnt = auctionMapper.insertBidding(map); //우선 매퍼로 입찰을 기록하고.
+				log.debug(Debuging.DEBUG+"4 insertBidding mapper에서 온 입찰갯수 :"+cnt);
+				Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
+				cnt += auctionMapper.insertBidPointMinusByBid(MyBid); //그 정보로 mihus입찰에 넣는다.
+				log.debug(Debuging.DEBUG+"4 insertBidPointMinusByBid mapper에서 온 cnt :"+cnt);
+			}
 		} else { // 이 아이디로 입찰한적이 있다면,
 			log.debug(Debuging.DEBUG+"4 mapper에서 온 beforBidCnt가"+beforBidCnt+"= 입찰했음");
-			Map<String, Object> MyBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
+			Map<String, Object> myOldBid = auctionMapper.selectBeforeBid(map); //나의 bid정보를 가져온다.
 			
-			Map<String, Object> MyNewBid = new HashMap<String,Object>();
-			MyNewBid.put("newPrice", map.get("newPrice"));
-			MyNewBid.put("userId", map.get("userId"));
-			MyNewBid.put("applyId", map.get("applyId"));
-			MyNewBid.put("bidId", MyBid.get("bidId"));
+			Map<String, Object> lastBid = auctionMapper.selectLastBidInfo( (int)map.get("applyId") ); //마지막 bid 가져오기
 			
-			cnt += auctionMapper.updateBidding(MyNewBid); //그정보로 bid정보를 수정한다.
-			log.debug(Debuging.DEBUG+"4 updateBidding mapper에서 온 cnt :"+cnt);
-			cnt += auctionMapper.updateBidPointMinusByBid(MyNewBid); //그 정보로 mihus입찰에 넣는다.
-			log.debug(Debuging.DEBUG+"4 updateBidPointMinusByBid mapper에서 온 cnt :"+cnt);
-			
+			if ( (int)myOldBid.get("price") < (int)lastBid.get("point") ) {
+				Map<String, Object> myNewBid = new HashMap<String,Object>();
+				myNewBid.put("newPrice", map.get("newPrice"));
+				myNewBid.put("userId", map.get("userId"));
+				myNewBid.put("applyId", map.get("applyId"));
+				myNewBid.put("bidId", myOldBid.get("bidId"));
+				
+				cnt = auctionMapper.updateBidding(myNewBid); //그정보로 bid정보를 수정한다.
+				log.debug(Debuging.DEBUG+"4 updateBidding mapper에서 온 cnt :"+cnt);
+				cnt += auctionMapper.updateBidPointMinusByBid(myNewBid); //그 정보로 mihus입찰에 넣는다.
+				log.debug(Debuging.DEBUG+"4 updateBidPointMinusByBid mapper에서 온 cnt :"+cnt);
+			} else {
+				cnt = 210727;
+			}
 		}
 		
 		return cnt;

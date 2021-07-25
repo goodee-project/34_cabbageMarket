@@ -32,7 +32,7 @@ public interface AuctionMapper {
 	
 	Map<String, Object> selectLastBidInfo(int applyId); //마지막 옥션 입찰자 찾는 mapper
 	List<Map<String, Object>> selectNotLastBidInfo(Map<String, Object> lastBid); //마지막 옥션 입찰자 찾는 mapper
-
+	int selectConfirmSellerByUserId(Map<String, Object> map);//seller.userId를 가져오는 mapper
 	int insertBidding(Map<String, Object> map);// 입찰 등록하는 mapper
 
 	int selectNewBidId(Map<String, Object> map); //입찰id를 가져오는 테이블

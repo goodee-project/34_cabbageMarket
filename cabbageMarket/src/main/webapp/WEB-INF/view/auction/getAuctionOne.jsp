@@ -203,7 +203,7 @@
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
                             <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
                             <li><b>상품 카테고리</b> <span><span id="categorySubId">${productDetail.categorySubId} : </span>${productDetail.categorySubName}</span></li>
-                            <li><b>최초 입찰가</b> <span><fmt:formatNumber value="${productDetail.minPrice}" pattern="#,###" /></span></li>
+                            <li><b>최초 입찰가</b> <span> <fmt:formatNumber value="${productDetail.minPrice}" pattern="#,###" /> ( <fmt:formatNumber value="${productDetail.quote}" pattern="#,###"/> ) </span></li>
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>

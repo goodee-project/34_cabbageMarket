@@ -213,6 +213,13 @@
 			user_id=#{userId} AND bap.apply_product_sales_delivery_id = #{applyId}
 		ORDER BY create_date DESC
 	</select>
+	<select id="selectConfirmSellerByUserId" parameterType="map" resultType="int">
+		SELECT
+			user_id
+		FROM apply_product_sales_delivery
+		WHERE
+			apply_product_sales_delivery_id = #{applyId} 
+	</select>
 	<insert id="insertBidding" parameterType="map">
 		INSERT INTO bidding_auction_product(
 			apply_product_sales_delivery_id
