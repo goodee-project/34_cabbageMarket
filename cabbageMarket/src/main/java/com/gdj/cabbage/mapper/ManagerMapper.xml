@@ -3,6 +3,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 판매완료 중고상품 페이징 토탈 -->
+
+	<select id="selectSoldoutUsedProductTotal"
+			resultType = "int">
+	
+		SELECT
+			COUNT(*)
+		FROM
+			
+		
+	</select>
+
+<!-- 판매완료 중고상품 목록 출력 -->
+
+<select id="selectSoldoutUsedProductList"
+		resultType="map"
+		parameterType="com.gdj.cabbage.vo.Page">
+
+	SELECT
+		apsd.apply_product_sales_delivery_id,
+		apsd.user_id,
+		u.username,
+		apsd.category_sub_id,
+		apsd.product_name,
+		pcr.registration_state,
+		bpd.delivery_state,
+		bpd.waybill_number
+		
+	FROM
+		buying_product_delivery bpd
+		
+		JOIN
+			apply_product_sales_delivery apsd
+		JOIN
+			product_confirmation_registration pcr
+	
+	ON
+		bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+	
+		LEFT JOIN
+			users u
+			
+	ON
+		apsd.user_id = u.user_id
+	
+	WHERE
+		pcr.registration_state = '1' AND bpd.delivery_state = '0'
+		
+
+</select>
+
 <!-- 배송상품 등록 승인 -->
 
 <insert id="insertDeliveryProductToPcr"
@@ -58,7 +109,7 @@
 		FROM
 			apply_product_sales_delivery apsd
 			LEFT JOIN category_sub cs ON cs.category_sub_id = apsd.category_sub_id
-		  	LEFT JOIN apply_product_sales_delivery_img apsdi ON apsd.apply_product_sales_delivery_id = apsdi.apply_product_sales_delivery_id
+		  	LEFT JOIN apply_product_sales_delivery_img apsdimg ON apsd.apply_product_sales_delivery_id = apsdimg.apply_product_sales_delivery_id
 			
 		WHERE
 			apsd.apply_product_sales_delivery_id

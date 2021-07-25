@@ -307,7 +307,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">안전한 배송을 추구하는.. [배추마켓]</h1>
+                        <h1 class="h3 mb-0 text-gray-800">안전한 <span class="ingredient">배</span>송을 <span class="ingredient">추</span>구하는.. [배추마켓]</h1>
                     </div>
 
                     <div class="row">

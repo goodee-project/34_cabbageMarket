@@ -13,6 +13,10 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 @Mapper
 public interface ManagerMapper {
 	
+	// 낙찰완료 경매상품 목록
+	List<Map<String, Object>> selectBidSuccessProductList(Page page);
+	// 판매완료 중고상품 목록
+	List<Map<String, Object>> selectSoldoutUsedProductList(Page page);
 	// 배송상품 등록승인
 	void insertDeliveryProductToPcr(ProductConfirmationRegistration productConfirmationRegistration);
 	// 배송상품 상세보기
