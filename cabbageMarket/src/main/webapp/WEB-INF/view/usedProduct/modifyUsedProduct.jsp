@@ -179,6 +179,19 @@
 						</h2>
 					</div>
 				</div>
+				
+				<!-- 상품명 -->
+				<div class="col-lg-3">
+					<h4>
+						상품명<span style="color: #7fad39;">*</span>
+					</h4>
+				</div>
+				<div class="col-lg-9 checkout__input" style="display: inline;">
+					<input type="text" value="${usedProductDetail.productName}" disabled>
+				</div>
+				<div class="col-lg-12" style="margin-bottom: 15px;">
+					<hr style="border: solid 1px lightgrey;">
+				</div>
 
 				<!-- 상품설명 입력 -->
 				<div class="col-lg-3">
@@ -192,6 +205,7 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
+				
 				<!-- 판매가격 입력 -->
 				<div class="col-lg-3">
 					<h4>
@@ -204,6 +218,20 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
+				
+				<!-- 마감 일자 -->
+				<div class="col-lg-3">
+					<h4>
+						 마감 일자<span style="color: #7fad39;">*</span>
+					</h4>
+				</div>
+				<div class="col-lg-9 checkout__input" style="display: inline;">
+					<input type="text" value="${usedProductDetail.deadLine}" disabled>
+				</div>
+				<div class="col-lg-12" style="margin-bottom: 15px;">
+					<hr style="border: solid 1px lightgrey;">
+				</div>
+				
 				<!-- 수정 버튼 -->
 				<div class="col-lg-12" style="text-align: right;">
 					<button id="btn" type="button" class="btn btn-success">수정</button>

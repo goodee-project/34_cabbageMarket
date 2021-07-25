@@ -123,6 +123,7 @@ public class UsedTradeController {
 	@GetMapping("addUsedProduct") // 주소창에 요청
 	public String addUsedProduct(Model model, @RequestParam(value = "applyId", required = true) int applyId) {
 		model.addAttribute("applyId", applyId);
+		
 		return "usedProduct/addUsedProduct";
 	}
 

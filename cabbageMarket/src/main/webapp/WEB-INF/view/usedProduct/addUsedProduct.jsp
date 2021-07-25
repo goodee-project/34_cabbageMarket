@@ -213,6 +213,7 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
+				
 				<!-- 판매가격 입력 -->
 				<div class="col-lg-3">
 					<h4>
@@ -225,6 +226,7 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
+				
 				<!-- 마감기한 입력 -->
 				<div class="col-lg-3">
 					<h4>
@@ -240,6 +242,7 @@
 				<div class="col-lg-12" style="margin-bottom: 15px;">
 					<hr style="border: solid 1px lightgrey;">
 				</div>
+				
 				<!-- 등록 버튼 -->
 				<div class="col-lg-12" style="text-align: right;">
 					<button id="summitBtn" class="summitBtn" type="button">등록</button>
