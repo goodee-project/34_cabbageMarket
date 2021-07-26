@@ -43,11 +43,11 @@
 			 if(Object.is(a, null)) throw new Error("null");
 			 if(Object.is(a, undefined)) throw new Error("undefined");
 			 if(Object.is(a, NaN)) throw new Error("NaN");
-			 size += 300;
-			 console.log("+300");
+			 size += 200;
+			 console.log("+200");
 			}catch(error){
-				size -= 300;
-				console.log("-300");
+				size -= 200;
+				console.log("-200");
 			}finally{
 			 console.log(size);
 			}

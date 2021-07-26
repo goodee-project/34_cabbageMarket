@@ -140,7 +140,10 @@ public class AuctionController {
 		List<String> imgPathList = auctionService.getApplyImg(applyId);
 		log.debug(Debuging.DEBUG + "5 Service에서 받어온 resultMap 확인 : " + resultMap.toString());
 		
-		List<Map<String,Object>> relatedAuctionList = auctionService.getAuctionListByApplyId(applyId);
+		Map<String,Object> productDetail = (Map<String,Object>) resultMap.get("auctionList");
+		
+		// 연관상품 가져오기
+		List<Map<String,Object>> relatedAuctionList = auctionService.getAuctionListBySubId( (int)productDetail.get("categorySubId") );
 		log.debug(Debuging.DEBUG + "5 Service에서 받어온 relatedAuctionList 확인 : " + relatedAuctionList.toString());
 		
 		model.addAttribute("productDetail", resultMap.get("auctionList"));

@@ -431,7 +431,7 @@
 			apr.apply_product_sales_delivery_id applyId
 			,product_name productName
 			,img_name imgName
-			,IF(bap.apply_product_sales_delivery_id IS NULL , apr.min_bid_price , bap.bid_price+quote) newPrice
+			,IF(bap.apply_product_sales_delivery_id IS NULL , FORMAT(apr.min_bid_price, N'#,0') , FORMAT(bap.bid_price+quote, N'#,0')) newPrice
 		FROM category_main cm 
 		     INNER JOIN category_middle cmd ON cm.category_main_id = cmd.category_main_id
 			 INNER JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
@@ -446,6 +446,7 @@
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
 		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		limit 4
 	</select>
 	
 	<select id="selectAuctionListByApplyId" parameterType="int" resultType="map"> 

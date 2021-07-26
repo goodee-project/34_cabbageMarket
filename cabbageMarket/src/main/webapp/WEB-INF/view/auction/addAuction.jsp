@@ -40,7 +40,7 @@
     //input을 datepicker로 선언
 		$("#registrationDeadline").datepicker({
 			 dateFormat: 'yy-mm-dd' //달력 날짜 형태
-			,minDate: "+0d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+			,minDate: "+1d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
 			,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
 		});
 	//초기값을 오늘 날짜로 설정
