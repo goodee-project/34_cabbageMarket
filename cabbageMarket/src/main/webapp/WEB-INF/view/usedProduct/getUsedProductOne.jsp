@@ -33,9 +33,12 @@
 	<script>
 	
 	$(document).ready(function() {
+		console.log(${usersSession.userId})
+		console.log(${usedProductDetail.userId})
+		
 		$('#btn').click(function() {
-			var point = ${usersSession.point};
 			
+			var point = ${usersSession.point};
 			if( point < ${usedProductDetail.productPrice}){
 				alert("포인트가 부족합니다.")
 				if(confirm("포인트를 충전하시겠습니까?")){
@@ -43,6 +46,9 @@
 				}else{
 					return false;
 				}
+			}else if (${usersSession.userId} == ${usedProductDetail.userId}){
+				alert("${usedProductDetail.nickname}님이 등록한 상품입니다.")
+				return false;
 			}
 		});
 	});
@@ -112,7 +118,7 @@
 						</div>
 						<div class="product__details__price"> <span><fmt:formatNumber value="${usedProductDetail.productPrice}" pattern="#,###" /></span> 원</div>
 							<c:if test="${usedProductDetail.productPrice <= usersSession.point}">
-								<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn" style="margin-top: 3px; border: 0px;">Buy Now</a>
+								<a href="${pageContext.request.contextPath}/users/buyUsedProduct?applyId=${usedProductDetail.applyId}&userId=${usersSession.userId}" class="primary-btn" style="margin-top: 3px; border: 0px;" id="btn">Buy Now</a>					
 							</c:if>
 							<c:if test="${usedProductDetail.productPrice > usersSession.point}">
 								<button type="button" class="primary-btn" style="margin-top: 3px; border: 0px;" id="btn">Buy Now</button>						
