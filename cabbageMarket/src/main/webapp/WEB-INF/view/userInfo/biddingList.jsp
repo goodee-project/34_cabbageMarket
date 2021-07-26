@@ -145,7 +145,7 @@
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
 					                                    </td>
-					                                    <td>
+					                                    <td width="300px">
 					                                    	<h5>
 					                                    		${bl.productName}
 					                                    	</h5>
@@ -169,7 +169,7 @@
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
 					                                    </td>
-					                                    <td>
+					                                    <td width="300px">
 					                                    	<h5>
 					                                    		<a href="${pageContext.request.contextPath}/users/boughtProductOne?applyId=${bl.applyId}&type=2" style="text-decoration: none">
 					                                    			${bl.productName}
@@ -184,7 +184,7 @@
 					                                    </td>
 					                                    <td style="color: blue">
 					                                    	<b>낙찰</b>
-					                                    	<form method="post" action="">
+					                                    	<form method="get" action="${pageContext.request.contextPath}/users/addBiddingProductDelivery">
 					                                    		<input type="hidden" name="applyId" value="${bl.applyId}">
 					                                    		<button class="btn btn-success">배송지 입력</button>
 					                                    	</form>
@@ -199,7 +199,7 @@
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
 					                                    </td>
-					                                    <td>
+					                                    <td width="300px">
 					                                    	<h5>
 					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
 					                                    			${bl.productName}
@@ -212,14 +212,14 @@
 					                                    <td>
 					                                    	<h5>${bl.biddingDate}</h5>
 					                                    </td>
-					                                    
-					                                    <form id="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post" enctype="multipart/form-data">
+					                                    					                                    
 														<td>
-															<input type="hidden" name="bidId" value="${b1.biddingAuctionProductId}"/>
-															<input type="hidden" name="point" value="${b1.point}"/>
-					                                    	<button id="removeBtn" class="btn btn-success">취소</button>
-					                                    </td>
-					                                    </form>
+															<form id="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post" enctype="multipart/form-data">
+																<input type="hidden" name="bidId" value="${b1.biddingAuctionProductId}"/>
+																<input type="hidden" name="point" value="${b1.point}"/>
+						                                    	<button id="removeBtn" class="btn btn-success">취소</button>
+					                                    	</form>
+					                                    </td>					                                    
 					                                </tr>
 					                                
 				                                </c:if>

@@ -370,7 +370,7 @@
 					                                    	</c:if>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/?applyProductSalesDeliveryId=${gapl.applyProductSalesDeliveryId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyAuction?applyId=${gapl.applyProductSalesDeliveryId}">
 					                                    		<button class="btn btn-success">수정</button>
 					                                    	</a>
 					                                    </td>

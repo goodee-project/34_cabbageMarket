@@ -30,11 +30,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
-    	
-    	
+    	   	
     	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
-
-		if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
+		if (${ablePoint} == 210725){
+			console.log('ablePoint 디폴트값 입력됨');
+			return false;
+			}
+    	else if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
 			if(confirm( ${ablePoint}+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
 				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
 				return false;
@@ -68,39 +70,6 @@
     		$('#getAuctionOneForm').submit();
     	})
     	
-    	// 연관상품 비동기 통신
-        console.log('연관상품 불러오기');
-		$.ajax({
-			type:'get',
-			url:'${pageContext.request.contextPath}/getRelatedProduct?subId='+${productDetail.categorySubId},
-			success: function(jsonData) {
-				for ( var i = 0; i < jsonData.length ; i++){
-					
-					var html = '';
-
-					html += '<div class="col-lg-3 col-md-4 col-sm-6">';
-					html += '<div class="product__item">';
-					//
-					html += '<div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/'+jsonData[i].imgName+'.jpg">';
-					html += '<ul class="product__item__pic__hover">';
-					html += '        <li><a href="#"><i class="fa fa-heart"></i></a></li>';
-					html += '        <li><a href="#"><i class="fa fa-retweet"></i></a></li>';
-					html += '        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>';
-					html += '</ul>';
-					html += '</div>';
-					//
-					html += '<div class="product__item__text">';
-					html += '           <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId='+jsonData[i].applyId+'">'+jsonData[i].productName+'</a></h6>';
-					html += '           <h5>'+jsonData[i].newPrice+'</h5>';
-                    html += '</div>';
-                    //
-                   	html += '</div>';
-                	html += '</div>';
-					$('#relatedProduct').append(html);
-                	console("왜 안뜨는거지 auctionRest");
-					}//for
-				}//success
-				}); //ajax
 			}); //document Ready
 
     </script>
@@ -200,6 +169,7 @@
                         
 					    
                         <ul>
+                            <li><b>입찰 남은 기간</b> <span>${productDetail.datediff} 일 ( ${productDetail.deadline} ) </span></li>
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
                             <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
                             <li><b>상품 카테고리</b> <span><span id="categorySubId">${productDetail.categorySubId} : </span>${productDetail.categorySubName}</span></li>
@@ -291,32 +261,30 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title related__product__title">
-                        <h2>연관상품<br>계획 categorySubId이 아니라 <br>현재 applyId 사용, 사용 ajax사용으로 변경중</h2>
+                        <h2>연관상품</h2>
                     </div>
                 </div>
             </div>
-            <div class="row">
-            	<c:forEach var="al" items="${relatedAuctionList}">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${al.imgName}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
+            <div class="row" id="relatedProduct">
+ 				<c:forEach var="ral" items="${relatedAuctionList}">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+						<div class="product__item">
+						
+						<div class="product__discount__item__pic set-bg"
+                           data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${ral.imgName}">
+                             <ul class="product__item__pic__hover">
+                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                             </ul>
                         </div>
-                        <div class="product__item__text">
-                            <h5><a id="nameBtn">${al.productName}</a></h5>
-                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
-                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
-                             </form>
-                             <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
-                        </div>
-                    </div>
-                </div>
-                </c:forEach>
-                
+						<div class="product__item__text">
+					           <h6><a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${ral.applyId}">${ral.productName}</a></h6>
+					           <h5>${ral.newPrice}</h5>
+	                    </div>
+	                   	</div>
+	                	</div>
+ 				</c:forEach>          
             </div>
         </div>
     </section>

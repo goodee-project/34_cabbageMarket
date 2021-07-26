@@ -379,27 +379,6 @@
     <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-    <script> 
-    	function setThumbnail(event){ 
-    		
-    		for (var image of event.target.files) {
-    			
-    			var reader = new FileReader(); 
-    			
-    			reader.onload = function(event) {
-    				var img = document.createElement("img"); 
-    				img.setAttribute("src", event.target.result);
-    				img.setAttribute("width", 203);
-    				img.setAttribute("height", 203);
-    				img.setAttribute("style", "margin-right: 4.5px; border: 1px solid rgb(220, 219, 228);");
-    				document.querySelector("div#image_container").appendChild(img); 
-    			};
-    			
-    			console.log(image); 
-    			reader.readAsDataURL(image); 
-    		} 
-    	} 
-    </script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6bc720d1861247189aab881a2c94847&libraries=services"></script>
 	<!-- 주소 정보 가져오기 (카카오API) -->

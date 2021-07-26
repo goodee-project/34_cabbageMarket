@@ -125,7 +125,7 @@
 											</thead>
 											<c:set var="index" value = "${beginRow}"/>
 											<c:forEach var="u" items="${userPointHistory}">
-												<c:if test="${u.content == '충전' || u.content == '유찰' || u.content == '판매'}">
+												<c:if test="${u.content == '충전' || u.content == '유찰' || u.content == '판매' || u.content == '낙찰'}">
 													<tr style="color : blue">
 														<td>
 															${index = index+1}
@@ -141,7 +141,7 @@
 														</td>
 													</tr>
 												</c:if>
-												<c:if test="${u.content == '낙찰' || u.content == '입찰' || u.content == '구매'}">
+												<c:if test="${u.content == '입찰' || u.content == '구매'}">
 													<tr style="color : red">
 														<td>
 															${index = index+1}

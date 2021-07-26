@@ -33,20 +33,37 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <!-- datePicker -->
 <script>
 	$(function() {
     //input을 datepicker로 선언
 		$("#registrationDeadline").datepicker({
 			 dateFormat: 'yy-mm-dd' //달력 날짜 형태
-			,minDate: "+0d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+			,minDate: "+1d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
 			,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
-		});
-	//초기값을 오늘 날짜로 설정
-	$('#registrationDeadline').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+		});	
+	//초기값을 내일 날짜로 설정
+	$('#registrationDeadline').datepicker('setDate', '+1d'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후) 
+
+	$('#datediff').append('　1일　');
+	$("#registrationDeadline").on("change",function(){
+			console.log("날짜새로입력");
+	            $(this).css("color", "black");
+	            $(this).css("font-weight", "normal");
+	            var date = new Date ($(this).val());
+	            console.log("입력 date:"+date);
+	            var now = new Date();
+	            console.log("오늘 date:"+now);
+	            var dateDiff = Math.ceil((date.getTime()-now.getTime())/(1000*3600*24));
+	            console.log("diff:"+dateDiff);
+	            $('#datediff').empty();
+	            $('#datediff').append("　"+dateDiff+"일　");
+	         }
+	      );
   });
 </script>
+
+
 
 <script>
 <!-- 유효성 검사 -->
@@ -55,15 +72,26 @@
 		// 상품 가격 숫자입력 유효성 검사
     	var enCheck = RegExp( /[^0-9]$/);
 		
-    	$('#minBidPrice').keyup(function(){
+    	$('#minBidPrice').keyup(function(){ //입찰가격 입력시
     		if(enCheck.test($('#minBidPrice').val())){
     			alert('숫자만 입력해 주세요');
     			$('#minBidPrice').val('');
     		} else{
-    			$('#minPrice').empty();
-    			console.log("가격 입력됨");
     			var price = $('#minBidPrice').val();
-    			$('#minPrice').append( price);
+    			console.log("가격 입력됨");
+    			$('#noticePrice').empty(); //미리보기 비우기
+    			$('#noticePrice').append("　"+price+"　");
+    			// 입찰가 입력시 자동입력
+    			price = price/10;
+    			$('#quote').val(price);
+    			console.log("가격 계산끝");
+    			$('#noticeQuote').empty();  //미리보기 비우기
+    			$('#noticeQuote').append(price);
+    			$('#notice2Quote').empty();  //미리보기 비우기
+    			$('#notice2Quote').append(price);
+    			//기본입력값 css 입히기
+    			$('#quote').css("color", "#7fad39");
+    			$('#quote').css("font-weight", "bold");
     		}
     	});
 		
@@ -72,10 +100,15 @@
     			alert('숫자만 입력해 주세요');
     			$('#quote').val('');
     		} else {
-    			$('#minQuote').empty();
+ 	           	var price = $('#quote').val();
     			console.log("호가 입력됨");
-    			var price = $('#quote').val();
-    			$('#minQuote').append(price);
+    			$('#noticeQuote').empty(); //미리보기 비우기
+    			$('#noticeQuote').append(price);
+    			$('#notice2Quote').empty();  //미리보기 비우기
+    			$('#notice2Quote').append(price);
+    			//기본입력값 css 바꾸기
+    			$(this).css("color", "black");
+ 	            $(this).css("font-weight", "normal");
     		}
     	});
     	
@@ -92,11 +125,21 @@
 			} else if ($('#quote').val() == '') {
 				alert('호가를 입력하세요');
 				$('#quote').focus();
-			} else if ($('#datepicker').val() == '') {
-				alert('마감 일자를 입력하세요');
-				$('#datepicker').focus();
+			} else if ($('#datepicker').val() != '') {
+				var date = $('#registrationDeadline').val();
+				if (confirm ('입력하신 마감날짜가 맞습니까? \n'+ date )){
+					//맞다면 form제출
+					$('#addAuctionProductForm').submit();
+					}
+				else {
+					//아니라면 다시 작성
+					alert('마감 일자를 다시 입력하세요');
+					$('#datepicker').focus();
+					}
 			} else {
-				$('#addAuctionProductForm').submit();
+				//datepicker가 값이 없다고? 그럴리가...
+				alert('마감 일자를 확인하세요');
+				$('#datepicker').focus();
 			}
 		});
 
@@ -217,10 +260,10 @@
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 							                <!-- 경매 상품 호가 -->
 											<div class="col-lg-3">
-							                	<h4>호가<span style="color: #7fad39;">*</span></h4>
+							                	<h4>호가<span style="color: #7fad39;">* <span style="font-size: 1rem;"><span style="font-weight:bold;">기본 : 최소 입찰가의 10%</span></span> </span></h4>
 							                </div>
 							                <div class="col-lg-9 checkout__input" style="display: inline;">
-							                	<input type="text" id="quote" name="quote" placeholder="추천가: 최소 입찰가의 10%" style="width: 90%">&nbsp;원
+							                	<input type="text" id="quote" name="quote" placeholder="추천가: 최소 입찰가의 10%" style="width: 90%; color:#7fad39; font-weight:bold;">&nbsp;원
 							                </div>
 							                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>	
 							                
@@ -235,12 +278,11 @@
 							                <!-- 마감기한 입력 -->
 											<div class="col-lg-3">
 												<h4>
-													마감 일자<span style="color: #7fad39;">* <span style="font-size: 1rem;">최대 3개월</span></span> 
+													마감 일자<span style="color: #7fad39;">* <span style="font-size: 1rem;">기본 : <span style="font-weight:bold;">내일</span> ~3개월</span></span>
 												</h4>
-												
 											</div>
 											<div class="col-lg-9 checkout__input" style="display: inline;">
-												<input type="text" id="registrationDeadline" name="registrationDeadline">
+												<input type="text" id="registrationDeadline" name="registrationDeadline" style="color:#7fad39; font-weight:bold;">
 											</div>
 											<div class="col-lg-12" style="margin-bottom: 15px;">
 												<hr style="border: solid 1px lightgrey;">
@@ -267,10 +309,10 @@
 <!-- 경매 상품 미리보기-->			                    <div class="product__details__text">
 <!-- 경매 상품 미리보기-->			                        <h3>${productDetail.productName}</h3>
 <!-- 경매 상품 미리보기-->			                        <div class="product__details__rating">
-<!-- 경매 상품 미리보기-->			                            <span>( 0 회 입찰됨) 마지막 입찰자 : 없음</span>
+<!-- 경매 상품 미리보기-->			                           
 <!-- 경매 상품 미리보기-->			                        </div>
-<!-- 경매 상품 미리보기-->			                        <div class="product__details__price">최조 입찰가 : <span id="minPrice"></span></div>
-<!-- 경매 상품 미리보기-->			                        <a class="primary-btn" style="margin-top: 3px;">호가 : <span id="minQuote"></span></a>
+<!-- 경매 상품 미리보기-->			                        <div class="product__details__price">최초 입찰자가 되어보세요!</div>
+<!-- 경매 상품 미리보기-->			                        <a class="primary-btn" style="margin-top: 3px;">호가 : <span id="noticeQuote"></span> </a>
 <!-- 경매 상품 미리보기-->			                        <div class="heart-btn">
 <!-- 경매 상품 미리보기-->								      <div class="content">
 <!-- 경매 상품 미리보기-->								        <span class="heart"></span>
@@ -278,10 +320,11 @@
 <!-- 경매 상품 미리보기-->							      </div>
 <!-- 경매 상품 미리보기-->								    </div>
 <!-- 경매 상품 미리보기-->			                        <ul>
+															<li><b>입찰 남은 기간</b> <span style="background-color : yellowgreen;" id="datediff"></span> </li>
 <!-- 경매 상품 미리보기-->			                            <li><b>판매자</b> <span>${productDetail.userName}</span></li>
 <!-- 경매 상품 미리보기-->			                            <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
 <!-- 경매 상품 미리보기-->			                            <li><b>상품 카테고리</b> <span>${productDetail.categorySubName}</span></li>
-<!-- 경매 상품 미리보기-->			                            <li><b>현재 입찰가</b> <span> null </span></li>
+<!-- 경매 상품 미리보기-->			                            <li><b>현재 입찰가</b> <span style="background-color : yellowgreen;"> <span id="noticePrice"> </span>　(<span id="notice2Quote"></span>)　</span></li>
 <!-- 경매 상품 미리보기-->			                            <li><b>Share on</b>
 <!-- 경매 상품 미리보기-->			                                <div class="share">
 <!-- 경매 상품 미리보기-->			                                    <a href="#"><i class="fa fa-facebook"></i></a>

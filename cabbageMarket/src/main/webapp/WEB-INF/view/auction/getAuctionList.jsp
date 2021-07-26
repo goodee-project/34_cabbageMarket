@@ -43,11 +43,11 @@
 			 if(Object.is(a, null)) throw new Error("null");
 			 if(Object.is(a, undefined)) throw new Error("undefined");
 			 if(Object.is(a, NaN)) throw new Error("NaN");
-			 size += 300;
-			 console.log("+300");
+			 size += 200;
+			 console.log("+200");
 			}catch(error){
-				size -= 300;
-				console.log("-300");
+				size -= 200;
+				console.log("-200");
 			}finally{
 			 console.log(size);
 			}
@@ -235,7 +235,7 @@
 <!-- 입찰마감상품-->                         <div class="product__discount__item__text">
 <!-- 입찰마감상품-->                             <h5><a id="nameBtn">${al.productName}</a></h5>
 <!-- 입찰마감상품-->                             <form id="getAuctionOneForm" action="${pageContext.request.contextPath}/users/getAuctionOne" method="post" enctype="multipart/form-data">
-<!-- 입찰마감상품-->                             	<input type="hidden" name="applyId" value="${al.applyId }"/>
+<!-- 입찰마감상품-->                             	<input type="hidden" id="applyId" name="applyId" value="${al.applyId }"/>
 <!-- 입찰마감상품-->                             </form>
 <!-- 입찰마감상품-->                             <div class="product__item__price"><fmt:formatNumber value="${al.newPrice}" pattern="#,###" /></div>
 <!-- 입찰마감상품-->                             
