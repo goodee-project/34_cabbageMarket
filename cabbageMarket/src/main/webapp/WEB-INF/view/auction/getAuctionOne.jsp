@@ -169,6 +169,7 @@
                         
 					    
                         <ul>
+                            <li><b>입찰 남은 기간</b> <span>${productDetail.datediff} 일 ( ${productDetail.deadline} ) </span></li>
                             <li><b>판매자</b> <span>${productDetail.userName}</span></li>
                             <li><b>상품 등록번호</b> <span>${productDetail.applyId}</span></li>
                             <li><b>상품 카테고리</b> <span><span id="categorySubId">${productDetail.categorySubId} : </span>${productDetail.categorySubName}</span></li>

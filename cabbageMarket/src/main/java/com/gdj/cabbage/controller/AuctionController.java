@@ -163,6 +163,40 @@ public class AuctionController {
 			   return "auction/getAuctionOne";
 		   }
 	}
+	@PostMapping("getAuctionOne")
+	public String getAuctionOnePost(Model model
+			,HttpServletRequest req
+			,@RequestParam(value="applyId") int applyId) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--post.applyId");
+			
+		// 상품 상세정보 + 이미지들 불러오기
+		Map<String, Object> resultMap = auctionService.getAuctionOne(applyId);
+		List<String> imgPathList = auctionService.getApplyImg(applyId);
+		log.debug(Debuging.DEBUG + "5 Service에서 받어온 resultMap 확인 : " + resultMap.toString());
+		
+		Map<String,Object> productDetail = (Map<String,Object>) resultMap.get("auctionList");
+		
+		// 연관상품 가져오기
+		List<Map<String,Object>> relatedAuctionList = auctionService.getAuctionListBySubId( (int)productDetail.get("categorySubId") );
+		log.debug(Debuging.DEBUG + "5 Service에서 받어온 relatedAuctionList 확인 : " + relatedAuctionList.toString());
+		
+		model.addAttribute("productDetail", resultMap.get("auctionList"));
+		model.addAttribute("bidInfo", resultMap.get("bidInfo"));
+		model.addAttribute("imgPathList", imgPathList);
+		model.addAttribute("relatedAuctionList", relatedAuctionList);
+		//FlashMap에 저장되어 전달된 값을 가져온다.
+		 Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(req);
+		   if(flashMap !=null) {  
+			   if ( (Integer)flashMap.get("cnt") != null ) {
+		       model.addAttribute("cnt", (int)flashMap.get("cnt"));
+		       return "auction/getAuctionOneCnt";
+			   } else {
+				   return "auction/getAuctionOne";
+			   }
+		   } else {
+			   return "auction/getAuctionOne";
+		   }
+	}
 	
 	// 포인트 계산
 	@PostMapping("calculatePoint")

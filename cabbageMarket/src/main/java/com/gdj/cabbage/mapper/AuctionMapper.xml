@@ -64,6 +64,8 @@
 	<select id="selectAuctionOne" parameterType="int" resultType="map"> <!-- applyId로 상세정보 가져오는 매퍼 -->
 		SELECT 
 			apr.apply_product_sales_delivery_id applyId
+			,DATEDIFF(apr.registration_deadline, now())-1 datediff
+			,apr.registration_deadline deadline
 			,username userName
 			,cs.category_sub_name categorySubName
 			,apsd.category_sub_id categorySubId
@@ -442,10 +444,10 @@
 		<where>
 			(apsd.category_sub_id = ${subId})
 			AND
-			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
+			( DATEDIFF(apr.registration_deadline, now()) > 1 OR DATEDIFF(apr.registration_deadline, now()) = 1)
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
-		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		ORDER BY RAND() 
 		limit 4
 	</select>
 	
