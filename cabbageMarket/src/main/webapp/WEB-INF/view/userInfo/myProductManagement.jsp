@@ -123,7 +123,7 @@
 					                                    <td>
 					                                    	<h5>${apsdl.categorySubName}</h5>
 					                                    </td>
-					                                    <td>
+					                                    <td width="300px">
 					                                    	<h5>${apsdl.productName}</h5>
 					                                    </td>
 					                                    <td>
