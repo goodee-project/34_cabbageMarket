@@ -498,6 +498,25 @@
 			,#{commission}
 			,now()
 			)
+	
 	</insert>
 	
+	<select id="selectAuctionProductAndImgsByKey" parameterType="int" resultType="map">
+		SELECT 
+			 apr.apply_product_sales_delivery_id applyId
+			,apr.product_desc productDesc
+			,apr.min_bid_price minBidPrice
+			,apr.quote quote
+			,img.img_name imgName
+		FROM auction_product_registration apr INNER JOIN apply_product_sales_delivery_img img ON apr.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
+	   WHERE apr.apply_product_sales_delivery_id = #{applyId}
+	</select>
+	
+	<update id="updateAuctionProduct" parameterType="com.gdj.cabbage.vo.AuctionProductRegistration">
+		UPDATE auction_product_registration 
+		   SET product_desc = #{productDesc}
+		      ,min_bid_price = #{minBidPrice}
+		      ,quote = #{quote}
+		 WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+	</update>
 </mapper>

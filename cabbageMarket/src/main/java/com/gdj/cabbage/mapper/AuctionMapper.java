@@ -70,4 +70,6 @@ public interface AuctionMapper {
 	
 	int insertBidCommisionByCancleBid(Map<String, Object> map);  //경매 취소수수료 입력하는 매퍼
 
+	List<Map<String, Object>> selectAuctionProductAndImgsByKey(int applyId); // 경매상품 수정 페이지에 출력할 경매상품 정보, 모든 이미지
+	void updateAuctionProduct(AuctionProductRegistration auctionProductRegistration);
 }

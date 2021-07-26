@@ -24,9 +24,11 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.AuctionService;
 import com.gdj.cabbage.service.CategoryService;
+import com.gdj.cabbage.service.UsersService;
 import com.gdj.cabbage.vo.AuctionProductRegistration;
 import com.gdj.cabbage.vo.CategoryMain;
-
+import com.gdj.cabbage.vo.DirectTradeProductRegistration;
+import com.gdj.cabbage.vo.ShippingAddress;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
+	@Autowired UsersService usersService;
 	
 	//addAuction ajax
     @RequestMapping(value = "/previewAuction", method = RequestMethod.POST)
@@ -246,4 +249,48 @@ public class AuctionController {
 		redirectAttributes.addFlashAttribute("userPoint", userPoint);
 		return "redirect:/users/biddingList";
 		}
+	
+	// 경매 상품 수정
+	@GetMapping("modifyAuction")
+	public String modifyAuction(Model model,
+			@RequestParam(value="applyId") int applyId) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+		
+		// 경매정보 + 모든 이미지
+		List<Map<String, Object>> AuctionProductAndImgsList = auctionService.getAuctionProductAndImgsByKey(applyId);
+		
+		model.addAttribute("applyId", applyId);
+		model.addAttribute("AuctionProductAndImgsList", AuctionProductAndImgsList);
+		return "auction/modifyAuction";
+	}
+	
+	@PostMapping("modifyAuction")
+	public String modifyAuction(AuctionProductRegistration auctionProductRegistration) {
+		
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+auctionProductRegistration.toString()+"<--auctionProductRegistration");
+		auctionService.modifyAuctionProduct(auctionProductRegistration);
+		
+		return "redirect:/users/getAuctionOne?applyId="+auctionProductRegistration.getApplyProductSalesDeliveryId();
+	}
+	
+	@GetMapping("addBiddingProductDelivery")
+	public String addBiddingProductDelivery(HttpSession session, Model model,
+			@RequestParam(value="applyId") int applyId) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
+		
+		// 상품 상세정보 + 이미지들 불러오기
+		Map<String, Object> resultMap = auctionService.getAuctionOne(applyId);
+		List<String> imgPathList = auctionService.getApplyImg(applyId);
+				
+		Map<String,Object> productDetail = (Map<String,Object>) resultMap.get("auctionList");
+		
+		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		int userId = (Integer)usersSession.get("userId");
+		List<ShippingAddress> shippingAddressList = usersService.getAddressByUserId(userId);
+		
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("imgPathList", imgPathList);
+		model.addAttribute("shippingAddressList", shippingAddressList);
+		return "auction/addBiddingProductDelivery";
+	}
 }

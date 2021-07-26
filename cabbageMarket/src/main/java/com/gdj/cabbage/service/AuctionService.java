@@ -304,4 +304,14 @@ public class AuctionService {
 		
 		return userPoint;
 		}
-	}//class
+	
+	// 경매상품 수정 페이지에 출력할 경매상품 정보, 모든 이미지
+	public List<Map<String, Object>> getAuctionProductAndImgsByKey(int applyId){
+		return auctionMapper.selectAuctionProductAndImgsByKey(applyId);
+	}
+	
+	// 경매상품 수정
+	public void modifyAuctionProduct(AuctionProductRegistration auctionProductRegistration){
+		auctionMapper.updateAuctionProduct(auctionProductRegistration);
+	}
+}//class
