@@ -6,34 +6,35 @@
 <!-- 중고상품 목록  -->
 	<select id="selectUsedProductList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			upr.apply_product_sales_delivery_id applyId,
-			img.img_name imgName,
-			apsd.product_name productName,
-			upr.product_price productPrice,
-			cateSub.category_sub_name categorySubName
+			 upr.apply_product_sales_delivery_id applyId,
+			 img.img_name imgName,
+			 apsd.product_name productName,
+			 upr.product_price productPrice,
+			 cs.category_sub_name categorySubName
 		FROM 
-			used_product_registration upr
+			 used_product_registration upr
 		LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
-		LEFT JOIN category_sub cateSub ON apsd.category_sub_id = cateSub.category_sub_id
-		LEFT JOIN category_middle cateMid ON cateSub.category_middle_id = cateMid.category_middle_id
-		LEFT JOIN category_main cateMain ON cateMid.category_main_id = cateMain.category_main_id
+		LEFT JOIN category_sub cs ON apsd.category_sub_id = cs.category_sub_id
+		LEFT JOIN category_middle cmd ON cs.category_middle_id = cmd.category_middle_id
+		LEFT JOIN category_main cm ON cmd.category_main_id = cm.category_main_id
 		<where>
-				pcr.registration_state = 1
-			AND DATEDIFF(upr.registration_deadline, NOW()) > 0
+				pcr.registration_state = 1 <!-- 1 중고상품 -->
+			AND DATEDIFF(upr.registration_deadline, NOW()) > 0 
 			<if test="searchWord != null">
 				AND apsd.product_name LIKE CONCAT ('%',#{searchWord},'%')
 			</if>
 			<if test="categoryMainId != null">
-				AND cateMain.category_main_id = #{categoryMainId}
+				AND cm.category_main_id = #{categoryMainId}
 			</if>
 		</where>
-		GROUP BY productName 
+		GROUP BY 
+			productName 
 		<choose>
-	    <when test="sortBy == 1">ORDER BY upr.product_price, img.img_name </when>
-	    <when test="sortBy == 2">ORDER BY upr.product_price DESC, img.img_name </when>
-	    <otherwise>ORDER BY upr.create_date DESC, img.img_name</otherwise>
+	    <when test="sortBy == 1">ORDER BY upr.product_price, img.img_name </when> <!-- 정렬 낮은가격순 -->
+	    <when test="sortBy == 2">ORDER BY upr.product_price DESC, img.img_name </when> <!-- 정렬 높은가격순 -->
+	    <otherwise> ORDER BY upr.create_date DESC, img.img_name</otherwise>
 	 	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -46,17 +47,17 @@
 			used_product_registration upr
 		LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
-		LEFT JOIN category_sub cateSub ON apsd.category_sub_id = cateSub.category_sub_id
-		LEFT JOIN category_middle cateMid ON cateSub.category_middle_id = cateMid.category_middle_id
-		LEFT JOIN category_main cateMain ON cateMid.category_main_id = cateMain.category_main_id
+		LEFT JOIN category_sub cs ON apsd.category_sub_id = cs.category_sub_id
+		LEFT JOIN category_middle cmd ON cs.category_middle_id = cmd.category_middle_id
+		LEFT JOIN category_main cm ON cmd.category_main_id = cm.category_main_id
 		<where>
-				pcr.registration_state = 1
+				pcr.registration_state = 1 <!-- 1 중고상품 -->
 			AND DATEDIFF(upr.registration_deadline, NOW()) > 0
 			<if test="searchWord != null">
 				AND apsd.product_name LIKE CONCAT ('%',#{searchWord},'%')
 			</if>
 			<if test="categoryMainId != null">
-				AND cateMain.category_main_id = #{categoryMainId}
+				AND cm.category_main_id = #{categoryMainId}
 			</if>
 		</where>
 		<choose>
@@ -79,13 +80,13 @@
 		LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 		WHERE
-			pcr.registration_state = 1
+			pcr.registration_state = 1 <!-- 1 중고상품 -->
 		AND 
-			DATEDIFF(upr.registration_deadline, NOW()) BETWEEN 0 AND 7
+			DATEDIFF(upr.registration_deadline, NOW()) BETWEEN 0 AND 7 
 		GROUP BY 
 			productName 
 		ORDER BY 
-			RAND(), DATEDIFF(upr.registration_deadline,NOW())
+			RAND()
 		LIMIT 6
 	</select>
 	
@@ -99,14 +100,14 @@
 			upr.product_desc productDesc,
 			upr.product_price productPrice,
 			LEFT(upr.registration_deadline,16) deadLine,
-			cm.category_middle_id categoryMiddleId
+			cmd.category_middle_id categoryMiddleId
 		FROM 
 			used_product_registration upr
 		LEFT JOIN product_confirmation_registration pcr ON upr.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 		LEFT JOIN apply_product_sales_delivery apsd ON pcr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
 		LEFT JOIN users u ON apsd.user_id = u.user_id
 		LEFT JOIN category_sub cs ON apsd.category_sub_id = cs.category_sub_id
-		LEFT JOIN category_middle cm ON cs.category_middle_id = cm.category_middle_id
+		LEFT JOIN category_middle cmd ON cs.category_middle_id = cmd.category_middle_id
 		WHERE 
 			upr.apply_product_sales_delivery_id = #{applyId}
 	</select>
@@ -123,27 +124,29 @@
 	
 <!-- 관련된 중고상품 보여주기 -->
 	<select id="selectRelatedUsedProduct" parameterType="Integer" resultType="java.util.Map">
-		SELECT cm.category_middle_id categoryMiddleId,
-			   cm.category_middle_name categoryMiddleName,
-			   apsd.apply_product_sales_delivery_id applyId,
-			   apsd.apply_product_sales_delivery_id userId,
-			   apsd.product_name productName,
-			   img.img_name imgName,
-			   upr.product_price productPrice
+		SELECT 
+			cmd.category_middle_id categoryMiddleId,
+			cmd.category_middle_name categoryMiddleName,
+			apsd.apply_product_sales_delivery_id applyId,
+			apsd.apply_product_sales_delivery_id userId,
+			apsd.product_name productName,
+			img.img_name imgName,
+			upr.product_price productPrice
 		FROM 
-			category_middle cm
-		LEFT JOIN category_sub cs ON cm.category_middle_id = cs.category_middle_id
+			category_middle cmd
+		LEFT JOIN category_sub cs ON cmd.category_middle_id = cs.category_middle_id
 		LEFT JOIN apply_product_sales_delivery apsd ON cs.category_sub_id = apsd.category_sub_id
 		LEFT JOIN apply_product_sales_delivery_img img ON apsd.apply_product_sales_delivery_id = img.apply_product_sales_delivery_id
 		LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 		LEFT JOIN used_product_registration upr ON apsd.apply_product_sales_delivery_id = upr.apply_product_sales_delivery_id
 		WHERE 
-			cm.category_middle_id = #{categoryMiddleId}
+			cmd.category_middle_id = #{categoryMiddleId}
 		AND 
-			pcr.registration_state = 1
+			pcr.registration_state = 1 <!-- 1 중고상품 -->
 		GROUP BY 
-			RAND(), 
 			apsd.product_name
+		ORDER BY 
+			RAND()
 		LIMIT 4
 	</select>
 
@@ -164,16 +167,16 @@
 		)
 	</insert>
 	
-	<!-- 심사중인 상품이 중고상품으로 등록되면 배송확인목록에서 사라지도록... (registration_state값이 9[미등록] -> 1[중고]로 변경) -->
+	<!-- 배송신청한 상품을 중고상품으로 등록하면 registration_state값이 9[미등록] -> 1[중고상품]로 변경되도록...  -->
 	<update id="updateProductRegistrationState" parameterType="com.gdj.cabbage.vo.ProductConfirmationRegistration">
 		UPDATE 
 			product_confirmation_registration
 		SET 
-			registration_state = 1
+			registration_state = 1 <!-- 1 중고상품 -->
 		WHERE 
 			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
-	
+		
 		
 <!-- 중고상품 수정(상품을 올린 회원만 수정 가능) -->
 	<update id="updateUsedProduct" parameterType="com.gdj.cabbage.vo.UsedProductRegistration">
@@ -190,11 +193,11 @@
 	<!-- 구매할 상품에 대한 정보 select -->
 	<select id="selectUsedProductOneForBuy" parameterType="Integer" resultType="java.util.Map">
 		SELECT 
-		  	   upr.apply_product_sales_delivery_id applyId,
-			   apsd.product_name productName,
-			   img.img_name imgName,
-			   u.nickname nickName,
-			   upr.product_price productPrice
+			upr.apply_product_sales_delivery_id applyId,
+			apsd.product_name productName,
+			img.img_name imgName,
+			u.nickname nickName,
+			upr.product_price productPrice
 		FROM 
 			used_product_registration upr 
 		LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id 
@@ -219,14 +222,14 @@
 		)
 	</insert>
 	
-	<!-- 수수료율 가져오기 -->
+	<!-- 2-0. 수수료율 가져오기 -->
 	<select id="selectCommissionRate" resultType="Integer">
 		SELECT commission_rate commissionRate
 		FROM commission_info
 		WHERE commission_info_id = 1
 	</select>
 	
-	<!-- 2. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
+	<!-- 2-1. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
 	<insert id="insertUsingPoint" parameterType="java.util.Map">
 		INSERT INTO buying_points_using_history(
 			apply_product_sales_delivery_id,
