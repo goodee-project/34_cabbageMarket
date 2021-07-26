@@ -282,7 +282,7 @@
 					                                    	<h5>${gupl.price}</h5>
 					                                    </td>
 					                                    <td>
-					                                    	<c:if test="${gupl.state == '등록'}">
+					                                    	<c:if test="${gupl.state == '등록' && gupl.state =! '마감'}">
 					                                    		<h5>${gupl.deadline}</h5>
 					                                    	</c:if>
 					                                    	<c:if test="${gupl.state == '마감'}">

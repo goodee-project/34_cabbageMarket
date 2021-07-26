@@ -121,7 +121,12 @@
 				                                		${sl.content}
 				                                	</td>
 				                                    <td>
-				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${sl.img}" width="70px" height="50px">
+				                                    	<c:if test="${sl.content == '직거래 판매' }">
+				                                    		<img src="${pageContext.request.contextPath}/template/img/directTradeImg/${sl.img}" width="70px" height="50px">
+				                                    	</c:if>
+				                                    	<c:if test="${sl.content != '직거래 판매' }">
+				                                    		<img src="${pageContext.request.contextPath}/template/img/applyProductImg/${sl.img}" width="70px" height="50px">
+				                                    	</c:if>				                                        
 				                                    </td>
 				                                    <td>
 				                                    	${sl.productName}

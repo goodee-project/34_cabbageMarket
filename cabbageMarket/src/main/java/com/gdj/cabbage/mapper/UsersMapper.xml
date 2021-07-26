@@ -580,7 +580,7 @@
 				'직거래 판매' content, dtpi.img_name img, dtpr.product_name productName, dtpr.product_price price, 'X' commissions, dtpr.create_date createDate
 			FROM direct_trade_product_registration dtpr 
 			LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id 
-			WHERE dtpr.user_id=#{userId} 
+			WHERE dtpr.user_id=#{userId} AND dtpr.product_state=3
 			GROUP BY dtpr.direct_trade_product_registration_id
 			UNION ALL
 			SELECT '중고 판매' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, upr.create_date createDate
@@ -617,7 +617,7 @@
 				'직거래 판매' content, dtpi.img_name img, dtpr.product_name productName, dtpr.product_price price, 'X' commissions, dtpr.create_date createDate
 			FROM direct_trade_product_registration dtpr 
 			LEFT JOIN direct_trade_product_img dtpi ON dtpr.direct_trade_product_registration_id=dtpi.direct_trade_product_registration_id 
-			WHERE dtpr.user_id=#{userId} 
+			WHERE dtpr.user_id=#{userId} AND dtpr.product_state=3
 			GROUP BY dtpr.direct_trade_product_registration_id
 			UNION ALL
 			SELECT '중고 판매' content, apsdi.img_name img, apsd.product_name productName, bpuh.point price, bch.commission_point commissions, upr.create_date createDate
