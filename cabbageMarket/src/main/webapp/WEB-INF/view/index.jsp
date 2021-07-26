@@ -99,10 +99,10 @@
                             </div>
                             <div class="hero__search__phone__icon">
                             	<c:if test="${usersSession != null}">
-                            		<a type="button" onclick="showPopup();"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            		<a type="button" onclick="showPopup();"><i class="fa fa-comment"></i> <span>배추톡</span></a>
                             	</c:if>
                             	<c:if test="${usersSession == null}">
-                            		<a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-comment-o"></i> <span>배추톡</span></a>
+                            		<a href="${pageContext.request.contextPath}/usersLogin"><i class="fa fa-comment"></i> <span>배추톡</span></a>
                             	</c:if>
                             </div>
                         </div>

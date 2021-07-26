@@ -140,7 +140,9 @@ $(document).ready(function() {
     				</c:if>
     			</div>
     		</div>
-    		<button class="bannerButton modal_btn" type="button" onclick="onClick()">상태변경</button>
+    		<c:if test="${productDetail.userId == usersSession.userId}">
+    			<button class="bannerButton modal_btn" type="button" onclick="onClick()">상태변경</button>
+    		</c:if>
     	</div>
     	
     	<div class="black_bg"></div>
