@@ -216,7 +216,7 @@
 				'유찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='유찰'
 			UNION ALL
 			SELECT 
-				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
+				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id JOIN apply_product_sales_delivery apsd ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
 			UNION ALL
 			SELECT 
 				'판매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN apply_product_sales_delivery apsd ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='수입'
@@ -257,7 +257,7 @@
 				'유찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='유찰'
 			UNION ALL
 			SELECT 
-				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id WHERE bap.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
+				'낙찰' content, bpuh.point point, bpuh.create_date usedDate FROM bidding_points_using_history bpuh LEFT JOIN bidding_auction_product bap ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id JOIN apply_product_sales_delivery apsd ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='낙찰'
 			UNION ALL
 			SELECT 
 				'판매' content, bpuh.point point, bpuh.create_date usedDate FROM buying_points_using_history bpuh LEFT JOIN apply_product_sales_delivery apsd ON bpuh.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id WHERE apsd.user_id=#{userId} AND bpuh.income_expenditure='수입'
