@@ -147,12 +147,17 @@ public class UsedTradeController {
 	public String modifyUsedProduct(Model model, @RequestParam(value = "applyId", required = true) int applyId) {
 		log.debug("★★★★★modifyUsedProduct() applyId :" + applyId); // 디버깅
 
-		// 중고상품 상세 details 가져오기
+		// 중고상품 상세 details 
 		Map<String, Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
-		log.debug("★★★★★controller getUsedProductOne() UsedProductDetail:" + usedProductDetail); // 디버깅
+		log.debug("★★★★★controller modifyUsedProduct() UsedProductDetail:" + usedProductDetail); // 디버깅
+		
+		//중고상품 이미지
+		List<String> imgNameList = usedTradeService.getUsedProductImg(applyId);
+		log.debug("★★★★★controller modifyUsedProduct() imgNameList:" + imgNameList); // 디버깅
 
 		// model에 usedProductDetail (중고상품 상세 정보) 넣어주기.
 		model.addAttribute("usedProductDetail", usedProductDetail);
+		model.addAttribute("imgNameList", imgNameList);
 
 		return "usedProduct/modifyUsedProduct";
 	}
