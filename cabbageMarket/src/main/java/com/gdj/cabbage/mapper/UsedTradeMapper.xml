@@ -34,7 +34,10 @@
 		<choose>
 	    <when test="sortBy == 1">ORDER BY upr.product_price, img.img_name </when> <!-- 정렬 낮은가격순 -->
 	    <when test="sortBy == 2">ORDER BY upr.product_price DESC, img.img_name </when> <!-- 정렬 높은가격순 -->
-	    <otherwise> ORDER BY upr.create_date DESC, img.img_name</otherwise>
+	    <otherwise> 
+	    	ORDER BY upr.create_date DESC, 
+	    	img.img_name
+	    </otherwise>
 	 	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -61,8 +64,8 @@
 			</if>
 		</where>
 		<choose>
-	    <when test="sortBy == 1">ORDER BY upr.product_price </when>
-	    <when test="sortBy == 2">ORDER BY upr.product_price DESC</when>
+	    <when test="sortBy == 1"> ORDER BY upr.product_price </when>
+	    <when test="sortBy == 2"> ORDER BY upr.product_price DESC</when>
 	 	</choose>
 	</select>
 	
@@ -82,11 +85,11 @@
 		WHERE
 			pcr.registration_state = 1 <!-- 1 중고상품 -->
 		AND 
-			DATEDIFF(upr.registration_deadline, NOW()) BETWEEN 0 AND 7 
+			DATEDIFF(upr.registration_deadline, NOW()) BETWEEN 0 AND 7
 		GROUP BY 
 			productName 
 		ORDER BY 
-			RAND()
+			RAND(), DATEDIFF(upr.registration_deadline,NOW())
 		LIMIT 6
 	</select>
 	
@@ -100,6 +103,7 @@
 			upr.product_desc productDesc,
 			upr.product_price productPrice,
 			LEFT(upr.registration_deadline,16) deadLine,
+			cs.category_sub_name categorySubName,
 			cmd.category_middle_id categoryMiddleId
 		FROM 
 			used_product_registration upr

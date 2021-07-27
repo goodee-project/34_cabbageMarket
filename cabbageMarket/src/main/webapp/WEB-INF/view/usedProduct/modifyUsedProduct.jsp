@@ -172,19 +172,31 @@
 			<input type="hidden" name="applyProductSalesDeliveryId" value="${usedProductDetail.applyId}">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="section-title product__discount__title"
-						style="margin-top: 30px;">
+					<div class="section-title product__discount__title" style="margin-top: 30px;">
 						<h2>
-							기본정보<span
-								style="color: #7fad39; font-size: 1rem; margin-left: 2rem;">*필수항목</span>
+							기본정보<span style="color: #7fad39; font-size: 1rem; margin-left: 2rem;">*필수항목</span>
 						</h2>
 					</div>
 				</div>
 				
+				<!-- 카테고리 -->
+				<div class="col-lg-3">
+					<h4>
+						카테고리<span style="color: #7fad39;"></span>
+					</h4>
+				</div>
+				<div class="col-lg-9 checkout__input" style="display: inline;">
+					<input type="text" value="${usedProductDetail.categorySubName}" disabled>
+				</div>
+				<div class="col-lg-12" style="margin-bottom: 15px;">
+					<hr style="border: solid 1px lightgrey;">
+				</div>
+				
+				
 				<!-- 상품명 -->
 				<div class="col-lg-3">
 					<h4>
-						상품명<span style="color: #7fad39;">*</span>
+						상품명<span style="color: #7fad39;"></span>
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
@@ -223,7 +235,7 @@
 				<!-- 마감 일자 -->
 				<div class="col-lg-3">
 					<h4>
-						 마감 일자<span style="color: #7fad39;">*</span>
+						 마감 일자<span style="color: #7fad39;"></span>
 					</h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
@@ -235,7 +247,12 @@
 				
 				<!-- 수정 버튼 -->
 				<div class="col-lg-12" style="text-align: right;">
-					<button id="btn" type="button" class="btn btn-success">수정</button>
+					<div>
+						<button id="btn" type="button" class="btn btn-success">수정</button>
+						<a href="${pageContext.request.contextPath}/users/registedProduct">
+							<button type="button" class="btn btn-success">취소</button>
+						</a>
+					</div>
 				</div>
 			</div>
 		</form>
