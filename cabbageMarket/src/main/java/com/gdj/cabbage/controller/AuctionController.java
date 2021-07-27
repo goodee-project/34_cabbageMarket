@@ -288,13 +288,15 @@ public class AuctionController {
 	// 경매 상품 수정
 	@GetMapping("modifyAuction")
 	public String modifyAuction(Model model,
-			@RequestParam(value="applyId") int applyId) {
+			@RequestParam(value="applyId") int applyId
+		   ,@RequestParam(value="state") String state) {
 		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+applyId+"<--applyId");
 		
 		// 경매정보 + 모든 이미지
 		List<Map<String, Object>> AuctionProductAndImgsList = auctionService.getAuctionProductAndImgsByKey(applyId);
 		
 		model.addAttribute("applyId", applyId);
+		model.addAttribute("state", state);
 		model.addAttribute("AuctionProductAndImgsList", AuctionProductAndImgsList);
 		return "auction/modifyAuction";
 	}

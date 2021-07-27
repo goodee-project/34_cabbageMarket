@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style type="text/css">
     	.imgBtn {
@@ -95,6 +96,35 @@
     		border: 1px solid rgb(220, 219, 228);
 		}
     </style>
+	<!-- datePicker -->
+	<script>
+		$(function() {
+	    //input을 datepicker로 선언
+			$("#registrationDeadline").datepicker({
+				 dateFormat: 'yy-mm-dd' //달력 날짜 형태
+				,minDate: "+1d" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+				,maxDate: "+3m" //최대 선택일자(+1D:하루후, -1M:한달후,)
+			});	
+		//초기값을 내일 날짜로 설정
+		$('#registrationDeadline').datepicker('setDate', '+1d'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후) 
+	
+		$('#datediff').append('　1일　');
+		$("#registrationDeadline").on("change",function(){
+				console.log("날짜새로입력");
+		            $(this).css("color", "black");
+		            $(this).css("font-weight", "normal");
+		            var date = new Date ($(this).val());
+		            console.log("입력 date:"+date);
+		            var now = new Date();
+		            console.log("오늘 date:"+now);
+		            var dateDiff = Math.ceil((date.getTime()-now.getTime())/(1000*3600*24));
+		            console.log("diff:"+dateDiff);
+		            $('#datediff').empty();
+		            $('#datediff').append("　"+dateDiff+"일　");
+		         }
+		      );
+	  });
+	</script>
 	<script> <!-- 유효성 검사 -->
     $(document).ready(function() {
     	
@@ -198,8 +228,18 @@
 	                </div>
 	                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
 	                
-	                <div class="col-lg-12" style="margin-bottom: 15px; color: rgb(255, 80, 88);"><hr style="border: solid 1px lightgrey;"></div>			
-					
+
+	                <c:if test="${state eq '마감'}">
+						<div class="col-lg-3">
+		                	<h4>경매 마감 일자 재설정<span style="color: #7fad39;">*</span></h4>
+		                </div>
+		                <div class="col-lg-9 checkout__input" style="display: inline;">
+		                	<input type="text" id="registrationDeadline" name="registrationDeadline" style="color:#7fad39; font-weight:bold;">
+		                </div>
+		                <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
+	                </c:if>
+	                
+
 					<!-- 직거래 상품 가격 -->
 					<div class="col-lg-3">
 	                	<h4>최소 입찰 가격<span style="color: #7fad39;">*</span></h4>

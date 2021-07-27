@@ -1,8 +1,8 @@
 <!-- 작성자 : 이재범 -->
 <!-- 수정 : 김희진 0716 -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -345,11 +345,11 @@
 				                            	<c:set var="total1" value = "0"/>
 				                            	<c:forEach var="gapl" items="${getAuctionProductList}">
 					                                <tr>
-					                                	<td>
+					                                	<td style="width: 80px;">
 					                                		${total1 = total1+1}
 					                                	</td>
-					                                    <td>
-					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gapl.img}" width="70px" height="50px">
+					                                    <td style="width: 100px;">
+					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gapl.img}" width="50px" height="50px">
 					                                    </td>
 					                                    <td>
 					                                    	<h5>
@@ -358,26 +358,26 @@
 					                                    		</a>
 					                                    	</h5>
 					                                    </td>
-					                                    <td>
+					                                    <td style="width: 160px;">
 					                                    	<h5>${gapl.maxPrice}</h5>
 					                                    </td>
-					                                    <td>
+					                                    <td style="width: 150px;">
 					                                    	<c:if test="${gapl.state == '등록'}">
-					                                    		<h5>${gapl.deadline}</h5>
+					                                    		<h5>${fn:substring(gapl.deadline,0,10) }</h5>
 					                                    	</c:if>
 					                                    	<c:if test="${gapl.state == '마감'}">
 					                                    		<h5 style="color:red">마감</h5>
 					                                    	</c:if>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/modifyAuction?applyId=${gapl.applyProductSalesDeliveryId}">
-					                                    		<button class="btn btn-success">수정</button>
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyAuction?applyId=${gapl.applyProductSalesDeliveryId}&state=${gapl.state}">
+					                                    		<button class="btn btn-success" style="width: 50px; padding: 0px;">수정</button>
 					                                    	</a>
 					                                    </td>
 					                                    <td>
 					                                    	<form method="post" class="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
 					                                    		<input type="hidden" name="applyId" value="${gapl.applyProductSalesDeliveryId}">
-					                                    		<button type="button" class="btn btn-success delAuctionBtn">취소</button>
+					                                    		<button type="button" class="btn btn-success delAuctionBtn" style="width: 50px; padding: 0px;">취소</button>
 					                                    	</form>	 
 					                                    </td>
 					                                </tr>

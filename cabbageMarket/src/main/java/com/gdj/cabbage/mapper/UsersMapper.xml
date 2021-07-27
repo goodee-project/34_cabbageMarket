@@ -394,7 +394,7 @@
 			apsd.product_name productName,
 			IFNULL(MAX(bap.bid_price),'') maxPrice,
 			apr.registration_deadline deadline,
-			IF(DATEDIFF(apr.registration_deadline, NOW())>=0, '등록', '마감') state
+			IF(TIMEDIFF(apr.registration_deadline, NOW())>=0, '등록', '마감') state
 		FROM 
 			auction_product_registration apr 
 			LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id=bap.apply_product_sales_delivery_id

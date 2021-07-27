@@ -519,6 +519,9 @@
 		   SET product_desc = #{productDesc}
 		      ,min_bid_price = #{minBidPrice}
 		      ,quote = #{quote}
+		      <if test="registrationDeadline != null">
+		      ,registration_deadline = #{registrationDeadline}
+		      </if>
 		 WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
 	
