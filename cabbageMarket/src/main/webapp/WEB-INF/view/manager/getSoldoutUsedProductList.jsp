@@ -325,6 +325,7 @@
 											<th>회원 번호</th>
 											<th>회원 이름</th>
 											<th>상품 종류</th>
+											<th>상품 이름</th>
 											<th>등록 상태</th>
 											<th>배송 상태</th>
 											<th>운송장 번호</th>
@@ -338,6 +339,7 @@
 												<td>${b.userId}</td>
 												<td>${b.username}</td>
 												<td>${b.csId}</td>
+												<td>${b.productName}</td>
 												<td>${b.regState}</td>
 												<td>${b.delState}</td>
 												<td>${b.waybillNum}</td>

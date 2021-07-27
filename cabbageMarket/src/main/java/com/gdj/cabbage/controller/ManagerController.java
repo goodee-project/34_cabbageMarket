@@ -32,7 +32,7 @@ public class ManagerController {
 	public String getSoldoutUsedProductList(Model model,
 			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
-			@RequestParam(value="searchWord", required=false) String searchWord){
+			@RequestParam(value="searchWord", required=false) String searchWord) {
 		
 		log.debug("★★★★★★★ currentPage" + currentPage);
 		log.debug("★★★★★★★ rowPerPage" + rowPerPage);

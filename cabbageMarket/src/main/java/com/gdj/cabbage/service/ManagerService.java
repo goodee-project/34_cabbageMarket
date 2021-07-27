@@ -25,25 +25,30 @@ public class ManagerService {
 @Autowired ManagerMapper managerMapper;
 
 	// 판매완료 중고상품 리스트
-	public Map<String, Object> getSoldoutUsedProductList(int rowPerPage, int currentPage, String searchWord) {
+	public Map<String, Object> getSoldoutUsedProductList(int currentPage, int rowPerPage, String searchWord) {
 		
 		log.debug(Debuging.DEBUG + "managerService의 getSoldoutUsedProductList 실행");
 		
 		int soldoutUsedTotal = managerMapper.selectSoldoutUsedProductTotal();
 		
+		/*
+		
 		int lastPage = soldoutUsedTotal / rowPerPage;
 		if(soldoutUsedTotal % rowPerPage != 0) {
 			lastPage++;
 		}
-		// int lastPage = (int)(Math.ceil((double)boardTotal / rowPerPage));
 		
-		int beginRow = (currentPage - 1) * rowPerPage;
+		*/
+		
+		int lastPage = (int)(Math.ceil((double)soldoutUsedTotal / rowPerPage));
 		
 		Page page = new Page();
 		
-		page.setBeginRow(beginRow);
+		page.setBeginRow((currentPage - 1) * rowPerPage);
 		page.setRowPerPage(rowPerPage);
 		page.setSearchWord(searchWord);
+		
+		log.debug(Debuging.DEBUG + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@page" + page.toString());
 		
 		List<Map<String, Object>> soldoutList = managerMapper.selectSoldoutUsedProductList(page);
 		

@@ -5,15 +5,15 @@
 
 <!-- 판매완료 중고상품 페이징 토탈 -->
 
-	<select id="selectSoldoutUsedProductTotal"
-			resultType = "int">
+<select id="selectSoldoutUsedProductTotal"
+		resultType = "int">
 	
-		SELECT
-			COUNT(*)
-		FROM
-			buying_product_delivery
+	SELECT
+		COUNT(*)
+	FROM
+		buying_product_delivery
 		
-	</select>
+</select>
 
 <!-- 판매완료 중고상품 목록 출력 -->
 
@@ -50,12 +50,10 @@
 		
 	<where>
 	
-		<if test=""></if>
-	
 		pcr.registration_state = '1' AND bpd.delivery_state = '0'
-		
+	
 		<if test="searchWord != null">
-			productName LIKE CONCAT('%',#{searchWord},'%')
+			apsd.product_name LIKE CONCAT('%',#{searchWord},'%')
 		</if>
 		
 	</where>
@@ -65,6 +63,7 @@
 		
 	LIMIT
 		#{beginRow}, #{rowPerPage}
+		
 
 </select>
 
