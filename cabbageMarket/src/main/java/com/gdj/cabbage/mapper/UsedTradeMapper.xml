@@ -188,9 +188,9 @@
 			used_product_registration 
 		SET  
 			product_desc = #{productDesc},
-			product_price = #{productPrice},
+			product_price = #{productPrice}
 			<if test="registrationDeadline != null">
-		      registration_deadline = #{registrationDeadline}
+		      ,registration_deadline = #{registrationDeadline}
 		    </if>
 		WHERE  
 			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}

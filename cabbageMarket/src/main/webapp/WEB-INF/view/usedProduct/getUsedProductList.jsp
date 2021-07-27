@@ -25,7 +25,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/owl.carousel.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/slicknav.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/template/css/style.css" type="text/css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 	
 	<style>
 	.form-control:focus {
@@ -177,7 +176,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span>${usedProductList[i].productPrice}₩</span>
+	                                                <span>${usedProductList[i].productPrice}원</span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>
