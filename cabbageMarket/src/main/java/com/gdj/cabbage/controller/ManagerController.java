@@ -27,6 +27,28 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 
+	// 판매완료 중고상품 목록
+	@GetMapping("/manager/getSoldoutUsedProductList")
+	public String getSoldoutUsedProductList(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+			@RequestParam(value="searchWord", required=false) String searchWord){
+		
+		log.debug("★★★★★★★ currentPage" + currentPage);
+		log.debug("★★★★★★★ rowPerPage" + rowPerPage);
+		log.debug("★★★★★★★ searchWord" + searchWord);
+		
+		Map<String, Object> map = managerService.getSoldoutUsedProductList(currentPage, rowPerPage, searchWord);
+		
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("soldoutList", map.get("soldoutList"));
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		
+		return "manager/getSoldoutUsedProductList";
+	}
+	
+	
 	// 배송상품 상세보기
 	@GetMapping("/manager/getDeliveryProductInfo")
 	public String getDeliveryProductInfo(Model model, @RequestParam(value="apsdi", required=true) Integer apsdi) {

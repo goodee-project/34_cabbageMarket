@@ -11,7 +11,7 @@
 		SELECT
 			COUNT(*)
 		FROM
-			
+			buying_product_delivery
 		
 	</select>
 
@@ -22,14 +22,14 @@
 		parameterType="com.gdj.cabbage.vo.Page">
 
 	SELECT
-		apsd.apply_product_sales_delivery_id,
-		apsd.user_id,
-		u.username,
-		apsd.category_sub_id,
-		apsd.product_name,
-		pcr.registration_state,
-		bpd.delivery_state,
-		bpd.waybill_number
+		apsd.apply_product_sales_delivery_id apsdId,
+		apsd.user_id userId,
+		u.username username,
+		apsd.category_sub_id csId,
+		apsd.product_name productName,
+		pcr.registration_state regState,
+		bpd.delivery_state delState,
+		bpd.waybill_number waybillNum
 		
 	FROM
 		buying_product_delivery bpd
@@ -47,10 +47,24 @@
 			
 	ON
 		apsd.user_id = u.user_id
+		
+	<where>
 	
-	WHERE
+		<if test=""></if>
+	
 		pcr.registration_state = '1' AND bpd.delivery_state = '0'
 		
+		<if test="searchWord != null">
+			productName LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		
+	</where>
+		
+	GROUP BY
+		apsd.apply_product_sales_delivery_id
+		
+	LIMIT
+		#{beginRow}, #{rowPerPage}
 
 </select>
 

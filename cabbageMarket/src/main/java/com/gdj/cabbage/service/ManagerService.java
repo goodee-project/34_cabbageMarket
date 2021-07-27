@@ -25,14 +25,14 @@ public class ManagerService {
 @Autowired ManagerMapper managerMapper;
 
 	// 판매완료 중고상품 리스트
-	public Map<String, Object> getSoldoutUsedProductList(int rowPerPage, int currentPage) {
+	public Map<String, Object> getSoldoutUsedProductList(int rowPerPage, int currentPage, String searchWord) {
 		
-		log.debug(Debuging.DEBUG + "managerService의 getManagerList 실행");
+		log.debug(Debuging.DEBUG + "managerService의 getSoldoutUsedProductList 실행");
 		
-		int soUsedTotal = managerMapper.selectManagerTotal(); ///////// <- 여기부터 작업하기
+		int soldoutUsedTotal = managerMapper.selectSoldoutUsedProductTotal();
 		
-		int lastPage = soUsedTotal / rowPerPage;
-		if(soUsedTotal % rowPerPage != 0) {
+		int lastPage = soldoutUsedTotal / rowPerPage;
+		if(soldoutUsedTotal % rowPerPage != 0) {
 			lastPage++;
 		}
 		// int lastPage = (int)(Math.ceil((double)boardTotal / rowPerPage));
@@ -43,17 +43,19 @@ public class ManagerService {
 		
 		page.setBeginRow(beginRow);
 		page.setRowPerPage(rowPerPage);
+		page.setSearchWord(searchWord);
 		
-		List<Manager> managerList = managerMapper.selectManagerList(page);
+		List<Map<String, Object>> soldoutList = managerMapper.selectSoldoutUsedProductList(page);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("lastPage", lastPage);
-		map.put("managerList", managerList);
+		map.put("soldoutList", soldoutList);
 		
 		return map;
 	}
 
+	
 	// 배송상품 등록 승인
 	public void addDeliveryProductToPcr(ProductConfirmationRegistration productConfirmationRegistration) {
 		
