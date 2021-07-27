@@ -33,7 +33,7 @@
         	if($('input[name="shippingAddressId"]:checked').length < 1) {
         		alert('배송정보를 선택하세요');
         	} else {
-        		$('#buyUsedProduct').submit();
+        		$('#addBiddingProduct').submit();
         	}
         });	
 	});
@@ -47,16 +47,13 @@
 <section class="product spad">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 col-md-8">
+			<div class="col-lg-9 col-md-9">
 				<div class="product__discount">
 					<div class="section-title product__discount__title">
 						<h2>경매상품 배송지 입력</h2>
 					</div>
-					<form id="buyUsedProduct" action="${pageContext.request.contextPath}/users/buyUsedProduct" method="post">
-						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
-						<input type="hidden" name="userId" value="${usersSession.userId}">
-						<input type="hidden" name="productPrice" value="${productForBuy.productPrice}">
-						<input type="hidden" name="applyProductSalesDeliveryId" value="${productForBuy.applyId}">
+					<form id="addBiddingProduct" action="${pageContext.request.contextPath}/users/addBiddingProductDelivery" method="post">
+						<input type="hidden" name="applyProductSalesDeliveryId" value="${applyId}">
 						
 						<div class="col-md-12">
 							<div class="card">

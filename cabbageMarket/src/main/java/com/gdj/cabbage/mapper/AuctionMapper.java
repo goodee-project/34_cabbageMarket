@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gdj.cabbage.vo.AuctionProductRegistration;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 
 @Mapper
 public interface AuctionMapper {
@@ -72,4 +73,5 @@ public interface AuctionMapper {
 
 	List<Map<String, Object>> selectAuctionProductAndImgsByKey(int applyId); // 경매상품 수정 페이지에 출력할 경매상품 정보, 모든 이미지
 	void updateAuctionProduct(AuctionProductRegistration auctionProductRegistration);
+	void insertBiddingProductDelivery(BiddingProductDelivery biddingProductDelivery); // 낙찰상품 배송지 입력
 }

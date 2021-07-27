@@ -521,4 +521,17 @@
 		      ,quote = #{quote}
 		 WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
+	
+	<insert id="insertBiddingProductDelivery" parameterType="com.gdj.cabbage.vo.BiddingProductDelivery">
+		INSERT INTO bidding_product_delivery(
+						apply_product_sales_delivery_id
+					   ,shipping_address_id
+					   ,delivery_requests
+					   ,create_date
+					   )
+			 VALUES ( #{applyProductSalesDeliveryId}
+			  		 ,#{shippingAddressId}
+			  		 ,#{deliveryRequests}
+			  		 ,NOW())
+	</insert>
 </mapper>

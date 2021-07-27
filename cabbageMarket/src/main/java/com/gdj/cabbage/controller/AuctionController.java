@@ -26,6 +26,7 @@ import com.gdj.cabbage.service.AuctionService;
 import com.gdj.cabbage.service.CategoryService;
 import com.gdj.cabbage.service.UsersService;
 import com.gdj.cabbage.vo.AuctionProductRegistration;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.CategoryMain;
 import com.gdj.cabbage.vo.DirectTradeProductRegistration;
 import com.gdj.cabbage.vo.ShippingAddress;
@@ -307,6 +308,7 @@ public class AuctionController {
 		return "redirect:/users/getAuctionOne?applyId="+auctionProductRegistration.getApplyProductSalesDeliveryId();
 	}
 	
+	// 배송지 입력 
 	@GetMapping("addBiddingProductDelivery")
 	public String addBiddingProductDelivery(HttpSession session, Model model,
 			@RequestParam(value="applyId") int applyId) {
@@ -322,9 +324,20 @@ public class AuctionController {
 		int userId = (Integer)usersSession.get("userId");
 		List<ShippingAddress> shippingAddressList = usersService.getAddressByUserId(userId);
 		
+		model.addAttribute("applyId", applyId);
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("imgPathList", imgPathList);
 		model.addAttribute("shippingAddressList", shippingAddressList);
 		return "auction/addBiddingProductDelivery";
+	}
+	
+	// 배송지 입력 Post처리
+	@PostMapping("addBiddingProductDelivery")
+	public String addBiddingProductDelivery(BiddingProductDelivery biddingProductDelivery) {
+		log.debug(Debuging.DEBUG+"0 view에서 넘어온 param 확인:"+biddingProductDelivery.toString()+"<--biddingProductDelivery");
+		
+		auctionService.addBiddingProductDelivery(biddingProductDelivery);
+		
+		return "redirect:/users/boughtProductOne?applyId="+biddingProductDelivery.getApplyProductSalesDeliveryId() +"&type=2";
 	}
 }

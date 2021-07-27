@@ -14,6 +14,7 @@ import com.gdj.cabbage.mapper.ApplyProductSalesMapper;
 import com.gdj.cabbage.mapper.AuctionMapper;
 import com.gdj.cabbage.mapper.CategoryMapper;
 import com.gdj.cabbage.vo.AuctionProductRegistration;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.CategoryMain;
 
 import lombok.extern.slf4j.Slf4j;
@@ -313,5 +314,10 @@ public class AuctionService {
 	// 경매상품 수정
 	public void modifyAuctionProduct(AuctionProductRegistration auctionProductRegistration){
 		auctionMapper.updateAuctionProduct(auctionProductRegistration);
+	}
+	
+	// 낙찰상품 배송지 입력
+	public void addBiddingProductDelivery(BiddingProductDelivery biddingProductDelivery) {
+		auctionMapper.insertBiddingProductDelivery(biddingProductDelivery);
 	}
 }//class

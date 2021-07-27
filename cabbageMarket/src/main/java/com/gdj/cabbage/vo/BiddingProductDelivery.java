@@ -9,7 +9,7 @@ public class BiddingProductDelivery {
 	private int shippingAddressId;
 	private int deliveryState;
 	private String waybillNumber;
-	private String deliverRequests;
+	private String deliveryRequests;
 	private String createDate;
 
 }
