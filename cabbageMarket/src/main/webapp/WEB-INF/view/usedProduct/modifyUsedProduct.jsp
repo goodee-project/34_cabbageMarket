@@ -179,11 +179,28 @@
 					</div>
 				</div>
 				
+				<!-- 상품 이미지 -->
+				<div class="col-lg-3">
+	            	<h4>상품 이미지<span style="color: #7fad39;"></span></h4>
+                </div>
+                <div class="col-lg-9" style="display: inline;">
+                	<label for="imgFileUpload">
+				        <c:forEach var="img" items="${imgNameList}">
+                       		<img class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${img}"
+                               src="${pageContext.request.contextPath}/template/img/applyProductImg/${img}" alt="" >
+                       	</c:forEach>
+				    </label>
+                </div>
+               <div class="col-lg-9" style="margin-top: 1.5rem; color: rgb(74, 164, 255); line-height: 1.5; font-size: 14px;">
+               	<ul style="list-style:none;">
+               		<li>* 사진 수정은 불가합니다.</li>
+               	</ul>
+               </div>
+               <div class="col-lg-12" style="margin-bottom: 15px;"><hr style="border: solid 1px lightgrey;"></div>
+               
 				<!-- 카테고리 -->
 				<div class="col-lg-3">
-					<h4>
-						카테고리<span style="color: #7fad39;"></span>
-					</h4>
+					<h4>카테고리<span style="color: #7fad39;"></span></h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
 					<input type="text" value="${usedProductDetail.categorySubName}" disabled>
@@ -192,12 +209,9 @@
 					<hr style="border: solid 1px lightgrey;">
 				</div>
 				
-				
 				<!-- 상품명 -->
 				<div class="col-lg-3">
-					<h4>
-						상품명<span style="color: #7fad39;"></span>
-					</h4>
+					<h4>상품명<span style="color: #7fad39;"></span></h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
 					<input type="text" value="${usedProductDetail.productName}" disabled>
@@ -208,9 +222,7 @@
 
 				<!-- 상품설명 입력 -->
 				<div class="col-lg-3">
-					<h4>
-						상품 설명<span style="color: #7fad39;">*</span>
-					</h4>
+					<h4>상품 설명<span style="color: #7fad39;">*</span></h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
 					<textarea id="productDesc" name="productDesc" rows="10" cols="20">${usedProductDetail.productDesc}</textarea>
@@ -221,9 +233,7 @@
 				
 				<!-- 판매가격 입력 -->
 				<div class="col-lg-3">
-					<h4>
-						판매 가격<span style="color: #7fad39;">*</span>
-					</h4>
+					<h4>판매 가격<span style="color: #7fad39;">*</span></h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
 					<input type="text" id="productPrice" name="productPrice" value="${usedProductDetail.productPrice}">
@@ -234,9 +244,7 @@
 				
 				<!-- 마감 일자 -->
 				<div class="col-lg-3">
-					<h4>
-						 마감 일자<span style="color: #7fad39;"></span>
-					</h4>
+					<h4>마감 일자<span style="color: #7fad39;"></span></h4>
 				</div>
 				<div class="col-lg-9 checkout__input" style="display: inline;">
 					<input type="text" value="${usedProductDetail.deadLine}" disabled>
