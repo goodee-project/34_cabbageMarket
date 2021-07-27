@@ -1,17 +1,17 @@
 <!-- 작성자: 김희진 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
 	<meta charset="UTF-8">
-	<meta name="description" content="Ogani Template">
-	<meta name="keywords" content="Ogani, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
-	<title>배추마켓 중고거래 상품</title>
+    <meta name="description" content="Direct Trade Shop">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
+    <title>배추마켓 중고거래 상품</title>
 	
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -31,7 +31,6 @@
 	.form-control:focus {
 	  box-shadow: none;
 	}
-	
 	.form-control-underlined {
 	  border-width: 0;
 	  border-bottom-width: 1px;
@@ -39,11 +38,6 @@
 	  padding-left: 0;
 	}
 	
-	.form-control::placeholder {
-	  font-size: 0.9rem;
-	  color: #aaa;
-	  font-style: italic;
-	}
 	.box{
 	  width:35%;
 	  position: absolute;
@@ -68,7 +62,6 @@
 	</style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
 	<script>
 	$(document).ready(function(){
 	   
@@ -193,7 +186,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
                 
@@ -284,53 +276,54 @@
 	                                <span class="icon_ul"></span>
 	                            </div>
 	                        </div>
-                    </div> 
-                    <br>
-                    <div class="row">
-                    	<c:forEach var="upl" items="${usedProductList}">
-	                    	<div class="col-lg-4 col-md-6 col-sm-6">
-	                            <div class="product__item">
-	                                <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${upl.imgName}">
-	                                    <ul class="product__item__pic__hover">
-	                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-	                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-	                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-	                                    </ul>
-	                                </div>
-	                                <div class="product__item__text">
-	                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${upl.categorySubName}</span>
-	                                    <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyId}">${upl.productName}</a></h6>
-	                                    <h5><span><fmt:formatNumber value="${upl.productPrice}" pattern="#,###" />원</span></h5>
-	                                </div>
-	                            </div>
-	                        </div>
-                    	</c:forEach>
-                    </div>
-                    
-                    <!-- 페이징 -->
-                    <div class="product__pagination" style="text-align: center;">
-                    	<c:if test="${currentPage > 1}">
-				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
-				            	<i class="fa fa-long-arrow-left"></i>
-				            </a>
-				        </c:if>
- 						<c:forEach var="i" begin="1" end="10">
-							<c:if test="${(pageSet*10)+i < lastPage+1}">
-					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
-									${(pageSet*10)+i}
+	                    </div> 
+	                    <br>
+	                    <div class="row">
+	                    	<c:forEach var="upl" items="${usedProductList}">
+		                    	<div class="col-lg-4 col-md-6 col-sm-6">
+		                            <div class="product__item">
+		                                <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/template/img/applyProductImg/${upl.imgName}">
+		                                    <ul class="product__item__pic__hover">
+		                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+		                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+		                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+		                                    </ul>
+		                                </div>
+		                                <div class="product__item__text">
+		                                	<span style="font-size: 14px; color: #b2b2b2; display: block; margin-bottom: 4px;">${upl.categorySubName}</span>
+		                                    <h6><a href="${pageContext.request.contextPath}/users/getUsedProductOne?applyId=${upl.applyId}">${upl.productName}</a></h6>
+		                                    <h5><span><fmt:formatNumber value="${upl.productPrice}" pattern="#,###" />원</span></h5>
+		                                </div>
+		                            </div>
+		                        </div>
+	                    	</c:forEach>
+	                    </div>
+	                    
+	                    <!-- 페이징 -->
+	                    <div class="product__pagination" style="text-align: center;">
+	                    	<c:if test="${currentPage > 1}">
+					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage-1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
+					            	<i class="fa fa-long-arrow-left"></i>
+					            </a>
+					        </c:if>
+	 						<c:forEach var="i" begin="1" end="10">
+								<c:if test="${(pageSet*10)+i < lastPage+1}">
+						            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${(pageSet*10)+i}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
+										${(pageSet*10)+i}
+									</a>
+								</c:if>
+							</c:forEach>
+					        <c:if test="${currentPage < lastPage}">
+					            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
+					            	<i class="fa fa-long-arrow-right"></i>
 								</a>
-							</c:if>
-						</c:forEach>
-				        <c:if test="${currentPage < lastPage}">
-				            <a href="${pageContext.request.contextPath}/users/getUsedProductList?currentPage=${currentPage+1}&searchWord=${searchWord}&categoryMainId=${categoryMainId}&sortBy=${sortBy}">
-				            	<i class="fa fa-long-arrow-right"></i>
-				            </a>
-				        </c:if>
-                    </div>
+					        </c:if>
+	                    </div>
                     
-                </div>
-            </div>
-        </div>
+                	</div>
+           		</div>
+        	</div>
+		</div>
     </section>
     <!-- Product Section End -->
     
@@ -344,15 +337,14 @@
 	<jsp:include page="/WEB-INF/view/footer.jsp"/>
     <!-- Footer Section End -->
     
-	<!-- Js Plugins -->
-	<script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
-	<script src="${pageContext.request.contextPath}/template/js/main.js"></script>
-	
+	 <!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath}/template/js/jquery-3.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/jquery.nice-select.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/jquery-ui.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/jquery.slicknav.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/mixitup.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath}/template/js/main.js"></script>
 </body>
 </html>

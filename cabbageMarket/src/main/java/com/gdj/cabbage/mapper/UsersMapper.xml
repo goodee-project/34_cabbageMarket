@@ -371,7 +371,7 @@
 			apsd.product_name productName,
 			upr.product_price price,
 			upr.registration_deadline deadline,
-			IF(DATEDIFF(upr.registration_deadline, NOW())>=0, '등록', '마감') state
+			IF(TIMEDIFF(upr.registration_deadline, NOW())>=0, '등록', '마감') state
 		FROM 
 			used_product_registration upr 
 			LEFT JOIN apply_product_sales_delivery apsd ON upr.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id 

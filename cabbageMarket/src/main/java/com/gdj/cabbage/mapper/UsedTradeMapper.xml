@@ -89,7 +89,7 @@
 		GROUP BY 
 			productName 
 		ORDER BY 
-			RAND(), DATEDIFF(upr.registration_deadline,NOW())
+			RAND()
 		LIMIT 6
 	</select>
 	
@@ -188,7 +188,10 @@
 			used_product_registration 
 		SET  
 			product_desc = #{productDesc},
-			product_price = #{productPrice}
+			product_price = #{productPrice},
+			<if test="registrationDeadline != null">
+		      registration_deadline = #{registrationDeadline}
+		    </if>
 		WHERE  
 			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
@@ -228,9 +231,12 @@
 	
 	<!-- 2-0. 수수료율 가져오기 -->
 	<select id="selectCommissionRate" resultType="Integer">
-		SELECT commission_rate commissionRate
-		FROM commission_info
-		WHERE commission_info_id = 1
+		SELECT 
+			commission_rate commissionRate
+		FROM 
+			commission_info
+		WHERE 
+			commission_info_id = 1
 	</select>
 	
 	<!-- 2-1. 구매 포인트 이용 내역 테이블에 포인트 수입/지출 내역 insert. -->
@@ -289,9 +295,12 @@
 	
 	<!-- 5.상품확인등록 테이블의 registration_state 1.중고 -> 0.판매로 update -->
 	<update id="updateRegistrationState" parameterType="Integer">
-		UPDATE product_confirmation_registration
-		SET registration_state = 0
-		WHERE apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+		UPDATE 
+			product_confirmation_registration
+		SET 
+			registration_state = 0
+		WHERE 
+			apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
 	</update>
 	
 </mapper>

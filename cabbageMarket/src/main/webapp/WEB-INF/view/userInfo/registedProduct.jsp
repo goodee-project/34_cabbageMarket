@@ -290,7 +290,7 @@
 					                                    	</c:if>
 					                                    </td>
 					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}">
+					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}&state=${gupl.state}">
 					                                    		<button class="btn btn-success">수정</button>
 					                                    	</a>
 					                                    </td>

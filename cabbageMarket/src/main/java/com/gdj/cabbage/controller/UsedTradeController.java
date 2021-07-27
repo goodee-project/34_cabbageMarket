@@ -144,8 +144,10 @@ public class UsedTradeController {
 
 	// 중고상품 수정
 	@GetMapping("modifyUsedProduct")
-	public String modifyUsedProduct(Model model, @RequestParam(value = "applyId", required = true) int applyId) {
+	public String modifyUsedProduct(Model model, @RequestParam(value = "applyId", required = true) int applyId,
+												 @RequestParam(value = "state", required = true) String state) {
 		log.debug("★★★★★modifyUsedProduct() applyId :" + applyId); // 디버깅
+		log.debug("★★★★★modifyUsedProduct() state :" + state); // 디버깅
 
 		// 중고상품 상세 details 
 		Map<String, Object> usedProductDetail = usedTradeService.getUsedProductOne(applyId);
@@ -158,6 +160,7 @@ public class UsedTradeController {
 		// model에 usedProductDetail (중고상품 상세 정보) 넣어주기.
 		model.addAttribute("usedProductDetail", usedProductDetail);
 		model.addAttribute("imgNameList", imgNameList);
+		model.addAttribute("state", state);
 
 		return "usedProduct/modifyUsedProduct";
 	}
