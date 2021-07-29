@@ -200,11 +200,11 @@ public class UsersService {
 		return getUserProductList;
 	}
 	
-	// 배송지 삭제 서비스
-	public int deleteAddress(ShippingAddress shippingAddress) {
+	// 배송지 수정 서비스
+	public int updateAddress(ShippingAddress shippingAddress) {
 		log.debug(Debuging.DEBUG+" shippingAddress : "+shippingAddress);
 		
-		int row = usersMapper.deleteAddress(shippingAddress);
+		int row = usersMapper.updateAddress(shippingAddress);
 		log.debug(Debuging.DEBUG+" 배송지 삭제 성공 여부 : "+row);
 		
 		return row;

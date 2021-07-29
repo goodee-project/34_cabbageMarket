@@ -11,6 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
 	<title>배송지 관리</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -52,16 +53,27 @@
 				}
 			});
 			
+
+			
 			let i=1;
 			for(i=1; i<=5; i++){
-				delClick(i);
+				alterClick(i);
 			};
 			
-			function delClick(i){
-				$('#delAddressBtn'+i).click(function(){
-					val=confirm('삭제 하시겠습니까?');
-					if(val){						
-						$('#delAddressForm'+i).submit();
+			function alterClick(i){
+				$('#alterAddressBtn'+i).click(function(){
+					console.log(i+'버튼 클릭');
+					if($('#recipientName'+i).val() == ''){
+						$('#recipientName'+i).attr('placeholder','수령인 성함을 작성해주세요');	
+					}else if($('#recipientPhoneNumber'+i).val() == ''){
+						$('#recipientPhoneNumber'+i).attr('placeholder','수령인 핸드폰 번호를 작성해주세요');
+					}else if(!numberCode.test($('#recipientPhoneNumber'+i).val())){
+						$('#recipientPhoneNumber'+i).val('');
+						$('#recipientPhoneNumber'+i).attr('placeholder','수령인 핸드폰 번호를 숫자로 작성해주세요');
+					}else if($('#location2_'+i).val() == ''){
+						$('#location2_'+i).attr('placeholder','상세 주소를 작성해주세요');
+					}else{
+						$('#alterAddressForm'+i).submit();
 					}
 				});
 			};
@@ -163,16 +175,45 @@
 						              <p class="card-text p-y-1">${a.address}</p>
 						              <div class="row">
 						              	<div class="col-10"></div>
-						              	<div class="col-2">
-						              		<form method="post" id="delAddressForm${index=index+1}" action="${pageContext.request.contextPath}/users/removeAddress">
-	                                    		<input type="hidden" name="shippingAddressId" value="${a.shippingAddressId}">
-	                                    		<button type="button" id="delAddressBtn${index}" class="btn btn-success">삭제</button>
-	                                    	</form>	 
+						              	<div class="col-2">						              		
+	                                    	<button type="button" data-toggle="modal" data-target="#myModal${index=index+1}" class="btn btn-success">수정</button>                                  		 
 						              	</div>
 						              </div>						              
 						            </div>
 						          </div>
 						          <br>
+						          	<!-- The Modal -->
+									  <div class="modal" id="myModal${index}">
+									    <div class="modal-dialog">
+									      <div class="modal-content">
+									      
+									        <!-- Modal Header -->
+									        <div class="modal-header">
+									          <h4 class="modal-title"><b>배송지 수정</b></h4>
+									          <button type="button" class="close" data-dismiss="modal">&times;</button>
+									        </div>
+									        
+									        <!-- Modal body -->
+									        <form method="post" id="alterAddressForm${index}" action="${pageContext.request.contextPath}/users/alterAddress">
+										        <input type="hidden" name="shippingAddressId" value="${a.shippingAddressId}">
+										        <div class="modal-body">
+										        	<input type="hidden" name="userId" value='${usersSession.get("userId")}'>											
+													<input type="text" id="recipientName${index}" name="recipientName" placeholder="수령인 성함" style="display:inline-block; width: 80%" class="form-control">
+													<input type="text" id="recipientPhoneNumber${index}" name="recipientPhoneNumber" placeholder="수령인 핸드폰 번호" style="display:inline-block; width: 80%" class="form-control">
+													<input type="text" id="sample5_address${index}" name="location" placeholder="도로명 주소" readonly="readonly" style="display:inline-block; width: 80%" class="form-control">
+													<input class="btn btn-dark" type="button" onclick="sample5_execDaumPostcode()" value="검색" style="display:inline-block; width: 15%">
+													<input type="text" id="location2_${index}" name="location2" placeholder="상세 주소" style="display:inline-block; width: 80%" class="form-control">
+										        </div>
+										        
+										        <!-- Modal footer -->
+										        <div class="modal-footer">
+										          <button type="button" id="alterAddressBtn${index}" class="btn btn-success">수정</button>
+										        </div>
+										     </form>
+									        
+									      </div>
+									    </div>
+									  </div>
 						         </c:forEach>
 					        </div>
 						</div>
@@ -224,6 +265,11 @@
 	
 	                // 주소 정보를 해당 필드에 넣는다.
 	                document.getElementById("sample5_address").value = addr;
+	                document.getElementById("sample5_address1").value = addr;
+	                document.getElementById("sample5_address2").value = addr;
+	                document.getElementById("sample5_address3").value = addr;
+	                document.getElementById("sample5_address4").value = addr;
+	                document.getElementById("sample5_address5").value = addr;
 	                // 주소로 상세 정보를 검색
 	                geocoder.addressSearch(data.address, function(results, status) {
 	                    // 정상적으로 검색이 완료됐으면

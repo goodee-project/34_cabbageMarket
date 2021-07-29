@@ -18,6 +18,7 @@
 	
 	<!-- Style -->
 	<link rel="stylesheet" href="logintemplate/css/style.css">
+	<link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
 <title>로그인</title>
 </head>
 <body>

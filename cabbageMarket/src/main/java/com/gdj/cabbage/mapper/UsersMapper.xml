@@ -341,15 +341,18 @@
 		</where>
 	</select>
 	
-	<!-- 배송지 삭제 쿼리 -->
-	<delete id="deleteAddress" parameterType="com.gdj.cabbage.vo.ShippingAddress">
-		DELETE
-		FROM
+	<!-- 배송지 수정 쿼리 -->
+	<update id="updateAddress" parameterType="com.gdj.cabbage.vo.ShippingAddress">
+		UPDATE
 			shipping_address
+		SET
+			recipient_name=#{recipientName},
+			address=#{address},
+			recipient_phone_number=#{recipientPhoneNumber}			
 		<where>
 			shipping_address_id=#{shippingAddressId} AND user_id=#{userId}
 		</where>
-	</delete>
+	</update>
 	
 	<!-- 배송지 개수 쿼리 -->
 	<select id="getAddressCount" parameterType="Integer" resultType="Integer">

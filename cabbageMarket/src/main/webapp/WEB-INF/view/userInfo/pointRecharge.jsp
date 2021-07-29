@@ -11,6 +11,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
 	<title>포인트 충전</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -127,7 +128,7 @@
 				    pay_method: "card",
 				    merchant_uid : 'merchant_' + new Date().getTime(),
 				    name : '주문명:결제테스트',
-				    amount : 500000
+				    amount : $('#wantValue').val()
 				}, function(rsp) {
 				    if ( rsp.success ) {
 				        var msg = '결제가 완료되었습니다.';
@@ -140,7 +141,7 @@
 				        	type:"GET",
 				        	url:"${pageContext.request.contextPath}/pointRecharge",
 				        	data:{
-				        		"amount" : 500000
+				        		"amount" : $('#wantValue').val()
 				        	}
 				        });
 				    } else {
@@ -241,7 +242,7 @@
 								<div class = "card">
 									<div class ="box">
 										<div class ="content">
-											<h3>500,000</h3><br>
+											<input type="text" id="wantValue" class="form-control"><br>
 											<button id="btn500000" class="btn btn-success">충전</button>
 										</div>
 									</div>

@@ -182,20 +182,22 @@ public class UsersController {
 		return "/userInfo/myProductManagement";
 	}
 	
-	// 내 배송지 삭제 컨트롤러
-	@PostMapping("/users/removeAddress")
-	public String removeAddress(HttpSession session, int shippingAddressId) {
+	// 내 배송지 수정 컨트롤러
+	@PostMapping("/users/alterAddress")
+	public String removeAddress(HttpSession session, int shippingAddressId, ShippingAddress shippingAddress, String location, String location2) {
 		log.debug(Debuging.DEBUG+" shippingAddressId : "+shippingAddressId);
 		
 		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
 		int userId = (Integer)usersSession.get("userId");
 		
-		ShippingAddress shippingAddress = new ShippingAddress();
+		log.debug(Debuging.DEBUG+" shippingAddress");// 디버깅 코드
+		
+		shippingAddress.setAddress(location+" "+location2);// 도로명 주소+상세주소		
 		shippingAddress.setShippingAddressId(shippingAddressId);
 		shippingAddress.setUserId(userId);
 		
-		int row = usersService.deleteAddress(shippingAddress);
-		log.debug(Debuging.DEBUG+" 주소 삭제 성공 여부 : "+row);
+		int row = usersService.updateAddress(shippingAddress);
+		log.debug(Debuging.DEBUG+" 주소 수정 성공 여부 : "+row);
 		
 		return "redirect:/users/shippingAddress";
 		
