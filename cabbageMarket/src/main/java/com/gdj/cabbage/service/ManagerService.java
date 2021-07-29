@@ -29,7 +29,7 @@ public class ManagerService {
 		
 		log.debug(Debuging.DEBUG + "managerService의 getSoldoutUsedProductList 실행");
 		
-		int soldoutUsedTotal = managerMapper.selectSoldoutUsedProductTotal();
+		int soldoutUsedTotal = managerMapper.selectSoldoutUsedProductTotal(searchWord);
 		
 		/*
 		

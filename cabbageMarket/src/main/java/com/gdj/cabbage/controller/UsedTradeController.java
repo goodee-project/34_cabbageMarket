@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.service.UsedTradeService;
 import com.gdj.cabbage.service.UsersService;
-import com.gdj.cabbage.vo.BuyingCommissionsHistory;
-import com.gdj.cabbage.vo.BuyingPointsUsingHistory;
-import com.gdj.cabbage.vo.BuyingProductDelivery;
-import com.gdj.cabbage.vo.BuyingUsedProduct;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.UsedProductRegistration;
@@ -59,7 +55,6 @@ public class UsedTradeController {
 			categoryMainId = null;
 		}
 		
-		// HashMap 생성 - > map에 값 넣어주기
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage - 1) * rowPerPage);
 		map.put("rowPerPage", rowPerPage);
@@ -178,7 +173,7 @@ public class UsedTradeController {
 	// 중고상품 구매
 	@GetMapping("buyUsedProduct")
 	public String buyUsedProduct(Model model, @RequestParam(value = "applyId", required = true) int applyId,
-			@RequestParam(value = "userId", required = true) int userId) {
+									   		  @RequestParam(value = "userId", required = true) int userId) {
 		log.debug("★★★★★controller getUsedProductForBuy() applyId :" + applyId); // 디버깅
 
 		Map<String, Object> productForBuy = usedTradeService.getUsedProductOneForBuy(applyId);// 구매할 상품 정보

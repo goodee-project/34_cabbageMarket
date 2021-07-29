@@ -34,9 +34,9 @@ public class ManagerController {
 			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
 			@RequestParam(value="searchWord", required=false) String searchWord) {
 		
-		log.debug("★★★★★★★ currentPage" + currentPage);
-		log.debug("★★★★★★★ rowPerPage" + rowPerPage);
-		log.debug("★★★★★★★ searchWord" + searchWord);
+		log.debug("★★★★★★★@@@@ currentPage" + currentPage);
+		log.debug("★★★★★★★@@@@ rowPerPage" + rowPerPage);
+		log.debug("★★★★★★★@@@@ searchWord" + searchWord);
 		
 		Map<String, Object> map = managerService.getSoldoutUsedProductList(currentPage, rowPerPage, searchWord);
 		

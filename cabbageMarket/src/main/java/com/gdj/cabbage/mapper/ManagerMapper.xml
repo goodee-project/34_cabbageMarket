@@ -8,10 +8,49 @@
 <select id="selectSoldoutUsedProductTotal"
 		resultType = "int">
 	
-	SELECT
-		COUNT(*)
+SELECT
+	COUNT(*)
+FROM
+	(SELECT
+		apsd.apply_product_sales_delivery_id apsdId,
+		apsd.user_id userId,
+		u.username username,
+		apsd.category_sub_id csId,
+		apsd.product_name productName,
+		pcr.registration_state regState,
+		bpd.delivery_state delState,
+		bpd.waybill_number waybillNum
+		
 	FROM
-		buying_product_delivery
+		buying_product_delivery bpd
+		
+		JOIN
+			apply_product_sales_delivery apsd
+		JOIN
+			product_confirmation_registration pcr
+	
+	ON
+		bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+	
+		LEFT JOIN
+			users u
+			
+	ON
+		apsd.user_id = u.user_id
+		
+	WHERE
+		pcr.registration_state = '1' AND bpd.delivery_state = '0'
+	
+	GROUP BY
+		apsd.apply_product_sales_delivery_id) tt
+			
+	<where>
+	
+		<if test="searchWord != null">
+			tt.productName LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		
+	</where>
 		
 </select>
 
@@ -53,7 +92,7 @@
 		pcr.registration_state = '1' AND bpd.delivery_state = '0'
 	
 		<if test="searchWord != null">
-			apsd.product_name LIKE CONCAT('%',#{searchWord},'%')
+			AND apsd.product_name LIKE CONCAT('%',#{searchWord},'%')
 		</if>
 		
 	</where>
@@ -311,7 +350,7 @@
 			parameterType="com.gdj.cabbage.vo.Page">
 	
 		SELECT
-			u.username username, 
+			u.username un, 
 			u.email email, 
 			u.nickname nickname, 
 			u.mobile mobile, 
@@ -321,7 +360,7 @@
 			users u LEFT JOIN sns_info s ON u.user_id=s.user_id
 		<where>
 			<if test="searchWord != null">
-				username LIKE CONCAT('%',#{searchWord},'%')
+				u.username LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 		

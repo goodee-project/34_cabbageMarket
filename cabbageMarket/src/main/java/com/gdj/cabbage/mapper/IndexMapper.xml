@@ -35,7 +35,9 @@
 	LEFT JOIN product_confirmation_registration pcr ON apsd.apply_product_sales_delivery_id = pcr.apply_product_sales_delivery_id
 	LEFT JOIN bidding_auction_product bap ON apsd.apply_product_sales_delivery_id = bap.bidding_auction_product_id
 	WHERE 
-		pcr.registration_state = 2
+		pcr.registration_state = 2 
+		AND 
+		(( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1))
 	GROUP BY 
 		RAND(), apsd.apply_product_sales_delivery_id
 	LIMIT 4

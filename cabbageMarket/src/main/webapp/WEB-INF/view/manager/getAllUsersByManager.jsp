@@ -332,7 +332,7 @@
 									<tbody>
 										<c:forEach var="b" items="${allUsersList}">
 											<tr>
-												<td>${b.username}</td>
+												<td>${b.un}</td>
 												<td>${b.email}</td>
 												<td>${b.nickname}</td>
 												<td>${b.mobile}</td>
@@ -363,7 +363,7 @@
 											placeholder="회원 이름으로 검색..." aria-label="searchWord"
 											aria-describedby="basic-addon2">
 										<div class="input-group-append">
-											<button class="btn btn-success" type="button">
+											<button class="btn btn-success" type="submit">
 												<i class="fas fa-search fa-sm"></i>
 											</button>
 										</div>
