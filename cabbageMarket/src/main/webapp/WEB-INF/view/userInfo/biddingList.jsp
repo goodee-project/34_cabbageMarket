@@ -169,11 +169,16 @@
 					                                    <td>
 					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
 					                                    </td>
-					                                    <td width="300px">
+					                                    <td width="250px">
 					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/boughtProductOne?applyId=${bl.applyId}&type=2" style="text-decoration: none">
-					                                    			${bl.productName}
-					                                    		</a>
+					                                    		<c:if test="${bl.shippingExist == 1}">
+						                                    		<a href="${pageContext.request.contextPath}/users/boughtProductOne?applyId=${bl.applyId}&type=2" style="text-decoration: none">
+						                                    			${bl.productName}
+						                                    		</a>
+						                                    	</c:if>
+						                                    	<c:if test="${bl.shippingExist == 0}">
+						                                    		${bl.productName}
+						                                    	</c:if>
 					                                    	</h5>
 					                                    </td>
 					                                    <td>
@@ -184,10 +189,12 @@
 					                                    </td>
 					                                    <td style="color: blue">
 					                                    	<b>낙찰</b>
-					                                    	<form method="get" action="${pageContext.request.contextPath}/users/addBiddingProductDelivery">
-					                                    		<input type="hidden" name="applyId" value="${bl.applyId}">
-					                                    		<button class="btn btn-success">배송지 입력</button>
-					                                    	</form>
+					                                    	<c:if test="${bl.shippingExist == 0}">
+						                                    	<form method="get" action="${pageContext.request.contextPath}/users/addBiddingProductDelivery">
+						                                    		<input type="hidden" name="applyId" value="${bl.applyId}">
+						                                    		<button class="btn btn-success">배송지 입력</button>
+						                                    	</form>
+					                                    	</c:if>					                                    	
 					                                    </td>
 					                                </tr>
 				                                </c:if>

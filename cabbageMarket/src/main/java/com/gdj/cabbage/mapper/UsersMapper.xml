@@ -537,7 +537,8 @@
 			bap.bid_price point,
 			bap.create_date biddingDate,
 			IF(TIMEDIFF(apr.registration_deadline, NOW())>0, '경매중','경매종료') auctionState,
-			IF(bap.user_id IN (SELECT userId FROM successful_bid WHERE applyId=bap.apply_product_sales_delivery_id), 1, 0) auctionResult
+			IF(bap.user_id IN (SELECT userId FROM successful_bid WHERE applyId=bap.apply_product_sales_delivery_id), 1, 0) auctionResult,
+			IF(bap.apply_product_sales_delivery_id IN (SELECT apply_product_sales_delivery_id FROM bidding_product_delivery), 1, 0) shippingExist
 		FROM
 			bidding_auction_product bap LEFT JOIN bidding_points_using_history bpuh ON bpuh.bidding_auction_product_id=bap.bidding_auction_product_id
 			JOIN apply_product_sales_delivery apsd ON bap.apply_product_sales_delivery_id=apsd.apply_product_sales_delivery_id

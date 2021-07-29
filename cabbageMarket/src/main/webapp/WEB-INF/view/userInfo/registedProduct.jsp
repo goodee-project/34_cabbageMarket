@@ -75,6 +75,38 @@
 				});
 		    	
 			});
+			
+			$('#directBtn').click(function(){
+				$('#directBtn').attr('class','nav-link active');
+				$('#usedBtn').attr('class','nav-link');
+				$('#auctionBtn').attr('class','nav-link');
+				
+				$('#directProduct').attr('style','display:""');
+				$('#usedProduct').attr('style','display:none');
+				$('#auctionProduct').attr('style','display:none');
+			});
+			
+			$('#usedBtn').click(function(){
+				$('#directBtn').attr('class','nav-link');
+				$('#usedBtn').attr('class','nav-link active');
+				$('#auctionBtn').attr('class','nav-link');
+				
+				$('#directProduct').attr('style','display:none');
+				$('#usedProduct').attr('style','display:""');
+				$('#auctionProduct').attr('style','display:none');
+			});
+			
+			$('#auctionBtn').click(function(){
+				$('#directBtn').attr('class','nav-link');
+				$('#usedBtn').attr('class','nav-link');
+				$('#auctionBtn').attr('class','nav-link active');
+				
+				$('#directProduct').attr('style','display:none');
+				$('#usedProduct').attr('style','display:none');
+				$('#auctionProduct').attr('style','display:""');
+			});
+			
+			
 		});
 	</script>
 </head>
@@ -133,8 +165,23 @@
 						<div class="section-title product__discount__title">
 							<h2>등록상품</h2>
 						</div>
+						
 						<div>
-							<div class="col-md-12">
+							<ul class="nav nav-tabs">
+								<li class="nav-item">
+									<button class="nav-link active" id="directBtn"><b>직거래 상품</b></button>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" id="usedBtn"><b>중고 상품</b></button>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" id="auctionBtn"><b>경매 상품</b></button>
+								</li>
+							</ul>
+						</div>
+						<br>
+						<div>
+							<div class="col-md-12" id="directProduct">
 								<h4><b>직거래상품 등록 내역</b></h4>
 								<br>
 								<div class="card">
@@ -152,9 +199,6 @@
 				                                    </th>
 				                                    <th>
 				                                    	가격
-				                                    </th>
-				                                    <th>
-				                                    	장소
 				                                    </th>
 				                                    <th>
 				                                    	상태
@@ -188,10 +232,7 @@
 					                                    <td>
 					                                    	<h5>${gdpl.price}</h5>
 					                                    </td>
-					                                    <td>
-					                                    	<h5>${gdpl.location}</h5>
-					                                    </td>
-					                                    <td>
+					                                    <td width="70px">
 					                                    	<input type="hidden" class="stateRegisterId" value="${gdpl.registerId}">
 					                                    	<c:if test="${gdpl.productState == 1}">
 					                                    		<select class="productState">
@@ -232,9 +273,8 @@
 				                        </table>
 								</div>
 							</div>
-							<br>
-							<hr>
-							<div class="col-md-12">
+
+							<div class="col-md-12" id="usedProduct" style="display: none">
 								<h4><b>중고상품 등록 내역</b></h4>
 								<br>
 								<div class="card">
@@ -281,7 +321,7 @@
 					                                    <td>
 					                                    	<h5>${gupl.price}</h5>
 					                                    </td>
-					                                    <td>
+					                                    <td width="150px">
 					                                    	<c:if test="${gupl.state == '등록' && gupl.state != '마감'}">
 					                                    		<h5>${gupl.deadline}</h5>
 					                                    	</c:if>
@@ -291,13 +331,13 @@
 					                                    </td>
 					                                    <td>
 					                                    	<a href="${pageContext.request.contextPath}/users/modifyUsedProduct?applyId=${gupl.applyProductSalesDeliveryId}&state=${gupl.state}">
-					                                    		<button class="btn btn-success">수정</button>
+					                                    		<button class="btn btn-success" style="width: 50px; padding: 0px;">수정</button>
 					                                    	</a>
 					                                    </td>
 					                                    <td>
 					                                    	<form method="post" class="delUsedForm" action="${pageContext.request.contextPath}/users/removeUsedProduct">
 					                                    		<input type="hidden" name="applyId" value="${gupl.applyProductSalesDeliveryId}">
-					                                    		<button type="button" id="delUsedBtn" class="btn btn-success delUsedBtn">취소</button>
+					                                    		<button type="button" id="delUsedBtn" class="btn btn-success delUsedBtn" style="width: 50px; padding: 0px;">취소</button>
 					                                    	</form>	  				                                    	
 					                                    </td>
 					                                </tr>
@@ -307,85 +347,84 @@
 								</div>
 							</div>
 						</div>
-						<br>
-							<hr>
-							<div class="col-md-12">
-								<h4><b>경매상품 등록 내역</b></h4>
-								<h6 style="color:red">※ 입찰이 하나 이상 존재하는 경우 취소가 불가능 합니다.</h6>
-								<br>
-								<div class="card">
-									<table class="table table-hover" style="text-align: center">
-				                            <thead>
+						
+						<div class="col-md-12" id="auctionProduct" style="display: none">
+							<h4><b>경매상품 등록 내역</b></h4>
+							<h6 style="color:red">※ 입찰이 하나 이상 존재하는 경우 취소가 불가능 합니다.</h6>
+							<br>
+							<div class="card">
+								<table class="table table-hover" style="text-align: center">
+			                            <thead>
+			                                <tr>
+			                                	<th>
+			                                		순번
+			                                	</th>
+			                                	<th>
+			                                		이미지
+			                                	</th>
+			                                    <th>
+			                                    	제품명
+			                                    </th>
+			                                    <th>
+			                                    	최고 입찰 가격
+			                                    </th>
+			                                    <th>
+			                                    	마감날짜
+			                                    </th>
+			                                    <th>
+			                                    	수정
+			                                    </th>
+			                                    <th>
+			                                    	취소
+			                                    </th>
+			                                </tr>
+			                            </thead>
+				                            
+			                            <tbody>
+			                            	<c:set var="total1" value = "0"/>
+			                            	<c:forEach var="gapl" items="${getAuctionProductList}">
 				                                <tr>
-				                                	<th>
-				                                		순번
-				                                	</th>
-				                                	<th>
-				                                		이미지
-				                                	</th>
-				                                    <th>
-				                                    	제품명
-				                                    </th>
-				                                    <th>
-				                                    	최고 입찰 가격
-				                                    </th>
-				                                    <th>
-				                                    	마감날짜
-				                                    </th>
-				                                    <th>
-				                                    	수정
-				                                    </th>
-				                                    <th>
-				                                    	취소
-				                                    </th>
+				                                	<td style="width: 80px;">
+				                                		${total1 = total1+1}
+				                                	</td>
+				                                    <td style="width: 100px;">
+				                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gapl.img}" width="50px" height="50px">
+				                                    </td>
+				                                    <td>
+				                                    	<h5>
+				                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${gapl.applyProductSalesDeliveryId}" style="text-decoration: none">
+				                                    			${gapl.productName}
+				                                    		</a>
+				                                    	</h5>
+				                                    </td>
+				                                    <td style="width: 120px;">
+				                                    	<h5>${gapl.maxPrice}</h5>
+				                                    </td>
+				                                    <td style="width: 150px;">
+				                                    	<c:if test="${gapl.state == '등록'}">
+				                                    		<h5>${fn:substring(gapl.deadline,0,10) }</h5>
+				                                    	</c:if>
+				                                    	<c:if test="${gapl.state == '마감'}">
+				                                    		<h5 style="color:red">마감</h5>
+				                                    	</c:if>
+				                                    </td>
+				                                    <td>
+				                                    	<a href="${pageContext.request.contextPath}/users/modifyAuction?applyId=${gapl.applyProductSalesDeliveryId}&state=${gapl.state}">
+				                                    		<button class="btn btn-success" style="width: 50px; padding: 0px;">수정</button>
+				                                    	</a>
+				                                    </td>
+				                                    <td>
+				                                    	<form method="post" class="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
+				                                    		<input type="hidden" name="applyId" value="${gapl.applyProductSalesDeliveryId}">
+				                                    		<button type="button" class="btn btn-success delAuctionBtn" style="width: 50px; padding: 0px;">취소</button>
+				                                    	</form>	 
+				                                    </td>
 				                                </tr>
-				                            </thead>
-					                            
-				                            <tbody>
-				                            	<c:set var="total1" value = "0"/>
-				                            	<c:forEach var="gapl" items="${getAuctionProductList}">
-					                                <tr>
-					                                	<td style="width: 80px;">
-					                                		${total1 = total1+1}
-					                                	</td>
-					                                    <td style="width: 100px;">
-					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gapl.img}" width="50px" height="50px">
-					                                    </td>
-					                                    <td>
-					                                    	<h5>
-					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${gapl.applyProductSalesDeliveryId}" style="text-decoration: none">
-					                                    			${gapl.productName}
-					                                    		</a>
-					                                    	</h5>
-					                                    </td>
-					                                    <td style="width: 160px;">
-					                                    	<h5>${gapl.maxPrice}</h5>
-					                                    </td>
-					                                    <td style="width: 150px;">
-					                                    	<c:if test="${gapl.state == '등록'}">
-					                                    		<h5>${fn:substring(gapl.deadline,0,10) }</h5>
-					                                    	</c:if>
-					                                    	<c:if test="${gapl.state == '마감'}">
-					                                    		<h5 style="color:red">마감</h5>
-					                                    	</c:if>
-					                                    </td>
-					                                    <td>
-					                                    	<a href="${pageContext.request.contextPath}/users/modifyAuction?applyId=${gapl.applyProductSalesDeliveryId}&state=${gapl.state}">
-					                                    		<button class="btn btn-success" style="width: 50px; padding: 0px;">수정</button>
-					                                    	</a>
-					                                    </td>
-					                                    <td>
-					                                    	<form method="post" class="delAuctionForm" action="${pageContext.request.contextPath}/users/removeAuctionProduct">
-					                                    		<input type="hidden" name="applyId" value="${gapl.applyProductSalesDeliveryId}">
-					                                    		<button type="button" class="btn btn-success delAuctionBtn" style="width: 50px; padding: 0px;">취소</button>
-					                                    	</form>	 
-					                                    </td>
-					                                </tr>
-				                                </c:forEach>
-				                            </tbody>
-				                        </table>
-								</div>
+			                                </c:forEach>
+			                            </tbody>
+			                        </table>
 							</div>
+						</div>
 					</div>
 				</div>
 			</div>
