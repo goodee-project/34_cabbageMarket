@@ -157,7 +157,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" />원</span>
+	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>
@@ -176,7 +176,7 @@
 	                                            	<c:if test="${usedProductList[i].productName.length() <= 9}">
 	                                            		<h6>${usedProductList[i].productName}</h6>
 	                                            	</c:if>
-	                                                <span>${usedProductList[i].productPrice}원</span>
+	                                                <span><fmt:formatNumber value="${usedProductList[i].productPrice}" pattern="#,###" /></span>
 	                                            </div>
 	                                        </a>
 										</c:forEach>
@@ -328,7 +328,7 @@
     
     <!-- ScrollTop Section Begin -->
 	<a id="scrollTop" class="scrolltop" href="#">
-      <i class="fas fa-chevron-up"></i>
+		<i class="fa fa-chevron-up" aria-hidden="true"></i>
     </a>
 	<!-- ScrollTop Section End -->
 

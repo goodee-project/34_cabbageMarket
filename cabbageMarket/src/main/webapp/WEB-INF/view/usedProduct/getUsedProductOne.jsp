@@ -37,22 +37,22 @@
 		console.log(${usedProductDetail.userId})
 		
 		$('#btn').click(function() {
-			
 			var point = ${usersSession.point};
-			if( point < ${usedProductDetail.productPrice}){
+			
+			if(${usersSession.userId} == ${usedProductDetail.userId}){
+				alert("${usedProductDetail.nickname}님이 등록한 상품입니다.")
+				return false;
+				
+			}else if ( point < ${usedProductDetail.productPrice}){
 				alert("포인트가 부족합니다.")
 				if(confirm("포인트를 충전하시겠습니까?")){
 					location.href ="${pageContext.request.contextPath}/users/pointRecharge";
 				}else{
 					return false;
 				}
-			}else if (${usersSession.userId} == ${usedProductDetail.userId}){
-				alert("${usedProductDetail.nickname}님이 등록한 상품입니다.")
-				return false;
 			}
 		});
 	});
-	
 	
 	</script>
 </head>

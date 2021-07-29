@@ -83,16 +83,15 @@ public class UsedTradeService {
 		// 수수료
 		int commissionRate = usedTradeMapper.selectCommissionRate();
 		int productPrice = (int)map.get("productPrice");
-		int commissionPoint = (int)(productPrice * ((double)commissionRate/(double)100));  // 수수료 0.5원 밑으로 할인 ex) 수수료 500.5원이면 -> 500원으로
+		int commissionPoint = (int)(productPrice * ((double)commissionRate/(double)100));  //수수료 0.5원 밑으로 할인 ex) 수수료 500.5원이면 -> 500원으로
+		// 수입포인트 = 상품가격 - 수수료(상품가격*(수수료/100))
+		int inPoint = productPrice - commissionPoint; 
 		
 		//2.포인트 수입/지출 내역
 		Map<String,Object> insertUsingPointMap = new HashMap<>();
 		insertUsingPointMap.put("applyProductSalesDeliveryId", (int)map.get("applyProductSalesDeliveryId"));
-		insertUsingPointMap.put("exPoint", productPrice); // 지출포인트 = 상품가격
-		
-		// 수입포인트 = 상품가격 - 수수료(상품가격*(수수료/100))
-		int inPoint = productPrice - commissionPoint;
-		insertUsingPointMap.put("inPoint", inPoint); // 상품가격 - 수수료
+		insertUsingPointMap.put("exPoint", productPrice); // exPoint(지출포인트) = 상품가격
+		insertUsingPointMap.put("inPoint", inPoint); // inpoint = 상품가격 - 수수료
 		
 		usedTradeMapper.insertUsingPoint(insertUsingPointMap);
 		
