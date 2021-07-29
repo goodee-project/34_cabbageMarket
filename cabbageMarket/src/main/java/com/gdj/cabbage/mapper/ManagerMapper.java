@@ -14,7 +14,7 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 public interface ManagerMapper {
 	
 	// 판매완료 중고상품 토탈
-	int selectSoldoutUsedProductTotal();
+	int selectSoldoutUsedProductTotal(String searchWord);
 	// 낙찰완료 경매상품 목록
 	List<Map<String, Object>> selectBidSuccessProductList(Page page);
 	// 판매완료 중고상품 목록

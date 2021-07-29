@@ -369,7 +369,7 @@
 											placeholder="상품 이름으로 검색..." aria-label="searchWord"
 											aria-describedby="basic-addon2">
 										<div class="input-group-append">
-											<button class="btn btn-success" type="button">
+											<button type="submit" class="btn btn-success">
 												<i class="fas fa-search fa-sm"></i>
 											</button>
 										</div>
