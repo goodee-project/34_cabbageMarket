@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
@@ -13,6 +14,8 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 @Mapper
 public interface ManagerMapper {
 	
+	// 판매완료 중고상품 수정
+	int updateSoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery);
 	// 판매완료 중고상품 토탈
 	int selectSoldoutUsedProductTotal(String searchWord);
 	// 낙찰완료 경매상품 목록

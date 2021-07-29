@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ManagerMapper;
+import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
@@ -23,6 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
+
+	// 판매완료 중고상품 수정
+	public int modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery) {
+		log.debug(Debuging.DEBUG + "buyingProductDelivery : " + buyingProductDelivery.toString());
+		
+		int row = managerMapper.updateSoldoutUsedProduct(buyingProductDelivery);
+		log.debug(Debuging.DEBUG+" 판완중상 수정 성공 여부 : "+row);
+		
+		return row;
+	}
 
 	// 판매완료 중고상품 리스트
 	public Map<String, Object> getSoldoutUsedProductList(int currentPage, int rowPerPage, String searchWord) {

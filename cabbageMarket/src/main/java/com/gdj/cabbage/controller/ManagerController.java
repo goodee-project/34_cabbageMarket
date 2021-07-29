@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ManagerService;
+import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 
@@ -26,6 +27,36 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+
+	// 판매완료 중고상품 수정 //
+	// GET // 수정페이지만 보내주는것
+	@GetMapping("/manager/modifySoldoutUsedProduct")
+	public String modifySoldoutUsedProduct(Model model,
+			@RequestParam(value = "applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId) {
+		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : " + applyProductSalesDeliveryId);
+		
+		Map<String, Object> modifySoldoutUsedProductOne = managerService.getAllUsersByManager(applyProductSalesDeliveryId, applyProductSalesDeliveryId, null);
+		
+		log.debug(Debuging.DEBUG+" modifySoldoutUsedProductOne : " + modifySoldoutUsedProductOne.toString());
+		
+		model.addAttribute("modifySoldoutUsedProductOne", modifySoldoutUsedProductOne);
+		
+		return "manager/modifySoldoutUsedProduct";
+		
+	}
+
+	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
+	@PostMapping("/manager/modifySoldoutUsedProduct")
+	public String modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery) {
+		
+		// update
+		int row = managerService.modifySoldoutUsedProduct(buyingProductDelivery);
+
+		// 디버깅
+		log.debug("modify 실행 여부 : " + row);
+		
+		return "redirect:/manager/getSoldoutUsedProductList";
+	}
 
 	// 판매완료 중고상품 목록
 	@GetMapping("/manager/getSoldoutUsedProductList")

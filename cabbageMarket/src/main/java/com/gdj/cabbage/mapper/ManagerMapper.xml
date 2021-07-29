@@ -3,47 +3,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 판매완료 중고상품 수정 -->
+
+<update id="updateSoldoutUsedProduct"
+		parameterType="com.gdj.cabbage.vo.BuyingProductDelivery">
+
+	UPDATE
+		buying_product_delivery
+	
+	SET
+		delivery_state = #{deliveryState},
+		waybill_number = #{waybillNumber}
+	
+	WHERE
+		apply_product_sales_delivery_id = #{applyProductSalesDeliveryId}
+
+</update>
+
 <!-- 판매완료 중고상품 페이징 토탈 -->
 
 <select id="selectSoldoutUsedProductTotal"
 		resultType = "int">
 	
-SELECT
-	COUNT(*)
-FROM
-	(SELECT
-		apsd.apply_product_sales_delivery_id apsdId,
-		apsd.user_id userId,
-		u.username username,
-		apsd.category_sub_id csId,
-		apsd.product_name productName,
-		pcr.registration_state regState,
-		bpd.delivery_state delState,
-		bpd.waybill_number waybillNum
-		
+	SELECT
+		COUNT(*)
 	FROM
-		buying_product_delivery bpd
-		
-		JOIN
-			apply_product_sales_delivery apsd
-		JOIN
-			product_confirmation_registration pcr
-	
-	ON
-		bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
-	
-		LEFT JOIN
-			users u
+		(SELECT
+			apsd.apply_product_sales_delivery_id apsdId,
+			apsd.user_id userId,
+			u.username username,
+			apsd.category_sub_id csId,
+			apsd.product_name productName,
+			pcr.registration_state regState,
+			bpd.delivery_state delState,
+			bpd.waybill_number waybillNum
 			
-	ON
-		apsd.user_id = u.user_id
-		
-	WHERE
-		pcr.registration_state = '1' AND bpd.delivery_state = '0'
-	
-	GROUP BY
-		apsd.apply_product_sales_delivery_id) tt
+		FROM
+			buying_product_delivery bpd
 			
+			JOIN
+				apply_product_sales_delivery apsd
+			JOIN
+				product_confirmation_registration pcr
+		
+		ON
+			bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+		
+			LEFT JOIN
+				users u
+				
+		ON
+			apsd.user_id = u.user_id
+			
+		WHERE
+			pcr.registration_state = '1' AND bpd.delivery_state = '0'
+		
+		GROUP BY
+			apsd.apply_product_sales_delivery_id) tt
+				
 	<where>
 	
 		<if test="searchWord != null">
