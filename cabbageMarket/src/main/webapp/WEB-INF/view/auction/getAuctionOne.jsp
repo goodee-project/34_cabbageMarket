@@ -31,7 +31,7 @@
     <script type="text/javascript"> <!-- 유효성 검사 -->
     $(document).ready(function() {
     	   	
-    	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
+    	console.log( ${ablePoint} +" : 디폴트값 210725" ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
     	if (${productDetail.datediff} <0 ) {
     		alert("경매 기간이 종료되었습니다.");
     		location.href= "${pageContext.request.contextPath}/users/getAuctionList";
@@ -61,7 +61,7 @@
     	console.log('호가 가능');
     	$(document).on('click', '#callQuote', function(){
     		console.log('호가 클릭');
-    		if ( ((Integer)(usersSession.get("userId"))) == ${productDetail.userId} ) { //판매자가 아니면,
+    		if ( ${usersSession.get("userId") == productDetail.userId} ) { //판매자가 아니면,
     			alert("판매자는 입찰블가");
 				return false;
     		} else { //판매자가 다르면
