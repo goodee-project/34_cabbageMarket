@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdj.cabbage.mapper.UsersMapper;
 import com.gdj.cabbage.service.UsedTradeService;
 import com.gdj.cabbage.service.UsersService;
+import com.gdj.cabbage.vo.PointsRechargeHistory;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 import com.gdj.cabbage.vo.ShippingAddress;
 import com.gdj.cabbage.vo.UsedProductRegistration;
@@ -29,6 +33,8 @@ public class UsedTradeController {
 	UsedTradeService usedTradeService;
 	@Autowired
 	UsersService usersService;
+	@Autowired
+	UsersMapper usersMapper;
 
 	// 중고상품 목록
 	@GetMapping("getUsedProductList")
@@ -184,24 +190,24 @@ public class UsedTradeController {
 
 		model.addAttribute("productForBuy", productForBuy);
 		model.addAttribute("shippingAddress", shippingAddress);
-
+		
 		return "usedProduct/buyUsedProduct";
 
 	}
 
 	@PostMapping("buyUsedProduct")
-	public String buyUsedProduct(
-			@RequestParam(value = "applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId,
-			@RequestParam(value = "userId", required = true) int userId,
-			@RequestParam(value = "productPrice", required = true) int productPrice,
-			@RequestParam(value = "shippingAddressId", required = true) int shippingAddressId,
-			@RequestParam(value = "deliveryRequests") String deliveryRequests) {
+	public String buyUsedProduct(HttpSession session, @RequestParam(value = "applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId,
+												      @RequestParam(value = "userId", required = true) int userId,
+												      @RequestParam(value = "productPrice", required = true) int productPrice,
+												      @RequestParam(value = "shippingAddressId", required = true) int shippingAddressId,
+												      @RequestParam(value = "deliveryRequests", required = false) String deliveryRequests) {
+		
 		// 디버깅
-		log.debug("applyProductSalesDeliveryId :" + applyProductSalesDeliveryId);
-		log.debug("userId :" + userId);
-		log.debug("productPrice :" + productPrice);
-		log.debug("shippingAddressId :" + shippingAddressId);
-		log.debug("deliveryRequests :" + deliveryRequests);
+		log.debug("-> buyUsedProduct() applyProductSalesDeliveryId :" + applyProductSalesDeliveryId);
+		log.debug("-> buyUsedProduct() userId :" + userId);
+		log.debug("-> buyUsedProduct() productPrice :" + productPrice);
+		log.debug("-> buyUsedProduct() shippingAddressId :" + shippingAddressId);
+		log.debug("-> buyUsedProduct() deliveryRequests :" + deliveryRequests);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("applyProductSalesDeliveryId", applyProductSalesDeliveryId);
@@ -211,7 +217,11 @@ public class UsedTradeController {
 		map.put("deliveryRequests", deliveryRequests);
 
 		usedTradeService.buyUsedProduct(map);
-
+		
+		//구매 후 사용자 포인트 갱신
+		Map<String, Object> usersSession = usersMapper.sessionUpdate(userId);
+		session.setAttribute("usersSession", usersSession);
+		
 		return "redirect:/users/buyingList";
 	}
 }
