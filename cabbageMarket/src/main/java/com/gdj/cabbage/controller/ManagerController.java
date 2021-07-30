@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.service.ManagerService;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.ProductConfirmationRegistration;
@@ -27,9 +28,64 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
+
+	// 판매완료 중고상품 수정 //
+	// GET // 수정페이지만 보내주는것
+	@GetMapping("/manager/modifyBidSuccessProduct")
+	public String modifyBidSuccessProduct(Model model,
+			@RequestParam(value = "apsdId", required = true) int apsdId) {
+		
+		log.debug(Debuging.DEBUG+" ######################apsdId : " + apsdId);
+		
+		Map<String, Object> bidSuccessProductOne = managerService.selectBidSuccessProductInfo(apsdId);
+		
+		log.debug(Debuging.DEBUG+" #####################bidSuccessProductOne : " + bidSuccessProductOne);
+		
+		model.addAttribute("bidSuccessProductOne", bidSuccessProductOne);
+		
+		return "manager/modifyBidSuccessProduct";
+		
+	}
 	
-	// 판매완료 중고상품 상세
+	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
+	@PostMapping("/manager/modifyBidSuccessProduct")
+	public String modifyBidSuccessProduct(BiddingProductDelivery biddingProductDelivery,
+			@RequestParam(value = "apsdId", required = true) int apsdId) {
+		
+		log.debug("##############biddingProductDelivery : " + biddingProductDelivery.toString());
+		log.debug("##############apsdId : " + apsdId);
+		
+		biddingProductDelivery.setApplyProductSalesDeliveryId(apsdId); // 파라미터 가져온것 전처리로 파라미터에 넣어주는 것
+		
+		// update
+		int updateRow = managerService.modifyBidSuccessProduct(biddingProductDelivery);
+
+		// 디버깅
+		log.debug("modify 실행 여부 : " + updateRow);
+		
+		return "redirect:/manager/getBidSuccessProductList";
+	}
 	
+	// 낙찰완료 경매상품 목록
+	@GetMapping("/manager/getBidSuccessProductList")
+	public String getBidSuccessProductList(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+			@RequestParam(value="searchWord", required=false) String searchWord) {
+		
+		log.debug("★★★★★★★@@@@ currentPage" + currentPage);
+		log.debug("★★★★★★★@@@@ rowPerPage" + rowPerPage);
+		log.debug("★★★★★★★@@@@ searchWord" + searchWord);
+		
+		Map<String, Object> map = managerService.getBidSuccessProductList(currentPage, rowPerPage, searchWord);
+		
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("bidSuccessList", map.get("bidSuccessList"));
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		
+		return "manager/getBidSuccessProductList";
+	}
 	
 	
 	// 판매완료 중고상품 수정 //

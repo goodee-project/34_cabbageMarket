@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>배추마켓 - 중고판매관리</title>
+    <title>배추마켓 - 판매완료 중고상품 관리</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/managerTemplete/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,9 +80,18 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/manager/manageSales">
-                    <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>판매 관리</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-truck"></i>
+                    <span>배송 관리</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">배송할 물품 정보 수정</h6>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getSoldoutUsedProductList">중고 상품 배송</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getBidSuccessProductList">경매 상품 배송</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Divider -->
@@ -307,7 +316,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">중고상품 판매 관리</h1>
+                    <h1 class="h3 mb-2 text-gray-800">판매완료 중고상품 관리</h1>
                     <p class="mb-4">운송장번호를 입력하시려면 <strong>사진</strong>을 클릭하세요.<br>
                     <small>※ 정확한 상품을 선택해주시길 바랍니다.<br>★ 배송상태가 0이면 배송준비중 | 배송상태가 1이면 배송완료 입니다.</small></p><br>
 

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ManagerMapper;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
@@ -24,6 +25,62 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
+
+	// 낙찰완료 경매상품 상세
+	public Map<String, Object> selectBidSuccessProductInfo(int apsdId) {
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@apsdId : " + apsdId);
+		
+		Map<String, Object> bidSuccessProductMap = managerMapper.selectBidSuccessProductInfo(apsdId);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@bidSuccessProductMap : " + bidSuccessProductMap);
+		
+		return bidSuccessProductMap;
+	}
+
+	// 낙찰완료 경매상품 수정
+	public int modifyBidSuccessProduct(BiddingProductDelivery biddingProductDelivery) {
+		log.debug(Debuging.DEBUG + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@biddingProductDelivery : " + biddingProductDelivery.toString());
+		
+		int row = managerMapper.updateBidSuccessProduct(biddingProductDelivery);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@낙완경상 수정 성공 여부 : "+row);
+		
+		return row;
+	}
+
+	// 낙찰완료 경매상품 리스트
+	public Map<String, Object> getBidSuccessProductList(int currentPage, int rowPerPage, String searchWord) {
+		
+		log.debug(Debuging.DEBUG + "managerService의 getBidSuccessProductList 실행");
+		
+		int bidSuccessTotal = managerMapper.selectBidSuccessProductTotal(searchWord);
+		
+		/*
+		
+		int lastPage = soldoutUsedTotal / rowPerPage;
+		if(soldoutUsedTotal % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		*/
+		
+		int lastPage = (int)(Math.ceil((double)bidSuccessTotal / rowPerPage));
+		
+		Page page = new Page();
+		
+		page.setBeginRow((currentPage - 1) * rowPerPage);
+		page.setRowPerPage(rowPerPage);
+		page.setSearchWord(searchWord);
+		
+		log.debug(Debuging.DEBUG + "page" + page.toString());
+		
+		List<Map<String, Object>> bidSuccessList = managerMapper.selectBidSuccessProductList(page);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("lastPage", lastPage);
+		map.put("bidSuccessList", bidSuccessList);
+		
+		return map;
+	}
 
 	// 판매완료 중고상품 상세
 	public Map<String, Object> selectSoldoutUsedProductInfo(int apsdId) {

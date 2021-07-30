@@ -1,6 +1,5 @@
-<!-- ì‘ì„±ì : ë°±ì˜ì¬ -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- ÀÛ¼ºÀÚ : ¹é¿µÀç -->
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ë°°ì¶”ë§ˆì¼“ - ë°°ì†¡ìƒí’ˆ ì •ë³´</title>
+    <title>¹èÃß¸¶ÄÏ - ³«Âû¿Ï·á °æ¸Å»óÇ° ¿î¼ÛÀå ¹øÈ£ ÀÔ·Â ¹× »óÅÂ ¼öÁ¤</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/managerTemplete/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,6 +21,18 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/managerTemplete/css/sb-admin-2.min.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			console.log("document ready!");
+			$('#btn').click(function() {
+				console.log("btn click!");
+	
+				// Æû À¯È¿¼º °Ë»ç
+				$('#modifyForm').submit();
+			});
+		});
+	</script>
 
 </head>
 
@@ -38,7 +49,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-seedling"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">ë°° ì¶” ë§ˆ ì¼“ <sup>M</sup></div>
+                <div class="sidebar-brand-text mx-3">¹è Ãß ¸¶ ÄÏ <sup>M</sup></div>
             </a>
 
             <!-- Divider -->
@@ -48,7 +59,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/manager/managerIndex">
                     <i class="fas fa-fw fa-home"></i>
-                    <span>í™ˆ ìœ¼ ë¡œ</span></a>
+                    <span>È¨ À¸ ·Î</span></a>
             </li>
 
             <!-- Divider -->
@@ -56,7 +67,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                ê´€ë¦¬ MENU
+                °ü¸® MENU
             </div>
 			
 			<!--  -->
@@ -64,32 +75,32 @@
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/manager/getManagerList">
                     <i class="fas fa-fw fa-users-cog"></i>
-                    <span>ë§¤ë‹ˆì € ê´€ë¦¬</span></a>
+                    <span>¸Å´ÏÀú °ü¸®</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/manager/getDeliveryProductList">
                     <i class="fas fa-fw fa-tv"></i>
-                    <span>ë°°ì†¡ ìƒí’ˆ ê´€ë¦¬</span></a>
+                    <span>¹è¼Û »óÇ° °ü¸®</span></a>
             </li>
             
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/manager/getAllUsersByManager">
                     <i class="fas fa-fw fa-user-friends"></i>
-                    <span>íšŒì› ê´€ë¦¬</span></a>
+                    <span>È¸¿ø °ü¸®</span></a>
             </li>
             
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-truck"></i>
-                    <span>ë°°ì†¡ ê´€ë¦¬</span>
+                    <span>¹è¼Û °ü¸®</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">ë°°ì†¡í•  ë¬¼í’ˆ ì •ë³´ ìˆ˜ì •</h6>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getSoldoutUsedProductList">ì¤‘ê³  ìƒí’ˆ ë°°ì†¡</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getBidSuccessProductList">ê²½ë§¤ ìƒí’ˆ ë°°ì†¡</a>
+                        <h6 class="collapse-header">¹è¼ÛÇÒ ¹°Ç° Á¤º¸ ¼öÁ¤</h6>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getSoldoutUsedProductList">Áß°í »óÇ° ¹è¼Û</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getBidSuccessProductList">°æ¸Å »óÇ° ¹è¼Û</a>
                     </div>
                 </div>
             </li>
@@ -105,7 +116,7 @@
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="${pageContext.request.contextPath}/managerTemplete/img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2">ì €í¬ <strong>ë°°ì¶”ë§ˆì¼“</strong>ì€ ê³ ê°ë‹˜ë“¤ì˜ ì•ˆì „í•œ ë°°ì†¡ì„ ì¶”êµ¬í•©ë‹ˆë‹¤.</p>
+                <p class="text-center mb-2">ÀúÈñ <strong>¹èÃß¸¶ÄÏ</strong>Àº °í°´´ÔµéÀÇ ¾ÈÀüÇÑ ¹è¼ÛÀ» Ãß±¸ÇÕ´Ï´Ù.</p>
             </div>
 
         </ul>
@@ -228,7 +239,7 @@
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Hi there! I am wondering if you can help me with a
                                             problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler Â· 58m</div>
+                                        <div class="small text-gray-500">Emily Fowler ¡¤ 58m</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -240,7 +251,7 @@
                                     <div>
                                         <div class="text-truncate">I have the photos that you ordered last month, how
                                             would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun Â· 1d</div>
+                                        <div class="small text-gray-500">Jae Chun ¡¤ 1d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -252,7 +263,7 @@
                                     <div>
                                         <div class="text-truncate">Last month's report looks great, I am very happy with
                                             the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez Â· 2d</div>
+                                        <div class="small text-gray-500">Morgan Alvarez ¡¤ 2d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -264,7 +275,7 @@
                                     <div>
                                         <div class="text-truncate">Am I a good boy? The reason I ask is because someone
                                             told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog Â· 2w</div>
+                                        <div class="small text-gray-500">Chicken the Dog ¡¤ 2w</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
@@ -309,60 +320,66 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
                     
                       <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">ë°°ì†¡ìƒí’ˆ ì •ë³´</h1>
-                    <p class="mb-4">ìƒí’ˆë“±ë¡ì„ ê°€ëŠ¥í•˜ê²Œ í•˜ì‹œë ¤ë©´, <strong>ê²€ìˆ˜ì™„ë£Œ</strong> ë²„í„´ì„ í´ë¦­í•˜ì„¸ìš”.<br>
-                    <small>â€» ì •í™•í•œ ê²€ìˆ˜ í›„ ìŠ¹ì¸ ë°”ëë‹ˆë‹¤.</small></p>
+                    <h1 class="h3 mb-2 text-gray-800">³«Âû¿Ï·á °æ¸Å»óÇ° ¿î¼ÛÀå ¹øÈ£ ÀÔ·Â ¹× »óÅÂ ¼öÁ¤</h1>
+                    <p class="mb-4">¼öÁ¤À» ¿Ï·áÇÏ½Ã·Á¸é <strong>¼öÁ¤¿Ï·á</strong> ¹öÅÏÀ» Å¬¸¯ÇÏ¼¼¿ä.<br>
+                    <small>¡Ø Á¤È®ÇÑ ¿î¼ÛÀå ¹øÈ£ ÀÔ·Â ºÎÅ¹µå¸³´Ï´Ù.<br>¡Ú º» »óÇ°ÀÌ ¸Â´ÂÁö ²À, ²À È®ÀÎÇÏ¼¼¿ä !!</small></p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary"><strong>${productInfo.productName}ì˜ ìƒì„¸ì •ë³´</strong></h5>
+                            <h5 class="m-0 font-weight-bold text-primary"><strong>Á¤º¸ ¼öÁ¤ÇÏ±â</strong></h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            
+                            <form id="modifyForm" action="${pageContext.request.contextPath}/manager/modifyBidSuccessProduct" method="post">
+                            
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-									<tbody>
-										<tr>
-											<td>ìœ ì € ì•„ì´ë”” :</td>
-											<td>${productInfo.userId}</td>
-										</tr>
-										<tr>
-											<td>ì œí’ˆ ì‚¬ì§„ :</td>
-											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productInfo.imgName}" width="250px" height="160px"></td>
-										</tr>
-										<tr>
-											<td>ë°°ì†¡ ë“±ë¡ ë²ˆí˜¸ :</td>
-											<td>${productInfo.apsdi}</td>
-										</tr>
-										<tr>
-											<td>ì œí’ˆ ì´ë¦„ :</td>
-											<td>${productInfo.productName}</td>
-										</tr>
-										<tr>
-											<td>ìš´ì†¡ì¥ ë²ˆí˜¸ :</td>
-											<td>${productInfo.waybillNo}</td>
-										</tr>
-										<tr>
-											<td>ë°˜í’ˆì‹œ ìš”ì²­ì‚¬í•­ :</td>
-											<td>${productInfo.request}</td>
-										</tr>
-										<tr>
-											<td>ë°˜í’ˆ ì£¼ì†Œ :</td>
-											<td>${productInfo.adress}</td>
-										</tr>
-										<tr>
-											<td>ë“±ë¡ ë‚ ì§œ :</td>
-											<td>${productInfo.createDate}</td>
-										</tr>
-									</tbody>
-								</table>
+											<tbody>
+												<tr>
+													<td>»óÇ°¹øÈ£ :</td>
+													<td><input type="hidden" id="apsdId"
+														name="apsdId" value="${bidSuccessProductOne.apsdId}">
+														${bidSuccessProductOne.apsdId}</td>
+												</tr>
+												<tr>
+													<td>¿î¼ÛÀå ¹øÈ£ :</td>
+													<td><input type="text" id="waybillNumber"
+														name="waybillNumber"
+														value="${bidSuccessProductOne.waybillNumber}" class="form-control"></td>
+												</tr>
+												<tr>
+													<td>¹è¼Û ¿äÃ»»çÇ× :</td>
+													<td>${bidSuccessProductOne.deliveryRequest}</td>
+												</tr>
+												<tr>
+													<td>¹è¼Û »óÅÂ :</td>
+													<td><select name="deliveryState" id="deliveryState"
+														class="form-control">
+															<option value="0">0</option>
+															<option value="1">1</option>
+													</select></td>
+												</tr>
+												<tr>
+													<td>ÆÇ¸ÅµÈ ³¯Â¥ :</td>
+													<td>${bidSuccessProductOne.createDate}</td>
+												</tr>
+											</tbody>
+										</table>
+							
+									<button id="btn" type="button" class="btn btn-primary btn-icon-split btn-lg">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">¼öÁ¤ ¿Ï·á</span>
+                                    </button>
+                                    
+                            	</form>
                             </div>
                         </div>
                     </div>
@@ -402,7 +419,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">Ã—</span>
+                        <span aria-hidden="true">¡¿</span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
