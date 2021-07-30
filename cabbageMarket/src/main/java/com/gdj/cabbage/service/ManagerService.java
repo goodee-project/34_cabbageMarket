@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdj.cabbage.Debuging;
 import com.gdj.cabbage.mapper.ManagerMapper;
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
@@ -24,6 +25,26 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
+
+	// 낙찰완료 경매상품 상세
+	public Map<String, Object> selectBidSuccessProductInfo(int apsdId) {
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@apsdId : " + apsdId);
+		
+		Map<String, Object> bidSuccessProductMap = managerMapper.selectBidSuccessProductInfo(apsdId);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@bidSuccessProductMap : " + bidSuccessProductMap);
+		
+		return bidSuccessProductMap;
+	}
+
+	// 낙찰완료 경매상품 수정
+	public int modifyBidSuccessProduct(BiddingProductDelivery biddingProductDelivery) {
+		log.debug(Debuging.DEBUG + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@biddingProductDelivery : " + biddingProductDelivery.toString());
+		
+		int row = managerMapper.updateBidSuccessProduct(biddingProductDelivery);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@낙완경상 수정 성공 여부 : "+row);
+		
+		return row;
+	}
 
 	// 낙찰완료 경매상품 리스트
 	public Map<String, Object> getBidSuccessProductList(int currentPage, int rowPerPage, String searchWord) {

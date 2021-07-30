@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdj.cabbage.vo.BiddingProductDelivery;
 import com.gdj.cabbage.vo.BuyingProductDelivery;
 import com.gdj.cabbage.vo.Manager;
 import com.gdj.cabbage.vo.Page;
@@ -14,7 +15,11 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 @Mapper
 public interface ManagerMapper {
 	
-	// 판매완료 경매상품 토탈
+	// 판매완료 중고상품 상세
+	Map<String, Object> selectBidSuccessProductInfo(int apsdId);
+	// 판매완료 중고상품 수정
+	int updateBidSuccessProduct(BiddingProductDelivery biddingProductDelivery);
+	// 낙찰완료 경매상품 토탈
 	int selectBidSuccessProductTotal(String searchWord);
 	// 낙찰완료 경매상품 목록
 	List<Map<String, Object>> selectBidSuccessProductList(Page page);
