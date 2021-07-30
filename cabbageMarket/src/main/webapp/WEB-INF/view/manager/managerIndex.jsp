@@ -79,15 +79,9 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/manager/manageSales">
-                    <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>판매 관리</span></a>
-            </li>
-            
-            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-truck"></i>
                     <span>배송 관리</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
