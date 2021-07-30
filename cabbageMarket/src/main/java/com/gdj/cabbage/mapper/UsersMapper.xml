@@ -506,6 +506,8 @@
 		</where>
 		GROUP BY
 			bpd.apply_product_sales_delivery_id
+		ORDER BY
+			bpd.create_date DESC
 		LIMIT
 			#{beginRow}, #{rowPerPage}
 	</select>

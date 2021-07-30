@@ -393,7 +393,7 @@ public class UsersController {
 	public String callback(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
 		String code = request.getParameter("code");// 로그인 후 네이버에서 받은 code
 	    String state = request.getParameter("state");// 로그인 후 네이버에서 받은 랜덤 숫자값
-	    String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback1", "UTF-8");// 콜백url
+	    String redirectURI = URLEncoder.encode("http://localhost:80/cabbageMarket/index", "UTF-8");// 콜백url
 	    String apiURL;
 	    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";// 네이버 로그인을 위한 토큰 검증 url
 	    apiURL += "client_id=" + clientId;// 배추마켓 플랫폼 id 을 더한다.

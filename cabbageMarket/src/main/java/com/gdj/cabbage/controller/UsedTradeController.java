@@ -219,7 +219,7 @@ public class UsedTradeController {
 		usedTradeService.buyUsedProduct(map);
 		
 		//구매 후 사용자 포인트 갱신
-		Map<String, Object> usersSession = (Map<String, Object>) session.getAttribute("usersSession");
+		Map<String, Object> usersSession = usersMapper.sessionUpdate(userId);
 		session.setAttribute("usersSession", usersSession);
 		
 		return "redirect:/users/buyingList";
