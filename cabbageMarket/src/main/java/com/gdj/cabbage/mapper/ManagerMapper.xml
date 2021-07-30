@@ -18,6 +18,7 @@
 		create_date createDate
 	FROM
 		buying_product_delivery
+		
 	<where>
 		apply_product_sales_delivery_id=#{apsdId}
 	</where>

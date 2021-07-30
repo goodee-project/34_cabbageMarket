@@ -323,7 +323,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary"><strong>${soldoutList.productName}님의 정보 수정하기</strong></h5>
+                            <h5 class="m-0 font-weight-bold text-primary"><strong>정보 수정하기</strong></h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -334,7 +334,9 @@
 											<tbody>
 												<tr>
 													<td>상품번호 :</td>
-													<td>${soldoutProductOne.apsdId}</td>
+													<td><input type="hidden" id="apsdId"
+														name="apsdId" value="${soldoutProductOne.apsdId}">
+														${soldoutProductOne.apsdId}</td>
 												</tr>
 												<tr>
 													<td>운송장 번호 :</td>
@@ -350,11 +352,9 @@
 													<td>배송 상태 :</td>
 													<td><select name="deliveryState" id="deliveryState"
 														class="form-control">
-															<option value="1">0</option>
-															<option value="2">1</option>
-															<option value="3">2</option>
-															<option value="9">9</option>
-													</select>
+															<option value="0">0</option>
+															<option value="1">1</option>
+													</select></td>
 												</tr>
 												<tr>
 													<td>판매된 날짜 :</td>

@@ -27,20 +27,20 @@ public class ManagerService {
 
 	// 판매완료 중고상품 상세
 	public Map<String, Object> selectSoldoutUsedProductInfo(int apsdId) {
-		log.debug(Debuging.DEBUG+" apsdId : " + apsdId);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@apsdId : " + apsdId);
 		
 		Map<String, Object> soldoutProductMap = managerMapper.selectSoldoutUsedProductInfo(apsdId);
-		log.debug(Debuging.DEBUG+" soldoutProductMap : " + soldoutProductMap);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@soldoutProductMap : " + soldoutProductMap);
 		
 		return soldoutProductMap;
 	}
 
 	// 판매완료 중고상품 수정
 	public int modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery) {
-		log.debug(Debuging.DEBUG + "buyingProductDelivery : " + buyingProductDelivery.toString());
+		log.debug(Debuging.DEBUG + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@buyingProductDelivery : " + buyingProductDelivery.toString());
 		
 		int row = managerMapper.updateSoldoutUsedProduct(buyingProductDelivery);
-		log.debug(Debuging.DEBUG+" 판완중상 수정 성공 여부 : "+row);
+		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@판완중상 수정 성공 여부 : "+row);
 		
 		return row;
 	}
@@ -69,7 +69,7 @@ public class ManagerService {
 		page.setRowPerPage(rowPerPage);
 		page.setSearchWord(searchWord);
 		
-		log.debug(Debuging.DEBUG + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@page" + page.toString());
+		log.debug(Debuging.DEBUG + "page" + page.toString());
 		
 		List<Map<String, Object>> soldoutList = managerMapper.selectSoldoutUsedProductList(page);
 		
