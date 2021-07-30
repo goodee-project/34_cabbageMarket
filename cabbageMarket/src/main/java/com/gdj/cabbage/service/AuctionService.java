@@ -278,32 +278,11 @@ public class AuctionService {
 	public int removeBid(Map<String, Object> map) {
 		log.debug(Debuging.DEBUG+"2 controller에서 보낸 map확인"+map.toString());
 		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 학인 : "+ map);
-		double commissionRate = auctionMapper.selectBidComissionRateForint(4) ; // 취소수수료 계산하기
-		log.debug(Debuging.DEBUG+"4 selectBidComissionRateForint(4)에서온 취소수수료 비율 학인 : "+ commissionRate+"%");
-
-		int check = 0;
 		
-		int oldPoint = (int)map.get("point");
-		log.debug(Debuging.DEBUG+"현재 lastBid에 있는 낙찰포인트oldPoint 확인 : "+ oldPoint); 
-
-		int commission = (int)( oldPoint * commissionRate);
-		log.debug(Debuging.DEBUG+"현재 경매 취소수수료 비용으로 계산한 수수료commission 확인 : "+ commission);
-		int newPoint = (oldPoint - commission);
-		log.debug(Debuging.DEBUG+"현재 경매수수료 비용으로 '유찰'할 포인트newPoint 확인 : "+ newPoint);
+		int check = auctionMapper.insertBidPointPlusHistory( map ); //구매자에게 유찰입력
+		log.debug(Debuging.DEBUG+"4 insertBidPointPlusByLastBid에서온 유찰 입력된 갯수 학인 : "+ check); 
 		
-		map.put("commission", commission );
-		log.debug(Debuging.DEBUG+"3 mapper로 보낼 map 확인 : "+ map.toString());
-		check = auctionMapper.insertBidCommisionByLastBid(map); //수수료정보 입력
-		log.debug(Debuging.DEBUG+"4 insertBidCommisionByLastBid에서온 수수료 입력된 갯수 학인 : "+ check); 
-		
-		map.put("point", newPoint );
-		check = auctionMapper.insertBidPointPlusHistory( map ); //구매자에게 유찰입력
-		log.debug(Debuging.DEBUG+"4 insertBidPointPlusByLastBid에서온 낙찰 입력된 갯수 학인 : "+ check); 
-		
-		int userPoint = auctionMapper.selectUserPoint(map); //현재 포인트 확인
-		log.debug(Debuging.DEBUG+"4 mapper에서 온 userPoint 확인:"+userPoint);
-		
-		return userPoint;
+		return check;
 		}
 	
 	// 경매상품 수정 페이지에 출력할 경매상품 정보, 모든 이미지

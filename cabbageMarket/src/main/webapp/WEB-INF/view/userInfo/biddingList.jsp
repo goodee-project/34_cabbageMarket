@@ -32,25 +32,14 @@
     	console.log("ajax 시작");
     	
     	console.log( ${userPoint} ); //Service에서 userPoint 검색
-
-		if( ${userPoint} != null ){  ///null 이면
-				alert( '입찰취소 성공! \n 현재 :'+${userPoint}+'포인트입니다' ) ;
-				return false;
-			} else {
-				alert("입찰취소 불가");
-				return false;
+    	$('.removeBtn').click(function(){				
+			var index = $('.removeBtn').index(this);
+			var val=confirm('취소 하시겠습니까?');
+			if(val){
+				$('.removeBidForm').eq(index).submit();
 			}
-		}
-    	
-    	$(document).on('click', '#removeBtn', function(){
-    		console.log('입찰쉬소 클릭');
-    		if ( confirm("취소시,\n 원　급: "+$('#point')+"\n수수료 : 20% 입니다. \n 그래도 취소 하시겠습니까?") ) { //입찰 취소 confirm받기
-    			$('#removeBidForm').submit();
-            } else {
-            	alert("입찰 유지");
-				return false;
-            }
     	});
+	
     });
 	</script>
 </head>
@@ -199,7 +188,7 @@
 					                                    </td>
 					                                </tr>
 				                                </c:if>
-				                                <c:if test="${bl.auctionState == '경매중'}">
+				                                <c:if test="${bl.auctionState == '경매중' && bl.bidState =='입찰'}">
 				                                	<tr>
 					                                	<td>
 					                                		${index = index+1}
@@ -222,16 +211,43 @@
 					                                    </td>
 					                                    					                                    
 														<td>
-															<form id="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post" enctype="multipart/form-data">
-																<input type="hidden" name="bidId" value="${b1.biddingAuctionProductId}"/>
-																<input type="hidden" name="point" value="${b1.point}"/>
-						                                    	<button id="removeBtn" class="btn btn-success">취소</button>
+															<form class="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post">
+																<input name="bidId" id="bidId" value="${bl.biddingAuctionProductId}"/>
+																<input name="point" id="point" value="${bl.point}"/>
+						                                    	<button type="button" class="btn btn-success removeBtn">취소</button>
 					                                    	</form>
 					                                    </td>					                                    
 					                                </tr>
 					                                
 				                                </c:if>
-				                               
+				                               <c:if test="${bl.auctionState == '경매중' && bl.bidState !='입찰'}">
+				                                	<tr>
+					                                	<td>
+					                                		${index = index+1}
+					                                	</td>
+					                                    <td>
+					                                        <img src="${pageContext.request.contextPath}/template/img/applyProductImg/${bl.img}" width="70px" height="50px">
+					                                    </td>
+					                                    <td width="300px">
+					                                    	<h5>
+					                                    		<a href="${pageContext.request.contextPath}/users/getAuctionOne?applyId=${bl.applyId}" style="text-decoration: none">
+					                                    			${bl.productName}
+					                                    		</a>
+					                                    	</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.point}</h5>
+					                                    </td>
+					                                    <td>
+					                                    	<h5>${bl.biddingDate}</h5>
+					                                    </td>
+					                                    					                                    
+														<td>
+															입찰취소
+					                                    </td>					                                    
+					                                </tr>
+					                                
+				                                </c:if>
 			                                </c:forEach>
 			                            </tbody>
 			                        </table>
@@ -251,6 +267,7 @@
 						</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</section>
 	<!-- Product Section End -->

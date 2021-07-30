@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.gdj.cabbage.Debuging;
+import com.gdj.cabbage.mapper.UsersMapper;
 import com.gdj.cabbage.service.AuctionService;
 import com.gdj.cabbage.service.CategoryService;
 import com.gdj.cabbage.service.UsersService;
@@ -40,6 +41,7 @@ public class AuctionController {
 	@Autowired CategoryService categoryService;
 	@Autowired AuctionService auctionService;
 	@Autowired UsersService usersService;
+	@Autowired UsersMapper usersMapper;
 	
 	//addAuction ajax
     @RequestMapping(value = "/previewAuction", method = RequestMethod.POST)
@@ -154,6 +156,7 @@ public class AuctionController {
 		model.addAttribute("bidInfo", resultMap.get("bidInfo"));
 		model.addAttribute("imgPathList", imgPathList);
 		model.addAttribute("relatedAuctionList", relatedAuctionList);
+		
 		//FlashMap에 저장되어 전달된 값을 가져온다.
 		 Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(req);
 		   if(flashMap !=null) {  
@@ -164,6 +167,7 @@ public class AuctionController {
 				   return "auction/getAuctionOne";
 			   }
 		   } else {
+			   model.addAttribute("ablePoint", 210725);
 			   return "auction/getAuctionOne";
 		   }
 	}
@@ -254,12 +258,16 @@ public class AuctionController {
 		//FlashMap에 전달할 값을 저장한다.
 		 FlashMap fm = RequestContextUtils.getOutputFlashMap(req);
 		 fm.put("cnt", cnt);
+		if ( cnt!=0) {
+			usersSession = usersMapper.sessionUpdate(userId);
+			session.setAttribute("usersSession", usersSession);
+		}
 		return "redirect:/users/getAuctionOne?applyId="+applyId;
 	}
 	
 	// 입찰삭제
 	@PostMapping("removeBid")
-	public String removeBid(RedirectAttributes redirectAttributes
+	public String removeBid(Model model
 			,HttpSession session
 			,@RequestParam(value="bidId") int bidId
 			,@RequestParam(value="point") int point) {
@@ -278,10 +286,11 @@ public class AuctionController {
 
 		//결제가능한지 계산까지 해야할까요...
 		//와 어차피 유찰인데 수수료무는건 너무한거 아닌가요...
-		int userPoint = auctionService.removeBid(map);
-		log.debug(Debuging.DEBUG+"5 service에서 받은 userPoint 확인 : "+userPoint);
-		
-		redirectAttributes.addFlashAttribute("userPoint", userPoint);
+		int cnt = auctionService.removeBid(map);
+		if ( cnt!=0) {
+			usersSession = usersMapper.sessionUpdate(userId);
+			session.setAttribute("usersSession", usersSession);
+		}
 		return "redirect:/users/biddingList";
 		}
 	

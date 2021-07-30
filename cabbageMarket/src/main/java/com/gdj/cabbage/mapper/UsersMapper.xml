@@ -531,7 +531,7 @@
 				bpd.apply_product_sales_delivery_id) a
 	</select>
 	
-	<!--  유저 입찰 내역 쿼리 -->
+		<!--  유저 입찰 내역 쿼리 -->
 	<select id="getBiddingListByUser" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			bap.apply_product_sales_delivery_id applyId, 
@@ -542,6 +542,7 @@
 			bap.bid_price point,
 			bap.create_date biddingDate,
 			IF(TIMEDIFF(apr.registration_deadline, NOW())>0, '경매중','경매종료') auctionState,
+			bpuh.income_expenditure bidState,
 			IF(bap.user_id IN (SELECT userId FROM successful_bid WHERE applyId=bap.apply_product_sales_delivery_id), 1, 0) auctionResult,
 			IF(bap.apply_product_sales_delivery_id IN (SELECT apply_product_sales_delivery_id FROM bidding_product_delivery), 1, 0) shippingExist
 		FROM
@@ -554,9 +555,9 @@
 			bap.user_id = #{userId}
 		</where>		
 		GROUP BY
-			apsd.apply_product_sales_delivery_id
+			bpuh.bidding_auction_product_id
 		ORDER BY
-			bap.create_date desc
+			bpuh.create_date desc
 		LIMIT
 			#{beginRow},#{rowPerPage}
 	</select>

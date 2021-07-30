@@ -32,31 +32,36 @@
     $(document).ready(function() {
     	   	
     	console.log( ${ablePoint} ); //Service에서 (int)map.get("newPrice") - userPoint (있다면)-이전 beforeBidPrice 값. //값 계산 음수,0 가능, 양수 불가
-		if (${ablePoint} == 210725){
-			console.log('ablePoint 디폴트값 입력됨');
-			return false;
-			}
-    	else if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
-			if(confirm( ${ablePoint}+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
-				location.href= "${pageContext.request.contextPath}/users/pointRecharge";
-				return false;
-			} else {
-				alert("입찰불가 : "+ ${ablePoint}+ "포인트 부족");
-				return false;
-			}
-		} else { ///ablePoint가 계산이 음수거나 0이면 입찰가능
-    		if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
-    			$('#addNewBidForm').submit();
-    		} else {
-    			alert("입찰취소");
-    			return false;
-    		}
-        }
+    	if (${productDetail.datediff} <0 ) {
+    		alert("경매 기간이 종료되었습니다.");
+    		location.href= "${pageContext.request.contextPath}/users/getAuctionList";
+    		return false;
+    	}
+    	
+    	if (${ablePoint} == 210725){
+    		return false;
+    	} else if( ${ablePoint} > 0 ){  ///newPrice가 point와 이전입찰금 보다 커서, 포인트 부족.
+				if(confirm( ${ablePoint}+'포인트가 부족합니다.\n 포인트 충전으로 이동하시겠습니까?' ) ){
+					location.href= "${pageContext.request.contextPath}/users/pointRecharge";
+					return false;
+				} else {
+					alert("입찰불가 : "+ ${ablePoint}+ "포인트 부족");
+					return false;
+				}
+	    } else { ///ablePoint가 계산이 음수거나 0이면 입찰가능
+	    		if(confirm( ${productDetail.newPrice}+'포인트로 입찰 하시겠습니까?\n *포인트가 바로 차감되며, 낙찰시 자동환급됩니다.\n **주소지는 1번으로 자동선택됩니다.')){
+	    			$('#addNewBidForm').submit();
+	    		} else {
+	    			alert("입찰취소");
+	    			return false;
+	    		}
+	    }
+    	
     	
     	console.log('호가 가능');
     	$(document).on('click', '#callQuote', function(){
     		console.log('호가 클릭');
-    		if ( (int)(usersSession.get("userId")) == ${productDetail.userId} ) { //판매자가 아니면,
+    		if ( ((Integer)(usersSession.get("userId"))) == ${productDetail.userId} ) { //판매자가 아니면,
     			alert("판매자는 입찰블가");
 				return false;
     		} else { //판매자가 다르면
@@ -147,10 +152,10 @@
                             </c:forEach>
                             
                             <c:if test="${bidInfo[0].userId != null }">
-                            <span>( ${bidInfoSize}  회 입찰됨) 마지막 입찰자 : (${bidInfoUserId}) ${bidInfoUserName} </span>
+                            <span>( ${bidInfoSize}  회 입찰됨)</span>
                             </c:if>
                         </div>
-                        <form id="calculPointForm" action="${pageContext.request.contextPath}/users/calculatePoint" method="post" enctype="multipart/form-data">
+                        <form id="calculPointForm" action="${pageContext.request.contextPath}/users/calculatePoint" method="post" >
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         	<button id="callQuote" class="primary-btn" style="margin-top: 3px;">호가 : <fmt:formatNumber value="${productDetail.newPrice}" pattern="#,###" /></button>
@@ -162,7 +167,7 @@
 						    </div>
                         
                         </form>
-                        <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" enctype="multipart/form-data">
+                        <form id="addNewBidForm" action="${pageContext.request.contextPath}/users/addBid" method="post" >
                         	<input type="hidden" name="applyId" value="${productDetail.applyId}">
                         	<input type="hidden" name="newPrice" value="${productDetail.newPrice}">
                         </form>

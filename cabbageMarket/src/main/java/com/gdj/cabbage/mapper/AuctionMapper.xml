@@ -36,7 +36,7 @@
 		    <when test="sortValue == 1">ORDER BY newPrice DESC, apsdi.img_name</when>
 		    <when test="sortValue == 2">ORDER BY newPrice, apsdi.img_name</when>
 		    <when test="sortValue == 3">ORDER BY datediff, apsdi.img_name</when>
-		    <otherwise>ORDER BY bap.create_date, apsd.create_date, apsdi.img_name</otherwise>
+		    <otherwise>ORDER BY bap.bid_price, apsd.create_date, apsdi.img_name</otherwise>
 	  	</choose>
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -86,7 +86,7 @@
 				LEFT JOIN users ON apsd.user_id = users.user_id
 				LEFT JOIN category_sub cs ON apsd.category_sub_id=cs.category_sub_id
 		WHERE apr.apply_product_sales_delivery_id = #{applyId}
-		ORDER BY bap.create_date DESC
+		ORDER BY bap.bid_price DESC
 		LIMIT 1
 	</select>
 	
@@ -337,7 +337,7 @@
 				LEFT JOIN bidding_points_using_history bpuh ON bpuh.bidding_auction_product_id = bap.bidding_auction_product_id
 		WHERE
 			apply_product_sales_delivery_id = #{applyId} and bpuh.income_expenditure != '유찰'
-		ORDER BY bap.create_date DESC
+		ORDER BY bap.bid_price DESC
 		limit 1
 	</select>
 	
@@ -470,7 +470,7 @@
 			( DATEDIFF(apr.registration_deadline, now()) > 1) OR ( DATEDIFF(apr.registration_deadline, now()) = 1)
 		</where>
 		GROUP BY apsdi.apply_product_sales_delivery_id
-		ORDER BY bap.create_date, apsd.create_date, apsdi.img_name
+		ORDER BY bap.bid_price, apsd.create_date, apsdi.img_name
 	</select>
 	
 	<select id="selectBidInfo" parameterType="int" resultType="map">
@@ -478,13 +478,14 @@
 			bap.bidding_auction_product_id
 			,bap.user_id userId
 			,username userName
+			,bap.bid_price
 		FROM apply_product_sales_delivery apsd
 			  LEFT JOIN auction_product_registration apr ON apr.apply_product_sales_delivery_id= apsd.apply_product_sales_delivery_id
 			  LEFT JOIN bidding_auction_product bap ON apr.apply_product_sales_delivery_id= bap.apply_product_sales_delivery_id
 			  LEFT JOIN users ON bap.user_id = users.user_id
 		WHERE
 			apsd.apply_product_sales_delivery_id = #{applyId}
-		ORDER BY bap.create_date DESC
+		ORDER BY bap.bid_price DESC
 	</select>
 	
 	<insert id="insertBidCommisionByCancleBid" parameterType="map">
