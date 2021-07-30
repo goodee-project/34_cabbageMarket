@@ -25,6 +25,42 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 낙찰완료 경매상품 리스트
+	public Map<String, Object> getBidSuccessProductList(int currentPage, int rowPerPage, String searchWord) {
+		
+		log.debug(Debuging.DEBUG + "managerService의 getBidSuccessProductList 실행");
+		
+		int bidSuccessTotal = managerMapper.selectBidSuccessProductTotal(searchWord);
+		
+		/*
+		
+		int lastPage = soldoutUsedTotal / rowPerPage;
+		if(soldoutUsedTotal % rowPerPage != 0) {
+			lastPage++;
+		}
+		
+		*/
+		
+		int lastPage = (int)(Math.ceil((double)bidSuccessTotal / rowPerPage));
+		
+		Page page = new Page();
+		
+		page.setBeginRow((currentPage - 1) * rowPerPage);
+		page.setRowPerPage(rowPerPage);
+		page.setSearchWord(searchWord);
+		
+		log.debug(Debuging.DEBUG + "page" + page.toString());
+		
+		List<Map<String, Object>> bidSuccessList = managerMapper.selectBidSuccessProductList(page);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("lastPage", lastPage);
+		map.put("bidSuccessList", bidSuccessList);
+		
+		return map;
+	}
+
 	// 판매완료 중고상품 상세
 	public Map<String, Object> selectSoldoutUsedProductInfo(int apsdId) {
 		log.debug(Debuging.DEBUG+" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@apsdId : " + apsdId);

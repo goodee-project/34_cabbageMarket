@@ -94,7 +94,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">배송할 물품 정보 수정</h6>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getSoldoutUsedProductList">중고 상품 배송</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getSuccessBidProductList">경매 상품 배송</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/manager/getBidSuccessProductList">경매 상품 배송</a>
                     </div>
                 </div>
             </li>

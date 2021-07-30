@@ -28,8 +28,26 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 	
-	// 판매완료 중고상품 상세
-	
+	// 낙찰완료 경매상품 목록
+	@GetMapping("/manager/getBidSuccessProductList")
+	public String getBidSuccessProductList(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="rowPerPage", defaultValue="10") int rowPerPage,
+			@RequestParam(value="searchWord", required=false) String searchWord) {
+		
+		log.debug("★★★★★★★@@@@ currentPage" + currentPage);
+		log.debug("★★★★★★★@@@@ rowPerPage" + rowPerPage);
+		log.debug("★★★★★★★@@@@ searchWord" + searchWord);
+		
+		Map<String, Object> map = managerService.getBidSuccessProductList(currentPage, rowPerPage, searchWord);
+		
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("bidSuccessList", map.get("bidSuccessList"));
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("currentPage", currentPage);
+		
+		return "manager/getBidSuccessProductList";
+	}
 	
 	
 	// 판매완료 중고상품 수정 //

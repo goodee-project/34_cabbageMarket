@@ -3,6 +3,97 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 낙찰완료 경매상품 토탈 -->
+
+<select id="selectBidSuccessProductTotal"
+		resultType="int">
+
+	SELECT
+		COUNT(*)
+	FROM
+		(SELECT
+			apsd.apply_product_sales_delivery_id apsdId,
+			apsd.user_id userId,
+			u.username username,
+			apsd.category_sub_id csId,
+			apsd.product_name productName,
+			pcr.registration_state regState,
+			bpd.delivery_state delState,
+			bpd.waybill_number waybillNum
+			
+		FROM
+			bidding_product_delivery bpd
+			
+		JOIN apply_product_sales_delivery apsd
+				
+		JOIN product_confirmation_registration pcr
+			ON bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+		
+		LEFT JOIN users u
+			ON apsd.user_id = u.user_id
+			
+		WHERE
+			pcr.registration_state = '2' AND bpd.delivery_state = '0'
+		
+		GROUP BY
+			apsd.apply_product_sales_delivery_id) tt
+				
+	<where>
+	
+		<if test="searchWord != null">
+			tt.productName LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		
+	</where>
+
+</select>
+
+<!-- 낙찰완료 경매상품 목록 출력 -->
+
+<select id="selectBidSuccessProductList"
+		resultType="map"
+		parameterType="com.gdj.cabbage.vo.Page">
+
+	SELECT
+		apsd.apply_product_sales_delivery_id apsdId,
+		apsd.user_id userId,
+		u.username username,
+		apsdimg.img_name imgName,
+		apsd.category_sub_id csId,
+		apsd.product_name productName,
+		pcr.registration_state regState,
+		bpd.delivery_state delState,
+		bpd.waybill_number waybillNum
+		
+	FROM
+		bidding_product_delivery bpd
+		
+		JOIN apply_product_sales_delivery apsd
+		
+		JOIN product_confirmation_registration pcr
+	ON bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+	
+		LEFT JOIN users u
+	ON apsd.user_id = u.user_id
+		
+		LEFT JOIN apply_product_sales_delivery_img apsdimg
+	ON apsd.apply_product_sales_delivery_id = apsdimg.apply_product_sales_delivery_id
+		
+	<where>
+	
+		pcr.registration_state = '2' AND bpd.delivery_state = '0'
+	
+		<if test="searchWord != null">
+			AND apsd.product_name LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		
+	</where>
+	
+	GROUP BY
+		apsd.apply_product_sales_delivery_id
+
+</select>
+
 <!-- 판매완료 중고상품 상세보기 -->
 
 <select id="selectSoldoutUsedProductInfo"

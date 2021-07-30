@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>배추마켓 - 배송상품 정보</title>
+    <title>배추마켓 - 낙찰완료 경매상품 관리</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/managerTemplete/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -316,54 +316,75 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">배송상품 정보</h1>
-                    <p class="mb-4">상품등록을 가능하게 하시려면, <strong>검수완료</strong> 버턴을 클릭하세요.<br>
-                    <small>※ 정확한 검수 후 승인 바랍니다.</small></p>
+                    <h1 class="h3 mb-2 text-gray-800">낙찰완료 경매상품 관리</h1>
+                    <p class="mb-4">운송장번호를 입력하시려면 <strong>사진</strong>을 클릭하세요.<br>
+                    <small>※ 정확한 상품을 선택해주시길 바랍니다.<br>★ 배송상태가 0이면 배송준비중 | 배송상태가 1이면 배송완료 입니다.</small></p><br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary"><strong>${productInfo.productName}의 상세정보</strong></h5>
+                            <h6 class="m-0 font-weight-bold text-primary">낙찰완료 경매상품 목록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>상품 등록 번호</th>
+											<th>회원 번호</th>
+											<th>회원 이름</th>
+											<th>상품 종류</th>
+											<th>상품 사진</th>
+											<th>상품 이름</th>
+											<th>등록 상태</th>
+											<th>배송 상태</th>
+											<th>운송장 번호</th>
+										</tr>
+									</thead>
 									<tbody>
-										<tr>
-											<td>유저 아이디 :</td>
-											<td>${productInfo.userId}</td>
-										</tr>
-										<tr>
-											<td>제품 사진 :</td>
-											<td><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${productInfo.imgName}" width="250px" height="160px"></td>
-										</tr>
-										<tr>
-											<td>배송 등록 번호 :</td>
-											<td>${productInfo.apsdi}</td>
-										</tr>
-										<tr>
-											<td>제품 이름 :</td>
-											<td>${productInfo.productName}</td>
-										</tr>
-										<tr>
-											<td>운송장 번호 :</td>
-											<td>${productInfo.waybillNo}</td>
-										</tr>
-										<tr>
-											<td>반품시 요청사항 :</td>
-											<td>${productInfo.request}</td>
-										</tr>
-										<tr>
-											<td>반품 주소 :</td>
-											<td>${productInfo.adress}</td>
-										</tr>
-										<tr>
-											<td>등록 날짜 :</td>
-											<td>${productInfo.createDate}</td>
-										</tr>
+										<c:forEach var="b" items="${bidSuccessList}">
+											<tr>
+												<td>${b.apsdId}</td>
+												<td>${b.userId}</td>
+												<td>${b.username}</td>
+												<td>${b.csId}</td>
+												<td><a href="${pageContext.request.contextPath}/manager/modifyBidSuccessProduct?apsdId=${b.apsdId}"><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${b.imgName}" width="250px" height="160px"></a></td>
+												<td>${b.productName}</td>
+												<td>${b.regState}</td>
+												<td>${b.delState}</td>
+												<td>${b.waybillNum}</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
-                            </div>
+
+									<ul class="pager">
+							        <c:if test="${currentPage > 1}">
+							            <li class="previous"><a href="${pageContext.request.contextPath}/manager/getBidSuccessProductList?currentPage=${currentPage-1}&searchWord=${searchWord}">&lt; PREV</a></li>
+							        </c:if>
+							        <c:if test="${currentPage < lastPage}">
+							            <li class="next"><a href="${pageContext.request.contextPath}/manager/getBidSuccessProductList?currentPage=${currentPage+1}&searchWord=${searchWord}">NEXT &gt;</a></li>
+							        </c:if>
+							    </ul>
+									
+								</div>
+								
+								<!-- 검색 박스.. -->
+								<form action="${pageContext.request.contextPath}/manager/getBidSuccessProductList" method="get"
+									class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+									<div class="input-group">
+										<input type="text" name="searchWord"
+											class="form-control bg-light border-0 small"
+											placeholder="상품 이름으로 검색..." aria-label="searchWord"
+											aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-success">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+								
                         </div>
                     </div>
 

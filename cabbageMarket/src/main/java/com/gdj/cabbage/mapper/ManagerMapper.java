@@ -14,14 +14,16 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 @Mapper
 public interface ManagerMapper {
 	
+	// 판매완료 경매상품 토탈
+	int selectBidSuccessProductTotal(String searchWord);
+	// 낙찰완료 경매상품 목록
+	List<Map<String, Object>> selectBidSuccessProductList(Page page);
 	// 판매완료 중고상품 상세
 	Map<String, Object> selectSoldoutUsedProductInfo(int apsdId);
 	// 판매완료 중고상품 수정
 	int updateSoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery);
 	// 판매완료 중고상품 토탈
 	int selectSoldoutUsedProductTotal(String searchWord);
-	// 낙찰완료 경매상품 목록
-	List<Map<String, Object>> selectBidSuccessProductList(Page page);
 	// 판매완료 중고상품 목록
 	List<Map<String, Object>> selectSoldoutUsedProductList(Page page);
 	// 배송상품 등록승인
