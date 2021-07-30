@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link data-n-head="ssr" rel="icon" data-hid="favicon-32" type="image/png" size="32" href="https://img.icons8.com/officel/480/cabbage.png">
-	<title>입찰 내역</title>
+    <title>배추마켓</title>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	
@@ -212,8 +212,8 @@
 					                                    					                                    
 														<td>
 															<form class="removeBidForm" action="${pageContext.request.contextPath}/users/removeBid" method="post">
-																<input name="bidId" id="bidId" value="${bl.biddingAuctionProductId}"/>
-																<input name="point" id="point" value="${bl.point}"/>
+																<input type="hidden" name="bidId" id="bidId" value="${bl.biddingAuctionProductId}"/>
+																<input type="hidden" name="point" id="point" value="${bl.point}"/>
 						                                    	<button type="button" class="btn btn-success removeBtn">취소</button>
 					                                    	</form>
 					                                    </td>					                                    
