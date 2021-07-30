@@ -337,11 +337,11 @@
 										<c:forEach var="gdpl" items="${getDeliveryProductList}">
 										
 											<tr>
-												<td>${gdpl.userId}#</td>
+												<td>${gdpl.userId}</td>
 												<td><a href="${pageContext.request.contextPath}/manager/getDeliveryProductInfo?apsdi=${gdpl.apsdi}"><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${gdpl.imgName}" width="250px" height="160px"></a></td>
-												<td>${gdpl.categorySubName}#</td>
-												<td>${gdpl.productName}#</td>
-												<td>${gdpl.waybillNo}#</td>
+												<td>${gdpl.categorySubName}</td>
+												<td>${gdpl.productName}</td>
+												<td>${gdpl.waybillNo}</td>
 													<td><a href="${pageContext.request.contextPath}/manager/addDeliveryProductList?applyProductSalesDeliveryId=${gdpl.apsdi}&managerId=${managerSession.managerId}" class="btn btn-success btn-icon-split">
 															<span class="icon text-white-25"> <i
 																class="fas fa-check"></i>

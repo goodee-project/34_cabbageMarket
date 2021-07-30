@@ -25,6 +25,16 @@ public class ManagerService {
 	
 @Autowired ManagerMapper managerMapper;
 
+	// 판매완료 중고상품 상세
+	public Map<String, Object> selectSoldoutUsedProductInfo(int apsdId) {
+		log.debug(Debuging.DEBUG+" apsdId : " + apsdId);
+		
+		Map<String, Object> soldoutProductMap = managerMapper.selectSoldoutUsedProductInfo(apsdId);
+		log.debug(Debuging.DEBUG+" soldoutProductMap : " + soldoutProductMap);
+		
+		return soldoutProductMap;
+	}
+
 	// 판매완료 중고상품 수정
 	public int modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery) {
 		log.debug(Debuging.DEBUG + "buyingProductDelivery : " + buyingProductDelivery.toString());

@@ -308,13 +308,13 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">중고상품 판매 관리</h1>
-                    <p class="mb-4">운송장번호를 입력하시려면 <strong>버턴</strong>을 클릭하세요.<br>
-                    <small>※ 운송장 번호가 틀리지 않도록 주의해 주세요.</small></p>
+                    <p class="mb-4">운송장번호를 입력하시려면 <strong>사진</strong>을 클릭하세요.<br>
+                    <small>※ 정확한 상품을 선택해주시길 바랍니다.<br>★ 배송상태가 0이면 배송준비중 | 배송상태가 1이면 배송완료 입니다.</small></p><br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">중고상품 판매 목록</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">판매완료 중고상품 목록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -325,11 +325,11 @@
 											<th>회원 번호</th>
 											<th>회원 이름</th>
 											<th>상품 종류</th>
+											<th>상품 사진</th>
 											<th>상품 이름</th>
 											<th>등록 상태</th>
 											<th>배송 상태</th>
 											<th>운송장 번호</th>
-											<th>운송장 번호 입력</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -339,11 +339,11 @@
 												<td>${b.userId}</td>
 												<td>${b.username}</td>
 												<td>${b.csId}</td>
+												<td><a href="${pageContext.request.contextPath}/manager/modifySoldoutUsedProduct?apsdId=${b.apsdId}"><img src="${pageContext.request.contextPath}/template/img/applyProductImg/${b.imgName}" width="250px" height="160px"></a></td>
 												<td>${b.productName}</td>
 												<td>${b.regState}</td>
 												<td>${b.delState}</td>
 												<td>${b.waybillNum}</td>
-												<td>버턴</td>
 											</tr>
 										</c:forEach>
 									</tbody>

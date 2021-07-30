@@ -32,14 +32,15 @@ public class ManagerController {
 	// GET // 수정페이지만 보내주는것
 	@GetMapping("/manager/modifySoldoutUsedProduct")
 	public String modifySoldoutUsedProduct(Model model,
-			@RequestParam(value = "applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : " + applyProductSalesDeliveryId);
+			@RequestParam(value = "apsdId", required = true) int apsdId) {
 		
-		Map<String, Object> modifySoldoutUsedProductOne = managerService.getAllUsersByManager(applyProductSalesDeliveryId, applyProductSalesDeliveryId, null);
+		log.debug(Debuging.DEBUG+" apsdId : " + apsdId);
 		
-		log.debug(Debuging.DEBUG+" modifySoldoutUsedProductOne : " + modifySoldoutUsedProductOne.toString());
+		Map<String, Object> soldoutProductOne = managerService.selectSoldoutUsedProductInfo(apsdId);
 		
-		model.addAttribute("modifySoldoutUsedProductOne", modifySoldoutUsedProductOne);
+		log.debug(Debuging.DEBUG+" soldoutProductOne : " + soldoutProductOne);
+		
+		model.addAttribute("soldoutProductOne", soldoutProductOne);
 		
 		return "manager/modifySoldoutUsedProduct";
 		
