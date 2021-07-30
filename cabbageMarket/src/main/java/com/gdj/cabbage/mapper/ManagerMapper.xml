@@ -3,6 +3,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdj.cabbage.mapper.ManagerMapper">
 
+<!-- 판매완료 중고상품 상세보기 -->
+
+<select id="selectSoldoutUsedProductInfo"
+		resultType="map"
+		parameterType="int">
+
+	SELECT
+		apply_product_sales_delivery_id apsdId,
+		shipping_address_id shippingAddressId,
+		delivery_state deliveryState,
+		waybill_number waybillNumber,
+		delivery_requests deliveryRequest,
+		create_date createDate
+	FROM
+		buying_product_delivery
+		
+	<where>
+		apply_product_sales_delivery_id=#{apsdId}
+	</where>
+
+</select>
+
 <!-- 판매완료 중고상품 수정 -->
 
 <update id="updateSoldoutUsedProduct"
@@ -41,19 +63,13 @@
 		FROM
 			buying_product_delivery bpd
 			
-			JOIN
-				apply_product_sales_delivery apsd
-			JOIN
-				product_confirmation_registration pcr
-		
-		ON
-			bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
-		
-			LEFT JOIN
-				users u
+		JOIN apply_product_sales_delivery apsd
 				
-		ON
-			apsd.user_id = u.user_id
+		JOIN product_confirmation_registration pcr
+			ON bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
+		
+		LEFT JOIN users u
+			ON apsd.user_id = u.user_id
 			
 		WHERE
 			pcr.registration_state = '1' AND bpd.delivery_state = '0'
@@ -81,6 +97,7 @@
 		apsd.apply_product_sales_delivery_id apsdId,
 		apsd.user_id userId,
 		u.username username,
+		apsdimg.img_name imgName,
 		apsd.category_sub_id csId,
 		apsd.product_name productName,
 		pcr.registration_state regState,
@@ -90,19 +107,16 @@
 	FROM
 		buying_product_delivery bpd
 		
-		JOIN
-			apply_product_sales_delivery apsd
-		JOIN
-			product_confirmation_registration pcr
+		JOIN apply_product_sales_delivery apsd
+		
+		JOIN product_confirmation_registration pcr
+	ON bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
 	
-	ON
-		bpd.apply_product_sales_delivery_id = apsd.apply_product_sales_delivery_id
-	
-		LEFT JOIN
-			users u
-			
-	ON
-		apsd.user_id = u.user_id
+		LEFT JOIN users u
+	ON apsd.user_id = u.user_id
+		
+		LEFT JOIN apply_product_sales_delivery_img apsdimg
+	ON apsd.apply_product_sales_delivery_id = apsdimg.apply_product_sales_delivery_id
 		
 	<where>
 	
@@ -166,7 +180,7 @@
 
 		(SELECT
 			apsd.user_id userId,
-			img_name imgName,
+			apsdimg.img_name imgName,
 			cs.category_sub_name categorySubName,
 			apsd.apply_product_sales_delivery_id apsdi,
 			apsd.product_name productName,

@@ -14,6 +14,8 @@ import com.gdj.cabbage.vo.ProductConfirmationRegistration;
 @Mapper
 public interface ManagerMapper {
 	
+	// 판매완료 중고상품 상세
+	Map<String, Object> selectSoldoutUsedProductInfo(int apsdId);
 	// 판매완료 중고상품 수정
 	int updateSoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery);
 	// 판매완료 중고상품 토탈

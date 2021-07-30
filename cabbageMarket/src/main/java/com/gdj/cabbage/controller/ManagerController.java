@@ -27,37 +27,49 @@ import lombok.extern.slf4j.Slf4j;
 public class ManagerController {
 	
 @Autowired ManagerService managerService;
-
+	
+	// 판매완료 중고상품 상세
+	
+	
+	
 	// 판매완료 중고상품 수정 //
 	// GET // 수정페이지만 보내주는것
 	@GetMapping("/manager/modifySoldoutUsedProduct")
 	public String modifySoldoutUsedProduct(Model model,
-			@RequestParam(value = "applyProductSalesDeliveryId", required = true) int applyProductSalesDeliveryId) {
-		log.debug(Debuging.DEBUG+" applyProductSalesDeliveryId : " + applyProductSalesDeliveryId);
+			@RequestParam(value = "apsdId", required = true) int apsdId) {
 		
-		Map<String, Object> modifySoldoutUsedProductOne = managerService.getAllUsersByManager(applyProductSalesDeliveryId, applyProductSalesDeliveryId, null);
+		log.debug(Debuging.DEBUG+" ######################apsdId : " + apsdId);
 		
-		log.debug(Debuging.DEBUG+" modifySoldoutUsedProductOne : " + modifySoldoutUsedProductOne.toString());
+		Map<String, Object> soldoutProductOne = managerService.selectSoldoutUsedProductInfo(apsdId);
 		
-		model.addAttribute("modifySoldoutUsedProductOne", modifySoldoutUsedProductOne);
+		log.debug(Debuging.DEBUG+" #####################soldoutProductOne : " + soldoutProductOne);
+		
+		model.addAttribute("soldoutProductOne", soldoutProductOne);
 		
 		return "manager/modifySoldoutUsedProduct";
 		
 	}
-
+	
 	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
 	@PostMapping("/manager/modifySoldoutUsedProduct")
-	public String modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery) {
+	public String modifySoldoutUsedProduct(BuyingProductDelivery buyingProductDelivery,
+			@RequestParam(value = "apsdId", required = true) int apsdId) {
+		
+		log.debug("##############buyingProductDelivery : " + buyingProductDelivery.toString());
+		log.debug("##############apsdId : " + apsdId);
+		
+		buyingProductDelivery.setApplyProductSalesDeliveryId(apsdId); // 파라미터 가져온것 전처리로 파라미터에 넣어주는 것
 		
 		// update
-		int row = managerService.modifySoldoutUsedProduct(buyingProductDelivery);
+		int updateRow = managerService.modifySoldoutUsedProduct(buyingProductDelivery);
 
 		// 디버깅
-		log.debug("modify 실행 여부 : " + row);
+		log.debug("modify 실행 여부 : " + updateRow);
 		
 		return "redirect:/manager/getSoldoutUsedProductList";
 	}
-
+	
+	
 	// 판매완료 중고상품 목록
 	@GetMapping("/manager/getSoldoutUsedProductList")
 	public String getSoldoutUsedProductList(Model model,
@@ -91,6 +103,7 @@ public class ManagerController {
 		
 		return "/manager/getDeliveryProductInfo";
 	}
+	
 	
 	// 관리자 인덱스
 	@GetMapping("/manager/managerIndex")
@@ -129,7 +142,7 @@ public class ManagerController {
 		return "manager/modifyManager";
 		
 	}
-
+	
 	// POST // 수정된 값 받아와서 수정 실질적으로 되는부분
 	@PostMapping("/manager/modifyManager")
 	public String modifyManager(Manager manager) {
@@ -142,7 +155,8 @@ public class ManagerController {
 		
 		return "redirect:/manager/getManagerInfo?managerId=" + manager.getManagerId();
 	}
-
+	
+	
 	// 배송 신청된 상품 목록 출력
 	@GetMapping("/manager/getDeliveryProductList")
 	public String getDeliveryProductList(HttpSession session, Model model) {		
