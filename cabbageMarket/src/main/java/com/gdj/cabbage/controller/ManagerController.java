@@ -29,6 +29,14 @@ public class ManagerController {
 	
 @Autowired ManagerService managerService;
 
+	// 로그아웃
+	@GetMapping("/manager/managerLogout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/managerLogin";// 세션 종료후 로그인 페이지로 이동
+	}
+
 	// 판매완료 중고상품 수정 //
 	// GET // 수정페이지만 보내주는것
 	@GetMapping("/manager/modifyBidSuccessProduct")
@@ -310,8 +318,6 @@ public class ManagerController {
 		
 		return "redirect:/manager/managerIndex";
 	}
-
-	//로그아웃 -> 세션 초기화 해야함 ////////$$$$$$$$$$
 	
 	// 관리자 추가 //
 	// 폼
